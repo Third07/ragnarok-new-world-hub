@@ -654,3 +654,334 @@ body {
     height: 46px;
   }
 }
+
+/* Affix Planner v3: compact selectors, unique results, and equipment-first loadout. */
+.affix-planner-page .affix-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 460px) !important;
+}
+
+.affix-planner-page .affix-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.affix-planner-page .affix-filter-field {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  color: #52648f;
+  font-size: .75rem;
+  font-weight: 900;
+}
+
+.affix-planner-page .affix-filter-field > span,
+.affix-planner-page .affix-section-label {
+  color: #51648f;
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.affix-planner-page .affix-filter-select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 38px 9px 12px;
+  color: #273d75;
+  background: #fffdf8;
+  border: 1px solid rgba(89,112,176,.24);
+  border-radius: 11px;
+  box-shadow: inset 0 1px 2px rgba(40,68,127,.04);
+  font: inherit;
+  font-weight: 800;
+}
+
+.affix-planner-page .affix-filter-select:disabled {
+  color: #8995b2;
+  background: #edf1f8;
+  cursor: not-allowed;
+}
+
+.affix-planner-page .affix-filter-select:focus {
+  outline: 3px solid rgba(90,115,217,.16);
+  border-color: #5a73d9;
+}
+
+.affix-planner-page .affix-type-sections {
+  gap: 8px;
+}
+
+.affix-planner-page .affix-type-grid {
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 7px;
+}
+
+.affix-planner-page .affix-type-btn {
+  min-height: 76px;
+  gap: 3px;
+  padding: 6px;
+}
+
+.affix-planner-page .affix-type-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.affix-planner-page .affix-type-name {
+  font-size: .7rem;
+  line-height: 1.12;
+}
+
+.affix-planner-page .affix-card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.affix-planner-page .affix-card {
+  min-height: 126px;
+  padding: 12px;
+}
+
+.affix-planner-page .affix-card.picked {
+  border-color: #5a73d9 !important;
+  box-shadow: 0 0 0 3px rgba(90,115,217,.14), 0 7px 18px rgba(40,68,127,.1) !important;
+}
+
+.affix-planner-page .affix-selected-grid,
+.affix-planner-page .affix-selected-group-body {
+  display: grid;
+  gap: 10px;
+}
+
+.affix-planner-page .affix-loadout-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 92px 22px minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.affix-planner-page .affix-equipment-tile {
+  min-width: 0;
+  min-height: 92px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  padding: 8px 5px;
+  color: #31497d;
+  background: linear-gradient(180deg, #eef4ff, #e2ebfb);
+  border: 1px solid rgba(89,112,176,.22);
+  border-radius: 12px;
+  text-align: center;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.affix-planner-page .affix-equipment-tile img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.affix-planner-page .affix-equipment-tile small {
+  color: #6c7ca4;
+  font-size: .62rem;
+  line-height: 1.15;
+}
+
+.affix-planner-page .affix-loadout-link {
+  display: grid;
+  place-items: center;
+  color: #8b98b7;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.affix-planner-page .affix-selected-card {
+  min-width: 0;
+  min-height: 92px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 26px;
+  align-content: center;
+  align-items: start;
+  gap: 8px;
+  padding: 10px;
+  text-align: left;
+}
+
+.affix-planner-page .affix-selected-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 9px;
+}
+
+.affix-planner-page .affix-selected-meta {
+  min-width: 0;
+}
+
+.affix-planner-page .affix-selected-name {
+  color: #28447f;
+  font-size: .82rem;
+  font-weight: 950;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.affix-planner-page .affix-selected-level {
+  margin-top: 2px;
+  color: #5a73d9;
+  font-size: .68rem;
+  font-weight: 900;
+}
+
+.affix-planner-page .affix-selected-desc {
+  margin-top: 5px;
+  color: #52648f;
+  font-size: .7rem;
+  line-height: 1.38;
+  overflow-wrap: anywhere;
+}
+
+.affix-planner-page .affix-selected-remove {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #875060;
+  background: #fff3f5;
+  border: 1px solid rgba(185,77,100,.25);
+  border-radius: 50%;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.affix-planner-page .affix-selected-empty {
+  grid-template-columns: 1fr;
+  place-items: center;
+  color: #7d8baa;
+  background: #f4f7fd;
+  border-style: dashed;
+  font-size: .72rem;
+  font-weight: 850;
+}
+
+.affix-planner-page .site-nav {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 3px;
+  scrollbar-width: thin;
+}
+
+.affix-planner-page .site-nav-item {
+  flex: 0 0 auto;
+  min-width: 54px;
+  padding: 5px;
+}
+
+.affix-planner-page .site-nav-item img {
+  width: 32px;
+  height: 32px;
+  flex-basis: 32px;
+}
+
+@media (max-width: 1100px) {
+  .affix-planner-page .affix-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .affix-planner-page .affix-detail-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .affix-planner-page .header {
+    gap: 8px;
+    padding-inline: 10px;
+  }
+
+  .affix-planner-page .site-nav-item {
+    min-width: 50px;
+  }
+
+  .affix-planner-page .site-nav-item img {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .affix-planner-page .affix-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .affix-planner-page .affix-filter-field:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .affix-planner-page .affix-type-grid {
+    display: flex;
+    gap: 7px;
+  }
+
+  .affix-planner-page .affix-type-btn {
+    flex-basis: 78px;
+  }
+
+  .affix-planner-page .affix-card-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .affix-planner-page .affix-panel {
+    padding: 11px;
+  }
+
+  .affix-planner-page .affix-filter-grid {
+    gap: 8px;
+  }
+
+  .affix-planner-page .affix-filter-select {
+    min-height: 42px;
+    padding-inline: 10px 30px;
+    font-size: .78rem;
+  }
+
+  .affix-planner-page .affix-loadout-row {
+    grid-template-columns: 76px 18px minmax(0, 1fr);
+  }
+
+  .affix-planner-page .affix-equipment-tile {
+    min-height: 84px;
+    font-size: .64rem;
+  }
+
+  .affix-planner-page .affix-equipment-tile img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .affix-planner-page .affix-selected-card {
+    min-height: 84px;
+    grid-template-columns: 36px minmax(0, 1fr) 24px;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .affix-planner-page .affix-selected-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .affix-planner-page .affix-selected-desc {
+    font-size: .66rem;
+  }
+}

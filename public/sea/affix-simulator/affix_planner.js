@@ -49,7 +49,7 @@ const CONFIG = {
             2: "Green"
         },
         all: "All",
-        selectedSkills: "Selected Skills",
+        selectedSkills: "Equipment Loadout",
         selectBuild: "Select skills to build a set.",
         empty: "Empty",
         rows: {
@@ -160,6 +160,11 @@ const T = UI_TEXT[ACTIVE_LOCALE] || UI_TEXT["en-US"], STUNT_COLOR_CLASS = {
 let iconPaths = null, stuntData = null, stuntIndex = null, jobIndex = null, visibleStuntsById = new Map, stuntById = new Map, currentJobFilterMode = "base", currentJobFilterIds = [];
 
 const selected = {
+    weapon: null,
+    armor: null,
+    cloak: null,
+    accessory: []
+}, selectedContext = {
     weapon: null,
     armor: null,
     cloak: null,
@@ -298,13 +303,13 @@ function parseHashState() {
 
 function updateUrlHash() {
     const e = new URLSearchParams;
-    current.mode && "weapon" !== current.mode && e.set("m", current.mode), current.typeId && e.set("type", String(current.typeId)), 
-    current.level && "all" !== current.level && e.set("lv", String(current.level)), 
-    current.rarity && "all" !== String(current.rarity) && e.set("r", String(current.rarity)), 
-    "all" === current.stuntLevel && e.set("q", "all"), current.stuntLevel && "all" !== current.stuntLevel && 3 !== Number(current.stuntLevel) && e.set("q", String(current.stuntLevel)), 
-    current.search && e.set("s", String(current.search)), current.jobGroup && e.set("g", String(current.jobGroup)), 
-    current.jobBranch && e.set("b", String(current.jobBranch)), current.job && e.set("j", String(current.job)), 
-    selected.weapon && e.set("w", String(selected.weapon)), selected.armor && e.set("ar", String(selected.armor)), 
+    current.mode && "weapon" !== current.mode && e.set("m", current.mode), current.typeId && e.set("type", String(current.typeId)),
+    current.level && "all" !== current.level && e.set("lv", String(current.level)),
+    current.rarity && "all" !== String(current.rarity) && e.set("r", String(current.rarity)),
+    "all" === current.stuntLevel && e.set("q", "all"), current.stuntLevel && "all" !== current.stuntLevel && 3 !== Number(current.stuntLevel) && e.set("q", String(current.stuntLevel)),
+    current.search && e.set("s", String(current.search)), current.jobGroup && e.set("g", String(current.jobGroup)),
+    current.jobBranch && e.set("b", String(current.jobBranch)), current.job && e.set("j", String(current.job)),
+    selected.weapon && e.set("w", String(selected.weapon)), selected.armor && e.set("ar", String(selected.armor)),
     selected.cloak && e.set("cl", String(selected.cloak)), selected.accessory.length && e.set("ac", selected.accessory.map(String).join(","));
     const t = window.location.href.split("#")[0], r = e.toString();
     history.replaceState(null, "", r ? `${t}#${r}` : t);
@@ -325,6 +330,41 @@ function getSelectedBucket() {
     return "weapon" === current.mode ? "weapon" : 4 === Number(current.typeId) ? "armor" : 7 === Number(current.typeId) ? "cloak" : "accessory";
 }
 
+function makeSelectionContext() {
+    return {
+        mode: current.mode,
+        typeId: Number(current.typeId) || null,
+        level: String(current.level || "all")
+    };
+}
+
+function getStuntIdentity(e) {
+    const t = stuntById.get(String(e)) || visibleStuntsById.get(String(e)) || null;
+    return sanitizePlainText(t?.name || "").toLocaleLowerCase();
+}
+
+function removeMatchingSelectedAffixes(e) {
+    const t = getStuntIdentity(e);
+    if (!t) return;
+    [ "weapon", "armor", "cloak" ].forEach(e => {
+        const r = selected[e];
+        r && getStuntIdentity(r) === t && (selected[e] = null, selectedContext[e] = null);
+    });
+    for (let e = selected.accessory.length - 1; e >= 0; e -= 1) getStuntIdentity(selected.accessory[e]) === t && (selected.accessory.splice(e, 1), selectedContext.accessory.splice(e, 1));
+}
+
+function enforceUniqueSelectedAffixes() {
+    const e = new Set;
+    [ "weapon", "armor", "cloak" ].forEach(t => {
+        const r = selected[t], n = r && getStuntIdentity(r);
+        n ? e.has(n) ? (selected[t] = null, selectedContext[t] = null) : e.add(n) : null;
+    });
+    for (let t = 0; t < selected.accessory.length; ) {
+        const r = getStuntIdentity(selected.accessory[t]);
+        r && e.has(r) ? (selected.accessory.splice(t, 1), selectedContext.accessory.splice(t, 1)) : (r && e.add(r), t += 1);
+    }
+}
+
 function isPicked(e) {
     const t = String(e);
     return String(selected.weapon || "") === t || String(selected.armor || "") === t || String(selected.cloak || "") === t || selected.accessory.some(e => String(e) === t);
@@ -332,16 +372,25 @@ function isPicked(e) {
 
 function togglePicked(e) {
     const t = String(e), r = getSelectedBucket();
-    if ("weapon" === r) return void (selected.weapon = String(selected.weapon || "") === t ? null : t);
-    if ("armor" === r) return void (selected.armor = String(selected.armor || "") === t ? null : t);
-    if ("cloak" === r) return void (selected.cloak = String(selected.cloak || "") === t ? null : t);
-    const n = selected.accessory.findIndex(e => String(e) === t);
-    n >= 0 ? selected.accessory.splice(n, 1) : selected.accessory.length < 2 ? selected.accessory.push(t) : selected.accessory[1] = t;
+    const n = "weapon" === r ? String(selected.weapon || "") === t : "armor" === r ? String(selected.armor || "") === t : "cloak" === r ? String(selected.cloak || "") === t : selected.accessory.some(e => String(e) === t);
+    if (n) {
+        if ("weapon" === r) return void (selected.weapon = null, selectedContext.weapon = null);
+        if ("armor" === r) return void (selected.armor = null, selectedContext.armor = null);
+        if ("cloak" === r) return void (selected.cloak = null, selectedContext.cloak = null);
+        const e = selected.accessory.findIndex(e => String(e) === t);
+        return void (selected.accessory.splice(e, 1), selectedContext.accessory.splice(e, 1));
+    }
+    removeMatchingSelectedAffixes(t);
+    const o = makeSelectionContext();
+    if ("weapon" === r) return void (selected.weapon = t, selectedContext.weapon = o);
+    if ("armor" === r) return void (selected.armor = t, selectedContext.armor = o);
+    if ("cloak" === r) return void (selected.cloak = t, selectedContext.cloak = o);
+    selected.accessory.length < 2 ? (selected.accessory.push(t), selectedContext.accessory.push(o)) : (selected.accessory[1] = t, selectedContext.accessory[1] = o);
 }
 
 function clearPicked(e, t = 0) {
-    "weapon" === e && (selected.weapon = null), "armor" === e && (selected.armor = null), 
-    "cloak" === e && (selected.cloak = null), "accessory" === e && selected.accessory.splice(t, 1);
+    "weapon" === e && (selected.weapon = null, selectedContext.weapon = null), "armor" === e && (selected.armor = null, selectedContext.armor = null),
+    "cloak" === e && (selected.cloak = null, selectedContext.cloak = null), "accessory" === e && (selected.accessory.splice(t, 1), selectedContext.accessory.splice(t, 1));
 }
 
 function renderSelectedSummary() {
@@ -350,29 +399,32 @@ function renderSelectedSummary() {
     const t = [ {
         key: "weapon",
         label: T.rows.weapon,
-        ids: selected.weapon ? [ selected.weapon ] : []
+        ids: selected.weapon ? [ selected.weapon ] : [],
+        contexts: selected.weapon ? [ selectedContext.weapon ] : []
     }, {
         key: "armor",
         label: T.rows.armor,
-        ids: selected.armor ? [ selected.armor ] : []
+        ids: selected.armor ? [ selected.armor ] : [],
+        contexts: selected.armor ? [ selectedContext.armor ] : []
     }, {
         key: "cloak",
         label: T.rows.cloak,
-        ids: selected.cloak ? [ selected.cloak ] : []
+        ids: selected.cloak ? [ selected.cloak ] : [],
+        contexts: selected.cloak ? [ selectedContext.cloak ] : []
     }, {
         key: "accessory",
         label: T.rows.accessory,
-        ids: selected.accessory.slice(0, 2)
+        ids: selected.accessory.slice(0, 2),
+        contexts: selectedContext.accessory.slice(0, 2)
     } ];
-    if (!t.some(e => e.ids.length)) return void (e.innerHTML = `<div class="details-placeholder">${escapeHtml(T.selectBuild)}</div>`);
     const r = t.map(e => {
-        const t = e.ids.map((t, r) => ((e, t, r) => {
-            const n = stuntById.get(String(e)) || null, o = resolveStuntDisplay(n || {}), a = escapeHtml(o.name || `#${e}`), s = Number(n?.level) || 1, l = QUALITY_LABEL[s] || `Lv.${s}`, c = Number(n?.color) || 2, i = STUNT_COLOR_CLASS[c] || "stunt-blue", u = resolveIconPath(String(n?.icon || "")), d = formatRichText(o.desc || "");
-            return `\n            <div class="affix-selected-card ${i}">\n                ${u ? `<img class="affix-selected-icon" src="${escapeHtml(u)}" alt="" onerror="this.style.display='none'">` : ""}\n                <div class="affix-selected-meta">\n                    <div class="affix-selected-name">${a}</div>\n                    <div class="affix-selected-level">${l}</div>\n                    ${d ? `<div class="affix-selected-desc">${d}</div>` : ""}\n                </div>\n                <button type="button" class="affix-selected-remove" data-bucket="${escapeHtml(t)}" data-index="${escapeHtml(String(r))}" aria-label="Remove">×</button>\n            </div>\n        `;
-        })(t, e.key, r)).join(""), r = "accessory" === e.key ? Math.max(0, 2 - e.ids.length) : e.ids.length ? 0 : 1, n = Array.from({
-            length: r
-        }).map(() => `\n            <div class="affix-selected-card affix-selected-empty">\n                <div class="affix-selected-empty-text">${escapeHtml(T.empty)}</div>\n            </div>\n        `).join("");
-        return `\n            <div class="affix-selected-group">\n                <div class="affix-selected-group-title">${escapeHtml(e.label)}</div>\n                <div class="affix-selected-group-body">\n                    ${t}${n}\n                </div>\n            </div>\n        `;
+        const t = "accessory" === e.key ? 2 : 1, r = Array.from({ length: t }).map((t, r) => {
+            const n = e.ids[r] || null, o = e.contexts[r] || null, a = o?.mode || ("weapon" === e.key ? "weapon" : "armor"), s = Number(o?.typeId) || ("armor" === e.key ? 4 : "cloak" === e.key ? 7 : "accessory" === e.key ? 10 : null), l = getTypeMeta(a, s), c = resolveIconPath(String(l?.icon || getTypeFallbackIconName(a, s) || "")), i = l?.name || e.label, u = o?.level && "all" !== o.level ? `Lv.${o.level}` : "Any level";
+            if (!n) return `\n                <div class="affix-loadout-row is-empty">\n                    <div class="affix-equipment-tile">${c ? `<img src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span></div>\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card affix-selected-empty"><div class="affix-selected-empty-text">Choose an affix</div></div>\n                </div>`;
+            const d = stuntById.get(String(n)) || null, b = resolveStuntDisplay(d || {}), f = escapeHtml(b.name || `#${n}`), g = Number(d?.level) || 1, p = QUALITY_LABEL[g] || `Lv.${g}`, m = Number(d?.color) || 2, h = STUNT_COLOR_CLASS[m] || "stunt-blue", v = resolveIconPath(String(d?.icon || "")), y = formatRichText(b.desc || "");
+            return `\n                <div class="affix-loadout-row">\n                    <div class="affix-equipment-tile">${c ? `<img src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span><small>${escapeHtml(u)}</small></div>\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card ${h}">\n                        ${v ? `<img class="affix-selected-icon" src="${escapeHtml(v)}" alt="">` : ""}\n                        <div class="affix-selected-meta"><div class="affix-selected-name">${f}</div><div class="affix-selected-level">${p}</div>${y ? `<div class="affix-selected-desc">${y}</div>` : ""}</div>\n                        <button type="button" class="affix-selected-remove" data-bucket="${escapeHtml(e.key)}" data-index="${escapeHtml(String(r))}" aria-label="Remove ${f}">×</button>\n                    </div>\n                </div>`;
+        }).join("");
+        return `\n            <div class="affix-selected-group">\n                <div class="affix-selected-group-title">${escapeHtml(e.label)}</div>\n                <div class="affix-selected-group-body">${r}</div>\n            </div>`;
     }).join("");
     e.innerHTML = `<div class="affix-selected-grid">${r}</div>`;
 }
@@ -418,11 +470,11 @@ function setSelectedType(e, t) {
 }
 
 function resetAll() {
-    current.mode = "weapon", current.level = "all", current.rarity = "all", current.stuntLevel = 3, 
+    current.mode = "weapon", current.level = "all", current.rarity = "all", current.stuntLevel = 3,
     current.search = "", current.jobGroup = "", current.jobBranch = "", current.job = null;
     const e = getVisibleTypeIds(current.mode);
-    current.typeId = e.length ? e[0] : null, selected.weapon = null, selected.armor = null, 
-    selected.cloak = null, selected.accessory = [];
+    current.typeId = e.length ? e[0] : null, selected.weapon = null, selected.armor = null,
+    selected.cloak = null, selected.accessory = [], selectedContext.weapon = null, selectedContext.armor = null, selectedContext.cloak = null, selectedContext.accessory = [];
     const t = document.getElementById("affix-search");
     t && (t.value = ""), renderAll();
 }
@@ -582,7 +634,7 @@ function ensureSelectedTypeAvailable() {
         const e = getVisibleTypeIds(current.mode);
         if (!current.typeId || !e.includes(Number(current.typeId))) {
             const e = getVisibleTypeIds("weapon"), t = getVisibleTypeIds("armor");
-            e.length ? (current.mode = "weapon", current.typeId = e[0]) : t.length ? (current.mode = "armor", 
+            e.length ? (current.mode = "weapon", current.typeId = e[0]) : t.length ? (current.mode = "armor",
             current.typeId = t[0]) : current.typeId = null;
         }
         return;
@@ -590,7 +642,7 @@ function ensureSelectedTypeAvailable() {
     const e = getVisibleTypeIds(current.mode);
     if (current.typeId && e.includes(Number(current.typeId))) return;
     const t = getVisibleTypeIds("weapon"), r = getVisibleTypeIds("armor");
-    t.length ? (current.mode = "weapon", current.typeId = t[0]) : r.length ? (current.mode = "armor", 
+    t.length ? (current.mode = "weapon", current.typeId = t[0]) : r.length ? (current.mode = "armor",
     current.typeId = r[0]) : current.typeId = null, current.level = "all";
 }
 
@@ -601,16 +653,16 @@ function renderTypeSections() {
     const t = (e, t) => {
         if (!t.length) return null;
         const r = document.createElement("section");
-        r.className = "affix-type-section", r.classList.add("weapon" === e ? "affix-type-section-weapon" : "affix-type-section-armor"), 
+        r.className = "affix-type-section", r.classList.add("weapon" === e ? "affix-type-section-weapon" : "affix-type-section-armor"),
         r.innerHTML = `\n            <div class="affix-type-grid" data-mode="${escapeHtml(e)}"></div>\n        `;
         const n = r.querySelector(".affix-type-grid"), o = document.createDocumentFragment();
         return t.forEach(t => {
             const r = getTypeMeta(e, t), n = typeHasData(e, t), a = document.createElement("button");
-            a.type = "button", a.className = "affix-type-btn", a.dataset.mode = String(e), a.dataset.typeId = String(t), 
-            String(t) === String(current.typeId) && e === current.mode && a.classList.add("selected"), 
+            a.type = "button", a.className = "affix-type-btn", a.dataset.mode = String(e), a.dataset.typeId = String(t),
+            String(t) === String(current.typeId) && e === current.mode && a.classList.add("selected"),
             n || a.classList.add("is-empty");
             const s = resolveIconPath((r?.icon || "").trim() || getTypeFallbackIconName(e, t)), l = r?.name || String(t);
-            n || (a.title = T.noDataYet), a.innerHTML = `\n                <div class="affix-type-icon">\n                    ${s ? `<img src="${escapeHtml(s)}" alt="" onerror="this.style.display='none'">` : ""}\n                </div>\n                <div class="affix-type-name">${escapeHtml(l)}</div>\n            `, 
+            n || (a.title = T.noDataYet), a.innerHTML = `\n                <div class="affix-type-icon">\n                    ${s ? `<img src="${escapeHtml(s)}" alt="" onerror="this.style.display='none'">` : ""}\n                </div>\n                <div class="affix-type-name">${escapeHtml(l)}</div>\n            `,
             a.addEventListener("click", () => setSelectedType(e, t)), o.appendChild(a);
         }), n.appendChild(o), r;
     }, r = getVisibleTypeIds("armor"), n = getVisibleTypeIds("weapon"), o = [ t("armor", r.filter(e => 4 === e)), t("armor", r.filter(e => 7 === e)), t("armor", r.filter(e => 10 === e)), t("weapon", n) ].filter(Boolean);
@@ -620,41 +672,23 @@ function renderTypeSections() {
 }
 
 function renderLevelRow() {
-    const e = document.getElementById("affix-level-row");
-    e.innerHTML = "";
+    const e = document.getElementById("affix-level-select");
+    if (!e) return;
     const t = current.typeId ? getPackagesByTypeAndLevel(current.mode, current.typeId) : null;
-    if (!t) return;
-    const r = Object.keys(t).map(Number).sort((e, t) => e - t), n = (e, t) => {
-        const r = document.createElement("button");
-        return r.type = "button", r.className = "affix-level-btn", r.dataset.value = String(e), 
-        r.textContent = t, r.addEventListener("click", () => {
-            current.level = String(e), renderAll();
-        }), r;
-    };
-    e.appendChild(n("all", T.all)), r.forEach(t => e.appendChild(n(String(t), `Lv.${t}`))), 
-    e.querySelectorAll(".affix-level-btn").forEach(e => {
-        e.classList.toggle("active", e.dataset.value === String(current.level));
-    });
+    if (!t) return void (e.innerHTML = `<option value="all">${escapeHtml(T.all)}</option>`);
+    const r = Object.keys(t).map(Number).sort((e, t) => e - t);
+    e.innerHTML = `<option value="all">All level ranges</option>${r.map(e => `<option value="${escapeHtml(String(e))}">Lv.${escapeHtml(String(e))}</option>`).join("")}`;
+    e.value = String(current.level);
 }
 
 function renderQualityToggle() {
-    const e = document.getElementById("affix-quality-toggle");
-    if (!e) return;
-    const t = String(current.stuntLevel);
-    e.querySelectorAll(".affix-quality-btn").forEach(e => {
-        const r = String(e.dataset.quality) === t;
-        e.classList.toggle("active", r), e.setAttribute("aria-pressed", r ? "true" : "false");
-    });
+    const e = document.getElementById("affix-quality-select");
+    e && (e.value = String(current.stuntLevel));
 }
 
 function renderRarityToggle() {
-    const e = document.getElementById("affix-rarity-toggle");
-    if (!e) return;
-    const t = String(current.rarity);
-    e.querySelectorAll(".affix-rarity-btn").forEach(e => {
-        const r = String(e.dataset.rarity) === t;
-        e.classList.toggle("active", r), e.setAttribute("aria-pressed", r ? "true" : "false");
-    });
+    const e = document.getElementById("affix-rarity-select");
+    e && (e.value = String(current.rarity));
 }
 
 function resolveBaseJobId(e) {
@@ -745,15 +779,15 @@ function deriveJobChipState(e, t) {
 }
 
 function renderJobChips() {
-    const e = document.getElementById("affix-job-chips");
-    if (!e) return;
+    const e = document.getElementById("affix-job-group-select"), o = document.getElementById("affix-job-branch-select");
+    if (!e || !o) return;
     const t = getForgePrimaryJobGroups(), r = getForgeJobBranches(), n = getForgeEligibleJobIds();
     currentJobFilterMode = "forge", currentJobFilterIds = n;
-    const o = e.closest(".affix-job-row") || e;
-    if (!t.length) return current.jobGroup = "", current.jobBranch = "", current.job = null, 
-    o.style.display = "none", void (e.innerHTML = "");
-    if (current.jobGroup && !t.some(e => e.key === current.jobGroup) && (current.jobGroup = ""), 
-    current.jobBranch && !r.some(e => e.key === current.jobBranch) && (current.jobBranch = ""), 
+    const a = e.closest(".affix-job-row") || e;
+    if (!t.length) return current.jobGroup = "", current.jobBranch = "", current.job = null,
+    a.style.display = "none", e.innerHTML = "", void (o.innerHTML = "");
+    if (current.jobGroup && !t.some(e => e.key === current.jobGroup) && (current.jobGroup = ""),
+    current.jobBranch && !r.some(e => e.key === current.jobBranch) && (current.jobBranch = ""),
     current.jobBranch && current.jobGroup) {
         const e = r.find(e => e.key === current.jobBranch);
         e && String(e.baseId) !== String(current.jobGroup) && (current.jobBranch = "");
@@ -770,20 +804,19 @@ function renderJobChips() {
         const e = r.filter(e => e.filterIds.includes(Number(current.job)));
         1 === e.length && (current.jobBranch = e[0].key);
     }
-    const a = getSelectedPrimaryJobGroup();
-    a && current.job && !a.filterIds.includes(Number(current.job)) && (current.job = null), 
-    o.style.display = "";
-    const s = (e, t) => {
-        const r = jobIndex?.jobs?.[String(e)] || null, n = resolveIconPath(r?.job_icon || ""), o = r?.job_name || String(e);
-        return n ? `<img class="${escapeHtml(t)}" src="${escapeHtml(n)}" alt="" title="${escapeHtml(o)}" loading="lazy" onerror="this.style.display='none'">` : `<span class="${escapeHtml(t)} affix-job-chip-icon-fallback">${escapeHtml(o)}</span>`;
-    }, l = `\n        <button type="button" class="affix-job-chip affix-job-chip-all${current.jobGroup || current.jobBranch || current.job ? "" : " selected"}" data-job-group="" title="${escapeHtml(T.all)}">\n            <span class="affix-job-chip-label">${escapeHtml(T.all)}</span>\n        </button>\n    `, c = t.map(e => {
-        const t = String(e.key) === String(current.jobGroup || ""), r = jobIndex?.jobs?.[String(e.jobId)]?.job_name || String(e.jobId), n = s(e.jobId, "affix-job-chip-icon");
-        return `\n            <button type="button" class="affix-job-chip affix-job-chip-group${t ? " selected" : ""}" data-job-group="${escapeHtml(e.key)}" title="${escapeHtml(r)}" aria-label="${escapeHtml(r)}">\n                <span class="affix-job-chip-icons">${n}</span>\n            </button>\n        `;
-    }).join(""), i = a ? `\n        <div class="affix-job-subchips" aria-label="Job branch filter">\n            <button type="button" class="affix-job-chip affix-job-chip-all${current.jobBranch || current.job ? "" : " selected"}" data-job-branch="" title="${escapeHtml(T.all)}">\n                <span class="affix-job-chip-label">${escapeHtml(T.all)}</span>\n            </button>\n            ${a.branches.map(e => {
-        const t = String(e.key) === String(current.jobBranch || ""), r = e.jobs.map(e => jobIndex?.jobs?.[String(e)]?.job_name || String(e)).join(" / "), n = e.jobs.map(e => s(e, "affix-job-chip-icon")).join("");
-        return `\n                    <button type="button" class="affix-job-chip affix-job-chip-group${t ? " selected" : ""}" data-job-branch="${escapeHtml(e.key)}" title="${escapeHtml(r)}" aria-label="${escapeHtml(r)}">\n                        <span class="affix-job-chip-icons">${n}</span>\n                    </button>\n                `;
-    }).join("")}\n        </div>\n    ` : "";
-    e.innerHTML = `\n        <div class="affix-job-primary-chips">${l}${c}</div>\n        ${i}\n    `;
+    const s = getSelectedPrimaryJobGroup();
+    s && current.job && !s.filterIds.includes(Number(current.job)) && (current.job = null), a.style.display = "";
+    e.innerHTML = `<option value="">All classes</option>${t.map(e => {
+        const t = jobIndex?.jobs?.[String(e.jobId)]?.job_name || String(e.jobId);
+        return `<option value="${escapeHtml(e.key)}">${escapeHtml(t)}</option>`;
+    }).join("")}`;
+    e.value = String(current.jobGroup || "");
+    const l = s?.branches || [];
+    o.innerHTML = `<option value="">${s ? "All next classes" : "Choose a class first"}</option>${l.map(e => {
+        const t = e.jobs.map(e => jobIndex?.jobs?.[String(e)]?.job_name || String(e)).join(" → ");
+        return `<option value="${escapeHtml(e.key)}">${escapeHtml(t)}</option>`;
+    }).join("")}`;
+    o.disabled = !s, o.value = String(current.jobBranch || "");
 }
 
 function collectPackageIds() {
@@ -792,13 +825,13 @@ function collectPackageIds() {
     if (!e) return [];
     if ("all" !== String(current.level)) return (e[String(current.level)] || []).map(Number);
     const t = new Set;
-    return Object.values(e).forEach(e => (e || []).forEach(e => t.add(Number(e)))), 
+    return Object.values(e).forEach(e => (e || []).forEach(e => t.add(Number(e)))),
     Array.from(t.values()).filter(e => Number.isFinite(e)).sort((e, t) => e - t);
 }
 
 function collectStunts(e, t = {}) {
     const r = current.stuntLevel, n = "all" === String(current.rarity) ? null : Number(current.rarity) || 5, o = Boolean(t.ignoreJob), a = (current.search || "").trim().toLowerCase(), s = current.job ? Number(current.job) : null, l = t.jobMode || currentJobFilterMode || "base", c = o ? s : normalizeJobForVisibleOptions(s, currentJobFilterIds), i = o ? [] : getActiveForgeJobIds(), u = i.length ? new Set(getForgeEligibleStuntIdsForJobs(current.mode, current.typeId, i).map(String)) : null, d = new Set, b = [];
-    return e.forEach(e => {
+    e.forEach(e => {
         const t = stuntData.packages?.[String(e)];
         t && (t.entries || []).forEach(e => {
             const t = e?.stunt;
@@ -825,10 +858,15 @@ function collectStunts(e, t = {}) {
             const s = String(t.id || "");
             s && !d.has(s) && (d.add(s), b.push(t));
         });
-    }), b.sort((e, t) => {
+    });
+    const f = "all" === String(current.rarity) ? Array.from(b.reduce((e, t) => {
+        const r = `${sanitizePlainText(t.name || "").toLocaleLowerCase()}|${Number(t.level) || 1}`, n = e.get(r);
+        return (!n || Number(t.color) > Number(n.color) || Number(t.color) === Number(n.color) && Number(t.id) > Number(n.id)) && e.set(r, t), e;
+    }, new Map).values()) : b;
+    return f.sort((e, t) => {
         const r = String(e.name || ""), n = String(t.name || "");
         return r !== n ? r.localeCompare(n, "zh-Hant") : Number(e.id) - Number(t.id);
-    }), b;
+    }), f;
 }
 
 function renderAffixGrid(e) {
@@ -854,73 +892,69 @@ function syncPickedCards() {
 }
 
 function renderAll() {
-    renderJobChips(), ensureSelectedTypeAvailable(), renderTypeSections(), renderLevelRow(), 
+    renderJobChips(), ensureSelectedTypeAvailable(), renderTypeSections(), renderLevelRow(),
     renderRarityToggle(), renderQualityToggle();
     const e = current.typeId && !typeHasData(current.mode, current.typeId), t = collectStunts(collectPackageIds());
-    document.getElementById("affix-count").textContent = e ? T.noDataYet : "en-US" === ACTIVE_LOCALE ? `${t.length} ${T.skills}` : `${t.length}${T.skills}`, 
+    document.getElementById("affix-count").textContent = e ? T.noDataYet : "en-US" === ACTIVE_LOCALE ? `${t.length} ${T.skills}` : `${t.length}${T.skills}`,
     renderAffixGrid(t), renderSelectedSummary(), updateUrlHash();
 }
 
 function applyHashState(e) {
     if (!e) return;
-    if ("armor" === e.mode && (current.mode = "armor"), e.rarity && ("all" === e.rarity || [ 2, 3, 4, 5, 6 ].includes(Number(e.rarity))) && (current.rarity = "all" === e.rarity ? "all" : Number(e.rarity)), 
-    e.stuntLevel && [ 1, 2, 3 ].includes(Number(e.stuntLevel)) && (current.stuntLevel = Number(e.stuntLevel)), 
+    if ("armor" === e.mode && (current.mode = "armor"), e.rarity && ("all" === e.rarity || [ 2, 3, 4, 5, 6 ].includes(Number(e.rarity))) && (current.rarity = "all" === e.rarity ? "all" : Number(e.rarity)),
+    e.stuntLevel && ("all" === e.stuntLevel || [ 1, 2, 3 ].includes(Number(e.stuntLevel))) && (current.stuntLevel = "all" === e.stuntLevel ? "all" : Number(e.stuntLevel)),
     e.search && (current.search = e.search), e.jobGroup && /^\d+(,\d+)*$/.test(String(e.jobGroup))) {
         const t = String(e.jobGroup).split(",").filter(Boolean);
         current.jobGroup = t.length > 1 ? t[0] : String(e.jobGroup), t.length > 2 && !e.jobBranch && (current.jobBranch = t.slice(1).join(","));
     }
-    e.jobBranch && /^\d+(,\d+)*$/.test(String(e.jobBranch)) && (current.jobBranch = String(e.jobBranch)), 
+    e.jobBranch && /^\d+(,\d+)*$/.test(String(e.jobBranch)) && (current.jobBranch = String(e.jobBranch)),
     e.job && (current.job = Number(e.job) || null);
     const t = getVisibleTypeIds(current.mode);
-    e.typeId && t.includes(Number(e.typeId)) && (current.typeId = Number(e.typeId)), 
+    e.typeId && t.includes(Number(e.typeId)) && (current.typeId = Number(e.typeId)),
     !current.typeId && t.length && (current.typeId = t[0]);
     const r = current.typeId ? getPackagesByTypeAndLevel(current.mode, current.typeId) : null;
     e.level && ("all" === e.level || r && r[String(e.level)]) && (current.level = e.level);
     const n = e => String(e || "").trim() || null;
-    selected.weapon = n(e.pickWeapon), selected.armor = n(e.pickArmor), selected.cloak = n(e.pickCloak), 
+    selected.weapon = n(e.pickWeapon), selected.armor = n(e.pickArmor), selected.cloak = n(e.pickCloak),
     selected.accessory = String(e.pickAccessory || "").split(",").map(e => e.trim()).filter(Boolean).slice(0, 2);
+    const o = String(current.level || "all");
+    selected.weapon && (selectedContext.weapon = { mode: "weapon", typeId: "weapon" === current.mode ? Number(current.typeId) || null : null, level: o }),
+    selected.armor && (selectedContext.armor = { mode: "armor", typeId: 4, level: o }),
+    selected.cloak && (selectedContext.cloak = { mode: "armor", typeId: 7, level: o }),
+    selectedContext.accessory = selected.accessory.map(() => ({ mode: "armor", typeId: 10, level: o })), enforceUniqueSelectedAffixes();
 }
 
 async function init() {
     const e = document.getElementById("affix-grid");
     try {
-        if (await loadIconPaths(), applyHeaderIcons(), applyStaticText(), await loadJobIndex(), 
-        [stuntData, stuntIndex] = await Promise.all([ loadJson(CONFIG.stuntDataUrl), loadJson(CONFIG.stuntIndexUrl) ]), 
+        if (await loadIconPaths(), applyHeaderIcons(), applyStaticText(), await loadJobIndex(),
+        [stuntData, stuntIndex] = await Promise.all([ loadJson(CONFIG.stuntDataUrl), loadJson(CONFIG.stuntIndexUrl) ]),
         buildStuntByIdIndex(), applyHashState(parseHashState()), !current.typeId) {
             const e = getVisibleTypeIds(current.mode);
             current.typeId = e.length ? e[0] : null;
         }
-        const e = document.getElementById("affix-search"), t = document.getElementById("affix-quality-toggle"), r = document.getElementById("affix-rarity-toggle"), n = document.getElementById("affix-job-chips"), o = document.getElementById("affix-reset-btn");
-        e.value = String(current.search || ""), r && r.addEventListener("click", e => {
-            const t = e.target.closest(".affix-rarity-btn");
-            t && (current.rarity = "all" === t.dataset.rarity ? "all" : Number(t.dataset.rarity) || 5, 
-            renderAll());
-        }), t && t.addEventListener("click", e => {
-            const t = e.target.closest(".affix-quality-btn");
-            t && (current.stuntLevel = "all" === t.dataset.quality ? "all" : Number(t.dataset.quality), 
-            renderAll());
-        }), n && n.addEventListener("click", e => {
-            const t = e.target.closest(".affix-job-chip");
-            if (t) {
-                if (Object.prototype.hasOwnProperty.call(t.dataset, "jobGroup")) current.jobGroup = String(t.dataset.jobGroup || ""), 
-                current.jobBranch = "", current.job = null; else if (Object.prototype.hasOwnProperty.call(t.dataset, "jobBranch")) current.jobBranch = String(t.dataset.jobBranch || ""), 
-                current.job = null; else {
-                    const e = t.dataset.jobId || "";
-                    current.job = e ? Number(e) : null;
-                }
-                renderAll();
-            }
-        }), o && o.addEventListener("click", () => {
+        const e = document.getElementById("affix-search"), t = document.getElementById("affix-quality-select"), r = document.getElementById("affix-rarity-select"), n = document.getElementById("affix-job-group-select"), o = document.getElementById("affix-job-branch-select"), a = document.getElementById("affix-level-select"), s = document.getElementById("affix-reset-btn");
+        e.value = String(current.search || ""), r && r.addEventListener("change", () => {
+            current.rarity = "all" === r.value ? "all" : Number(r.value) || 5, renderAll();
+        }), t && t.addEventListener("change", () => {
+            current.stuntLevel = "all" === t.value ? "all" : Number(t.value), renderAll();
+        }), n && n.addEventListener("change", () => {
+            current.jobGroup = String(n.value || ""), current.jobBranch = "", current.job = null, renderAll();
+        }), o && o.addEventListener("change", () => {
+            current.jobBranch = String(o.value || ""), current.job = null, renderAll();
+        }), a && a.addEventListener("change", () => {
+            current.level = String(a.value || "all"), renderAll();
+        }), s && s.addEventListener("click", () => {
             resetAll();
         });
-        const a = document.getElementById("affix-selected-summary");
-        a && a.addEventListener("click", e => {
+        const l = document.getElementById("affix-selected-summary");
+        l && l.addEventListener("click", e => {
             const t = e.target.closest(".affix-selected-remove");
             t && (clearPicked(t.dataset.bucket || "", Number(t.dataset.index) || 0), renderAll());
         });
-        let s = null;
+        let c = null;
         e.addEventListener("input", () => {
-            s && clearTimeout(s), s = setTimeout(() => {
+            c && clearTimeout(c), c = setTimeout(() => {
                 current.search = e.value || "", renderAll();
             }, 120);
         }), renderAll();

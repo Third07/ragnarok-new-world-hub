@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="asset-version" content="20260802-polish2">
+    <meta name="asset-version" content="20260802-affix3">
     <title>RO World Journey | Affix Planner</title>
     <meta name="description" content="RO World Tour - Affix Planner">
     <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260801-mobilegame1">
     <link rel="stylesheet" href="/sea/shared/game-pages.css?v=20260802-gamepages1">
     <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
-    <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-polish2">
+    <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-affix3">
 </head>
 
-<body>
+<body class="affix-planner-page">
     <div class="app">
         <header class="header">
             <div class="header-controls"></div>
@@ -80,31 +80,45 @@
         <main class="main-content">
             <div class="simulator-layout affix-layout">
                   <section class="affix-panel">
-                      <div class="affix-filters">
+                    <div class="affix-filters">
                         <div class="affix-job-row">
-                            <div id="affix-job-chips" class="affix-job-chips" aria-label="Job filter"></div>
+                            <div class="affix-filter-grid">
+                                <label class="affix-filter-field" for="affix-job-group-select">
+                                    <span>Class</span>
+                                    <select id="affix-job-group-select" class="affix-filter-select" aria-label="Class"></select>
+                                </label>
+                                <label class="affix-filter-field" for="affix-job-branch-select">
+                                    <span>Next class</span>
+                                    <select id="affix-job-branch-select" class="affix-filter-select" aria-label="Next class"></select>
+                                </label>
+                                <label class="affix-filter-field" for="affix-level-select">
+                                    <span>Level range</span>
+                                    <select id="affix-level-select" class="affix-filter-select" aria-label="Level range"></select>
+                                </label>
+                                <label class="affix-filter-field" for="affix-rarity-select">
+                                    <span>Rarity</span>
+                                    <select id="affix-rarity-select" class="affix-filter-select" aria-label="Rarity">
+                                        <option value="all">All rarities</option>
+                                        <option value="6">Red</option>
+                                        <option value="5">Gold</option>
+                                        <option value="4">Purple</option>
+                                        <option value="3">Blue</option>
+                                        <option value="2">Green</option>
+                                    </select>
+                                </label>
+                                <label class="affix-filter-field" for="affix-quality-select">
+                                    <span>Affix skill level</span>
+                                    <select id="affix-quality-select" class="affix-filter-select" aria-label="Affix skill level">
+                                        <option value="3">Lv.3</option>
+                                        <option value="2">Lv.2</option>
+                                        <option value="1">Lv.1</option>
+                                        <option value="all">All levels</option>
+                                    </select>
+                                </label>
+                            </div>
                         </div>
+                        <div class="affix-section-label">Equipment</div>
                         <div id="affix-type-sections" class="affix-type-sections" aria-label="Type selection"></div>
-                        <div id="affix-level-row" class="affix-level-row" aria-label="Level filter"></div>
-                        <div class="affix-rarity-row" aria-label="Skill rarity">
-                            <div id="affix-rarity-toggle" class="affix-rarity-toggle" role="radiogroup"
-                                aria-label="Skill rarity">
-                                <button type="button" class="affix-rarity-btn rarity-all" data-rarity="all">All</button>
-                                <button type="button" class="affix-rarity-btn rarity-6" data-rarity="6">Red</button>
-                                <button type="button" class="affix-rarity-btn rarity-5" data-rarity="5">Gold</button>
-                                <button type="button" class="affix-rarity-btn rarity-4" data-rarity="4">Purple</button>
-                                <button type="button" class="affix-rarity-btn rarity-3" data-rarity="3">Blue</button>
-                                <button type="button" class="affix-rarity-btn rarity-2" data-rarity="2">Green</button>
-                            </div>
-                        </div>
-                        <div class="affix-quality-row" aria-label="Skill level">
-                            <div id="affix-quality-toggle" class="affix-quality-toggle" role="radiogroup"
-                                aria-label="Skill level">
-                                <button type="button" class="affix-quality-btn quality-3" data-quality="3">Lv.3</button>
-                                <button type="button" class="affix-quality-btn quality-2" data-quality="2">Lv.2</button>
-                                <button type="button" class="affix-quality-btn quality-1" data-quality="1">Lv.1</button>
-                            </div>
-                        </div>
                         <div class="affix-search-row">
                             <input id="affix-search" class="affix-search" type="search"
                                 placeholder="Search name/effect..." autocomplete="off">
@@ -116,7 +130,7 @@
                     </div>
                 </section>
                 <aside class="details-panel affix-detail-panel">
-                    <h2>Selected Skills</h2>
+                    <h2>Equipment Loadout</h2>
                     <div id="affix-selected-summary" class="affix-selected-summary">
                         <div class="details-placeholder">Select skills to build a set.</div>
                     </div>
@@ -177,7 +191,7 @@
     <script src="/shared/client_switcher.js?v=20260727-220348"></script>
     <script src="/shared/sticky_header.js?v=20260727-220348"></script>
     <script src="/shared/share_link.js?v=20260727-220348"></script>
-    <script src="/sea/affix-simulator/affix_planner.js?v=20260727-220348"></script>
+    <script src="/sea/affix-simulator/affix_planner.js?v=20260802-affix3"></script>
     <script src="/shared/reference_asset_fallback.js"></script>
 </body>
 
