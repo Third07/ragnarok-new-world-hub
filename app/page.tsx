@@ -33,7 +33,7 @@ const tools: HubTool[] = [
   {
     title: "Interactive Maps",
     description: "Find monsters, quests, landmarks, and chests.",
-    href: "/sea/maps/",
+    href: "/sea/maps/?lang=en-US#map=101",
     icon: "/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp",
     category: "Adventure",
     badge: "Explorer",
@@ -167,7 +167,7 @@ export default function Home() {
           <a href="#tools">Tools</a>
           <a href="#tools" onClick={() => setCategory("Planners")}>Planners</a>
           <a href="#tools" onClick={() => setCategory("Database")}>Database</a>
-          <a href="/sea/maps/">World Map</a>
+          <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
         </nav>
 
         <div className="header-actions">
@@ -193,7 +193,7 @@ export default function Home() {
           <a href="#tools" onClick={() => setMenuOpen(false)}>All tools</a>
           <a href="/sea/skill_planner/">Skill Planner</a>
           <a href="/sea/rune_planner/">Rune Planner</a>
-          <a href="/sea/maps/">World Map</a>
+          <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
           <a href="/sea/monster_album/">Monster Album</a>
         </nav>
       </header>
@@ -212,7 +212,7 @@ export default function Home() {
               <button className="primary-button" type="button" onClick={jumpToTools}>
                 Explore all tools <span aria-hidden="true">→</span>
               </button>
-              <a className="secondary-button" href="/sea/maps/">
+              <a className="secondary-button" href="/sea/maps/?lang=en-US#map=101">
                 Open world map <span aria-hidden="true">↗</span>
               </a>
             </div>
@@ -313,7 +313,7 @@ export default function Home() {
             <p className="eyebrow"><span /> Ready for the next quest?</p>
             <h2>See the whole world<br />before you set out.</h2>
           </div>
-          <a href="/sea/maps/">Explore the map <span aria-hidden="true">→</span></a>
+          <a href="/sea/maps/?lang=en-US#map=101">Explore the map <span aria-hidden="true">→</span></a>
         </section>
       </main>
 
@@ -329,7 +329,7 @@ export default function Home() {
       <nav className="mobile-dock" aria-label="Quick mobile navigation">
         <a href="#top"><span aria-hidden="true">⌂</span>Home</a>
         <a href="#tools"><span aria-hidden="true">◇</span>Tools</a>
-        <a href="/sea/maps/"><span aria-hidden="true">⌖</span>Map</a>
+        <a href="/sea/maps/?lang=en-US#map=101"><span aria-hidden="true">⌖</span>Map</a>
         <a href="/sea/skill_planner/"><span aria-hidden="true">✦</span>Builds</a>
       </nav>
     </div>
