@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="asset-version" content="20260727-220348">
+    <title>RO World Journey | Apocalypse Planner</title>
+    <meta name="description" content="RO World Tour - Apocalypse Planner">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260727-220348">
+    <link rel="stylesheet" href="/sea/apocalypse-simulator/apocalypse_planner.css?v=20260727-220348">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-controls"></div>
+            <div class="header-brand">
+                <span class="header-title">Apocalypse Planner</span>
+            </div>
+            <nav class="site-nav" aria-label="Site shortcuts">
+                <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                    <span class="site-nav-label">Skill Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+                    <span class="site-nav-label">Rune Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+                    <span class="site-nav-label">Affix Planner</span>
+                </a>
+                <a class="site-nav-item active" href="/sea/apocalypse_planner/" title="Apocalypse Planner" aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+                <a class="site-nav-item" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+                    <span class="site-nav-label">Equipment</span>
+                </a>
+                <a class="site-nav-item" href="/sea/cards/" title="Cards" aria-label="Cards">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+                    <span class="site-nav-label">Cards</span>
+                </a>
+                <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+                    <span class="site-nav-label">Monster Album</span>
+                </a>
+                <a class="site-nav-item" href="/sea/maps/" title="Maps" aria-label="Maps">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+                    <span class="site-nav-label">Maps</span>
+                </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+                <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+                    <span class="site-nav-label">Study</span>
+                </a>
+                <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+                    <span class="site-nav-label">Pet</span>
+                </a>
+                <a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+                    <span class="site-nav-label">Refine</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="simulator-layout apocalypse-layout">
+                <aside class="apocalypse-part-panel" aria-label="Part filter">
+                    <div id="apocalypse-part-nav" class="apocalypse-part-nav"></div>
+                </aside>
+
+                <section class="apocalypse-panel">
+                    <div class="apocalypse-filters">
+                        <div class="apocalypse-category-row">
+                            <div id="apocalypse-category-chips" class="apocalypse-category-chips" aria-label="Trait type filter"></div>
+                        </div>
+
+                        <div class="apocalypse-job-row">
+                            <div id="apocalypse-job-chips" class="apocalypse-job-chips" aria-label="Weapon job filter"></div>
+                        </div>
+
+                        <div class="apocalypse-quality-row" aria-label="Trait quality">
+                            <div id="apocalypse-quality-toggle" class="apocalypse-quality-toggle" role="radiogroup" aria-label="Trait quality"></div>
+                        </div>
+
+                        <div class="apocalypse-search-row">
+                            <input id="apocalypse-search" class="apocalypse-search" type="search" placeholder="Search trait / effect / category / job..." autocomplete="off">
+                            <div id="apocalypse-count" class="apocalypse-count"></div>
+                        </div>
+                    </div>
+
+                    <div id="apocalypse-grid" class="apocalypse-grid">
+                        <div class="loading-state">Loading Apocalypse traits...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="/shared/asset_version.js?v=20260727-220348"></script>
+    <script src="/shared/client_switcher.js?v=20260727-220348"></script>
+    <script src="/shared/sticky_header.js?v=20260727-220348"></script>
+    <script src="/sea/apocalypse-simulator/apocalypse_planner.js?v=20260727-220348"></script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+
+</html>
+

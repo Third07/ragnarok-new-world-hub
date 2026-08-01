@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="asset-version" content="20260727-220348">
+    <title>RO World Journey | Shop</title>
+    <meta name="description" content="RO World Journey - Shop">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260727-220348">
+    <link rel="stylesheet" href="/sea/shop/shop.css?v=20260727-220348">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-controls"></div>
+            <div class="header-brand">
+                <span id="shop-page-title" class="header-title">Shop</span>
+            </div>
+            <nav class="site-nav" aria-label="Site shortcuts">
+                <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner"
+                        src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                    <span class="site-nav-label">Skill Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner"
+                        src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+                    <span class="site-nav-label">Rune Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner"
+                        src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+                    <span class="site-nav-label">Affix Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner"
+                    aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen"
+                        alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item active" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop"
+                        src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+                <a class="site-nav-item" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment"
+                        src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+                    <span class="site-nav-label">Equipment</span>
+                </a>
+                <a class="site-nav-item" href="/sea/cards/" title="Cards" aria-label="Cards">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards"
+                        src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+                    <span class="site-nav-label">Cards</span>
+                </a>
+                <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album"
+                        src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+                    <span class="site-nav-label">Monster Album</span>
+                </a>
+                <a class="site-nav-item" href="/sea/maps/" title="Maps" aria-label="Maps">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps"
+                        src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+                    <span class="site-nav-label">Maps</span>
+                </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+                <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study"
+                        src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+                    <span class="site-nav-label">Study</span>
+                </a>
+                <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet"
+                        src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+                    <span class="site-nav-label">Pet</span>
+                </a>
+                <a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine"
+                        src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+                    <span class="site-nav-label">Refine</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="shop-layout">
+                <section class="shop-panel">
+                    <div class="shop-toolbar">
+                        <div class="shop-search-row">
+                            <input id="shop-search" class="shop-search" type="search" placeholder="Search shop items..."
+                                autocomplete="off" spellcheck="false">
+                            <div id="shop-count" class="shop-count">Loading...</div>
+                        </div>
+                        <section class="currency-board">
+                            <div class="currency-board-header">
+                                <div id="currency-board-title" class="currency-board-title">Currencies</div>
+                            </div>
+                            <div id="currency-groups" class="currency-groups"></div>
+                        </section>
+                    </div>
+                    <div id="shop-list" class="shop-list"></div>
+                </section>
+
+                <aside id="shop-detail" class="shop-detail" aria-live="polite"></aside>
+            </div>
+        </main>
+    </div>
+
+    <div id="shop-tooltip" class="tooltip hidden"></div>
+    <div class="refine-modal shop-detail-modal" id="shop-detail-modal" aria-hidden="true">
+        <div class="refine-modal-backdrop" data-shop-modal-close></div>
+        <div class="refine-modal-card" role="dialog" aria-modal="true" aria-labelledby="shop-detail-modal-title">
+            <div class="refine-modal-header">
+                <h3 id="shop-detail-modal-title">Item Details</h3>
+                <button class="refine-modal-close" type="button" data-shop-modal-close aria-label="Close">×</button>
+            </div>
+            <div class="refine-modal-body">
+                <div id="shop-detail-modal-content" class="shop-detail-modal-content"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/shared/asset_version.js?v=20260727-220348"></script>
+    <script src="/shared/client_switcher.js?v=20260727-220348"></script>
+    <script src="/shared/sticky_header.js?v=20260727-220348"></script>
+    <script src="/sea/shop/shop.js?v=20260727-220348"></script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+
+</html>
+

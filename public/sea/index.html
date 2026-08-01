@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RO World Journey</title>
+    <meta name="description" content="Ragnarok Online World Journey — planners, databases and interactive maps.">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css">
+</head>
+
+<body class="hub-body">
+    <div class="app">
+        <header class="header">
+            <div class="header-controls"></div>
+            <div class="header-brand">
+                <img data-icon-name="icon_logo" class="header-logo" alt="" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                <span class="header-title" data-hub-brand>RO World Journey</span>
+            </div>
+            <nav class="site-nav" aria-label="Site shortcuts">
+                <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                    <span class="site-nav-label">Skill Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+                    <span class="site-nav-label">Rune Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+                    <span class="site-nav-label">Affix Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner" aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+                <a class="site-nav-item" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+                    <span class="site-nav-label">Equipment</span>
+                </a>
+                <a class="site-nav-item" href="/sea/cards/" title="Cards" aria-label="Cards">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+                    <span class="site-nav-label">Cards</span>
+                </a>
+                <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+                    <span class="site-nav-label">Monster Album</span>
+                </a>
+                <a class="site-nav-item" href="/sea/maps/" title="Maps" aria-label="Maps">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+                    <span class="site-nav-label">Maps</span>
+                </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+                <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+                    <span class="site-nav-label">Study</span>
+                </a>
+                <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+                    <span class="site-nav-label">Pet</span>
+                </a>
+                <a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+                    <span class="site-nav-label">Refine</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content hub-main">
+            <section class="hub-hero">
+                <h1 class="hub-hero-title" data-hub-title>RO World Journey</h1>
+                <p class="hub-hero-subtitle" data-hub-subtitle>
+                    Planners, databases and interactive maps for your adventure.
+                </p>
+                <div class="hub-search-wrap">
+                    <input id="hub-search" class="hub-search" type="search" autocomplete="off"
+                        placeholder="Search tools…" aria-label="Search tools">
+                </div>
+            </section>
+
+            <section class="hub-grid" id="hub-grid" aria-label="Tools">
+                <a class="hub-card" href="/sea/skill_planner/" data-hub-name="Skill Planner">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_jineng" alt="" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Skill Planner</span>
+                        <span class="hub-card-desc">Plan and simulate class skill builds.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/rune_planner/" data-hub-name="Rune Planner">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_luenyinqing" alt="" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Rune Planner</span>
+                        <span class="hub-card-desc">Design rune engine loadouts and effects.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/affix_planner/" data-hub-name="Affix Planner">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Affix Planner</span>
+                        <span class="hub-card-desc">Theorycraft affix and stunt combinations.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/apocalypse_planner/" data-hub-name="Apocalypse Planner">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_tianqixingchen" alt="" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Apocalypse Planner</span>
+                        <span class="hub-card-desc">Plan Apocalypse weather &amp; star progression.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/shop/" data-hub-name="Shop">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_shangcheng" alt="" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Shop</span>
+                        <span class="hub-card-desc">Browse the in-game shop catalogue.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/equipment/" data-hub-name="Equipment">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_jingji" alt="" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Equipment</span>
+                        <span class="hub-card-desc">Explore gear, stats and set bonuses.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/cards/" data-hub-name="Cards">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_tujian" alt="" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Cards</span>
+                        <span class="hub-card-desc">Search the card library and fusions.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/monster_album/" data-hub-name="Monster Album">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_fuben" alt="" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Monster Album</span>
+                        <span class="hub-card-desc">Look up monsters and their drops.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/maps/" data-hub-name="Maps">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_miwusenlin" alt="" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Maps</span>
+                        <span class="hub-card-desc">Interactive maps: marks, spawns &amp; quests.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/events/" data-hub-name="Events">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_huodong" alt="" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Events</span>
+                        <span class="hub-card-desc">Current and upcoming event schedules.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/study/" data-hub-name="Study">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_shitu" alt="" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Study</span>
+                        <span class="hub-card-desc">Practice the in-game quiz and Q&amp;A.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/pet/" data-hub-name="Pet">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_pet" alt="" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Pet</span>
+                        <span class="hub-card-desc">Pet data, skills and feeding.</span>
+                    </span>
+                </a>
+                <a class="hub-card" href="/sea/refine/" data-hub-name="Refine">
+                    <span class="hub-card-icon"><img data-icon-name="icon_zhujiemian_qianghua" alt="" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp"></span>
+                    <span class="hub-card-body">
+                        <span class="hub-card-title">Refine</span>
+                        <span class="hub-card-desc">Refine rates and enhancement simulator.</span>
+                    </span>
+                </a>
+            </section>
+            <p class="hub-empty" id="hub-empty" hidden>No tools match your search.</p>
+        </main>
+    </div>
+
+    <script src="/shared/asset_version.js"></script>
+    <script src="/shared/client_switcher.js"></script>
+    <script src="/shared/sticky_header.js"></script>
+    <script>
+        // Mirror each hub card's title from its matching nav item so the cards
+        // pick up the localized labels asset_version.js already applied to the
+        // nav (keyed by href). Keeps the hub in sync with the language switcher.
+        (function () {
+            function syncCardTitles() {
+                var navLabels = {};
+                document.querySelectorAll('.site-nav-item[href]').forEach(function (nav) {
+                    var label = nav.querySelector('.site-nav-label');
+                    if (label) navLabels[nav.getAttribute('href').split('?')[0]] = label.textContent.trim();
+                });
+                document.querySelectorAll('.hub-card[href]').forEach(function (card) {
+                    var key = card.getAttribute('href').split('?')[0];
+                    var localized = navLabels[key];
+                    if (!localized) return;
+                    var title = card.querySelector('.hub-card-title');
+                    if (title) title.textContent = localized;
+                    card.setAttribute('data-hub-name', localized);
+                });
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', syncCardTitles, { once: true });
+            } else {
+                syncCardTitles();
+            }
+        })();
+
+        // Client-side tool search filter.
+        (function () {
+            var input = document.getElementById('hub-search');
+            var empty = document.getElementById('hub-empty');
+            if (!input) return;
+            function apply() {
+                var q = input.value.trim().toLowerCase();
+                var shown = 0;
+                document.querySelectorAll('.hub-card').forEach(function (card) {
+                    var name = (card.getAttribute('data-hub-name') || '').toLowerCase();
+                    var descNode = card.querySelector('.hub-card-desc');
+                    var desc = descNode ? descNode.textContent.toLowerCase() : '';
+                    var match = !q || name.indexOf(q) > -1 || desc.indexOf(q) > -1;
+                    card.hidden = !match;
+                    if (match) shown++;
+                });
+                if (empty) empty.hidden = shown !== 0;
+            }
+            input.addEventListener('input', apply);
+        })();
+    </script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,436 @@
+.apocalypse-layout {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.apocalypse-part-panel,
+.apocalypse-panel {
+    min-width: 0;
+}
+
+.apocalypse-part-panel {
+    position: sticky;
+    top: calc(var(--header-height, 72px) + 12px);
+}
+
+.apocalypse-part-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.apocalypse-part-btn {
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    min-height: 76px;
+    padding: 10px 8px 9px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font: inherit;
+    font-weight: 700;
+    text-align: center;
+}
+
+.apocalypse-part-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
+}
+
+.apocalypse-part-label {
+    font-size: 0.76rem;
+    line-height: 1.15;
+}
+
+.apocalypse-part-btn:hover {
+    border-color: rgba(255, 255, 255, 0.20);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.apocalypse-part-btn.selected {
+    border-color: rgba(107, 122, 153, 0.85);
+    background: linear-gradient(180deg, rgba(110, 131, 176, 0.92), rgba(88, 108, 150, 0.92));
+    color: #f5f8ff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.apocalypse-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+}
+
+.apocalypse-filters {
+    display: grid;
+    gap: 12px;
+}
+
+.apocalypse-category-row {
+    display: none;
+}
+
+.apocalypse-category-row.is-visible,
+.apocalypse-job-row.is-visible {
+    display: block;
+}
+
+.apocalypse-category-chips,
+.apocalypse-quality-toggle,
+.apocalypse-job-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.apocalypse-job-row {
+    display: none;
+}
+
+.apocalypse-category-chip,
+.apocalypse-quality-btn {
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text-secondary);
+    border-radius: 12px;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    font: inherit;
+    font-weight: 700;
+    min-height: 40px;
+}
+
+.apocalypse-job-chip {
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text-secondary);
+    border-radius: 12px;
+    min-width: 42px;
+    min-height: 42px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: inherit;
+    font-weight: 700;
+}
+
+.apocalypse-job-chip-group {
+    min-width: 58px;
+}
+
+.apocalypse-job-chip-icons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.apocalypse-job-chip:hover {
+    border-color: rgba(255, 255, 255, 0.20);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.apocalypse-job-chip.selected {
+    border-color: rgba(107, 122, 153, 0.75);
+    background: rgba(107, 122, 153, 0.18);
+    color: var(--text-primary);
+}
+
+.apocalypse-job-chip-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: block;
+}
+
+.apocalypse-job-chip-all {
+    padding-inline: 12px;
+}
+
+.apocalypse-category-chip:hover,
+.apocalypse-quality-btn:hover {
+    border-color: rgba(255, 255, 255, 0.20);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.apocalypse-category-chip.selected {
+    border-color: rgba(107, 122, 153, 0.75);
+    background: rgba(107, 122, 153, 0.18);
+    color: var(--text-primary);
+}
+
+.apocalypse-quality-btn.active {
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.apocalypse-quality-btn.quality-green {
+    border-color: rgba(117, 194, 120, 0.65);
+}
+
+.apocalypse-quality-btn.quality-blue {
+    border-color: rgba(121, 174, 242, 0.65);
+}
+
+.apocalypse-quality-btn.quality-purple {
+    border-color: rgba(189, 125, 234, 0.65);
+}
+
+.apocalypse-quality-btn.quality-orange {
+    border-color: rgba(249, 152, 84, 0.75);
+}
+
+.apocalypse-quality-btn.quality-red {
+    border-color: rgba(228, 84, 84, 0.78);
+}
+
+.apocalypse-quality-btn.quality-green.active {
+    background: rgba(117, 194, 120, 0.12);
+    border-color: rgba(117, 194, 120, 0.82);
+    color: rgba(235, 255, 239, 0.95);
+}
+
+.apocalypse-quality-btn.quality-blue.active {
+    background: rgba(121, 174, 242, 0.12);
+    border-color: rgba(121, 174, 242, 0.82);
+    color: rgba(220, 240, 255, 0.95);
+}
+
+.apocalypse-quality-btn.quality-purple.active {
+    background: rgba(189, 125, 234, 0.12);
+    border-color: rgba(189, 125, 234, 0.82);
+    color: rgba(248, 232, 255, 0.95);
+}
+
+.apocalypse-quality-btn.quality-orange.active {
+    background: rgba(249, 152, 84, 0.12);
+    border-color: rgba(249, 152, 84, 0.88);
+    color: rgba(255, 239, 225, 0.95);
+}
+
+.apocalypse-quality-btn.quality-red.active {
+    background: rgba(228, 84, 84, 0.14);
+    border-color: rgba(228, 84, 84, 0.9);
+    color: rgba(255, 232, 232, 0.96);
+}
+
+.apocalypse-search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.apocalypse-search {
+    flex: 1 1 auto;
+    min-width: 0;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    font: inherit;
+}
+
+.apocalypse-search:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.apocalypse-count {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.apocalypse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+}
+
+.apocalypse-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    transition: var(--transition);
+}
+
+.apocalypse-card:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.apocalypse-card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.apocalypse-card-title-wrap {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.apocalypse-card-title {
+    font-size: 1rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.apocalypse-card-jobs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.apocalypse-job-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    display: block;
+}
+
+.apocalypse-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.apocalypse-card-badge,
+.apocalypse-quality-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 22px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.apocalypse-card-badge {
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+}
+
+.apocalypse-quality-badge {
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.22);
+}
+
+.apocalypse-quality-badge.quality-green {
+    border-color: rgba(117, 194, 120, 0.55);
+    color: rgba(208, 255, 214, 0.92);
+}
+
+.apocalypse-quality-badge.quality-blue {
+    border-color: rgba(121, 174, 242, 0.55);
+    color: rgba(214, 236, 255, 0.92);
+}
+
+.apocalypse-quality-badge.quality-purple {
+    border-color: rgba(189, 125, 234, 0.55);
+    color: rgba(245, 228, 255, 0.92);
+}
+
+.apocalypse-quality-badge.quality-orange {
+    border-color: rgba(249, 152, 84, 0.65);
+    color: rgba(255, 232, 210, 0.94);
+}
+
+.apocalypse-quality-badge.quality-red {
+    border-color: rgba(228, 84, 84, 0.72);
+    color: rgba(255, 216, 216, 0.95);
+}
+
+.apocalypse-card-effect {
+    color: var(--text-secondary);
+    line-height: 1.65;
+    word-break: break-word;
+}
+
+.loading-state {
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+    border: 1px dashed rgba(255, 255, 255, 0.10);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+@media (max-width: 900px) {
+    .apocalypse-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .apocalypse-part-panel {
+        position: static;
+    }
+
+    .apocalypse-part-nav {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .apocalypse-part-btn {
+        min-height: 54px;
+    }
+}
+
+@media (max-width: 640px) {
+    .apocalypse-part-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .apocalypse-search-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .apocalypse-count {
+        white-space: normal;
+    }
+
+    .apocalypse-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .apocalypse-card-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

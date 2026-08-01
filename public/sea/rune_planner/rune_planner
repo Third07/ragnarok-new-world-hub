@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="asset-version" content="20260727-220348">
+    <title>RO World Journey | Rune Planner</title>
+    <meta name="description" content="RO仙境傳說：世界之旅 - 盧恩模擬">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260727-220348">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-controls"></div>
+            <div class="header-brand">
+                <span class="header-title">Rune Planner</span>
+            </div>
+            <nav class="site-nav" aria-label="網站捷徑">
+                <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                    <span class="site-nav-label">Skill Planner</span>
+                </a>
+                <a class="site-nav-item active" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+                    <span class="site-nav-label">Rune Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+                    <span class="site-nav-label">Affix Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner" aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+                <a class="site-nav-item" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+                    <span class="site-nav-label">Equipment</span>
+                </a>
+                <a class="site-nav-item" href="/sea/cards/" title="Cards" aria-label="Cards">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+                    <span class="site-nav-label">Cards</span>
+                </a>
+                <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+                    <span class="site-nav-label">Monster Album</span>
+                </a>
+                <a class="site-nav-item" href="/sea/maps/" title="Maps" aria-label="Maps">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+                    <span class="site-nav-label">Maps</span>
+                </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+
+                <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+                    <span class="site-nav-label">Study</span>
+                </a>
+                <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+                    <span class="site-nav-label">Pet</span>
+                </a>
+<a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+                    <span class="site-nav-label">Refine</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="simulator-layout rune-simulator-layout">
+                <div id="rune-simulator-container">
+                    <div class="loading-state rune-loading-state">Loading rune data...</div>
+                </div>
+                <aside class="details-panel rune-detail-panel">
+                    <h2>共鳴</h2>
+                    <div id="rune-resonance-panel" class="rune-details">
+                        <div class="details-placeholder">載入盧恩資料中...</div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <div id="tooltip" class="tooltip hidden"></div>
+    <script>
+        (function () {
+            const SUPPORTED_LOCALES = ["zh-TW", "en-US", "zh-CN", "th-TH", "id-ID"];
+            const STRINGS = {
+                "en-US": { reset: "Reset", shareBuild: "Share build", copyShareLink: "Copy share link" },
+                "zh-TW": { reset: "\u91cd\u7f6e", shareBuild: "\u5206\u4eab\u914d\u7f6e", copyShareLink: "\u8907\u88fd\u5206\u4eab\u9023\u7d50" },
+                "zh-CN": { reset: "\u91cd\u7f6e", shareBuild: "\u5206\u4eab\u914d\u7f6e", copyShareLink: "\u590d\u5236\u5206\u4eab\u94fe\u63a5" },
+                "th-TH": { reset: "Reset", shareBuild: "Share build", copyShareLink: "Copy share link" },
+                "id-ID": { reset: "Reset", shareBuild: "Share build", copyShareLink: "Copy share link" }
+            };
+            function detectLocale() {
+                const queryLocale = new URLSearchParams(window.location.search).get("lang");
+                const storedLocale = localStorage.getItem("ro_lang");
+                const htmlLocale = document.documentElement.getAttribute("lang");
+                const browserLocales = Array.isArray(navigator.languages) ? navigator.languages : [];
+                const candidates = [queryLocale, storedLocale, htmlLocale, navigator.language || "", ...browserLocales];
+                for (const candidate of candidates) {
+                    if (!candidate) continue;
+                    const match = SUPPORTED_LOCALES.find((locale) => locale.toLowerCase() === String(candidate).trim().toLowerCase());
+                    if (match) return match;
+                }
+                for (const candidate of candidates) {
+                    if (!candidate) continue;
+                    const language = String(candidate).split("-")[0].toLowerCase();
+                    if (language === "zh") return "zh-TW";
+                    if (language === "en") return "en-US";
+                    if (language === "th") return "th-TH";
+                    if (language === "id" || language === "in") return "id-ID";
+                }
+                return "en-US";
+            }
+            function setText(id, value) {
+                const element = document.getElementById(id);
+                if (element) element.textContent = value;
+            }
+            const locale = detectLocale();
+            const text = STRINGS[locale] || STRINGS["en-US"];
+            setText("reset-btn", text.reset);
+            setText("rune-reset-btn", text.reset);
+            setText("affix-reset-btn", text.reset);
+            const shareButton = document.getElementById("share-link-btn");
+            if (shareButton) {
+                shareButton.title = text.copyShareLink;
+                shareButton.setAttribute("aria-label", text.copyShareLink);
+                const label = shareButton.querySelector(".site-nav-label");
+                if (label) label.textContent = text.shareBuild;
+            }
+        })();
+    </script>
+    <script src="/shared/asset_version.js?v=20260727-220348"></script>
+    <script src="/shared/client_switcher.js?v=20260727-220348"></script>
+    <script src="/shared/sticky_header.js?v=20260727-220348"></script>
+    <script src="/shared/share_link.js?v=20260727-220348"></script>
+    <script src="/sea/rune-simulator/rune_planner.js?v=20260727-220348"></script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="asset-version" content="20260729-001046">
+    <title>RO World Journey | Maps</title>
+    <meta name="description" content="Ragnarok Online World Journey - Map marks">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260729-001046">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260729-001046">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-controls"></div>
+            <div class="header-brand">
+                <span class="header-title">Maps</span>
+            </div>
+            <nav class="site-nav" aria-label="Site shortcuts">
+                <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                    <span class="site-nav-label">Skill Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+                    <span class="site-nav-label">Rune Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+                    <span class="site-nav-label">Affix Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner" aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+                <a class="site-nav-item" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+                    <span class="site-nav-label">Equipment</span>
+                </a>
+                <a class="site-nav-item" href="/sea/cards/" title="Cards" aria-label="Cards">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+                    <span class="site-nav-label">Cards</span>
+                </a>
+                <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+                    <span class="site-nav-label">Monster Album</span>
+                </a>
+                <a class="site-nav-item active" href="/sea/maps/" title="Maps" aria-label="Maps">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+                    <span class="site-nav-label">Maps</span>
+                </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+
+                <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+                    <span class="site-nav-label">Study</span>
+                </a>
+                <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+                    <span class="site-nav-label">Pet</span>
+                </a>
+<a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+                    <span class="site-nav-label">Refine</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="simulator-layout map-layout">
+                <section class="map-panel">
+                    <div class="map-toolbar">
+                        <div class="quick-select-wrapper">
+                            <label for="map-select">Map:</label>
+                            <select id="map-select" class="form-select">
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="map-canvas-wrap">
+                        <div id="map-shell" class="map-shell" aria-label="Map canvas">
+                            <div id="map-stage" class="map-stage" role="group" aria-label="Interactive map">
+                                <img id="map-img" class="map-image" alt="" loading="eager" decoding="async" fetchpriority="high" />
+                                <svg id="subregions-svg" class="map-subregions"
+                                    xmlns="http://www.w3.org/2000/svg"></svg>
+                                <div id="markers-layer" class="map-markers"></div>
+                            </div>
+                            <button id="zoom-reset" class="map-zoom-reset" type="button">Reset Zoom</button>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="map-filter-stack">
+                    <aside class="details-panel map-filter-panel map-options-panel">
+                        <h2 data-map-options-title>Options</h2>
+                        <div class="map-options">
+                            <label class="map-hide-checked-toggle">
+                                <input id="use-monster-portraits" type="checkbox" aria-controls="markers-layer">
+                                <span data-map-monster-portraits-label>Use monster portraits</span>
+                            </label>
+                            <label class="map-hide-checked-toggle">
+                                <input id="show-monster-portrait-labels" type="checkbox" aria-controls="markers-layer">
+                                <span data-map-monster-portrait-labels-label>Show portrait label</span>
+                            </label>
+                            <label class="map-hide-checked-toggle">
+                                <input id="hide-checked-chests" type="checkbox" aria-controls="markers-layer">
+                                <span data-map-hide-checked-label>Hide checked</span>
+                            </label>
+                        </div>
+                    </aside>
+                    <aside class="details-panel map-filter-panel map-filters-panel">
+                        <h2 data-map-filters-title>Filters</h2>
+                        <div class="map-filters">
+                            <div id="map-count" class="map-count"></div>
+                            <div id="mark-type-row" class="map-mark-type-row" aria-label="Mark types"></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="refine-modal map-quest-modal" id="map-quest-modal" aria-hidden="true">
+        <div class="refine-modal-backdrop" data-map-quest-modal-close></div>
+        <div class="refine-modal-card" role="dialog" aria-modal="true" aria-labelledby="map-quest-modal-title">
+            <div class="refine-modal-header">
+                <h3 id="map-quest-modal-title">Quest Details</h3>
+                <button class="refine-modal-close" type="button" data-map-quest-modal-close aria-label="Close">×</button>
+            </div>
+            <div class="refine-modal-body">
+                <div id="map-quest-modal-content" class="map-quest-modal-content"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/shared/asset_version.js?v=20260729-001046"></script>
+    <script src="/shared/client_switcher.js?v=20260729-001046"></script>
+    <script src="/shared/sticky_header.js?v=20260729-001046"></script>
+    <script src="/sea/map-simulator/map_view.js?v=20260729-001046"></script>
+</body>
+
+</html>
+

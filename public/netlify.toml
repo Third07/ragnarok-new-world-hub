@@ -1,0 +1,36 @@
+[build]
+  publish = "."
+
+# Serve the custom 404 page for any path that doesn't map to a real file.
+# Netlify only applies this fallback after static-file and folder/index.html
+# resolution fails, so real tool routes like /sea/maps/ are unaffected.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, immutable"
+
+[[headers]]
+  for = "/sea/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"

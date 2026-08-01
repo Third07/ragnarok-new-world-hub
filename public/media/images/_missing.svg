@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="14" ry="14" fill="#2f3136" />
+  <g fill="#6f84a8">
+    <circle cx="40" cy="48" r="12" />
+    <path d="M24 96c0-14 12-26 28-26s28 12 28 26v6H24v-6z" />
+  </g>
+  <text x="64" y="116" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#9fb0d6" text-anchor="middle">missing</text>
+</svg>

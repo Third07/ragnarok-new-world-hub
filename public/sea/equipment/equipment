@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="asset-version" content="20260727-220348">
+  <title>RO World Journey | Equipment</title>
+  <meta name="description" content="RoworldDB Equipment Library">
+  <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260727-220348">
+  <link rel="stylesheet" href="./equipment.css?v=20260727-220348">
+  <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-controls"></div>
+      <div class="header-brand">
+        <span class="header-title">Equipment</span>
+      </div>
+      <nav class="site-nav" aria-label="Site shortcuts">
+        <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+          <span class="site-nav-label">Skill Planner</span>
+        </a>
+        <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+          <span class="site-nav-label">Rune Planner</span>
+        </a>
+        <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+          <span class="site-nav-label">Affix Planner</span>
+        </a>
+                <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner" aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+        <a class="site-nav-item active" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+          <span class="site-nav-label">Equipment</span>
+        </a>
+        <a class="site-nav-item" href="/sea/cards/" title="Cards" aria-label="Cards">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+          <span class="site-nav-label">Cards</span>
+        </a>
+        <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+          <span class="site-nav-label">Monster Album</span>
+        </a>
+        <a class="site-nav-item" href="/sea/maps/" title="Maps" aria-label="Maps">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+          <span class="site-nav-label">Maps</span>
+        </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+        <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+          <span class="site-nav-label">Study</span>
+        </a>
+        <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+          <span class="site-nav-label">Pet</span>
+        </a>
+        <a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+          <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+          <span class="site-nav-label">Refine</span>
+        </a>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="simulator-layout equipment-layout">
+        <section class="equipment-panel">
+          <div class="equipment-toolbar">
+            <div class="equipment-title">Equipment</div>
+            <div id="equipment-count" class="equipment-count">Loading...</div>
+          </div>
+          <div class="equipment-filters">
+            <label class="equipment-filter">
+              <span>Job</span>
+              <div id="equipment-filter-job" class="equipment-job-select" aria-label="Job filter">
+                <button type="button" class="equipment-job-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="equipment-job-fallback" aria-hidden="true"></span>
+                </button>
+                <div class="equipment-job-menu" role="listbox" hidden></div>
+              </div>
+            </label>
+            <label class="equipment-filter">
+              <span>Quality</span>
+              <div class="equipment-checkbox-group" id="equipment-filter-quality"></div>
+            </label>
+            <div class="equipment-filter equipment-filter--type">
+              <span>Type</span>
+              <div class="equipment-type-grid" id="equipment-filter-type" aria-label="Item type filter"></div>
+              <div class="equipment-subtype-filter" id="equipment-subtype-filter" hidden>
+                <div class="equipment-subtype-title" id="equipment-subtype-title">Subtype</div>
+                <div class="equipment-type-grid equipment-type-grid--subtype" id="equipment-filter-subtype" aria-label="Item subtype filter"></div>
+              </div>
+            </div>
+            <label class="equipment-filter">
+              <span>Scope</span>
+              <label class="equipment-toggle" for="equipment-filter-show-all" data-tooltip="This might show equipment that is not available in the game">
+                <input id="equipment-filter-show-all" type="checkbox" aria-label="Show all equipment">
+                <span>Show All (experimental)</span>
+              </label>
+            </label>
+            <label class="equipment-filter">
+              <span>Search</span>
+              <input id="equipment-filter-keyword" class="equipment-input" type="search" placeholder="Search any text (name, desc, stats, set effects...)" aria-label="Search equipment text">
+            </label>
+          </div>
+          <div id="equipment-grid" class="equipment-grid"></div>
+          <div id="equipment-sentinel" aria-hidden="true"></div>
+          <div id="equipment-empty" class="empty-state" hidden>No equipment found.</div>
+        </section>
+
+        <aside class="details-panel equipment-suit-panel">
+          <h2>Set Effects</h2>
+          <div class="suit-hint" id="suit-hint">Click a set to filter to its pieces (click again to clear).</div>
+          <div id="suit-list" class="suit-list"></div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div id="tooltip" class="tooltip hidden"></div>
+  <div class="refine-modal equipment-detail-modal" id="equipment-detail-modal" aria-hidden="true">
+    <div class="refine-modal-backdrop" data-equipment-modal-close></div>
+    <div class="refine-modal-card" role="dialog" aria-modal="true" aria-labelledby="equipment-detail-modal-title">
+      <div class="refine-modal-header">
+        <h3 id="equipment-detail-modal-title">Equipment Details</h3>
+        <button class="refine-modal-close" type="button" data-equipment-modal-close aria-label="Close">×</button>
+      </div>
+      <div class="refine-modal-body">
+        <div id="equipment-detail-modal-content"></div>
+      </div>
+    </div>
+  </div>
+    <script src="/shared/asset_version.js?v=20260727-220348"></script>
+    <script src="/shared/client_switcher.js?v=20260727-220348"></script>
+    <script src="/shared/sticky_header.js?v=20260727-220348"></script>
+    <script src="./equipment.js?v=20260727-220348"></script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="asset-version" content="20260727-220348">
+  <title>RO World Journey | Refine</title>
+  <meta name="description" content="RO World Journey - Refine Simulator">
+  <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260727-220348">
+  <link rel="stylesheet" href="./refine.css?v=20260727-220348">
+  <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-controls"></div>
+      <div class="header-brand">
+        <span class="header-title">Refine Simulator</span>
+      </div>
+      <nav class="site-nav" aria-label="Site shortcuts">
+        <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner"><img width="40" height="40" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp"><span class="site-nav-label">Skill Planner</span></a>
+        <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner"><img width="40" height="40" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp"><span class="site-nav-label">Rune Planner</span></a>
+        <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner"><img width="40" height="40" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp"><span class="site-nav-label">Affix Planner</span></a>
+        <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner"><img width="40" height="40" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp"><span class="site-nav-label">Apocalypse Planner</span></a>
+        <a class="site-nav-item" href="/sea/shop/" title="Shop"><img width="40" height="40" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp"><span class="site-nav-label">Shop</span></a>
+        <a class="site-nav-item" href="/sea/equipment/" title="Equipment"><img width="40" height="40" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp"><span class="site-nav-label">Equipment</span></a>
+        <a class="site-nav-item" href="/sea/cards/" title="Cards"><img width="40" height="40" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp"><span class="site-nav-label">Cards</span></a>
+        <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album"><img width="40" height="40" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp"><span class="site-nav-label">Monster Album</span></a>
+        <a class="site-nav-item" href="/sea/maps/" title="Maps"><img width="40" height="40" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp"><span class="site-nav-label">Maps</span></a>
+        <a class="site-nav-item" href="/sea/events/" title="Events"><img width="40" height="40" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp"><span class="site-nav-label">Events</span></a>
+        <a class="site-nav-item" href="/sea/study/" title="Study"><img width="40" height="40" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp"><span class="site-nav-label">Study</span></a>
+        <a class="site-nav-item" href="/sea/pet/" title="Pet"><img width="40" height="40" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp"><span class="site-nav-label">Pet</span></a>
+        <a class="site-nav-item active" href="/sea/refine/" title="Refine"><img width="40" height="40" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp"><span class="site-nav-label">Refine</span></a>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="refine-layout">
+        <!-- Simulator Panel -->
+        <div class="refine-simulator-panel">
+          <h2 class="panel-title">Refine Simulator</h2>
+          <div class="refine-current">
+            <div class="refine-level-display">
+              <span class="refine-prefix">+</span>
+              <span id="current-level" class="refine-level-number">0</span>
+            </div>
+            <div class="refine-target">
+              <span class="refine-target-label">Target:</span>
+              <span id="target-display" class="refine-target-value">+1</span>
+            </div>
+          </div>
+
+          <div class="refine-rate-bar">
+            <div class="rate-segment rate-success" id="rate-success" style="width:100%">
+              <span class="rate-label">100%</span>
+            </div>
+            <div class="rate-segment rate-downgrade" id="rate-downgrade" style="width:0%">
+              <span class="rate-label"></span>
+            </div>
+            <div class="rate-segment rate-fail" id="rate-fail" style="width:0%">
+              <span class="rate-label"></span>
+            </div>
+          </div>
+          <div class="rate-legend">
+            <span class="legend-item"><span class="legend-dot success"></span>Success</span>
+            <span class="legend-item"><span class="legend-dot downgrade"></span>Downgrade</span>
+            <span class="legend-item"><span class="legend-dot fail"></span>Fail</span>
+          </div>
+
+          <div class="refine-materials" id="materials-display"></div>
+
+          <div class="refine-support" id="support-display"></div>
+
+          <div class="refine-actions">
+            <button class="btn btn-refine" id="btn-refine" type="button">Refine</button>
+            <button class="btn btn-reset" id="btn-reset" type="button">Reset</button>
+          </div>
+
+          <div class="refine-log" id="refine-log">
+            <div class="log-placeholder">Click "Refine" to begin simulation</div>
+          </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="refine-stats-panel">
+          <h2 class="panel-title">Simulation Stats</h2>
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-item"><span class="stat-label">Attempts</span><span class="stat-value" id="stat-attempts">0</span></div>
+            <div class="stat-item"><span class="stat-label">Successes</span><span class="stat-value stat-success" id="stat-successes">0</span></div>
+            <div class="stat-item"><span class="stat-label">Downgrades</span><span class="stat-value stat-warning" id="stat-downgrades">0</span></div>
+            <div class="stat-item"><span class="stat-label">Failures</span><span class="stat-value stat-danger" id="stat-failures">0</span></div>
+            <div class="stat-item"><span class="stat-label">Highest</span><span class="stat-value" id="stat-highest">+0</span></div>
+            <div class="stat-item"><span class="stat-label">Zeny Spent</span><span class="stat-value" id="stat-zeny">0</span></div>
+          </div>
+
+          <h3 class="panel-subtitle">Materials Used</h3>
+          <div id="materials-used" class="materials-used-grid"></div>
+        </div>
+
+        <!-- Reference Tables -->
+        <div class="refine-tables-panel">
+          <h2 class="panel-title">Refinement Table</h2>
+          <div class="refine-groups" id="refine-groups"></div>
+
+          <h2 class="panel-title" style="margin-top:24px">Cost Projections</h2>
+          <div class="milestone-table" id="milestone-table"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/shared/asset_version.js?v=20260727-220348"></script>
+  <script src="/shared/client_switcher.js?v=20260727-220348"></script>
+  <script src="/shared/sticky_header.js?v=20260727-220348"></script>
+  <script src="./refine.js?v=20260727-220348"></script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+</html>

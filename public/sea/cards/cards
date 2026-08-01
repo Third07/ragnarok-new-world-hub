@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="asset-version" content="20260727-220348">
+    <title>RO World Journey | Cards</title>
+    <meta name="description" content="Ragnarok Online World Journey - Card Library">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260727-220348">
+    <link rel="stylesheet" href="/sea/card-simulator/fusion_simulator.css?v=20260727-220348">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
+    <style>
+        .card-page-shell {
+            display: grid;
+            grid-template-columns: 148px minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .card-view-sidebar {
+            position: sticky;
+            top: calc(var(--sticky-header-height) + var(--sticky-header-gap));
+        }
+
+        .card-view-tabs {
+            display: grid;
+            gap: 12px;
+        }
+
+        .card-view-tab {
+            width: 100%;
+            min-width: 0;
+            min-height: 72px;
+            padding: 12px 10px;
+            white-space: normal;
+            line-height: 1.2;
+        }
+
+        .card-view-panel[hidden] {
+            display: none !important;
+        }
+
+        .card-page-content {
+            min-width: 0;
+        }
+
+        @media (max-width: 900px) {
+            .card-page-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .card-view-sidebar {
+                position: static;
+                top: auto;
+            }
+
+            .card-view-tabs {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .card-view-tab {
+                min-height: 0;
+            }
+        }
+    </style>
+</head>
+
+<body data-fusion-embedded="true">
+    <div class="app">
+        <header class="header">
+            <div class="header-controls"></div>
+            <div class="header-brand">
+                <span id="page-header-title" class="header-title">Cards</span>
+            </div>
+            <nav class="site-nav" aria-label="Site shortcuts">
+                <a class="site-nav-item" href="/sea/skill_planner/" title="Skill Planner" aria-label="Skill Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jineng" alt="Skill Planner" src="/media/images/zhujiemian/icon_zhujiemian_jineng.webp">
+                    <span class="site-nav-label">Skill Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/rune_planner/" title="Rune Planner" aria-label="Rune Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_luenyinqing" alt="Rune Planner" src="/media/images/zhujiemian/icon_zhujiemian_luenyinqing.webp">
+                    <span class="site-nav-label">Rune Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/affix_planner/" title="Affix Planner" aria-label="Affix Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_chongwuzhuangbei" alt="Affix Planner" src="/media/images/zhujiemian/icon_zhujiemian_chongwuzhuangbei.webp">
+                    <span class="site-nav-label">Affix Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/apocalypse_planner/" title="Apocalypse Planner" aria-label="Apocalypse Planner">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tianqixingchen" alt="Apocalypse Planner" src="/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp">
+                    <span class="site-nav-label">Apocalypse Planner</span>
+                </a>
+                <a class="site-nav-item" href="/sea/shop/" title="Shop" aria-label="Shop">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shangcheng" alt="Shop" src="/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp">
+                    <span class="site-nav-label">Shop</span>
+                </a>
+                <a class="site-nav-item" href="/sea/equipment/" title="Equipment" aria-label="Equipment">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_jingji" alt="Equipment" src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp">
+                    <span class="site-nav-label">Equipment</span>
+                </a>
+                <a class="site-nav-item active" href="/sea/cards/" title="Cards" aria-label="Cards">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_tujian" alt="Cards" src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp">
+                    <span class="site-nav-label">Cards</span>
+                </a>
+                <a class="site-nav-item" href="/sea/monster_album/" title="Monster Album" aria-label="Monster Album">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_fuben" alt="Monster Album" src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp">
+                    <span class="site-nav-label">Monster Album</span>
+                </a>
+                <a class="site-nav-item" href="/sea/maps/" title="Maps" aria-label="Maps">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_miwusenlin" alt="Maps" src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp">
+                    <span class="site-nav-label">Maps</span>
+                </a>
+                <a class="site-nav-item" href="/sea/events/" title="Events" aria-label="Events">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
+                    <span class="site-nav-label">Events</span>
+                </a>
+                <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
+                    <span class="site-nav-label">Study</span>
+                </a>
+                <a class="site-nav-item" href="/sea/pet/" title="Pet" aria-label="Pet">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
+                    <span class="site-nav-label">Pet</span>
+                </a>
+                <a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                    <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
+                    <span class="site-nav-label">Refine</span>
+                </a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <div class="card-page-shell">
+                <aside class="card-view-sidebar" aria-label="Card views">
+                    <div id="card-view-tabs" class="card-rarity-toggle card-view-tabs" role="tablist" aria-label="Card views">
+                        <button type="button" class="card-rarity-btn card-view-tab selected" data-card-view="library" aria-selected="true" aria-pressed="true">Cards</button>
+                        <button type="button" class="card-rarity-btn card-view-tab" data-card-view="fusion" aria-selected="false" aria-pressed="false">Card Fusion</button>
+                    </div>
+                </aside>
+
+                <div class="card-page-content">
+                    <section id="card-library-view" class="card-view-panel">
+                        <div class="simulator-layout card-layout" style="grid-template-columns: 1fr;">
+                            <section class="card-panel">
+                                <div class="card-toolbar">
+                                    <div class="card-search-row">
+                                        <input id="card-search" class="card-search" type="search"
+                                            placeholder="Search cards (name / effect / slot)..." autocomplete="off"
+                                            spellcheck="false" />
+                                        <div id="card-count" class="card-count">Loading...</div>
+                                    </div>
+                                    <div class="card-filter-row">
+                                        <div id="card-rarity" class="card-rarity-toggle" role="radiogroup"
+                                            aria-label="Rarity filter">
+                                            <button type="button" class="card-rarity-btn selected" data-rarity="all"
+                                                aria-pressed="true">All</button>
+                                            <button type="button" class="card-rarity-btn rarity-gold" data-rarity="gold"
+                                                aria-pressed="false">Gold</button>
+                                            <button type="button" class="card-rarity-btn rarity-purple" data-rarity="purple"
+                                                aria-pressed="false">Purple</button>
+                                            <button type="button" class="card-rarity-btn rarity-blue" data-rarity="blue"
+                                                aria-pressed="false">Blue</button>
+                                            <button type="button" class="card-rarity-btn rarity-green" data-rarity="green"
+                                                aria-pressed="false">Green</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-filter-row">
+                                        <div id="card-source-chips" class="card-filter-group" aria-label="Monster class filter"></div>
+                                    </div>
+                                    <div class="card-filter-row">
+                                        <div id="card-obtain-source-chips" class="card-filter-group" aria-label="Obtain source filter"></div>
+                                    </div>
+                                    <div class="card-filter-row">
+                                        <div id="card-slot-chips" class="card-filter-group" aria-label="Slot filter"></div>
+                                    </div>
+                                </div>
+
+                                <div id="card-list" class="card-list"></div>
+                                <div id="card-sentinel" class="card-sentinel"></div>
+                            </section>
+                        </div>
+                    </section>
+
+                    <section id="card-fusion-view" class="card-view-panel" hidden>
+                        <div class="simulator-layout fusion-layout">
+                            <section class="card-panel fusion-tool-panel">
+                                <div class="fusion-toolbar">
+                                    <div id="fusion-disclaimer-banner" class="fusion-disclaimer"></div>
+                                    <button id="fusion-info-btn" class="fusion-info-btn" type="button">
+                                        <span id="fusion-info-btn-label">Fusion Info</span>
+                                        <span class="fusion-info-icon">?</span>
+                                    </button>
+                                </div>
+                                <div class="fusion-card-grid">
+                                    <section class="fusion-card-column">
+                                        <div class="fusion-side-heading-row">
+                                            <div id="main-side-label" class="fusion-side-label">Main Card</div>
+                                        </div>
+                                        <button id="main-card-picker" type="button" class="fusion-card-picker" aria-haspopup="dialog"></button>
+                                    </section>
+
+                                    <section class="fusion-card-column">
+                                        <div class="fusion-side-heading-row">
+                                            <div id="material-side-label" class="fusion-side-label">Material Card</div>
+                                        </div>
+                                        <button id="material-card-picker" type="button" class="fusion-card-picker" aria-haspopup="dialog"></button>
+                                    </section>
+                                </div>
+
+                                <div id="fusion-warning" class="fusion-warning" hidden></div>
+                                <div id="fusion-slot-rows" class="fusion-slot-rows"></div>
+                                <div id="fusion-simulate-area" class="fusion-simulate-area" hidden>
+                                    <button id="fusion-simulate-btn" type="button" class="fusion-simulate-btn">Simulate</button>
+                                    <div id="fusion-result" class="fusion-result"></div>
+                                </div>
+                            </section>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="fusion-picker-modal" class="refine-modal fusion-modal" hidden inert>
+        <div class="refine-modal-backdrop" data-fusion-close="backdrop"></div>
+        <div class="refine-modal-card fusion-modal-card" role="dialog" aria-modal="true" aria-labelledby="fusion-picker-title">
+            <div class="refine-modal-header">
+                <h3 id="fusion-picker-title">Select</h3>
+                <button id="fusion-picker-close" type="button" class="refine-modal-close" aria-label="Close">x</button>
+            </div>
+            <div class="refine-modal-body fusion-modal-body">
+                <input id="fusion-picker-search" class="fusion-picker-search" type="search" autocomplete="off" spellcheck="false" />
+                <div id="fusion-picker-list" class="fusion-picker-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fusion-info-modal" class="refine-modal fusion-modal" hidden inert aria-hidden="true">
+        <div class="refine-modal-backdrop" data-fusion-info-close="backdrop"></div>
+        <div class="refine-modal-card fusion-modal-card" role="dialog" aria-modal="true" aria-labelledby="fusion-info-title">
+            <div class="refine-modal-header">
+                <h3 id="fusion-info-title">Card Fusion Info</h3>
+                <button id="fusion-info-close" type="button" class="refine-modal-close" aria-label="Close">x</button>
+            </div>
+            <div class="refine-modal-body fusion-info-body">
+                <div class="fusion-info-tabs" role="tablist" aria-label="Fusion info tabs">
+                    <button id="fusion-info-tab-known" class="fusion-info-tab active" type="button" role="tab" aria-selected="true">Official Info</button>
+                    <button id="fusion-info-tab-speculated" class="fusion-info-tab" type="button" role="tab" aria-selected="false">Speculated Info</button>
+                </div>
+                <div id="fusion-info-panel-known" class="fusion-info-panel"></div>
+                <div id="fusion-info-panel-speculated" class="fusion-info-panel" hidden></div>
+            </div>
+        </div>
+    </div>
+    <script src="/shared/asset_version.js?v=20260727-220348"></script>
+    <script src="/shared/client_switcher.js?v=20260727-220348"></script>
+    <script src="/shared/sticky_header.js?v=20260727-220348"></script>
+    <script src="/sea/card-simulator/card_library.js?v=20260727-220348"></script>
+    <script src="/sea/card-simulator/fusion_simulator.js?v=20260727-220348"></script>
+    <script src="/shared/reference_asset_fallback.js"></script>
+</body>
+
+</html>
+
+
