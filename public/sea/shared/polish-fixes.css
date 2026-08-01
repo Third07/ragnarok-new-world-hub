@@ -1,0 +1,656 @@
+/* Final cross-page polish for mobile layout, contrast, and component consistency. */
+
+html,
+body,
+.app,
+.main-content,
+.simulator-layout {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: clip;
+}
+
+/* Keep floating help readable on the light game theme. */
+.tooltip {
+  color: #273d75 !important;
+  background: rgba(255, 253, 247, .98) !important;
+  border: 2px solid #d8ad67 !important;
+  box-shadow: 0 16px 38px rgba(22, 37, 78, .26) !important;
+}
+
+.tooltip :is(.tooltip-title, .tooltip-subtitle, .tooltip-desc, .tooltip-prereq),
+.tooltip p,
+.tooltip span {
+  color: inherit;
+}
+
+.tooltip .tooltip-title,
+.tooltip .tooltip-subtitle {
+  color: #28447f !important;
+}
+
+/* Equipment rarity surfaces follow the in-game quality palette. */
+.equipment-card {
+  --equipment-rarity: #dbe7ef;
+  --equipment-rarity-deep: #91a7b6;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255,255,255,.92), transparent 46%),
+    linear-gradient(145deg, color-mix(in srgb, var(--equipment-rarity) 72%, #fff), var(--equipment-rarity)) !important;
+  border: 2px solid color-mix(in srgb, var(--equipment-rarity-deep) 72%, #fff) !important;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.58), 0 5px 12px rgba(40,68,127,.1);
+}
+
+.equipment-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(255,255,255,.42), transparent 45%, rgba(255,255,255,.12));
+  pointer-events: none;
+}
+
+.equipment-card.quality-1 { --equipment-rarity: #dcebf2; --equipment-rarity-deep: #82a9ba; }
+.equipment-card.quality-2 { --equipment-rarity: #cdebd4; --equipment-rarity-deep: #58a96c; }
+.equipment-card.quality-3 { --equipment-rarity: #c9e4fa; --equipment-rarity-deep: #4f9acb; }
+.equipment-card.quality-4 { --equipment-rarity: #dfcff4; --equipment-rarity-deep: #9d67c7; }
+.equipment-card.quality-5 { --equipment-rarity: #f5d5a8; --equipment-rarity-deep: #d1913f; }
+.equipment-card.quality-6 { --equipment-rarity: #f2aaa5; --equipment-rarity-deep: #d65d58; }
+
+.equipment-card .equipment-level {
+  color: #334a7e !important;
+  background: rgba(255,255,255,.76) !important;
+  border-color: rgba(73,95,150,.2) !important;
+  backdrop-filter: blur(5px);
+}
+
+/* Rune resonance cards: contain long effects and restore deliberate spacing. */
+.rune-simulator-layout,
+#rune-simulator-container,
+.rune-detail-panel,
+.rune-details,
+.rune-resonance-list,
+.rune-resonance-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.rune-detail-panel {
+  overflow: hidden;
+  color: #273d75 !important;
+  background: rgba(255,253,247,.96) !important;
+  border: 1px solid rgba(181,143,91,.38) !important;
+  box-shadow: 0 12px 30px rgba(40,68,127,.13), inset 0 0 0 2px rgba(255,255,255,.74) !important;
+}
+
+.rune-detail-panel > h2 {
+  margin: 0;
+  padding: 15px 17px 12px;
+  color: #28447f;
+  border-bottom: 1px solid rgba(89,112,176,.15);
+  font-family: inherit;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.rune-details {
+  padding: 12px;
+}
+
+.rune-resonance-card {
+  border: 1px solid color-mix(in srgb, var(--element-color, #5a73d9) 38%, #d6ddec) !important;
+  border-radius: 15px !important;
+}
+
+.resonance-toggle {
+  padding: 13px 14px !important;
+}
+
+.resonance-toggle-header {
+  align-items: center;
+  grid-template-columns: minmax(0,1fr) auto auto !important;
+  column-gap: 7px !important;
+}
+
+.resonance-toggle-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: .95rem;
+  line-height: 1.25;
+}
+
+.resonance-toggle-count,
+.resonance-toggle-caret,
+.resonance-toggle-hint {
+  color: #40558b;
+}
+
+.resonance-toggle-hint {
+  margin-top: 8px;
+  font-size: .82rem;
+}
+
+.resonance-track {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.resonance-unlocks {
+  display: grid;
+  gap: 8px;
+  padding: 0 14px 14px;
+}
+
+.rune-resonance-tier {
+  min-width: 0;
+  padding: 9px 10px;
+  background: #f3f7ff;
+  border: 1px solid rgba(89,112,176,.13);
+  border-radius: 10px;
+}
+
+.rune-resonance-tier.active {
+  background: color-mix(in srgb, var(--element-color, #5a73d9) 9%, #fff);
+  border-color: color-mix(in srgb, var(--element-color, #5a73d9) 34%, #d6ddec);
+}
+
+.rune-resonance-tier-body,
+.rune-resonance-line {
+  min-width: 0;
+  max-width: 100%;
+  color: #40558b;
+  font-size: .8rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.rune-resonance-line + .rune-resonance-line {
+  margin-top: 5px;
+}
+
+/* Skill planner: the mobile JS already uses a modal, so remove desktop columns. */
+.skill-planner-page .skill-planner-layout,
+.skill-planner-page #simulator-container,
+.skill-planner-page .job-section,
+.skill-planner-page .job-skills-container,
+.skill-planner-page .skill-detail-panel {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.skill-planner-page .skill-detail-panel > h2,
+.unique-skill-panel > h2 {
+  margin: 0;
+  padding: 14px 16px 11px;
+  color: #28447f;
+  border-bottom: 1px solid rgba(89,112,176,.15);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.skill-planner-page .job-skills-container {
+  row-gap: clamp(18px, 3.2vw, 30px);
+}
+
+.skill-planner-page .skill-node,
+.skill-planner-page .skill-outline-anchor {
+  gap: .34rem;
+}
+
+.skill-planner-page .skill-name {
+  min-height: 2.35em;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.18;
+}
+
+.skill-planner-page .skill-controls {
+  justify-content: center;
+  max-width: 100%;
+  gap: 3px;
+}
+
+.skill-planner-page .skill-btn {
+  flex: 0 0 auto;
+}
+
+.skill-detail-modal .refine-modal-card,
+.skill-detail-modal .skill-details,
+.skill-detail-modal .skill-detail-section,
+.skill-detail-modal .skill-coeff-table {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.skill-detail-modal .skill-detail-desc,
+.skill-detail-modal td,
+.skill-detail-modal th {
+  overflow-wrap: anywhere;
+}
+
+/* Apocalypse planner now uses the same light panels and compact controls. */
+.apocalypse-layout,
+.apocalypse-part-panel,
+.apocalypse-panel,
+.apocalypse-filters,
+.apocalypse-grid {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.apocalypse-panel {
+  color: #273d75 !important;
+  background:
+    radial-gradient(circle at 50% 0, rgba(255,255,255,.96), transparent 15rem),
+    rgba(255,253,247,.97) !important;
+  border: 1px solid rgba(181,143,91,.38) !important;
+  box-shadow: 0 12px 30px rgba(40,68,127,.13), inset 0 0 0 2px rgba(255,255,255,.74) !important;
+}
+
+.apocalypse-part-btn,
+.apocalypse-category-chip,
+.apocalypse-job-chip,
+.apocalypse-quality-btn {
+  color: #52648f !important;
+  background: #edf3ff !important;
+  border: 1px solid rgba(89,112,176,.18) !important;
+  box-shadow: none !important;
+}
+
+.apocalypse-part-btn:hover,
+.apocalypse-category-chip:hover,
+.apocalypse-job-chip:hover,
+.apocalypse-quality-btn:hover {
+  color: #28447f !important;
+  background: #e4ecff !important;
+  border-color: rgba(90,115,217,.5) !important;
+}
+
+.apocalypse-part-btn.selected,
+.apocalypse-category-chip.selected,
+.apocalypse-job-chip.selected {
+  color: #fff !important;
+  background: linear-gradient(180deg, #718be5, #506acf) !important;
+  border-color: #405bbb !important;
+}
+
+.apocalypse-search {
+  min-height: 46px;
+  color: #273d75 !important;
+  background: #fffdf8 !important;
+  border: 1px solid rgba(89,112,176,.24) !important;
+  border-radius: 12px !important;
+}
+
+.apocalypse-search::placeholder {
+  color: #7e88a2;
+  opacity: 1;
+}
+
+.apocalypse-card {
+  color: #273d75 !important;
+  background: linear-gradient(180deg, #fffdf8, #f3f7ff) !important;
+  border: 1px solid rgba(89,112,176,.18) !important;
+  box-shadow: 0 6px 16px rgba(40,68,127,.08);
+}
+
+.apocalypse-card:hover {
+  background: #f5f8ff !important;
+  border-color: rgba(90,115,217,.42) !important;
+}
+
+.apocalypse-card-title,
+.apocalypse-card-effect {
+  color: #273d75 !important;
+}
+
+.apocalypse-card-badge {
+  color: #52648f !important;
+  background: #e8eef9 !important;
+  border-color: rgba(89,112,176,.16) !important;
+}
+
+.apocalypse-quality-badge,
+.apocalypse-quality-btn {
+  background: color-mix(in srgb, var(--quality-color, #d7dfef) 18%, #fff) !important;
+}
+
+.apocalypse-quality-badge.quality-green,
+.apocalypse-quality-btn.quality-green { --quality-color: #4ea769; color: #2f7650 !important; }
+.apocalypse-quality-badge.quality-blue,
+.apocalypse-quality-btn.quality-blue { --quality-color: #4c91d8; color: #356ca5 !important; }
+.apocalypse-quality-badge.quality-purple,
+.apocalypse-quality-btn.quality-purple { --quality-color: #9a64c1; color: #744697 !important; }
+.apocalypse-quality-badge.quality-orange,
+.apocalypse-quality-btn.quality-orange { --quality-color: #d48a39; color: #9b5e1c !important; }
+.apocalypse-quality-badge.quality-red,
+.apocalypse-quality-btn.quality-red { --quality-color: #d85d61; color: #a64048 !important; }
+
+.apocalypse-quality-btn.active {
+  color: #fff !important;
+  background: var(--quality-color, #5a73d9) !important;
+  border-color: color-mix(in srgb, var(--quality-color, #5a73d9) 78%, #20346f) !important;
+}
+
+/* Style the actual Monster Album selects, not only their label wrappers. */
+.monster-filter-select {
+  display: grid;
+  gap: 5px;
+  color: #52648f !important;
+  font-weight: 800;
+}
+
+.monster-filter-select select {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 38px 9px 12px;
+  color: #273d75;
+  background-color: #fffdf8;
+  border: 1px solid rgba(89,112,176,.24);
+  border-radius: 11px;
+  box-shadow: inset 0 1px 2px rgba(40,68,127,.04);
+  font: inherit;
+  font-weight: 750;
+  accent-color: #5a73d9;
+}
+
+.monster-filter-select select:focus {
+  outline: 3px solid rgba(90,115,217,.16);
+  border-color: #5a73d9;
+}
+
+.monster-filter-select option {
+  color: #273d75;
+  background: #fffdf8;
+}
+
+/* The Affix list had a nested wrapper that was not given responsive columns. */
+.affix-layout,
+.affix-panel,
+.affix-filters,
+.affix-type-sections,
+.affix-type-section,
+.affix-type-grid,
+.affix-grid,
+.affix-card-grid {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.affix-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px !important;
+}
+
+.affix-card {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  align-content: start;
+  text-align: left;
+  font: inherit;
+}
+
+.affix-card-top {
+  display: grid !important;
+  grid-template-columns: 58px minmax(0,1fr) auto;
+  align-items: center !important;
+}
+
+.affix-card-name {
+  min-width: 0;
+  display: contents;
+}
+
+.affix-card-name .affix-card-icon {
+  grid-column: 1;
+  width: 54px;
+  height: 54px;
+}
+
+.affix-card-name > span {
+  grid-column: 2;
+  overflow-wrap: anywhere;
+}
+
+.affix-card-level {
+  grid-column: 3;
+}
+
+/* Map gesture help should not sit over the actual map on a phone. */
+@media (max-width: 1100px) {
+  .skill-planner-page .skill-planner-layout,
+  .skill-planner-page .skill-planner-layout.has-unique-sidebar {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+
+  .skill-planner-page .skill-planner-sidebar,
+  .skill-planner-page .skill-detail-panel {
+    display: none !important;
+  }
+
+  .skill-planner-page .skill-planner-mobile-toolbar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0,1fr) auto;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px 0;
+  }
+
+  .skill-planner-page .skill-planner-mobile-job-host {
+    min-width: 0;
+  }
+
+  .skill-planner-page .skill-planner-mobile-toolbar .header-share-btn {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+
+  .skill-planner-page .skill-planner-mobile-toolbar .header-share-btn .site-nav-label {
+    display: none;
+  }
+
+  .skill-planner-page .unique-skill-mobile-host:not([hidden]) {
+    display: block;
+    padding: 10px 12px 0;
+  }
+
+  .apocalypse-layout {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+
+  .apocalypse-part-panel {
+    position: static !important;
+    overflow: hidden;
+  }
+
+  .apocalypse-part-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 3px 2px 7px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .apocalypse-part-btn {
+    flex: 0 0 94px;
+    min-height: 76px !important;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .equipment-grid {
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+    gap: 10px;
+  }
+
+  .equipment-card {
+    min-height: 82px;
+    padding: 7px;
+  }
+
+  .rune-details {
+    padding: 9px;
+  }
+
+  .rune-detail-panel > h2 {
+    padding: 13px 14px 10px;
+    font-size: 1.02rem;
+  }
+
+  .resonance-toggle {
+    padding: 12px !important;
+  }
+
+  .resonance-unlocks {
+    padding: 0 12px 12px;
+  }
+
+  .skill-planner-page .main-content {
+    padding-inline: 8px !important;
+  }
+
+  .skill-planner-page .job-skills-container {
+    column-gap: 5px !important;
+    row-gap: 22px !important;
+    padding: 13px 6px 17px !important;
+  }
+
+  .skill-planner-page .skill-icon-wrapper {
+    width: clamp(42px, 12.6vw, 58px);
+    height: clamp(42px, 12.6vw, 58px);
+  }
+
+  .skill-planner-page .skill-name {
+    font-size: clamp(.54rem, 2.25vw, .66rem);
+  }
+
+  .skill-planner-page .skill-btn {
+    width: clamp(18px, 5.6vw, 22px);
+    height: clamp(18px, 5.6vw, 22px);
+  }
+
+  .skill-planner-page .skill-group-outline {
+    border-width: 1px;
+    border-radius: 11px;
+  }
+
+  .skill-detail-modal .refine-modal-card {
+    width: calc(100vw - 20px) !important;
+    max-height: calc(100dvh - 20px) !important;
+  }
+
+  .skill-detail-modal .refine-modal-body,
+  .skill-detail-modal .skill-details {
+    padding: 12px !important;
+  }
+
+  .apocalypse-panel {
+    padding: 12px !important;
+    gap: 13px !important;
+  }
+
+  .apocalypse-category-chips,
+  .apocalypse-quality-toggle,
+  .apocalypse-job-chips {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .apocalypse-category-chip,
+  .apocalypse-quality-btn,
+  .apocalypse-job-chip {
+    flex: 0 0 auto;
+    min-height: 42px;
+  }
+
+  .apocalypse-grid {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+
+  .apocalypse-card {
+    padding: 13px !important;
+    gap: 10px !important;
+  }
+
+  .monster-filter-row--selectors {
+    align-items: stretch;
+  }
+
+  .monster-filter-select,
+  .monster-filter-select select {
+    min-width: 0 !important;
+    max-width: 100%;
+  }
+
+  .affix-panel {
+    overflow: hidden;
+  }
+
+  .affix-job-row,
+  .affix-job-chips,
+  .affix-job-primary-chips,
+  .affix-job-subchips,
+  .affix-level-row,
+  .affix-rarity-row,
+  .affix-rarity-toggle,
+  .affix-quality-row,
+  .affix-quality-toggle,
+  .affix-type-section,
+  .affix-type-grid {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .affix-card-grid {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+
+  .map-touch-hint {
+    display: none !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .skill-planner-page .job-skills-container {
+    column-gap: 3px !important;
+  }
+
+  .skill-planner-page .skill-btn {
+    width: 19px;
+    height: 19px;
+    font-size: .68rem;
+  }
+
+  .skill-planner-page .skill-tags-mini {
+    gap: 2px;
+  }
+
+  .skill-planner-page .skill-tag-mini {
+    padding-inline: 4px;
+  }
+
+  .affix-card-top {
+    grid-template-columns: 50px minmax(0,1fr) auto;
+  }
+
+  .affix-card-name .affix-card-icon {
+    width: 46px;
+    height: 46px;
+  }
+}
