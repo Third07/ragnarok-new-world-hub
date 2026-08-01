@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="asset-version" content="20260802-affix3">
+    <meta name="asset-version" content="20260802-ux8">
     <title>RO World Journey | Affix Planner</title>
     <meta name="description" content="RO World Tour - Affix Planner">
-    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260801-mobilegame1">
-    <link rel="stylesheet" href="/sea/shared/game-pages.css?v=20260802-gamepages1">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260802-ux8">
+    <link rel="stylesheet" href="/sea/shared/game-pages.css?v=20260802-ux8">
     <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260727-220348">
-    <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-affix3">
+    <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-ux8">
 </head>
 
 <body class="affix-planner-page">
@@ -117,7 +117,13 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="affix-section-label">Equipment</div>
+                        <section class="affix-loadout-section" aria-labelledby="affix-loadout-title">
+                            <div id="affix-loadout-title" class="affix-section-label">Equipment Loadout</div>
+                            <div id="affix-selected-summary" class="affix-selected-summary" aria-live="polite">
+                                <div class="details-placeholder">Select an equipment type, then choose an affix.</div>
+                            </div>
+                        </section>
+                        <div class="affix-section-label">Choose Equipment Type</div>
                         <div id="affix-type-sections" class="affix-type-sections" aria-label="Type selection"></div>
                         <div class="affix-search-row">
                             <input id="affix-search" class="affix-search" type="search"
@@ -129,12 +135,6 @@
                         <div class="loading-state">Loading affixes...</div>
                     </div>
                 </section>
-                <aside class="details-panel affix-detail-panel">
-                    <h2>Equipment Loadout</h2>
-                    <div id="affix-selected-summary" class="affix-selected-summary">
-                        <div class="details-placeholder">Select skills to build a set.</div>
-                    </div>
-                </aside>
             </div>
         </main>
     </div>
@@ -191,7 +191,7 @@
     <script src="/shared/client_switcher.js?v=20260727-220348"></script>
     <script src="/shared/sticky_header.js?v=20260727-220348"></script>
     <script src="/shared/share_link.js?v=20260727-220348"></script>
-    <script src="/sea/affix-simulator/affix_planner.js?v=20260802-affix3"></script>
+    <script src="/sea/affix-simulator/affix_planner.js?v=20260802-ux8"></script>
     <script src="/shared/reference_asset_fallback.js"></script>
 </body>
 

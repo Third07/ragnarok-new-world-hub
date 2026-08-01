@@ -1130,23 +1130,9 @@ function getSkillNodeOutlineRect(e) {
 
 function renderSkillGroupOutlines(e, t) {
     e.querySelectorAll(".skill-group-outline").forEach(e => e.remove());
-    const n = computeSkillGroups(t);
-    if (!n.length) return;
-    const l = e.getBoundingClientRect();
-    n.forEach(t => {
-        if (t.length < 2) return;
-        let n = 1 / 0, i = 1 / 0, o = -1 / 0, s = -1 / 0, a = 0;
-        if (t.forEach(t => {
-            const l = e.querySelector(`.skill-node[data-kind-id="${t}"]`);
-            if (!l) return;
-            const r = getSkillNodeOutlineRect(l);
-            r && (n = Math.min(n, r.left), i = Math.min(i, r.top), o = Math.max(o, r.right), 
-            s = Math.max(s, r.bottom), a += 1);
-        }), !a) return;
-        const r = document.createElement("div");
-        r.className = "skill-group-outline", r.style.left = n - l.left - 4 + "px", r.style.top = i - l.top - 4 + "px", 
-        r.style.width = o - n + 8 + "px", r.style.height = s - i + 8 + "px", e.appendChild(r);
-    });
+    // The old dashed bounding boxes crossed empty grid cells and looked like
+    // broken dependency lines on narrow screens. Skill prerequisites are still
+    // enforced by the controls, so keep the tree clean and node-focused.
 }
 
 function refreshAllSkillGroupOutlines() {

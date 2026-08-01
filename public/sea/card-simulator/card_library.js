@@ -185,6 +185,7 @@ const CONFIG = {
     iconPathsUrl: "/sea/skill-simulator/data/icon_paths.json",
     iconBasePath: "/media/images/",
     cardsUrl: `/sea/card-simulator/data/handbook_cards_${ACTIVE_LOCALE}.json`,
+    monstersUrl: "/sea/monster-album/data/monster_album_en-US.json",
     cardIconBase: "/media/images/item/",
     buffIconBase: "/media/images/buff/",
     equipSlotIconBase: "/media/images/equipslot/",
@@ -193,6 +194,7 @@ const CONFIG = {
 
 let iconPaths = null;
 let iconPathsPromise = null;
+let cardSourceIndexPromise = null;
 
 function getSharedJsonCache() {
     return window.__RO_SHARED_JSON_CACHE || (window.__RO_SHARED_JSON_CACHE = Object.create(null));
@@ -282,9 +284,137 @@ function buildCardIcon(e) {
     }, n;
 }
 
+function decodeCardSourceRate(e) {
+    const t = [ [ e?.farm_rate_percent, !1 ], [ e?.f, !0 ], [ e?.regular_rate_percent, !1 ], [ e?.r, !0 ], [ e?.mvp_drop_chance_percent, !1 ], [ e?.c, !0 ] ];
+    for (const [e, a] of t) {
+        if (null == e || "" === e) continue;
+        const t = Number(e);
+        if (Number.isFinite(t) && t >= 0) return a ? t / 1e6 : t;
+    }
+    return null;
+}
+
+function formatCardSourceRate(e) {
+    if (!Number.isFinite(e)) return "";
+    const t = e < .01 ? 4 : e < .1 ? 3 : 2;
+    return `${new Intl.NumberFormat(ACTIVE_LOCALE, {
+        maximumFractionDigits: t
+    }).format(e)}%`;
+}
+
+function getMonsterDropRecords(e) {
+    const t = [ ...Array.isArray(e?.drop_rate_entries) ? e.drop_rate_entries : [], ...Array.isArray(e?.mvp_drop_rate_entries) ? e.mvp_drop_rate_entries : [] ];
+    (Array.isArray(e?.activity_sources) ? e.activity_sources : []).forEach(e => {
+        (Array.isArray(e?.groups) ? e.groups : []).forEach(e => {
+            (Array.isArray(e?.items) ? e.items : []).forEach(e => t.push(e));
+        });
+    });
+    return t;
+}
+
+function buildCardSourceIndex(e) {
+    const t = new Map;
+    (Array.isArray(e) ? e : []).forEach(e => {
+        const a = new Map;
+        getMonsterDropRecords(e).forEach(t => {
+            const n = Number(t?.item_id);
+            if (!Number.isFinite(n) || n <= 0) return;
+            const r = decodeCardSourceRate(t), i = a.get(n);
+            (!i || Number.isFinite(r) && (!Number.isFinite(i.rate) || r > i.rate)) && a.set(n, {
+                monsterId: Number(e?.id),
+                name: String(e?.name || `#${e?.id ?? ""}`),
+                level: Number(e?.level),
+                type: String(e?.type?.name || ""),
+                image: String(e?.image || ""),
+                handbook: Boolean(e?.is_handbook),
+                rate: r
+            });
+        }), a.forEach((e, a) => {
+            t.has(a) || t.set(a, []), t.get(a).push(e);
+        });
+    });
+    return t.forEach(e => e.sort((e, t) => Number(t.handbook) - Number(e.handbook) || Number.isFinite(t.rate) - Number.isFinite(e.rate) || (t.rate || 0) - (e.rate || 0) || e.name.localeCompare(t.name))),
+    t;
+}
+
+async function loadCardSourceIndex() {
+    if (cardSourceIndexPromise) return cardSourceIndexPromise;
+    return cardSourceIndexPromise = fetch(withAssetVersion(CONFIG.monstersUrl)).then(e => {
+        if (!e.ok) throw new Error(`Failed to load monster sources (${e.status})`);
+        return e.json();
+    }).then(e => buildCardSourceIndex(e?.monsters || [])).catch(e => {
+        throw cardSourceIndexPromise = null, e;
+    });
+}
+
+function getCardObtainSourceLabels(e) {
+    const t = {
+        MonsterConfig: "Monster drops",
+        ItemConfig: "Item sources",
+        TradeCommodityTable: "Trade Exchange",
+        TaskConfig: "Quest rewards",
+        CardBookConfig: "Card Album",
+        HandbookConfig: "Monster Album"
+    }, a = Array.isArray(e?.obtain_source_tables) ? e.obtain_source_tables : [];
+    return Array.from(new Set(a.map(e => t[e] || "Other source")));
+}
+
+function resolveMonsterSourceIcon(e) {
+    if (!e) return "";
+    return resolveIconPath(e) || `/media/images/monster/${e}.webp`;
+}
+
+async function renderCardSources(e, t) {
+    e.innerHTML = '<div class="card-source-title">How to obtain</div><div class="loading-state">Finding monster drops…</div>';
+    const a = getCardObtainSourceLabels(t);
+    try {
+        const n = await loadCardSourceIndex(), r = n.get(Number(t?.id)) || [];
+        e.innerHTML = '<div class="card-source-title">How to obtain</div>';
+        if (r.length) {
+            const t = document.createElement("div");
+            t.className = "card-source-list";
+            r.slice(0, 12).forEach(e => {
+                const a = document.createElement("a");
+                a.className = "card-monster-source", a.href = `/sea/monster_album/#showAll=1&monsterId=${encodeURIComponent(e.monsterId)}`,
+                a.setAttribute("aria-label", `View ${e.name} in the Monster Album`);
+                const n = resolveMonsterSourceIcon(e.image);
+                n && (a.innerHTML = `<img src="${n}" alt="">`);
+                const r = document.createElement("span");
+                r.textContent = `${e.name}${Number.isFinite(e.level) ? ` · Lv.${e.level}` : ""}`, a.appendChild(r);
+                const i = formatCardSourceRate(e.rate);
+                if (i) {
+                    const e = document.createElement("span");
+                    e.className = "card-source-rate", e.textContent = i, a.appendChild(e);
+                }
+                t.appendChild(a);
+            }), e.appendChild(t);
+        }
+        if (a.length) {
+            const t = document.createElement("div");
+            t.className = "card-other-sources", a.forEach(e => {
+                const a = document.createElement("span");
+                a.className = "card-obtain-source", a.textContent = e, t.appendChild(a);
+            }), e.appendChild(t);
+        }
+        if (!r.length && !a.length) {
+            const t = document.createElement("div");
+            t.className = "loading-state", t.textContent = "No obtain source is listed in the current game data.", e.appendChild(t);
+        }
+    } catch {
+        e.innerHTML = '<div class="card-source-title">How to obtain</div><div class="loading-state">Monster sources are temporarily unavailable. Other source types are shown below.</div>';
+        if (a.length) {
+            const t = document.createElement("div");
+            t.className = "card-other-sources", a.forEach(e => {
+                const a = document.createElement("span");
+                a.className = "card-obtain-source", a.textContent = e, t.appendChild(a);
+            }), e.appendChild(t);
+        }
+    }
+}
+
 function buildCardElement(e) {
     const t = qualityToRarityKey(e.quality), a = document.createElement("article");
-    a.className = `card-entry rarity-${t}`;
+    a.className = `card-entry rarity-${t}`, a.dataset.cardId = String(e.id || "");
     const n = document.createElement("div");
     n.className = "card-icon-col";
     const r = document.createElement("div");
@@ -314,23 +444,35 @@ function buildCardElement(e) {
     const m = document.createElement("div");
     m.className = "card-body";
     const h = [];
-    return Array.isArray(e.effect_lines) && e.effect_lines.length ? e.effect_lines.forEach(e => {
+    Array.isArray(e.effect_lines) && e.effect_lines.length ? e.effect_lines.forEach(e => {
         e && h.push(String(e).trim());
-    }) : (e.effect && h.push(String(e.effect).trim()), e.effect_extra && h.push(String(e.effect_extra).trim()), 
+    }) : (e.effect && h.push(String(e.effect).trim()), e.effect_extra && h.push(String(e.effect_extra).trim()),
     e.effect || e.effect_extra || "number" != typeof e.words_count || h.push(ct("randomAffix", {
         count: e.words_count
-    }))), m.textContent = h.filter(Boolean).join("\n"), i.appendChild(o), i.appendChild(m), 
-    a.appendChild(n), a.appendChild(i), a;
+    }))), m.textContent = h.filter(Boolean).join("\n"), i.appendChild(o), i.appendChild(m);
+    const p = document.createElement("button");
+    p.type = "button", p.className = "card-source-hint", p.textContent = "View obtain sources", p.setAttribute("aria-expanded", "false");
+    const f = document.createElement("div");
+    f.className = "card-source-panel", f.hidden = !0;
+    let g = !1;
+    const v = () => {
+        const t = f.hidden;
+        f.hidden = !t, a.classList.toggle("is-expanded", t), p.setAttribute("aria-expanded", t ? "true" : "false"),
+        p.textContent = t ? "Hide obtain sources" : "View obtain sources", t && !g && (g = !0, renderCardSources(f, e));
+    };
+    return a.__toggleCardSources = v, p.addEventListener("click", v), a.addEventListener("click", e => {
+        e.target.closest("a, button") || v();
+    }), a.appendChild(n), a.appendChild(i), a.appendChild(p), a.appendChild(f), a;
 }
 
 function createChip(e, {selected: t, onClick: a, className: n, iconName: r, iconAlt: i, iconSrc: o, iconSrcs: c, hideLabel: s}) {
     const l = document.createElement("button"), d = Array.isArray(c) ? c.filter(Boolean) : o || r ? [ o || `${CONFIG.equipSlotIconBase}${r}.webp` ] : [];
-    if (l.type = "button", l.className = n || "card-filter-chip", t && l.classList.add("selected"), 
+    if (l.type = "button", l.className = n || "card-filter-chip", t && l.classList.add("selected"),
     s && l.classList.add("icon-only"), l.setAttribute("aria-label", e), l.title = e, d.length) {
         const t = document.createElement("span");
         t.className = "card-filter-icon-group", d.forEach(e => {
             const a = document.createElement("img");
-            a.className = "card-filter-icon", a.loading = "lazy", a.decoding = "async", a.alt = i || "", 
+            a.className = "card-filter-icon", a.loading = "lazy", a.decoding = "async", a.alt = i || "",
             a.src = e, t.appendChild(a);
         }), l.appendChild(t);
     }
@@ -430,7 +572,7 @@ function setup() {
         obtainSourceIcons: {},
         obtainSourceIconLists: {},
         slotOptions: []
-    }, l = () => {
+    }, requestedCardId = Number(new URLSearchParams(window.location.search).get("card")) || null, l = () => {
         const t = Math.min(s.rendered + CONFIG.batchSize, s.filtered.length);
         for (let a = s.rendered; a < t; a++) e.appendChild(buildCardElement(s.filtered[a]));
         s.rendered = t, a.textContent = ct("cardsCount", {
@@ -531,8 +673,12 @@ function setup() {
         await p();
         try {
             const t = await loadCardPayload();
-            s.allCards = t.cards, s.monsterClassOptions = t.monsterClassFilters, s.obtainSourceOptions = t.obtainSourceFilters, 
+            s.allCards = t.cards, s.monsterClassOptions = t.monsterClassFilters, s.obtainSourceOptions = t.obtainSourceFilters,
             s.obtainSourceIcons = t.obtainSourceIcons || {}, s.obtainSourceIconLists = t.obtainSourceIconLists || {};
+            if (requestedCardId) {
+                const e = s.allCards.find(e => Number(e?.id) === requestedCardId);
+                e && (s.query = displayCardName(e.name || ""), n.value = s.query);
+            }
             const e = new Map;
             s.allCards.forEach(t => {
                 const a = t.card_type_id, n = t.card_type_name;
@@ -540,14 +686,21 @@ function setup() {
                     id: a,
                     name: n
                 }));
-            }), s.slotOptions = Array.from(e.values()).sort((e, t) => String(e.name).localeCompare(String(t.name))), 
-            iconPaths || await p(), m(), h(), u(), d(), iconPaths || window.setTimeout(async () => {
+            }), s.slotOptions = Array.from(e.values()).sort((e, t) => String(e.name).localeCompare(String(t.name))),
+            iconPaths || await p(), m(), h(), u(), d(), requestedCardId && window.setTimeout(() => {
+                const e = document.querySelector(`.card-entry[data-card-id="${requestedCardId}"]`);
+                e && (e.classList.add("card-entry-linked"), "function" == typeof e.__toggleCardSources && e.__toggleCardSources(),
+                e.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                }));
+            }, 80), iconPaths || window.setTimeout(async () => {
                 iconPaths || !await p() || (h(), d());
             }, 1500);
         } catch (t) {
             e.textContent = "";
             const n = document.createElement("div");
-            n.className = "loading-state", n.textContent = `${ct("failedToLoadCards")}: ${t?.message || t}`, 
+            n.className = "loading-state", n.textContent = `${ct("failedToLoadCards")}: ${t?.message || t}`,
             e.appendChild(n), a.textContent = ct("loadFailed");
         }
     })();

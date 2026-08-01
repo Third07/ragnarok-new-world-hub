@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="asset-version" content="20260802-gamepages1">
+  <meta name="asset-version" content="20260802-ux8">
   <title>RO World Journey | Study</title>
   <meta name="description" content="RoworldDB Study: in-game event Q&A and guides">
-  <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260801-mobilegame1">
+  <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260802-ux8">
   <link rel="stylesheet" href="./study.css?v=20260802-gamepages1">
-  <link rel="stylesheet" href="/sea/shared/game-pages.css?v=20260802-gamepages1">
+  <link rel="stylesheet" href="/sea/shared/game-pages.css?v=20260802-ux8">
+  <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-ux8">
   <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260723-233743">
 </head>
 <body>
@@ -93,6 +94,16 @@
                 <option value="element-table">Element Matchups</option>
               </select>
             </label>
+            <label id="study-answer-language-wrap" class="study-select study-answer-language" hidden>
+              <span>Answer language</span>
+              <select id="study-answer-language" aria-label="Answer language">
+                <option value="en">English</option>
+                <option value="zh">Chinese</option>
+                <option value="th">Thai</option>
+                <option value="id">Indonesian</option>
+                <option value="all">All variants</option>
+              </select>
+            </label>
             <label class="study-toggle" id="study-reveal-wrap" hidden>
               <input type="checkbox" id="study-reveal-all">
               <span id="study-reveal-label">Show all answers</span>
@@ -112,7 +123,7 @@
     <script src="/shared/asset_version.js?v=20260723-233743"></script>
     <script src="/shared/client_switcher.js?v=20260723-233743"></script>
     <script src="/shared/sticky_header.js?v=20260723-233743"></script>
-    <script src="./study.js?v=20260723-233743"></script>
+    <script src="./study.js?v=20260802-ux8"></script>
     <script src="/shared/reference_asset_fallback.js"></script>
 </body>
 </html>

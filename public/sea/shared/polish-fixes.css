@@ -655,9 +655,316 @@ body {
   }
 }
 
+/* August usability pass: cleaner skill trees, list-style cards, linked sources,
+   level dividers, and an in-flow Affix loadout on every viewport. */
+.skill-planner-page .skill-group-outline {
+  display: none !important;
+}
+
+.skill-planner-page .job-skills-container {
+  row-gap: clamp(24px, 3.4vw, 38px) !important;
+  column-gap: clamp(8px, 1.5vw, 16px) !important;
+  padding-block: clamp(18px, 2.5vw, 30px) !important;
+}
+
+.skill-planner-page .skill-node,
+.skill-planner-page .skill-outline-anchor {
+  gap: .46rem !important;
+}
+
+.card-page-shell {
+  grid-template-columns: minmax(0, 1fr) !important;
+  max-width: 1180px !important;
+}
+
+.card-view-sidebar {
+  position: static !important;
+}
+
+.card-view-tabs {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.card-view-tab {
+  min-height: 48px !important;
+}
+
+.card-list {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.card-entry {
+  position: relative;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.card-entry:hover,
+.card-entry:focus-visible,
+.card-entry.is-expanded {
+  border-color: rgba(90,115,217,.5) !important;
+  box-shadow: 0 0 0 3px rgba(90,115,217,.12), 0 9px 22px rgba(40,68,127,.12) !important;
+  outline: none;
+}
+
+.card-entry-linked {
+  animation: card-linked-pulse 1.1s ease-out 1;
+}
+
+@keyframes card-linked-pulse {
+  0% { box-shadow: 0 0 0 7px rgba(216,173,103,.38); }
+  100% { box-shadow: 0 0 0 0 rgba(216,173,103,0); }
+}
+
+.card-source-hint {
+  width: max-content;
+  max-width: 100%;
+  margin-top: 2px;
+  padding: 3px 0;
+  color: #5a73d9;
+  background: none;
+  border: 0;
+  appearance: none;
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 900;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card-source-hint:hover,
+.card-source-hint:focus-visible {
+  color: #28447f;
+  text-decoration: underline;
+  outline: none;
+}
+
+.card-source-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  color: #344b7f;
+  background: linear-gradient(180deg, #edf5ff, #f8fbff);
+  border: 1px solid rgba(89,112,176,.18);
+  border-radius: 12px;
+}
+
+.card-source-panel[hidden] {
+  display: none !important;
+}
+
+.card-source-title {
+  color: #28447f;
+  font-size: .8rem;
+  font-weight: 950;
+}
+
+.card-source-list,
+.card-other-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.card-monster-source,
+.card-obtain-source {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  color: #344b7f;
+  background: #fffdf8;
+  border: 1px solid rgba(89,112,176,.2);
+  border-radius: 10px;
+  font-size: .72rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.card-monster-source:hover,
+.card-monster-source:focus-visible {
+  color: #fff;
+  background: #5a73d9;
+  outline: none;
+}
+
+.card-monster-source img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 7px;
+  background: #e8f1ff;
+}
+
+.card-source-rate {
+  color: #8b631c;
+  font-size: .66rem;
+}
+
+.monster-level-group {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(24px, 1fr) auto minmax(24px, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+  color: #51648f;
+  font-size: .76rem;
+  font-weight: 950;
+  letter-spacing: .06em;
+}
+
+.monster-level-group::before,
+.monster-level-group::after {
+  content: "";
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(89,112,176,.4));
+}
+
+.monster-level-group::after {
+  background: linear-gradient(90deg, rgba(89,112,176,.4), transparent);
+}
+
+.monster-card-effect-tooltip {
+  color: #273d75 !important;
+  background: rgba(255,253,247,.99) !important;
+  border: 2px solid #d8ad67 !important;
+  box-shadow: 0 16px 38px rgba(22,37,78,.26) !important;
+}
+
+.monster-card-effect-tooltip-line {
+  color: #273d75 !important;
+}
+
+.monster-card-link {
+  display: block;
+  color: inherit !important;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.monster-card-link:hover,
+.monster-card-link:focus-visible {
+  color: #28447f !important;
+  background: rgba(90,115,217,.08);
+  outline: 2px solid rgba(90,115,217,.34);
+  outline-offset: 2px;
+}
+
+.monster-card-link .monster-drop-rate-name::after {
+  content: "  View card →";
+  color: #5a73d9;
+  font-size: .66rem;
+  font-weight: 900;
+}
+
+.affix-planner-page .affix-layout {
+  grid-template-columns: minmax(0, 1fr) !important;
+  max-width: 1180px;
+}
+
+.affix-planner-page .affix-loadout-section {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: linear-gradient(180deg, #f8fbff, #eef4ff);
+  border: 1px solid rgba(89,112,176,.17);
+  border-radius: 15px;
+}
+
+.affix-planner-page .affix-selected-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.affix-planner-page .affix-selected-group-title {
+  display: none;
+}
+
+.affix-planner-page .affix-equipment-tile {
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.affix-planner-page .affix-equipment-tile:hover,
+.affix-planner-page .affix-equipment-tile:focus-visible {
+  border-color: #5a73d9;
+  box-shadow: 0 0 0 3px rgba(90,115,217,.13);
+  outline: none;
+}
+
+.affix-planner-page .affix-type-section {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.affix-planner-page .affix-type-group-label {
+  color: #52648f;
+  font-size: .7rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.affix-planner-page .affix-type-grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 7px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.affix-planner-page .affix-type-btn {
+  flex: 0 0 88px !important;
+  scroll-snap-align: start;
+}
+
+.affix-planner-page .affix-card-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+@media (max-width: 760px) {
+  .skill-planner-page .job-skills-container {
+    row-gap: 27px !important;
+    column-gap: 6px !important;
+    padding: 18px 7px 22px !important;
+  }
+
+  .card-entry {
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+  }
+
+  .card-source-panel {
+    padding: 10px;
+  }
+
+  .affix-planner-page .affix-loadout-section {
+    padding: 10px;
+  }
+
+  .affix-planner-page .affix-selected-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 430px) {
+  .affix-planner-page .affix-loadout-row {
+    grid-template-columns: 82px 18px minmax(0, 1fr) !important;
+  }
+
+  .affix-planner-page .affix-type-btn {
+    flex-basis: 82px !important;
+  }
+}
+
 /* Affix Planner v3: compact selectors, unique results, and equipment-first loadout. */
 .affix-planner-page .affix-layout {
-  grid-template-columns: minmax(0, 1fr) minmax(380px, 460px) !important;
+  grid-template-columns: minmax(0, 1fr) !important;
 }
 
 .affix-planner-page .affix-filter-grid {
@@ -974,6 +1281,11 @@ body {
     grid-template-columns: 36px minmax(0, 1fr) 24px;
     gap: 6px;
     padding: 8px;
+  }
+
+  .affix-planner-page .affix-selected-card.affix-selected-empty {
+    grid-template-columns: 1fr;
+    text-align: center;
   }
 
   .affix-planner-page .affix-selected-icon {

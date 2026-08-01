@@ -397,11 +397,6 @@ function renderSelectedSummary() {
     const e = document.getElementById("affix-selected-summary");
     if (!e) return;
     const t = [ {
-        key: "weapon",
-        label: T.rows.weapon,
-        ids: selected.weapon ? [ selected.weapon ] : [],
-        contexts: selected.weapon ? [ selectedContext.weapon ] : []
-    }, {
         key: "armor",
         label: T.rows.armor,
         ids: selected.armor ? [ selected.armor ] : [],
@@ -416,13 +411,18 @@ function renderSelectedSummary() {
         label: T.rows.accessory,
         ids: selected.accessory.slice(0, 2),
         contexts: selectedContext.accessory.slice(0, 2)
+    }, {
+        key: "weapon",
+        label: T.rows.weapon,
+        ids: selected.weapon ? [ selected.weapon ] : [],
+        contexts: selected.weapon ? [ selectedContext.weapon ] : []
     } ];
     const r = t.map(e => {
         const t = "accessory" === e.key ? 2 : 1, r = Array.from({ length: t }).map((t, r) => {
-            const n = e.ids[r] || null, o = e.contexts[r] || null, a = o?.mode || ("weapon" === e.key ? "weapon" : "armor"), s = Number(o?.typeId) || ("armor" === e.key ? 4 : "cloak" === e.key ? 7 : "accessory" === e.key ? 10 : null), l = getTypeMeta(a, s), c = resolveIconPath(String(l?.icon || getTypeFallbackIconName(a, s) || "")), i = l?.name || e.label, u = o?.level && "all" !== o.level ? `Lv.${o.level}` : "Any level";
-            if (!n) return `\n                <div class="affix-loadout-row is-empty">\n                    <div class="affix-equipment-tile">${c ? `<img src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span></div>\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card affix-selected-empty"><div class="affix-selected-empty-text">Choose an affix</div></div>\n                </div>`;
+            const n = e.ids[r] || null, o = e.contexts[r] || null, a = o?.mode || ("weapon" === e.key ? "weapon" : "armor"), s = Number(o?.typeId) || ("armor" === e.key ? 4 : "cloak" === e.key ? 7 : "accessory" === e.key ? 10 : Number(current.typeId) && "weapon" === current.mode ? Number(current.typeId) : getVisibleTypeIds("weapon")[0] || null), l = getTypeMeta(a, s), c = resolveIconPath(String(l?.icon || getTypeFallbackIconName(a, s) || "")), i = l?.name || e.label, u = o?.level && "all" !== o.level ? `Lv.${o.level}` : "Any level", k = `<button type="button" class="affix-equipment-tile" data-affix-type-mode="${escapeHtml(a)}" data-affix-type-id="${escapeHtml(String(s || ""))}" aria-label="Select ${escapeHtml(i)}">${c ? `<img src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span>${n ? `<small>${escapeHtml(u)}</small>` : ""}</button>`;
+            if (!n) return `\n                <div class="affix-loadout-row is-empty">\n                    ${k}\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card affix-selected-empty"><div class="affix-selected-empty-text">Choose an affix</div></div>\n                </div>`;
             const d = stuntById.get(String(n)) || null, b = resolveStuntDisplay(d || {}), f = escapeHtml(b.name || `#${n}`), g = Number(d?.level) || 1, p = QUALITY_LABEL[g] || `Lv.${g}`, m = Number(d?.color) || 2, h = STUNT_COLOR_CLASS[m] || "stunt-blue", v = resolveIconPath(String(d?.icon || "")), y = formatRichText(b.desc || "");
-            return `\n                <div class="affix-loadout-row">\n                    <div class="affix-equipment-tile">${c ? `<img src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span><small>${escapeHtml(u)}</small></div>\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card ${h}">\n                        ${v ? `<img class="affix-selected-icon" src="${escapeHtml(v)}" alt="">` : ""}\n                        <div class="affix-selected-meta"><div class="affix-selected-name">${f}</div><div class="affix-selected-level">${p}</div>${y ? `<div class="affix-selected-desc">${y}</div>` : ""}</div>\n                        <button type="button" class="affix-selected-remove" data-bucket="${escapeHtml(e.key)}" data-index="${escapeHtml(String(r))}" aria-label="Remove ${f}">×</button>\n                    </div>\n                </div>`;
+            return `\n                <div class="affix-loadout-row">\n                    ${k}\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card ${h}">\n                        ${v ? `<img class="affix-selected-icon" src="${escapeHtml(v)}" alt="">` : ""}\n                        <div class="affix-selected-meta"><div class="affix-selected-name">${f}</div><div class="affix-selected-level">${p}</div>${y ? `<div class="affix-selected-desc">${y}</div>` : ""}</div>\n                        <button type="button" class="affix-selected-remove" data-bucket="${escapeHtml(e.key)}" data-index="${escapeHtml(String(r))}" aria-label="Remove ${f}">×</button>\n                    </div>\n                </div>`;
         }).join("");
         return `\n            <div class="affix-selected-group">\n                <div class="affix-selected-group-title">${escapeHtml(e.label)}</div>\n                <div class="affix-selected-group-body">${r}</div>\n            </div>`;
     }).join("");
@@ -654,7 +654,7 @@ function renderTypeSections() {
         if (!t.length) return null;
         const r = document.createElement("section");
         r.className = "affix-type-section", r.classList.add("weapon" === e ? "affix-type-section-weapon" : "affix-type-section-armor"),
-        r.innerHTML = `\n            <div class="affix-type-grid" data-mode="${escapeHtml(e)}"></div>\n        `;
+        r.innerHTML = `\n            <div class="affix-type-group-label">${"weapon" === e ? "Weapons" : "Armor"}</div>\n            <div class="affix-type-grid" data-mode="${escapeHtml(e)}"></div>\n        `;
         const n = r.querySelector(".affix-type-grid"), o = document.createDocumentFragment();
         return t.forEach(t => {
             const r = getTypeMeta(e, t), n = typeHasData(e, t), a = document.createElement("button");
@@ -665,7 +665,7 @@ function renderTypeSections() {
             n || (a.title = T.noDataYet), a.innerHTML = `\n                <div class="affix-type-icon">\n                    ${s ? `<img src="${escapeHtml(s)}" alt="" onerror="this.style.display='none'">` : ""}\n                </div>\n                <div class="affix-type-name">${escapeHtml(l)}</div>\n            `,
             a.addEventListener("click", () => setSelectedType(e, t)), o.appendChild(a);
         }), n.appendChild(o), r;
-    }, r = getVisibleTypeIds("armor"), n = getVisibleTypeIds("weapon"), o = [ t("armor", r.filter(e => 4 === e)), t("armor", r.filter(e => 7 === e)), t("armor", r.filter(e => 10 === e)), t("weapon", n) ].filter(Boolean);
+    }, r = getVisibleTypeIds("armor"), n = getVisibleTypeIds("weapon"), o = [ t("armor", r.filter(e => [ 4, 7, 10 ].includes(e))), t("weapon", n) ].filter(Boolean);
     if (!o.length) return void (e.innerHTML = `<div class="loading-state">${escapeHtml(T.noTypes)}</div>`);
     const a = document.createDocumentFragment();
     o.forEach(e => a.appendChild(e)), e.appendChild(a);
@@ -950,7 +950,14 @@ async function init() {
         const l = document.getElementById("affix-selected-summary");
         l && l.addEventListener("click", e => {
             const t = e.target.closest(".affix-selected-remove");
-            t && (clearPicked(t.dataset.bucket || "", Number(t.dataset.index) || 0), renderAll());
+            if (t) return clearPicked(t.dataset.bucket || "", Number(t.dataset.index) || 0), void renderAll();
+            const r = e.target.closest("[data-affix-type-mode][data-affix-type-id]");
+            if (!r) return;
+            const n = Number(r.dataset.affixTypeId);
+            n && (setSelectedType(r.dataset.affixTypeMode || "weapon", n), document.getElementById("affix-type-sections")?.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            }));
         });
         let c = null;
         e.addEventListener("input", () => {

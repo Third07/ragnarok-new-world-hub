@@ -114,7 +114,7 @@
     function o(e) {
         return String(e || "zh-TW").toLowerCase().replace("-", "_");
     }
-    const l = document.getElementById("study-event"), d = document.getElementById("study-content"), s = document.getElementById("study-reveal-wrap"), i = document.getElementById("study-reveal-all"), r = document.getElementById("study-reveal-label"), c = document.getElementById("study-search"), u = document.getElementById("study-search-wrap"), h = document.getElementById("study-empty"), p = a.answerShow, m = a.answerHide, w = a.banquetShow, y = a.banquetHide, v = a.revealAll, b = a.hideAll, q = {
+    const l = document.getElementById("study-event"), d = document.getElementById("study-content"), s = document.getElementById("study-reveal-wrap"), i = document.getElementById("study-reveal-all"), r = document.getElementById("study-reveal-label"), c = document.getElementById("study-search"), u = document.getElementById("study-search-wrap"), h = document.getElementById("study-empty"), answerLanguageWrap = document.getElementById("study-answer-language-wrap"), answerLanguageSelect = document.getElementById("study-answer-language"), p = a.answerShow, m = a.answerHide, w = a.banquetShow, y = a.banquetHide, v = a.revealAll, b = a.hideAll, q = {
         "lucky-rabbit": "10",
         "guild-banquet": "20",
         "scholar-exam": "25",
@@ -129,7 +129,25 @@
         }[l?.value] || "Study";
         window.RO_SET_PAGE_TITLE ? window.RO_SET_PAGE_TITLE(e) : document.title = e;
     }
-    let f = !1, E = null;
+    let f = !1, E = null, answerLanguage = localStorage.getItem("ro_study_answer_language") || "en";
+    answerLanguageSelect && (Array.from(answerLanguageSelect.options).some(e => e.value === answerLanguage) || (answerLanguage = "en"),
+    answerLanguageSelect.value = answerLanguage);
+    function getRawAnswers(e) {
+        return Array.isArray(e?.answers) && e.answers.length ? e.answers.map(e => String(e || "").trim()).filter(Boolean) : e?.answer ? [ String(e.answer).trim() ] : [];
+    }
+    function filterAnswerVariants(e) {
+        const t = getRawAnswers(e);
+        if ("all" === answerLanguage || t.length < 2) return t;
+        let n = !1;
+        const a = t.filter(e => {
+            if (/\p{Script=Han}/u.test(e)) return "zh" === answerLanguage;
+            if (/\p{Script=Thai}/u.test(e)) return n = !0, "th" === answerLanguage;
+            if (!/[\p{L}\p{N}]/u.test(e) || /^[\d\s.,%°+-]+$/u.test(e)) return !0;
+            const t = n || /\b(yang|dan|dengan|untuk|dari|pada|hari|derajat|negara|kota|warna|benua|gunung|samudra|puluh|seratus|tujuh|delapan|gigi|merah|rusia|yunani|bumi|matahari|jantung|oksigen|cair|tuts)\b/i.test(e);
+            return t ? "id" === answerLanguage : "en" === answerLanguage;
+        });
+        return a.length ? a : t.slice(0, 1);
+    }
     const S = [ "neutral", "water", "earth", "fire", "wind", "poison", "holy", "shadow", "ghost", "undead" ], L = {
         "en-US": {
             neutral: "Neutral",
@@ -405,22 +423,22 @@
         d.innerHTML = "";
         const t = document.createElement("div");
         t.className = "study-content", t.classList.toggle("is-banquet", "guild-banquet" === e.eventId);
-        const n = "guild-banquet" === e.eventId, a = n ? [ ...e.questions ].sort((e, t) => {
-            const n = Array.isArray(e.answers) ? e.answers.length : 0, a = Array.isArray(t.answers) ? t.answers.length : 0;
+        const n = "guild-banquet" === e.eventId, o = e => n ? filterAnswerVariants(e) : getRawAnswers(e), a = n ? [ ...e.questions ].sort((e, t) => {
+            const n = o(e).length, a = o(t).length;
             return a !== n ? a - n : (e.id || 0) - (t.id || 0);
         }) : e.questions;
         if (n) {
             const e = a.reduce((e, t) => {
-                const n = Array.isArray(t.answers) ? t.answers.length : t.answer ? 1 : 0;
+                const n = o(t).length;
                 return Math.max(e, n);
             }, 1);
             t.style.setProperty("--banquet-max-answers", e);
         }
         a.forEach(e => {
-            const a = Array.isArray(e.answers) && e.answers.length ? e.answers : e.answer ? [ e.answer ] : [], o = a.length ? a.join("\n") : N, l = a.length > 1, s = (a.length && a[0], 
+            const a = o(e), q = a.length ? a.join("\n") : N, l = a.length > 1, s = (a.length && a[0],
             document.createElement("div"));
-            s.className = "qa-card is-hidden", n ? (s.classList.add("banquet-card"), s.dataset.layout = "banquet") : s.dataset.layout = "rabbit", 
-            s.dataset.answer = o, s.dataset.question = (e.question || "").toLowerCase();
+            s.className = "qa-card is-hidden", n ? (s.classList.add("banquet-card"), s.dataset.layout = "banquet") : s.dataset.layout = "rabbit",
+            s.dataset.answer = q, s.dataset.question = (e.question || "").toLowerCase();
             const i = document.createElement("div");
             i.className = "qa-header";
             const r = document.createElement("div");
@@ -447,7 +465,7 @@
                         o.className = "qa-option-text", o.dataset.answerValue = e, o.textContent = "???", 
                         n.appendChild(a), n.appendChild(o), n.appendChild(U(e)), t.appendChild(n);
                     }), e.appendChild(t);
-                } else e.appendChild(U(o));
+                } else e.appendChild(U(q));
                 e.addEventListener("click", () => {
                     const e = !s.classList.contains("is-revealed");
                     G(s, e), F(Array.from(d.querySelectorAll(".qa-card")));
@@ -470,7 +488,7 @@
                         o.className = "qa-option-text", o.textContent = e, n.appendChild(a), n.appendChild(o), 
                         n.appendChild(U(e)), t.appendChild(n);
                     }), e.appendChild(t);
-                } else e.appendChild(U(o));
+                } else e.appendChild(U(q));
                 e.addEventListener("click", () => {
                     const e = !s.classList.contains("is-revealed");
                     G(s, e), F(Array.from(d.querySelectorAll(".qa-card")));
@@ -528,7 +546,8 @@
     }
     async function K() {
         const e = l.value;
-        if (d.innerHTML = `<div class="study-empty">${a.loading}</div>`, s.hidden = !0, 
+        answerLanguageWrap && (answerLanguageWrap.hidden = "guild-banquet" !== e);
+        if (d.innerHTML = `<div class="study-empty">${a.loading}</div>`, s.hidden = !0,
         u.hidden = !1, s.style.display = "", u.style.display = "", h.hidden = !0, "lucky-rabbit" === e) {
             s.hidden = !1;
             try {
@@ -571,7 +590,7 @@
             } catch (e) {
                 d.innerHTML = `<div class="study-empty">${a.loadFailed}</div>`;
             }
-        } else "element-table" === e ? (u.hidden = !0, u.style.display = "none", s.style.display = "none", 
+        } else "element-table" === e ? (u.hidden = !0, u.style.display = "none", s.style.display = "none",
         function() {
             d.innerHTML = "";
             const e = document.createElement("div");
@@ -589,6 +608,9 @@
         e.forEach(e => G(e, t)), r.textContent = t ? b : v, I();
     }), l.addEventListener("change", () => {
         J(), I(), K();
+    }), answerLanguageSelect?.addEventListener("change", () => {
+        answerLanguage = answerLanguageSelect.value || "en", localStorage.setItem("ro_study_answer_language", answerLanguage),
+        "guild-banquet" === l.value && K();
     }), c.addEventListener("input", V);
     const {eventKey: Q, reveal: O} = W();
     !function() {

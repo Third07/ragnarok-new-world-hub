@@ -47,6 +47,10 @@
   color: var(--text-secondary, #b6b9c5);
 }
 
+.study-answer-language[hidden] {
+  display: none !important;
+}
+
 .study-search-wrap {
   display: grid;
   gap: 6px;

@@ -608,10 +608,10 @@ function buildCardEffectIndex(e) {
 function buildMonsterIcon(e) {
     const t = e?.image || "", n = isMonsterIcon(t), a = n ? resolveIconPath(t) : "", r = a ? a.replace(/\.png$/i, ".webp") : "";
     let o = "", i = "";
-    n && !a && (t.startsWith("icon_summon") ? (o = `${CONFIG.iconBasePath}summon/${t}.webp`, 
-    i = `${CONFIG.iconBasePath}summon/${t}.webp`) : t.startsWith("icon_boss_") ? (o = `${CONFIG.iconBasePath}boss/${t}.webp`, 
-    i = `${CONFIG.iconBasePath}boss/${t}.webp`) : t.startsWith("icon_pet_head") ? (o = `${CONFIG.iconBasePath}pet/${t}.webp`, 
-    i = `${CONFIG.iconBasePath}pet/${t}.webp`) : (o = `${CONFIG.monsterIconBase}${t}.webp`, 
+    n && !a && (t.startsWith("icon_summon") ? (o = `${CONFIG.iconBasePath}summon/${t}.webp`,
+    i = `${CONFIG.iconBasePath}summon/${t}.webp`) : t.startsWith("icon_boss_") ? (o = `${CONFIG.iconBasePath}boss/${t}.webp`,
+    i = `${CONFIG.iconBasePath}boss/${t}.webp`) : t.startsWith("icon_pet_head") ? (o = `${CONFIG.iconBasePath}pet/${t}.webp`,
+    i = `${CONFIG.iconBasePath}pet/${t}.webp`) : (o = `${CONFIG.monsterIconBase}${t}.webp`,
     i = `${CONFIG.monsterIconBase}${t}.webp`));
     const l = document.createElement("img");
     l.className = "monster-card-icon", l.loading = "lazy", l.decoding = "async", l.alt = e?.name || "";
@@ -868,8 +868,9 @@ function getMonsterMvpDropRateEntries(e) {
 function buildDropRateItemCell(e, t) {
     const n = document.createElement("td");
     n.className = "monster-drop-rate-item-cell";
-    const a = document.createElement("div");
-    a.className = "monster-drop-rate-item";
+    const a = document.createElement("card_variant" === e?.kind ? "a" : "div");
+    a.className = "monster-drop-rate-item", "card_variant" === e?.kind && (a.classList.add("monster-card-link"),
+    a.href = `/sea/cards/?card=${encodeURIComponent(e?.item_id ?? "")}`, a.setAttribute("aria-label", `View ${String(e?.name || "card")} in the Card Library`));
     const r = qualityToRarityKey(e?.quality), o = document.createElement("div");
     if (o.className = `monster-drop-rate-icon-wrap quality-${r}`, o.appendChild(buildDropItemIcon(e)), 
     "card_variant" === e?.kind) {
@@ -991,26 +992,28 @@ function buildActivityRewardItem(e, n) {
     a.className = "monster-activity-reward-item";
     const r = Array.isArray(e?.sub_items) ? e.sub_items : [], o = r.length > 0;
     o && a.classList.add("is-expandable");
-    const i = document.createElement(o ? "button" : "div");
-    i.className = "monster-activity-reward-content" + (o ? " monster-activity-reward-toggle" : ""), 
-    o && (i.type = "button", i.setAttribute("aria-expanded", "false"), i.title = t("activityRewardExpand"));
-    const l = qualityToRarityKey(e?.quality), d = document.createElement("div");
-    d.className = `monster-drop-rate-icon-wrap monster-activity-reward-icon-wrap quality-${l}`, 
-    d.appendChild(buildDropItemIcon(e, "monster-drop-rate-icon")), i.appendChild(d);
-    const s = document.createElement("div");
-    s.className = "monster-activity-reward-copy";
+    const l = "card_variant" === e?.kind || String(e?.icon || "").startsWith("icon_item_card_"), i = document.createElement(o ? "button" : l ? "a" : "div");
+    i.className = "monster-activity-reward-content" + (o ? " monster-activity-reward-toggle" : ""),
+    o && (i.type = "button", i.setAttribute("aria-expanded", "false"), i.title = t("activityRewardExpand")),
+    l && !o && (i.classList.add("monster-card-link"), i.href = `/sea/cards/?card=${encodeURIComponent(e?.item_id ?? "")}`,
+    i.setAttribute("aria-label", `View ${String(e?.name || "card")} in the Card Library`));
+    const d = qualityToRarityKey(e?.quality), s = document.createElement("div");
+    s.className = `monster-drop-rate-icon-wrap monster-activity-reward-icon-wrap quality-${d}`,
+    s.appendChild(buildDropItemIcon(e, "monster-drop-rate-icon")), i.appendChild(s);
     const c = document.createElement("div");
-    c.className = "monster-drop-rate-name", c.textContent = String(e?.name || "").trim() || `#${e?.item_id ?? ""}`, 
-    s.appendChild(c);
-    const m = [], u = Number(e?.count);
-    Number.isFinite(u) && u > 1 && m.push(`x${INTEGER_FORMATTER.format(Math.trunc(u))}`);
-    const p = Number(e?.rate_percent);
-    if (Number.isFinite(p) && p >= 0 ? m.push(formatDropRatePercent(p)) : e?.rate_unknown && m.push("?"), 
-    m.length) {
+    c.className = "monster-activity-reward-copy";
+    const m = document.createElement("div");
+    m.className = "monster-drop-rate-name", m.textContent = String(e?.name || "").trim() || `#${e?.item_id ?? ""}`,
+    c.appendChild(m);
+    const u = [], p = Number(e?.count);
+    Number.isFinite(p) && p > 1 && u.push(`x${INTEGER_FORMATTER.format(Math.trunc(p))}`);
+    const h = Number(e?.rate_percent);
+    if (Number.isFinite(h) && h >= 0 ? u.push(formatDropRatePercent(h)) : e?.rate_unknown && u.push("?"),
+    u.length) {
         const e = document.createElement("div");
-        e.className = "monster-drop-rate-meta", e.textContent = m.join(" · "), s.appendChild(e);
+        e.className = "monster-drop-rate-meta", e.textContent = u.join(" · "), c.appendChild(e);
     }
-    if (i.appendChild(s), attachCardEffectTooltip(i, e, n), o) {
+    if (i.appendChild(c), attachCardEffectTooltip(i, e, n), o) {
         const e = document.createElement("span");
         e.className = "monster-activity-reward-chevron", e.setAttribute("aria-hidden", "true"), 
         e.textContent = "▾", i.appendChild(e);
@@ -1399,7 +1402,7 @@ function setup() {
         c.options.length && (y.activity = v(c, y.activity)), b(), null != y.pendingSelectedId) {
             y.selectedId = y.pendingSelectedId;
             const e = y.filtered.find(e => e?.id === y.selectedId);
-            e && renderMonsterDetail(m, e, y.activity, y.cardEffectsById), g();
+            e && (renderMonsterDetail(m, e, y.activity, y.cardEffectsById), isMonsterDetailModalMobile() && openMonsterDetailModal(e, y.activity, null, y.cardEffectsById)), g();
         }
         suppressHashWrite = !1;
     }), (async () => {
@@ -1479,7 +1482,7 @@ function setup() {
             y.activity = v(c, y.activity), o.checked = y.showAll, b(), null != y.pendingSelectedId) {
                 y.selectedId = y.pendingSelectedId;
                 const e = y.filtered.find(e => e?.id === y.selectedId);
-                e && renderMonsterDetail(m, e, y.activity, y.cardEffectsById), g();
+                e && (renderMonsterDetail(m, e, y.activity, y.cardEffectsById), isMonsterDetailModalMobile() && openMonsterDetailModal(e, y.activity, null, y.cardEffectsById)), g();
             }
         } catch (n) {
             e.textContent = "";

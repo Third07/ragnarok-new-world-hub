@@ -151,6 +151,73 @@ body {
     .main-content { padding: 10px; }
 }
 
+/* Shared tool bar: give the pale in-game glyphs a visible blue icon well. */
+.header .site-nav {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    max-width: min(100%, 1120px);
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 3px 4px 7px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+.header .site-nav-item {
+    flex: 0 0 auto;
+    min-width: 62px;
+    background: linear-gradient(180deg, #f7faff, #e2ebfb) !important;
+    border-color: rgba(65, 91, 164, .28) !important;
+}
+
+.header .site-nav-item img {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    padding: 3px;
+    background: linear-gradient(180deg, #dce9ff, #c8daf7);
+    border: 1px solid rgba(60, 88, 165, .22);
+    border-radius: 10px;
+    filter: contrast(1.16) drop-shadow(0 2px 2px rgba(35, 58, 119, .28));
+}
+
+.header .site-nav-item.active img {
+    background: linear-gradient(180deg, #fff7df, #f3dfb6);
+    border-color: rgba(181, 132, 52, .48);
+}
+
+.header .site-nav-label {
+    color: #344d84 !important;
+}
+
+@media (max-width: 760px) {
+    .header {
+        gap: 8px;
+        padding-inline: 10px;
+    }
+
+    .header .site-nav {
+        gap: 8px;
+        padding-bottom: 5px;
+    }
+
+    .header .site-nav-item {
+        min-width: 62px;
+        min-height: 54px;
+        padding: 5px !important;
+    }
+
+    .header .site-nav-item img {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .header .site-nav-label {
+        display: none;
+    }
+}
+
 .loading-state {
     padding: 24px; text-align: center; color: var(--text-muted);
     background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius);
