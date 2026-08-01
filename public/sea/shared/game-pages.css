@@ -1,0 +1,670 @@
+/* Unified light game UI for legacy database and planner pages. */
+
+:root {
+  color-scheme: light !important;
+  --bg-primary: #d9f2fb;
+  --bg-secondary: rgba(255, 253, 247, 0.97);
+  --bg-tertiary: #edf4ff;
+  --bg-card: rgba(255, 253, 247, 0.97);
+  --text-primary: #273d75;
+  --text-secondary: #52648f;
+  --text-muted: #8191b7;
+  --border-color: rgba(89, 112, 176, 0.22);
+  --border-strong: rgba(80, 105, 205, 0.52);
+  --accent: #5a73d9;
+  --accent-dark: #405abe;
+  --accent-light: #8da2ef;
+  --gold: #d8ad67;
+  --success: #31ad78;
+  --warning: #d69b32;
+  --danger: #d9576b;
+}
+
+.main-content {
+  width: 100%;
+  max-width: 1760px;
+  margin-inline: auto;
+}
+
+:is(.study-panel, .events-panel, .monster-panel, .card-panel, .shop-panel, .affix-panel,
+    .rune-builder, .rune-slot-grid, .rune-totals, .rune-resonance-card) {
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at 50% 0, rgba(255,255,255,.96), transparent 14rem),
+    rgba(255, 253, 247, .97) !important;
+  border: 1px solid rgba(181, 143, 91, .38) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 30px rgba(40, 68, 127, .13), inset 0 0 0 2px rgba(255,255,255,.74) !important;
+}
+
+:is(.study-select select, .study-search, .events-panel input[type="search"], .monster-search,
+    .monster-filter-select, .card-search, .shop-search, .affix-search, .rune-selector-search) {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px !important;
+  color: var(--text-primary) !important;
+  background: #fffdf8 !important;
+  border: 1px solid rgba(89,112,176,.24) !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 1px 2px rgba(40,68,127,.04) !important;
+  font: inherit;
+}
+
+:is(.study-select select, .monster-filter-select) {
+  appearance: auto;
+}
+
+:is(.study-select select, .study-search, .monster-search, .monster-filter-select, .card-search,
+    .shop-search, .affix-search, .rune-selector-search):focus {
+  outline: 3px solid rgba(90,115,217,.16);
+  border-color: var(--accent) !important;
+}
+
+/* Study */
+.study-panel { padding: clamp(14px, 2.4vw, 24px) !important; }
+.study-title { color: var(--text-primary) !important; font-size: 1.2rem; font-weight: 900; }
+.study-select,
+.study-search-wrap { color: var(--text-secondary) !important; font-weight: 800; }
+.study-toggle {
+  min-height: 46px;
+  padding: 0 14px !important;
+  color: var(--text-primary) !important;
+  background: #fff7e7 !important;
+  border: 1px solid rgba(216,173,103,.52) !important;
+  border-radius: 12px !important;
+}
+.study-toggle input { accent-color: var(--accent) !important; }
+.study-content { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; gap: 14px !important; }
+.qa-card {
+  min-height: 210px !important;
+  padding: 14px !important;
+  color: var(--text-primary) !important;
+  background: linear-gradient(180deg, #fffdf8, #f5f8ff) !important;
+  border: 1px solid rgba(89,112,176,.2) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 6px 16px rgba(40,68,127,.08) !important;
+}
+.qa-id { color: var(--accent) !important; font-weight: 900; }
+.qa-question { color: var(--text-primary) !important; }
+.qa-answer-value {
+  color: var(--text-primary) !important;
+  background: linear-gradient(180deg, #e7f6ff, #dfeaff) !important;
+  border-color: rgba(90,115,217,.28) !important;
+}
+.qa-answer-label { color: #667eb9 !important; }
+.qa-answer-text { color: var(--text-primary) !important; }
+.qa-option {
+  color: var(--text-secondary) !important;
+  background: #fffdf8 !important;
+  border-color: rgba(89,112,176,.18) !important;
+}
+.qa-option.is-correct {
+  color: #176849 !important;
+  background: #e9f9f1 !important;
+  border-color: rgba(49,173,120,.34) !important;
+}
+
+/* Events */
+.events-panel { padding: clamp(14px, 2.2vw, 22px) !important; }
+.events-mode-switch,
+.events-all-day-toggle {
+  background: #eef4ff !important;
+  border-color: rgba(89,112,176,.22) !important;
+}
+.events-mode-btn { min-height: 44px; color: var(--text-secondary) !important; }
+.events-mode-btn.active {
+  color: #fff !important;
+  background: linear-gradient(180deg, #718be5, #506acf) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.44), 0 3px 8px rgba(40,68,127,.16) !important;
+}
+.events-local-toggle,
+.events-all-day-toggle,
+.events-timezone-note { color: var(--text-secondary) !important; }
+.events-schedule-table {
+  background: rgba(250,252,255,.92) !important;
+  border-color: rgba(89,112,176,.18) !important;
+}
+.events-schedule-corner,
+.events-schedule-head,
+.events-schedule-time { background: #edf4ff !important; }
+.events-schedule-head,
+.events-schedule-time,
+.events-schedule-cell { border-color: rgba(89,112,176,.12) !important; }
+.events-schedule-head-day,
+.events-event-name,
+.events-calendar-name { color: var(--text-primary) !important; }
+.events-event-time,
+.events-calendar-range { color: var(--text-secondary) !important; }
+.events-event-tile,
+.events-calendar-card {
+  color: var(--text-primary) !important;
+  background: #fffdf8 !important;
+  border: 1px solid rgba(89,112,176,.16) !important;
+  box-shadow: 0 4px 12px rgba(40,68,127,.06) !important;
+}
+.events-event-tile:hover,
+.events-calendar-card:hover { background: #f4f8ff !important; border-color: rgba(90,115,217,.4) !important; }
+.events-day-nav {
+  background: #edf4ff !important;
+  border-color: rgba(89,112,176,.22) !important;
+  border-radius: 14px !important;
+}
+.events-day-nav-btn {
+  min-width: 48px;
+  min-height: 48px;
+  color: #fff !important;
+  background: linear-gradient(180deg, #718be5, #506acf) !important;
+  border: 1px solid #405bbb !important;
+  border-radius: 12px !important;
+}
+.events-modal-dialog {
+  color: var(--text-primary) !important;
+  background: #fffdf8 !important;
+  border-color: rgba(181,143,91,.48) !important;
+  box-shadow: 0 28px 70px rgba(16,28,63,.36) !important;
+}
+.events-modal-title { color: var(--text-primary) !important; }
+.events-modal-description { color: var(--text-secondary) !important; }
+
+/* Monster album */
+.monster-layout { grid-template-columns: minmax(0, 1fr) !important; }
+.monster-panel { padding: clamp(14px, 2.2vw, 22px) !important; }
+.monster-toolbar { display: grid; gap: 12px; margin-bottom: 16px; }
+.monster-search-row { display: flex; align-items: center; gap: 12px; }
+.monster-search { margin: 0 !important; }
+.monster-count { flex: 0 0 auto; color: var(--text-secondary); font-weight: 900; }
+.monster-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.monster-filter-toggle { color: var(--text-secondary) !important; font-weight: 800; }
+.monster-filter-select { width: auto; min-width: 132px; }
+.monster-list { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; gap: 14px !important; }
+.monster-card {
+  color: var(--text-primary) !important;
+  background: linear-gradient(180deg, #fffdf8, #f2f7ff) !important;
+  border: 1px solid rgba(89,112,176,.18) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 6px 16px rgba(40,68,127,.08) !important;
+}
+.monster-card:hover { border-color: rgba(90,115,217,.44) !important; }
+.monster-card-name { color: var(--text-primary) !important; }
+.monster-tag,
+.monster-card-level,
+.monster-card-metric-value {
+  color: var(--text-secondary) !important;
+  background: #edf3ff !important;
+  border-color: rgba(89,112,176,.16) !important;
+}
+.monster-card-icon-wrap,
+.monster-thumb { background: linear-gradient(180deg, #eaf4ff, #fffdf8) !important; }
+.monster-card-metric-label { color: var(--text-muted) !important; }
+.monster-detail { color: var(--text-primary) !important; }
+.monster-detail-name,
+.monster-detail-title { color: var(--text-primary) !important; }
+.monster-detail-meta,
+.monster-muted { color: var(--text-secondary) !important; }
+
+/* Card library and fusion */
+.card-page-shell { grid-template-columns: 160px minmax(0, 1fr) !important; gap: 18px !important; }
+.card-view-sidebar {
+  padding: 8px;
+  background: rgba(255,253,247,.94);
+  border: 1px solid rgba(181,143,91,.34);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(40,68,127,.1);
+}
+.card-view-tabs { display: grid !important; gap: 8px !important; }
+.card-view-tab,
+.card-rarity-btn,
+.card-filter-chip {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 13px !important;
+  color: var(--text-secondary) !important;
+  background: #edf3ff !important;
+  border: 1px solid rgba(89,112,176,.18) !important;
+  border-radius: 11px !important;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+.card-view-tab.selected,
+.card-rarity-btn.selected,
+.card-filter-chip.selected {
+  color: #fff !important;
+  background: linear-gradient(180deg, #718be5, #506acf) !important;
+  border-color: #405bbb !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.42), 0 3px 8px rgba(40,68,127,.16) !important;
+}
+.card-panel { padding: clamp(14px, 2.2vw, 22px); }
+.card-toolbar { display: grid; gap: 12px; margin-bottom: 18px; }
+.card-search-row { display: flex; align-items: center; gap: 12px; }
+.card-count,
+.shop-count,
+.affix-count {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  color: var(--text-secondary) !important;
+  background: #edf3ff !important;
+  border: 1px solid rgba(89,112,176,.16) !important;
+  border-radius: 999px !important;
+  font-size: .8rem;
+  font-weight: 900;
+}
+.card-filter-row,
+.card-filter-group,
+.card-rarity-toggle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.card-filter-icon-group { display: inline-flex; align-items: center; gap: 3px; }
+.card-filter-icon { width: 30px; height: 30px; object-fit: contain; }
+.card-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+.card-entry {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 13px;
+  padding: 13px;
+  color: var(--text-primary);
+  background: linear-gradient(180deg, #fffdf8, #f3f7ff);
+  border: 1px solid rgba(89,112,176,.18);
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(40,68,127,.08);
+}
+.card-icon-wrap {
+  width: 80px;
+  height: 104px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #eaf2ff;
+  border: 1px solid rgba(89,112,176,.16);
+  border-radius: 12px;
+}
+.card-icon { width: 100%; height: 100%; object-fit: contain; }
+.card-meta { min-width: 0; display: grid; align-content: start; gap: 10px; }
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.card-name { color: var(--text-primary); font-weight: 950; }
+.card-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 8px;
+  color: var(--text-secondary);
+  background: #edf3ff;
+  border: 1px solid rgba(89,112,176,.16);
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 900;
+}
+.card-badge-icon { width: 22px; height: 22px; object-fit: contain; }
+.card-body { color: var(--text-secondary); font-size: .86rem; line-height: 1.5; white-space: pre-line; }
+.fusion-disclaimer { color: #80571a !important; background: #fff6df !important; }
+.fusion-info-btn,
+.fusion-card-picker,
+.fusion-selector-trigger,
+.fusion-effect-picker {
+  color: var(--text-primary) !important;
+  background: #edf3ff !important;
+  border-color: rgba(89,112,176,.22) !important;
+}
+.fusion-side-label,
+.fusion-card-picker-subtitle,
+.fusion-effect-picker-subtitle { color: var(--text-secondary) !important; }
+
+/* Shop */
+.shop-layout { grid-template-columns: minmax(0, 1fr) !important; }
+.shop-panel { padding: clamp(14px, 2.2vw, 22px) !important; }
+.shop-search-row { display: flex; align-items: center; gap: 12px; }
+.currency-board {
+  background: linear-gradient(180deg, #eef5ff, #f8fbff) !important;
+  border-color: rgba(89,112,176,.16) !important;
+  border-radius: 15px !important;
+}
+.currency-board-title,
+.currency-group-title { color: var(--text-muted) !important; }
+.currency-chip,
+.shop-price-pill,
+.shop-level-title {
+  color: var(--text-secondary) !important;
+  background: #fffdf8 !important;
+  border-color: rgba(89,112,176,.16) !important;
+}
+.currency-chip.active,
+.currency-chip:hover { color: #fff !important; background: var(--accent) !important; }
+.shop-card-grid { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)) !important; gap: 14px !important; }
+.shop-card {
+  color: var(--text-primary) !important;
+  background: linear-gradient(180deg, #fffdf8, #f2f7ff) !important;
+  border: 1px solid rgba(89,112,176,.18) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 6px 16px rgba(40,68,127,.08) !important;
+}
+.shop-card:hover { border-color: rgba(90,115,217,.44) !important; }
+.shop-card-art { background: #eaf2ff !important; }
+.shop-card-name { color: var(--text-primary) !important; }
+.shop-card-sub { color: var(--text-muted) !important; }
+.shop-detail-card { color: var(--text-primary) !important; background: #fffdf8 !important; }
+
+/* Affix planner */
+.affix-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px) !important; gap: 18px !important; }
+.affix-panel { min-width: 0; padding: clamp(14px, 2.2vw, 22px); }
+.affix-filters { display: grid; gap: 14px; margin-bottom: 18px; }
+.affix-job-chips,
+.affix-job-primary-chips,
+.affix-job-subchips,
+.affix-level-row,
+.affix-rarity-toggle,
+.affix-quality-toggle { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.affix-job-primary-chips,
+.affix-job-subchips { margin-top: 8px; }
+.affix-job-chip,
+.affix-level-btn,
+.affix-rarity-btn,
+.affix-quality-btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 12px;
+  color: var(--text-secondary);
+  background: #edf3ff;
+  border: 1px solid rgba(89,112,176,.18);
+  border-radius: 11px;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+.affix-job-chip.selected,
+.affix-level-btn.active,
+.affix-rarity-btn.active,
+.affix-quality-btn.active {
+  color: #fff !important;
+  background: linear-gradient(180deg, #718be5, #506acf) !important;
+  border-color: #405bbb !important;
+}
+.affix-job-chip-icon { width: 30px; height: 30px; object-fit: contain; }
+.affix-job-chip-icons { display: inline-flex; gap: 3px; }
+.affix-type-sections { display: grid; gap: 10px; }
+.affix-type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 9px; }
+.affix-type-btn {
+  min-height: 94px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  padding: 8px;
+  color: var(--text-secondary);
+  background: #f3f7ff;
+  border: 1px solid rgba(89,112,176,.17);
+  border-radius: 13px;
+  font: inherit;
+  cursor: pointer;
+}
+.affix-type-btn.selected {
+  color: var(--text-primary);
+  background: #e2ebff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(90,115,217,.12);
+}
+.affix-type-btn.is-empty { opacity: .48; }
+.affix-type-icon { width: 52px; height: 52px; display: grid; place-items: center; }
+.affix-type-icon img { width: 100%; height: 100%; object-fit: contain; }
+.affix-type-name { text-align: center; font-size: .78rem; font-weight: 850; }
+.affix-search-row { display: flex; align-items: center; gap: 12px; }
+.affix-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.affix-card {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 12px;
+  padding: 13px;
+  color: var(--text-primary);
+  background: linear-gradient(180deg, #fffdf8, #f2f7ff);
+  border: 1px solid rgba(89,112,176,.18);
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(40,68,127,.08);
+  cursor: pointer;
+}
+.affix-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(90,115,217,.12); }
+.affix-card-icon { width: 68px; height: 68px; object-fit: contain; border-radius: 12px; }
+.affix-card-grid { min-width: 0; display: grid; align-content: start; gap: 7px; }
+.affix-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.affix-card-name { color: var(--text-primary); font-weight: 950; }
+.affix-card-level { color: #fff; background: var(--accent); border-radius: 999px; padding: 2px 8px; font-size: .68rem; font-weight: 900; }
+.affix-card-desc { color: var(--text-secondary); font-size: .85rem; line-height: 1.5; }
+.affix-detail-panel { display: block !important; position: sticky; top: calc(var(--sticky-header-height, 0px) + 16px); }
+.affix-selected-grid { display: grid; gap: 10px; }
+.affix-selected-group { display: grid; gap: 8px; }
+.affix-selected-group-title { color: var(--text-muted); font-size: .72rem; font-weight: 900; text-transform: uppercase; }
+.affix-selected-card { padding: 10px; background: #f2f6ff; border: 1px solid rgba(89,112,176,.16); border-radius: 12px; }
+
+/* Rune planner */
+.rune-simulator-layout { grid-template-columns: minmax(0, 1fr) minmax(290px, 360px) !important; gap: 18px !important; }
+#rune-simulator-container { min-width: 0; display: grid; gap: 16px; }
+.rune-slot-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 12px; }
+.rune-slot {
+  min-width: 0;
+  min-height: 132px;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 10px;
+  color: var(--text-primary);
+  background: linear-gradient(180deg, #f7faff, #edf3ff) !important;
+  border: 1px solid rgba(89,112,176,.18) !important;
+  border-radius: 13px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.rune-slot.selected { background: #e4ecff !important; border-color: var(--accent) !important; box-shadow: 0 0 0 2px rgba(90,115,217,.12); }
+.rune-slot-header { display: flex; align-items: center; gap: 6px; }
+.rune-slot-label { font-size: .74rem; font-weight: 900; }
+.rune-slot-clear { margin-left: auto; color: var(--danger); font-size: 1.1rem; }
+.rune-slot-element { color: var(--element-color, var(--accent)); font-size: .68rem; font-weight: 900; }
+.rune-slot-body { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 8px; }
+.rune-slot-icon,
+.rune-slot-icon-placeholder { width: 44px; height: 44px; border-radius: 10px; background: #fff; }
+.rune-slot-icon img { width: 100%; height: 100%; object-fit: contain; }
+.rune-slot-meta { min-width: 0; display: grid; gap: 4px; }
+.rune-slot-primary { font-size: .76rem; font-weight: 900; }
+.rune-slot-desc { overflow: hidden; color: var(--text-secondary); font-size: .66rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.rune-slot-empty { align-self: center; justify-self: center; color: var(--text-muted); font-weight: 900; }
+.rune-builder,
+.rune-totals { padding: clamp(14px, 2.2vw, 22px); }
+.rune-builder-header,
+.rune-totals-header { margin-bottom: 14px; color: var(--text-primary); }
+.rune-builder-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+.rune-form-row { min-width: 0; display: grid; gap: 8px; padding: 12px; background: #f3f7ff; border: 1px solid rgba(89,112,176,.15); border-radius: 13px; }
+.rune-form-row label,
+.rune-affix-section h3 { color: var(--text-primary); font-weight: 950; }
+.rune-form-row-colors { grid-column: 1 / -1; }
+.element-dot-row,
+.quality-chip-row,
+.rune-color-picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.element-chip-btn,
+.quality-chip,
+.color-dot {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 11px;
+  color: var(--text-secondary);
+  background: #fffdf8;
+  border: 1px solid rgba(89,112,176,.18);
+  border-radius: 11px;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+.element-chip-btn.selected,
+.quality-chip.selected,
+.color-dot.selected { color: #fff; background: var(--accent); border-color: var(--accent-dark); }
+.element-chip-swatch,
+.element-dot { width: 13px; height: 13px; display: inline-block; background: var(--element-color, var(--dot-color)); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(40,68,127,.18); }
+.element-dot-lg { width: 20px; height: 20px; }
+.rune-color-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+.rune-color-slot { display: grid; gap: 8px; padding: 10px; background: #fffdf8; border: 1px solid rgba(89,112,176,.15); border-radius: 11px; }
+.rune-color-slot-title { color: var(--text-secondary); font-size: .75rem; font-weight: 850; }
+.rune-affix-section { display: grid; gap: 10px; margin-top: 16px; }
+.rune-selector { position: relative; }
+.rune-selector-trigger {
+  width: 100%;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 52px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  color: var(--text-primary);
+  background: #f3f7ff;
+  border: 1px solid rgba(89,112,176,.18);
+  border-radius: 13px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.rune-selector-trigger-noicon { grid-template-columns: minmax(0,1fr) auto; }
+.rune-selector-trigger-icon { width: 48px; height: 48px; }
+.rune-selector-trigger-icon img { width: 100%; height: 100%; object-fit: contain; }
+.rune-selector-trigger-body { min-width: 0; display: grid; gap: 4px; }
+.rune-selector-trigger-title,
+.rune-option-title { color: var(--text-primary); font-weight: 900; }
+.rune-selector-trigger-desc,
+.rune-option-desc { color: var(--text-secondary); font-size: .8rem; line-height: 1.4; }
+.rune-selector-menu {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: min(420px, 60vh);
+  display: none;
+  overflow: auto;
+  padding: 8px;
+  background: #fffdf8;
+  border: 1px solid rgba(89,112,176,.24);
+  border-radius: 13px;
+  box-shadow: 0 18px 38px rgba(40,68,127,.22);
+}
+.rune-selector[data-open="true"] > .rune-selector-menu { display: grid; gap: 7px; }
+.rune-option {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 44px minmax(0,1fr);
+  gap: 9px;
+  padding: 9px;
+  color: var(--text-primary);
+  background: #f3f7ff;
+  border: 1px solid rgba(89,112,176,.15);
+  border-radius: 11px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.rune-option-compact { grid-template-columns: 1fr; }
+.rune-option.selected { background: #e3ebff; border-color: var(--accent); }
+.rune-option-icon { width: 42px; height: 42px; }
+.rune-option-icon img { width: 100%; height: 100%; object-fit: contain; }
+.rune-option-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.rune-option-meta-item { color: var(--text-muted); font-size: .7rem; }
+.rune-affix-grid { display: grid; gap: 10px; }
+.rune-totals-grid { display: grid; gap: 8px; }
+.rune-total-row { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 8px; padding: 9px; background: #f3f7ff; border-radius: 10px; }
+.rune-detail-panel { display: block !important; position: sticky; top: calc(var(--sticky-header-height, 0px) + 16px); }
+.rune-resonance-list { display: grid; gap: 10px; }
+.rune-resonance-card { overflow: hidden; }
+.resonance-toggle { width: 100%; padding: 12px; color: var(--text-primary); background: transparent; border: 0; font: inherit; text-align: left; cursor: pointer; }
+.resonance-toggle-header { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; }
+.resonance-toggle-title { font-weight: 950; }
+
+.refine-modal[hidden],
+.events-modal[hidden] { display: none !important; }
+
+@media (max-width: 1100px) {
+  .affix-layout,
+  .rune-simulator-layout { grid-template-columns: 1fr !important; }
+  .affix-detail-panel,
+  .rune-detail-panel { position: static; }
+}
+
+@media (max-width: 760px) {
+  .main-content { padding: 10px !important; }
+  :is(.study-panel, .events-panel, .monster-panel, .card-panel, .shop-panel, .affix-panel,
+      .rune-builder, .rune-totals) { border-radius: 15px !important; }
+
+  .study-toolbar,
+  .card-search-row,
+  .shop-search-row,
+  .affix-search-row,
+  .monster-search-row { align-items: stretch !important; flex-direction: column; }
+  .study-select,
+  .study-search-wrap,
+  .study-select select { width: 100%; min-width: 0 !important; }
+  .study-toggle { align-self: stretch !important; justify-content: center; }
+
+  .events-weekly-desktop { display: none !important; }
+  .events-mobile-weekly { display: block !important; }
+  .events-day-nav { display: flex !important; }
+  .events-calendar-grid { grid-template-columns: 1fr !important; }
+  .events-toolbar-meta { width: 100%; align-items: flex-start !important; }
+
+  .monster-filter-row--selectors { display: grid !important; grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .monster-filter-select { width: 100%; min-width: 0; }
+  .monster-list,
+  .shop-card-grid,
+  .affix-grid,
+  .card-list { grid-template-columns: 1fr !important; }
+
+  .card-page-shell { grid-template-columns: 1fr !important; }
+  .card-view-sidebar { position: static !important; padding: 6px; }
+  .card-view-tabs { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .card-filter-row,
+  .card-filter-group { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 5px; scroll-snap-type: x proximity; }
+  .card-filter-chip { flex: 0 0 auto; scroll-snap-align: start; }
+  .fusion-card-grid { grid-template-columns: 1fr !important; }
+  .fusion-card-grid::before { display: none; }
+
+  .currency-group { grid-template-columns: 1fr !important; }
+  .currency-chip-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 5px; }
+  .currency-chip { flex: 0 0 auto; }
+
+  .affix-job-primary-chips,
+  .affix-job-subchips,
+  .affix-level-row,
+  .affix-rarity-toggle,
+  .affix-quality-toggle { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 5px; }
+  .affix-job-chip,
+  .affix-level-btn,
+  .affix-rarity-btn,
+  .affix-quality-btn { flex: 0 0 auto; }
+  .affix-type-grid { display: flex; overflow-x: auto; padding-bottom: 5px; scroll-snap-type: x proximity; }
+  .affix-type-btn { flex: 0 0 100px; scroll-snap-align: start; }
+
+  .rune-slot-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(172px, 74vw);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .rune-slot { scroll-snap-align: start; }
+  .rune-builder-grid { grid-template-columns: 1fr; }
+  .rune-form-row-colors { grid-column: auto; }
+  .rune-color-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .study-content { grid-template-columns: 1fr !important; }
+  .monster-filter-row--selectors { grid-template-columns: 1fr; }
+  .card-entry,
+  .affix-card { grid-template-columns: 68px minmax(0,1fr); padding: 10px; }
+  .card-icon-wrap { width: 64px; height: 86px; }
+  .affix-card-icon { width: 62px; height: 62px; }
+  .card-top { display: grid; }
+}
