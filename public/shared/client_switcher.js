@@ -83,3 +83,23 @@
         once: !0
     }));
 })();
+
+(() => {
+    function addHubShortcut() {
+        const nav = document.querySelector(".site-nav");
+        if (!nav || nav.querySelector('[data-rtnw-hub-link]')) return;
+        const link = document.createElement("a");
+        link.className = "site-nav-item rtnw-hub-link";
+        link.href = "/";
+        link.title = "Game Hub";
+        link.setAttribute("aria-label", "Return to Game Hub");
+        link.setAttribute("data-rtnw-hub-link", "");
+        link.innerHTML = '<span class="rtnw-hub-mark" aria-hidden="true">✦</span><span class="site-nav-label">Hub</span>';
+        nav.insertBefore(link, nav.firstChild);
+    }
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", addHubShortcut, { once: true });
+    } else {
+        addHubShortcut();
+    }
+})();

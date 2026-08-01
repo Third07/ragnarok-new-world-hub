@@ -98,6 +98,27 @@ body {
     text-shadow: 0 2px 4px rgba(30, 40, 100, 0.4);
 }
 
+#ro-client-switcher,
+#ro-lang-switcher {
+    display: none !important;
+}
+
+.rtnw-hub-link {
+    order: -1;
+}
+
+.rtnw-hub-mark {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #ecd59e;
+    background: var(--rtnw-forest);
+    border: 2px solid var(--rtnw-gold);
+    font-size: 16px;
+}
+
 .header-share-btn {
     border: 1px solid rgba(255, 255, 255, 0.35);
     background: linear-gradient(180deg, #ffd873, var(--gold-dark));
