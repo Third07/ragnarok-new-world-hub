@@ -347,6 +347,8 @@ const MAP_I18N = {
     mapImg: document.getElementById("map-img"),
     subregionsSvg: document.getElementById("subregions-svg"),
     markersLayer: document.getElementById("markers-layer"),
+    zoomIn: document.getElementById("zoom-in"),
+    zoomOut: document.getElementById("zoom-out"),
     zoomReset: document.getElementById("zoom-reset"),
     markTypeRow: document.getElementById("mark-type-row"),
     count: document.getElementById("map-count"),
@@ -501,7 +503,7 @@ function zoomAtClientPoint(e, t, n) {
 function canStartMapPan(e) {
     // Don't initiate pan/pointer-capture on clickable quest/chest markers:
     // doing so redirects the pointer stream to mapShell before their click.
-    return !(!e || e.target?.closest?.(".map-zoom-reset") || e.target?.closest?.(".map-marker-quest, .map-marker-chest") || null != e.button && 0 !== e.button && "touch" !== e.pointerType);
+    return !(!e || e.target?.closest?.(".map-touch-controls") || e.target?.closest?.(".map-marker-quest, .map-marker-chest") || null != e.button && 0 !== e.button && "touch" !== e.pointerType);
 }
 
 function rememberTouchPointer(e) {
@@ -695,7 +697,14 @@ function refreshSubregionSelection() {
 }
 
 function zoomResetEnabled(e) {
-    el.zoomReset.style.display = e ? "inline-flex" : "none";
+    if (!el.zoomReset) return;
+    el.zoomReset.disabled = !e;
+    el.zoomReset.setAttribute("aria-disabled", e ? "false" : "true");
+}
+
+function zoomFromControl(e) {
+    const t = el.mapShell.getBoundingClientRect();
+    zoomAtClientPoint(t.left + t.width / 2, t.top + t.height / 2, e);
 }
 
 function zoomToSubregion(e) {
@@ -1681,7 +1690,8 @@ async function main() {
     try {
         el.mapImg.fetchPriority = "high";
     } catch {}
-    el.mapImg.addEventListener("dragstart", e => e.preventDefault()), el.zoomReset.addEventListener("click", () => resetZoom()), 
+    el.mapImg.addEventListener("dragstart", e => e.preventDefault()), el.zoomReset.addEventListener("click", () => resetZoom()),
+    el.zoomIn?.addEventListener("click", () => zoomFromControl(-1)), el.zoomOut?.addEventListener("click", () => zoomFromControl(1)),
     el.mapSelect.addEventListener("change", async () => {
         const e = el.mapSelect.value;
         e && await setCurrentMap(Number(e));

@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="asset-version" content="20260801-mapfix1">
+    <meta name="asset-version" content="20260801-mobilegame1">
     <title>RO World Journey | Maps</title>
     <meta name="description" content="Ragnarok Online World Journey - Map marks">
-    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260801-mapfix1">
-    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260801-mapfix1">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260801-mobilegame1">
+    <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260801-mobilegame1">
 </head>
 
 <body>
@@ -94,7 +94,12 @@
                                     xmlns="http://www.w3.org/2000/svg"></svg>
                                 <div id="markers-layer" class="map-markers"></div>
                             </div>
-                            <button id="zoom-reset" class="map-zoom-reset" type="button">Reset Zoom</button>
+                            <div class="map-touch-hint" aria-hidden="true">Drag to move · Pinch or use the buttons to zoom</div>
+                            <div class="map-touch-controls" aria-label="Map zoom controls">
+                                <button id="zoom-out" class="map-zoom-button" type="button" aria-label="Zoom out">−</button>
+                                <button id="zoom-reset" class="map-zoom-reset" type="button">Reset</button>
+                                <button id="zoom-in" class="map-zoom-button" type="button" aria-label="Zoom in">+</button>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -140,10 +145,10 @@
             </div>
         </div>
     </div>
-    <script src="/shared/asset_version.js?v=20260801-mapfix1"></script>
-    <script src="/shared/client_switcher.js?v=20260801-mapfix1"></script>
-    <script src="/shared/sticky_header.js?v=20260801-mapfix1"></script>
-    <script src="/sea/map-simulator/map_view.js?v=20260801-mapfix1"></script>
+    <script src="/shared/asset_version.js?v=20260801-mobilegame1"></script>
+    <script src="/shared/client_switcher.js?v=20260801-mobilegame1"></script>
+    <script src="/shared/sticky_header.js?v=20260801-mobilegame1"></script>
+    <script src="/sea/map-simulator/map_view.js?v=20260801-mobilegame1"></script>
     <script src="/shared/reference_asset_fallback.js"></script>
 </body>
 
