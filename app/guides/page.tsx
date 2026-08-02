@@ -4,14 +4,14 @@ import styles from "./guides.module.css";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Guides",
   description:
-    "Browse RTNW Hub guide categories for classes, builds, beginner progression, equipment, refining, monsters, cards, farming, and game tools.",
+    "Browse RTNW Hub guides for classes, builds, beginner progression, equipment, refining, monsters, cards, farming, and connected game tools.",
   alternates: { canonical: "/guides/" },
   openGraph: {
     type: "website",
     url: "/guides/",
     title: "Ragnarok: The New World Guides",
     description:
-      "Practical Ragnarok: The New World guides connected to RTNW Hub planners, indexes, and the World Map.",
+      "Practical Ragnarok: The New World guides connected to RTNW Hub planners, indexes, simulators, and the World Map.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ragnarok: The New World Guides",
-    description: "RTNW class, beginner, progression, equipment, monster, card, and farming guides.",
+    description: "RTNW class, beginner, equipment, refining, monster, card, and farming guides.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
 };
@@ -43,7 +43,7 @@ const guideCategories = [
     number: "02",
     title: "Beginner guides",
     description:
-      "Follow a first-hours and first-week progression route with daily routine templates, F2P resource priorities, tool workflows, and common mistakes to avoid.",
+      "Follow a first-hours and first-week route with daily routines, F2P resource priorities, tool workflows, and common progression mistakes.",
     status: "1 guide published",
     href: "/guides/beginner-progression/",
     link: "Read beginner guide →",
@@ -52,10 +52,10 @@ const guideCategories = [
     number: "03",
     title: "Progression and equipment",
     description:
-      "Guides for equipment decisions, refining, pets, events, shop resources, and other systems that affect long-term character development.",
-    status: "Planned collection",
-    href: "/sea/equipment/",
-    link: "Open Equipment Index →",
+      "Choose better base equipment, prioritize the correct slot, and plan around the +6, +9, +12, and +15 refine checkpoints before spending materials.",
+    status: "1 guide published",
+    href: "/guides/refining-equipment/",
+    link: "Read refining guide →",
   },
   {
     number: "04",
@@ -72,15 +72,15 @@ const roadmap = [
   ["01", "Class Tier List: F2P, PvE & PvP", "Published", "/guides/class-tier-list/"],
   ["02", "Beginner Progression Guide", "Published", "/guides/beginner-progression/"],
   ["03", "Druid Builds: Werewolf, Wereraptor & Arcanist", "Published", "/guides/druid-builds/"],
-  ["04", "Refining and Equipment Upgrade Guide", "Next", ""],
-  ["05", "Farming and Card Progression Guide", "Planned", ""],
+  ["04", "Refining and Equipment Upgrade Guide", "Published", "/guides/refining-equipment/"],
+  ["05", "Farming and Card Progression Guide", "Next", ""],
 ] as const;
 
 const tools = [
+  ["Refine Simulator", "/sea/refine/"],
+  ["Equipment Index", "/sea/equipment/"],
   ["Skill Planner", "/sea/skill_planner/"],
   ["World Map", "/sea/maps/?lang=en-US#map=101"],
-  ["Monster Index", "/sea/monster_album/"],
-  ["Card Index", "/sea/cards/"],
 ] as const;
 
 export default function GuidesPage() {
@@ -93,7 +93,7 @@ export default function GuidesPage() {
         url: "https://rtnw.online/guides/",
         name: "Ragnarok: The New World Guides",
         description:
-          "Guide categories for classes, builds, beginner progression, equipment, monsters, cards, farming, and connected RTNW tools.",
+          "Guide categories for classes, builds, beginner progression, equipment, refining, monsters, cards, farming, and connected RTNW tools.",
         isPartOf: { "@id": "https://rtnw.online/#website" },
         inLanguage: "en",
       },
@@ -123,9 +123,7 @@ export default function GuidesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }}
       />
-      <a className="skip-link" href="#guide-content">
-        Skip to guides
-      </a>
+      <a className="skip-link" href="#guide-content">Skip to guides</a>
 
       <header className={styles.header}>
         <a className="brand" href="/" aria-label="RTNW Hub home">
@@ -153,8 +151,8 @@ export default function GuidesPage() {
             <a href="/">Home</a>
             <a href="/guides/" aria-current="page">Guides</a>
             <a href="/#tools">All tools</a>
-            <a href="/sea/skill_planner/">Skill Planner</a>
-            <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
+            <a href="/sea/refine/">Refine Simulator</a>
+            <a href="/sea/equipment/">Equipment Index</a>
           </nav>
         </details>
       </header>
@@ -169,11 +167,11 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Three complete guides are now published: class rankings, beginner progression, and a Druid comparison covering Werewolf, Wereraptor, and Human Arcanist. Every article connects recommendations to working planners and game-data tools.
+              Four complete guides now cover class rankings, beginner progression, all three Druid builds, and equipment refining. Every article connects its recommendations to working planners, indexes, and simulators.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primary} href="/guides/druid-builds/">Read the Druid build guide <span aria-hidden="true">→</span></a>
-              <a className={styles.secondary} href="/guides/beginner-progression/">Read the beginner guide <span aria-hidden="true">→</span></a>
+              <a className={styles.primary} href="/guides/refining-equipment/">Read the refining guide <span aria-hidden="true">→</span></a>
+              <a className={styles.secondary} href="/guides/druid-builds/">Read the Druid guide <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -185,7 +183,7 @@ export default function GuidesPage() {
               <h2 id="library-title">Four clear paths for every adventurer.</h2>
             </div>
             <p>
-              Published guides link directly to complete articles. Categories still in development continue to point toward useful working tools instead of empty pages.
+              Published categories link directly to complete articles. Collections still in development continue to point toward useful working tools instead of empty pages.
             </p>
           </div>
 
@@ -208,7 +206,7 @@ export default function GuidesPage() {
           <p className={styles.kicker}>Publishing roadmap</p>
           <h2 id="roadmap-title">The first five guide releases.</h2>
           <p className={styles.roadmapIntro}>
-            This roadmap keeps the guide section useful and focused. Each recommendation is reviewed against available game data and current player experience before publication.
+            Each recommendation is reviewed against the available game data and clearly separated from editorial strategy before publication.
           </p>
           <ol className={styles.roadmapList}>
             {roadmap.map(([number, title, status, href]) => (
@@ -223,9 +221,9 @@ export default function GuidesPage() {
 
         <section className={styles.toolLinks} aria-labelledby="tool-links-title">
           <p className={styles.kicker}>Available now</p>
-          <h2 id="tool-links-title">Use the game-data tools while the guides grow.</h2>
+          <h2 id="tool-links-title">Plan the build before spending the materials.</h2>
           <p>
-            Search monsters and cards, inspect equipment, plan skills, or locate targets on the World Map without waiting for the next article.
+            Inspect equipment, simulate refine attempts, plan skills, and locate targets without waiting for the next article.
           </p>
           <div className={styles.toolGrid}>
             {tools.map(([name, href]) => (
