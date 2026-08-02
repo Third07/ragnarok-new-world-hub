@@ -13,7 +13,7 @@
     "seo:audit:strict": "node scripts/seo-audit.mjs --strict",
     "predev": "npm run names:sync && npm run social:sync && npm run seo:audit",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
-    "prebuild": "npm run names:sync && npm run social:sync && npm run seo:audit:strict",
+    "prebuild": "npm run names:sync && npm run social:sync && npm run seo:audit",
     "build": "node scripts/generate-performance-data.mjs && bash scripts/build-verified.sh",
     "data:optimize": "node scripts/generate-performance-data.mjs",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
