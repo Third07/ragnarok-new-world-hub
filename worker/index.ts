@@ -1,10 +1,9 @@
-/** Cloudflare Worker entry point for the vinext-starter template. */
+/** Cloudflare Worker entry point for the Vinext application. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
 
 interface Env {
   ASSETS: Fetcher;
-  DB: D1Database;
   IMAGES: {
     input(stream: ReadableStream): {
       transform(options: Record<string, unknown>): {
@@ -19,7 +18,7 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-const DEPLOYMENT_VERSION = "2026-08-03-route-fallback-1";
+const DEPLOYMENT_VERSION = "2026-08-03-indexnow-1";
 
 const guideFallbacks: Record<
   string,
@@ -130,24 +129,28 @@ function withPerformanceHeaders(request: Request, response: Response): Response 
   const staticAsset = /^(?:css|js|mjs|json|xml|txt|webp|png|jpe?g|gif|ico|woff2?)$/.test(extension);
 
   if (staticAsset) {
-    headers.set("Cache-Control", versioned
-      ? "public, max-age=31536000, immutable"
-      : extension === "json"
-        ? "public, max-age=3600, stale-while-revalidate=86400"
-        : "public, max-age=3600, stale-while-revalidate=86400");
+    headers.set(
+      "Cache-Control",
+      versioned
+        ? "public, max-age=31536000, immutable"
+        : "public, max-age=3600, stale-while-revalidate=86400",
+    );
   } else if ((headers.get("content-type") || "").includes("text/html")) {
     headers.set("Cache-Control", "public, max-age=0, must-revalidate");
   }
 
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-RTNW-Deployment", DEPLOYMENT_VERSION);
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function normalizedPagePath(pathname: string): string {
   if (pathname === "/guides") return "/guides/";
   if (pathname.startsWith("/guides/") && !pathname.endsWith("/")) return `${pathname}/`;
-  if (pathname === "/updates") return "/updates/";
   if (pathname === "/seo-status") return "/seo-status/";
   return pathname;
 }
@@ -173,9 +176,14 @@ function fallbackPage(
 ): Response {
   const origin = new URL(request.url).origin;
   const links = options.links
-    .map(([label, href]) => `<a href="${escapeHtml(href)}">${escapeHtml(label)} <span aria-hidden="true">→</span></a>`)
+    .map(
+      ([label, href]) =>
+        `<a href="${escapeHtml(href)}">${escapeHtml(label)} <span aria-hidden="true">→</span></a>`,
+    )
     .join("");
-  const robots = options.noindex ? '<meta name="robots" content="noindex,nofollow">' : '<meta name="robots" content="index,follow">';
+  const robots = options.noindex
+    ? '<meta name="robots" content="noindex,nofollow">'
+    : '<meta name="robots" content="index,follow">';
   const html = `<!doctype html>
 <html lang="en">
 <head>
@@ -190,34 +198,21 @@ ${robots}
 </style>
 </head>
 <body>
-<header><a class="brand" href="/">✦ RTNW Hub</a><nav><a href="/guides/">Guides</a> · <a href="/updates/">Updates</a></nav></header>
+<header><a class="brand" href="/">✦ RTNW Hub</a><nav><a href="/">Home</a> · <a href="/guides/">Guides</a></nav></header>
 <main>
 <p class="kicker">Ragnarok: The New World</p>
 <h1>${escapeHtml(options.title)}</h1>
 <p>${escapeHtml(options.description)}</p>
 <div class="links">${links}</div>
-<div class="notice"><strong>Emergency route fallback</strong>This page is served only when the primary application route is unavailable. The linked tools and content remain accessible while the latest Sites worker is being published.</div>
+<div class="notice"><strong>Emergency route fallback</strong>This page is served only when the primary application route is unavailable. The linked tools and content remain accessible while the latest Cloudflare Worker is being published.</div>
 </main>
 <footer><span>Independent fan-made game-data toolkit.</span><a href="/">Return home</a></footer>
 </body>
 </html>`;
+
   return new Response(request.method === "HEAD" ? null : html, {
     status: 200,
     headers: { "Content-Type": "text/html; charset=utf-8" },
-  });
-}
-
-function updatesFallback(request: Request): Response {
-  return fallbackPage(request, {
-    title: "Latest Updates and Changelog",
-    description: "Review newly published guides, guide categories, structured data, social sharing, SEO diagnostics, RSS, and IndexNow integration.",
-    canonicalPath: "/updates/",
-    links: [
-      ["Browse all guides", "/guides/"],
-      ["RSS feed", "/feed.xml"],
-      ["SEO status", "/seo-status/"],
-      ["Sitemap", "/sitemap.xml"],
-    ],
   });
 }
 
@@ -236,26 +231,6 @@ function seoStatusFallback(request: Request): Response {
   });
 }
 
-function rssFallback(request: Request): Response {
-  const origin = new URL(request.url).origin;
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<title>RTNW Hub Latest Updates</title>
-<link>${origin}/updates/</link>
-<description>New Ragnarok: The New World guides, tools, data, and RTNW Hub maintenance updates.</description>
-<language>en</language>
-<atom:link href="${origin}/feed.xml" rel="self" type="application/rss+xml" />
-<item><title>IndexNow, RSS, and public changelog</title><link>${origin}/updates/</link><guid isPermaLink="false">rtnw-indexnow-rss-changelog</guid><pubDate>Sun, 02 Aug 2026 19:30:00 GMT</pubDate><description>Added the public updates page, RSS feed, and IndexNow support.</description></item>
-<item><title>Guide category pages and five cornerstone guides</title><link>${origin}/guides/</link><guid isPermaLink="false">rtnw-guide-library</guid><pubDate>Sun, 02 Aug 2026 19:08:00 GMT</pubDate><description>Published dedicated guide categories and five connected guides.</description></item>
-</channel>
-</rss>\n`;
-  return new Response(request.method === "HEAD" ? null : xml, {
-    status: 200,
-    headers: { "Content-Type": "application/rss+xml; charset=utf-8" },
-  });
-}
-
 async function assetResponse(request: Request, env: Env, path: string): Promise<Response> {
   const assetRequest = new Request(new URL(path, request.url), {
     method: request.method,
@@ -264,25 +239,26 @@ async function assetResponse(request: Request, env: Env, path: string): Promise<
   return env.ASSETS.fetch(assetRequest);
 }
 
-// Image security config. SVG sources with .svg extension auto-skip the
-// optimization endpoint on the client side (served directly, no proxy).
-// To route SVGs through the optimizer (with security headers), set
-// dangerouslyAllowSVG: true in next.config.js and uncomment below:
-// const imageConfig: ImageConfig = { dangerouslyAllowSVG: true };
-
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
-      const response = await handleImageOptimization(request, {
-        fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
-        transformImage: async (body, { width, format, quality }) => {
-          const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
-          return result.response();
+      const response = await handleImageOptimization(
+        request,
+        {
+          fetchAsset: (path) =>
+            env.ASSETS.fetch(new Request(new URL(path, request.url))),
+          transformImage: async (body, { width, format, quality }) => {
+            const result = await env.IMAGES.input(body)
+              .transform(width > 0 ? { width } : {})
+              .output({ format, quality });
+            return result.response();
+          },
         },
-      }, allowedWidths);
+        allowedWidths,
+      );
       return withPerformanceHeaders(request, response);
     }
 
@@ -297,11 +273,17 @@ const worker = {
       url.pathname === "/deployment-version.txt" ||
       url.pathname === "/4cc78cf9b31d099f4de23a0874b08a5e.txt"
     ) {
-      return withPerformanceHeaders(request, await assetResponse(request, env, url.pathname));
+      return withPerformanceHeaders(
+        request,
+        await assetResponse(request, env, url.pathname),
+      );
     }
 
     const response = await handler.fetch(request, env, ctx);
-    if (response.status !== 404 || (request.method !== "GET" && request.method !== "HEAD")) {
+    if (
+      response.status !== 404 ||
+      (request.method !== "GET" && request.method !== "HEAD")
+    ) {
       return withPerformanceHeaders(request, response);
     }
 
@@ -316,9 +298,9 @@ const worker = {
         }),
       );
     }
-    if (path === "/updates/") return withPerformanceHeaders(request, updatesFallback(request));
-    if (path === "/seo-status/") return withPerformanceHeaders(request, seoStatusFallback(request));
-    if (path === "/feed.xml") return withPerformanceHeaders(request, rssFallback(request));
+    if (path === "/seo-status/") {
+      return withPerformanceHeaders(request, seoStatusFallback(request));
+    }
 
     return withPerformanceHeaders(request, response);
   },
