@@ -3,6 +3,13 @@
 import { useEffect } from "react";
 
 const GUIDE_HREF = "/guides/";
+const TRUST_LINKS = [
+  ["About", "/about/"],
+  ["Contact", "/contact/"],
+  ["Privacy", "/privacy/"],
+  ["Terms", "/terms/"],
+  ["Disclaimer", "/disclaimer/"],
+] as const;
 
 function createGuideLink(className?: string) {
   const link = document.createElement("a");
@@ -15,6 +22,24 @@ function createGuideLink(className?: string) {
 
 function hasGuideLink(root: Element) {
   return Boolean(root.querySelector(`a[href="${GUIDE_HREF}"]`));
+}
+
+function injectTrustLinks(footerMeta: Element) {
+  if (TRUST_LINKS.some(([, href]) => footerMeta.querySelector(`a[href="${href}"]`))) return;
+
+  const nav = document.createElement("nav");
+  nav.className = "trust-footer-links";
+  nav.dataset.trustNavigation = "true";
+  nav.setAttribute("aria-label", "Site information");
+
+  for (const [label, href] of TRUST_LINKS) {
+    const link = document.createElement("a");
+    link.href = href;
+    link.textContent = label;
+    nav.appendChild(link);
+  }
+
+  footerMeta.appendChild(nav);
 }
 
 function injectGuideNavigation() {
@@ -37,11 +62,13 @@ function injectGuideNavigation() {
     guideOverview.appendChild(createGuideLink("guide-path-link"));
   }
 
-  const footerMeta = document.querySelector(".footer-meta");
-  if (footerMeta && !hasGuideLink(footerMeta)) {
-    const sitemapLink = footerMeta.querySelector('a[href="/sitemap.xml"]');
-    footerMeta.insertBefore(createGuideLink(), sitemapLink ?? null);
-  }
+  document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
+    if (!hasGuideLink(footerMeta)) {
+      const sitemapLink = footerMeta.querySelector('a[href="/sitemap.xml"]');
+      footerMeta.insertBefore(createGuideLink(), sitemapLink ?? null);
+    }
+    injectTrustLinks(footerMeta);
+  });
 }
 
 export default function GuideNavigation() {
