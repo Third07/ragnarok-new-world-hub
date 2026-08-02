@@ -26,10 +26,7 @@ export const metadata: Metadata = {
   description:
     "Explore Ragnarok: The New World guides, class builds, skill and rune planners, interactive maps, monsters, cards, equipment, pets, events, and more.",
   applicationName: "RTNW Hub",
-  alternates: {
-    canonical: "/",
-    types: { "application/rss+xml": "/feed.xml" },
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
