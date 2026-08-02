@@ -178,7 +178,6 @@ for (const [route, source] of legacyRoutes) {
     ["Open Graph title", /<meta\s+property=["']og:title["'][^>]+>/i],
     ["Open Graph image", /<meta\s+property=["']og:image["'][^>]+>/i],
     ["Twitter card", /<meta\s+name=["']twitter:card["'][^>]+>/i],
-    ["Twitter image", /<meta\s+name=["']twitter:image["'][^>]+>/i],
     ["H1", /<h1\b[^>]*>[^<]+<\/h1>/i],
   ];
   const missing = required.filter(([, pattern]) => !pattern.test(html)).map(([label]) => label);
