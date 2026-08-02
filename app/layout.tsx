@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "../public/shared/responsive_ads.css";
 
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Hub — Tools, Maps & Planners",

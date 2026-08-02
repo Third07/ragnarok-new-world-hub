@@ -235,6 +235,23 @@
         nav.classList.toggle("site-nav--compact", compact);
     }
 
+    function loadResponsiveAds() {
+        if (!document.querySelector('link[data-rtnw-ads]')) {
+            const stylesheet = document.createElement("link");
+            stylesheet.rel = "stylesheet";
+            stylesheet.href = "/shared/responsive_ads.css?v=20260802-ads1";
+            stylesheet.dataset.rtnwAds = "true";
+            document.head.appendChild(stylesheet);
+        }
+
+        if (document.querySelector('script[data-rtnw-ads]')) return;
+        const script = document.createElement("script");
+        script.src = "/shared/responsive_ads.js?v=20260802-ads1";
+        script.defer = true;
+        script.dataset.rtnwAds = "true";
+        document.body.appendChild(script);
+    }
+
     function getSelectLabel(select) {
         const explicit = select.getAttribute("aria-label");
         if (explicit) return explicit;
@@ -445,6 +462,7 @@
         syncCompactNav();
         enhanceSelects();
         optimizeImages();
+        loadResponsiveAds();
 
         new MutationObserver(mutations => {
             mutations.forEach(mutation => mutation.addedNodes.forEach(node => {

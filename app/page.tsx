@@ -130,6 +130,15 @@ export default function Home() {
       }
     };
     window.addEventListener("keydown", handleKey);
+
+    if (!document.querySelector('script[data-rtnw-ads]')) {
+      const script = document.createElement("script");
+      script.src = "/shared/responsive_ads.js?v=20260802-ads1";
+      script.async = true;
+      script.dataset.rtnwAds = "true";
+      document.body.appendChild(script);
+    }
+
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
@@ -261,6 +270,8 @@ export default function Home() {
           </div>
         </section>
 
+        <aside className="rtnw-ad-slot" data-ad-slot="true" data-ad-format="responsive" data-ad-placement="home-inline" />
+
         <section className="tool-library" id="tools" aria-labelledby="tools-heading">
           <div className="library-heading">
             <div>
@@ -322,6 +333,8 @@ export default function Home() {
             </div>
           )}
         </section>
+
+        <aside className="rtnw-ad-slot rtnw-ad-slot--rectangle" data-ad-slot="true" data-ad-format="rectangle" data-ad-placement="home-end" />
 
         <section className="journey-banner" aria-label="Explore Rune-Midgard">
           <div>
