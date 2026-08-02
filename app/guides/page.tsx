@@ -43,10 +43,10 @@ const guideCategories = [
     number: "02",
     title: "Beginner guides",
     description:
-      "Clear starting paths for new adventurers, including progression priorities, useful daily references, and explanations of the hub tools used along the way.",
-    status: "Planned collection",
-    href: "/sea/maps/?lang=en-US#map=101",
-    link: "Open World Map →",
+      "Follow a first-hours and first-week progression route with daily routine templates, F2P resource priorities, tool workflows, and common mistakes to avoid.",
+    status: "1 guide published",
+    href: "/guides/beginner-progression/",
+    link: "Read beginner guide →",
   },
   {
     number: "03",
@@ -70,8 +70,8 @@ const guideCategories = [
 
 const roadmap = [
   ["01", "Class Tier List: F2P, PvE & PvP", "Published", "/guides/class-tier-list/"],
-  ["02", "Beginner Progression Guide", "Next", ""],
-  ["03", "Druid Werewolf Build", "Planned", ""],
+  ["02", "Beginner Progression Guide", "Published", "/guides/beginner-progression/"],
+  ["03", "Druid Werewolf Build", "Next", ""],
   ["04", "Druid Arcanist Build", "Planned", ""],
   ["05", "Refining and Equipment Upgrade Guide", "Planned", ""],
 ] as const;
@@ -169,11 +169,11 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Practical articles organized around the same planners, indexes, and World Map already available on RTNW Hub. The first class tier list is now published, with more focused builds and progression guides following in controlled releases.
+              The class tier list and beginner progression guide are now published. Each article connects recommendations to working planners, indexes, schedules, and game-data tools.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primary} href="/guides/class-tier-list/">Read the class tier list <span aria-hidden="true">→</span></a>
-              <a className={styles.secondary} href="/#tools">Browse all tools <span aria-hidden="true">→</span></a>
+              <a className={styles.primary} href="/guides/beginner-progression/">Read the beginner guide <span aria-hidden="true">→</span></a>
+              <a className={styles.secondary} href="/guides/class-tier-list/">View class tier lists <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -208,7 +208,7 @@ export default function GuidesPage() {
           <p className={styles.kicker}>Publishing roadmap</p>
           <h2 id="roadmap-title">The first five guide releases.</h2>
           <p className={styles.roadmapIntro}>
-            This roadmap keeps the guide section useful and focused. Each recommendation is reviewed against available game data and early player experience before publication.
+            This roadmap keeps the guide section useful and focused. Each recommendation is reviewed against available game data and current player experience before publication.
           </p>
           <ol className={styles.roadmapList}>
             {roadmap.map(([number, title, status, href]) => (
