@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 
 const siteOrigin = "https://rtnw.online";
 const host = "rtnw.online";
+const siteTimeZone = "Asia/Manila";
 const defaultKey = "4cc78cf9b31d099f4de23a0874b08a5e";
 const endpoint = process.env.INDEXNOW_ENDPOINT?.trim() || "https://api.indexnow.org/indexnow";
 const key = process.env.INDEXNOW_KEY?.trim() || defaultKey;
@@ -27,6 +28,17 @@ function explicitUrls() {
     if (arg.startsWith("--url=")) values.push(arg.slice(6));
   }
   return values;
+}
+
+function dateInSiteTimeZone(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: siteTimeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
 }
 
 function normalizeUrl(value) {
@@ -55,7 +67,7 @@ async function selectUrls() {
   const entries = parseSitemap(sitemap);
   const submitAll = args.includes("--all") || process.env.INDEXNOW_SUBMIT_ALL === "1";
   const since = argumentValue("--since");
-  const today = new Date().toISOString().slice(0, 10);
+  const today = dateInSiteTimeZone();
 
   if (submitAll) return entries.map((entry) => normalizeUrl(entry.url));
   if (since) {
