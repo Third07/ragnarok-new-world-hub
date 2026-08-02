@@ -5,10 +5,13 @@ const root = process.cwd();
 const strict = process.argv.includes("--strict");
 const siteOrigin = "https://rtnw.online";
 const reportPath = path.join(root, "public", "seo-audit.json");
+const indexNowKey = "4cc78cf9b31d099f4de23a0874b08a5e";
+const indexNowKeyPath = `public/${indexNowKey}.txt`;
 
 const expectedRoutes = [
   "/",
   "/guides/",
+  "/updates/",
   "/guides/classes-builds/",
   "/guides/beginner-guides/",
   "/guides/progression-equipment/",
@@ -41,6 +44,7 @@ const expectedRoutes = [
 const routeSources = {
   "/": "app/page.tsx",
   "/guides/": "app/guides/page.tsx",
+  "/updates/": "app/updates/page.tsx",
   "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
   "/guides/beginner-guides/": "app/guides/beginner-guides/page.tsx",
   "/guides/progression-equipment/": "app/guides/progression-equipment/page.tsx",
@@ -104,6 +108,8 @@ async function read(relativePath) {
 
 const sitemap = await read("public/sitemap.xml");
 const robots = await read("public/robots.txt");
+const layout = await read("app/layout.tsx");
+const packageJson = JSON.parse(await read("package.json"));
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].trim());
 const duplicateUrls = sitemapUrls.filter((url, index) => sitemapUrls.indexOf(url) !== index);
 const missingSitemapRoutes = expectedRoutes.filter((route) => !sitemapUrls.includes(`${siteOrigin}${route}`));
@@ -211,9 +217,44 @@ add(
   missingSocialSources,
 );
 
+const rssRouteReady = await exists("app/feed.xml/route.ts");
+const rssAdvertised = layout.includes('"application/rss+xml": "/feed.xml"');
+add(
+  rssRouteReady && rssAdvertised ? "pass" : "error",
+  "rss-feed",
+  rssRouteReady && rssAdvertised
+    ? "The RSS route exists and is advertised in site metadata."
+    : "The RSS route or autodiscovery metadata is missing.",
+  { route: rssRouteReady, autodiscovery: rssAdvertised },
+);
+
+const indexNowKeyReady =
+  (await exists(indexNowKeyPath)) && (await read(indexNowKeyPath)).trim() === indexNowKey;
+const indexNowClientReady = await exists("scripts/indexnow-submit.mjs");
+const indexNowCommandsReady =
+  packageJson.scripts?.["indexnow:submit"] &&
+  packageJson.scripts?.["indexnow:submit:all"] &&
+  packageJson.scripts?.postbuild?.includes("indexnow-submit.mjs");
+add(
+  indexNowKeyReady ? "pass" : "error",
+  "indexnow-key",
+  indexNowKeyReady
+    ? "The IndexNow verification key is hosted from the public root."
+    : "The IndexNow key file is missing or does not match its filename.",
+);
+add(
+  indexNowClientReady && indexNowCommandsReady ? "pass" : "error",
+  "indexnow-submission",
+  indexNowClientReady && indexNowCommandsReady
+    ? "IndexNow manual and non-blocking post-build submission commands are configured."
+    : "IndexNow submission wiring is incomplete.",
+  { client: indexNowClientReady, commands: Boolean(indexNowCommandsReady) },
+);
+
 const verification = {
   google: Boolean(process.env.GOOGLE_SITE_VERIFICATION?.trim()),
   bing: Boolean(process.env.BING_SITE_VERIFICATION?.trim()),
+  indexNow: indexNowKeyReady && indexNowClientReady && Boolean(indexNowCommandsReady),
 };
 add(
   verification.google ? "pass" : "warn",
