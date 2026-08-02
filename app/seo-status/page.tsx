@@ -91,7 +91,7 @@ export default function SeoStatusPage() {
               </article>
               <article>
                 <code>npm run build</code>
-                <p>Synchronize names and social images, run the strict audit, then build the site.</p>
+                <p>Synchronize names and social images, generate the audit report, then build the site.</p>
               </article>
             </div>
           </section>
