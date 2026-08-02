@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import GuideNavigation from "./GuideNavigation";
 import "./globals.css";
+import "./trust-navigation.css";
 import "../public/shared/responsive_ads.css";
 
 export const metadata: Metadata = {
