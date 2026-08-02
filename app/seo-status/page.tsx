@@ -5,7 +5,7 @@ import styles from "./seo-status.module.css";
 export const metadata: Metadata = {
   title: "SEO Maintenance Status",
   description:
-    "Private-facing RTNW Hub crawl diagnostics, search ownership status, sitemap checks, and SEO maintenance instructions.",
+    "Private-facing RTNW Hub crawl diagnostics, search ownership status, sitemap checks, IndexNow configuration, and SEO maintenance instructions.",
   alternates: { canonical: "/seo-status/" },
   robots: {
     index: false,
@@ -34,7 +34,7 @@ export default function SeoStatusPage() {
         </a>
         <nav aria-label="Maintenance navigation">
           <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
+          <a href="/updates/">Updates</a>
           <a href="/sitemap.xml">Sitemap</a>
           <a href="/robots.txt">Robots</a>
         </nav>
@@ -49,7 +49,7 @@ export default function SeoStatusPage() {
           </p>
           <div className={styles.heroLinks}>
             <a href="/sitemap.xml">Open sitemap <span aria-hidden="true">↗</span></a>
-            <a href="/robots.txt">Open robots.txt <span aria-hidden="true">↗</span></a>
+            <a href="/feed.xml">Open RSS feed <span aria-hidden="true">↗</span></a>
             <a href="/seo-audit.json">Open raw audit <span aria-hidden="true">↗</span></a>
           </div>
         </section>
@@ -58,8 +58,8 @@ export default function SeoStatusPage() {
           <SeoStatusClient />
 
           <section className={styles.setupPanel} aria-labelledby="setup-title">
-            <p className={styles.kicker}>Ownership setup</p>
-            <h2 id="setup-title">Add the real verification tokens during deployment.</h2>
+            <p className={styles.kicker}>Search ownership</p>
+            <h2 id="setup-title">Add the real Google and Bing verification tokens.</h2>
             <ol>
               <li>
                 In Google Search Console, choose the HTML-tag verification method and copy only the token inside the <code>content</code> attribute.
@@ -77,6 +77,20 @@ export default function SeoStatusPage() {
             </p>
           </section>
 
+          <section className={styles.setupPanel} aria-labelledby="indexnow-title">
+            <p className={styles.kicker}>IndexNow</p>
+            <h2 id="indexnow-title">Notify participating search engines after content changes.</h2>
+            <ol>
+              <li>The public key is hosted from <code>/4cc78cf9b31d099f4de23a0874b08a5e.txt</code>.</li>
+              <li>The normal post-build hook submits sitemap URLs whose <code>lastmod</code> is today.</li>
+              <li>Submission failures are logged but do not block the website deployment.</li>
+              <li>Use the one-time full command after the first deployment when every current URL should be announced.</li>
+            </ol>
+            <p>
+              Set <code>INDEXNOW_AUTO_SUBMIT=0</code> to disable the automatic post-build request. Set <code>INDEXNOW_SUBMIT_ALL=1</code> for one deployment to submit the full sitemap instead of only today&apos;s URLs.
+            </p>
+          </section>
+
           <section className={styles.commandsPanel} aria-labelledby="commands-title">
             <p className={styles.kicker}>Local maintenance</p>
             <h2 id="commands-title">Useful commands</h2>
@@ -90,8 +104,20 @@ export default function SeoStatusPage() {
                 <p>Exit with an error when a critical crawl or metadata check fails.</p>
               </article>
               <article>
+                <code>npm run indexnow:submit</code>
+                <p>Submit sitemap URLs whose last-modified date is today.</p>
+              </article>
+              <article>
+                <code>npm run indexnow:submit:all</code>
+                <p>Submit every URL currently listed in the sitemap.</p>
+              </article>
+              <article>
+                <code>npm run indexnow:dry-run</code>
+                <p>Print the full IndexNow payload without sending it.</p>
+              </article>
+              <article>
                 <code>npm run build</code>
-                <p>Synchronize names and social images, generate the audit report, then build the site.</p>
+                <p>Synchronize metadata, generate the audit, build, and run the non-blocking IndexNow hook.</p>
               </article>
             </div>
           </section>
@@ -105,6 +131,7 @@ export default function SeoStatusPage() {
         </a>
         <div className="footer-meta">
           <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
+          <a href="/updates/">Updates</a>
           <a href="/privacy/">Privacy</a>
           <a href="/contact/">Contact</a>
         </div>
