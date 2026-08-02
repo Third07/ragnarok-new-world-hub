@@ -34,7 +34,7 @@ export default function SeoStatusPage() {
         </a>
         <nav aria-label="Maintenance navigation">
           <a href="/">Home</a>
-          <a href="/updates/">Updates</a>
+          <a href="/guides/">Guides</a>
           <a href="/sitemap.xml">Sitemap</a>
           <a href="/robots.txt">Robots</a>
         </nav>
@@ -49,7 +49,7 @@ export default function SeoStatusPage() {
           </p>
           <div className={styles.heroLinks}>
             <a href="/sitemap.xml">Open sitemap <span aria-hidden="true">↗</span></a>
-            <a href="/feed.xml">Open RSS feed <span aria-hidden="true">↗</span></a>
+            <a href="/4cc78cf9b31d099f4de23a0874b08a5e.txt">Open IndexNow key <span aria-hidden="true">↗</span></a>
             <a href="/seo-audit.json">Open raw audit <span aria-hidden="true">↗</span></a>
           </div>
         </section>
@@ -59,35 +59,29 @@ export default function SeoStatusPage() {
 
           <section className={styles.setupPanel} aria-labelledby="setup-title">
             <p className={styles.kicker}>Search ownership</p>
-            <h2 id="setup-title">Add the real Google and Bing verification tokens.</h2>
+            <h2 id="setup-title">Google and Bing ownership verification.</h2>
             <ol>
-              <li>
-                In Google Search Console, choose the HTML-tag verification method and copy only the token inside the <code>content</code> attribute.
-              </li>
-              <li>
-                Save it as <code>GOOGLE_SITE_VERIFICATION</code> in the deployment environment.
-              </li>
-              <li>
-                In Bing Webmaster Tools, copy the <code>msvalidate.01</code> value and save it as <code>BING_SITE_VERIFICATION</code>.
-              </li>
-              <li>Redeploy, verify ownership, and submit <code>https://rtnw.online/sitemap.xml</code>.</li>
+              <li>Keep the Google Search Console HTML-tag token in <code>GOOGLE_SITE_VERIFICATION</code>.</li>
+              <li>Keep the Bing <code>msvalidate.01</code> value in <code>BING_SITE_VERIFICATION</code>.</li>
+              <li>After metadata changes, redeploy and confirm both properties remain verified.</li>
+              <li>Submit <code>https://rtnw.online/sitemap.xml</code> in both webmaster portals.</li>
             </ol>
             <p>
-              Do not paste the full meta tag. The project already generates the correct tag from each token. The variables are documented in <code>.env.example</code>.
+              Store only each provider&apos;s token value, not the complete meta tag. The project generates the correct HTML tags automatically.
             </p>
           </section>
 
           <section className={styles.setupPanel} aria-labelledby="indexnow-title">
             <p className={styles.kicker}>IndexNow</p>
-            <h2 id="indexnow-title">Notify participating search engines after content changes.</h2>
+            <h2 id="indexnow-title">Verify the key, submit changed URLs, then confirm receipt.</h2>
             <ol>
-              <li>The public key is hosted from <code>/4cc78cf9b31d099f4de23a0874b08a5e.txt</code>.</li>
-              <li>The normal post-build hook submits sitemap URLs whose <code>lastmod</code> is today.</li>
-              <li>Submission failures are logged but do not block the website deployment.</li>
-              <li>Use the one-time full command after the first deployment when every current URL should be announced.</li>
+              <li>Open the public key URL and confirm it displays only <code>4cc78cf9b31d099f4de23a0874b08a5e</code>.</li>
+              <li>Set the Cloudflare deploy command to <code>npm run deploy</code>. It deploys the Worker first and then runs the IndexNow submission client.</li>
+              <li>In the deployment log, look for <code>IndexNow accepted ... with HTTP 200</code> or <code>HTTP 202</code>.</li>
+              <li>In Bing Webmaster Tools, open the IndexNow section to confirm that Bing received the submitted URLs.</li>
             </ol>
             <p>
-              Set <code>INDEXNOW_AUTO_SUBMIT=0</code> to disable the automatic post-build request. Set <code>INDEXNOW_SUBMIT_ALL=1</code> for one deployment to submit the full sitemap instead of only today&apos;s URLs.
+              HTTP 200 means the request was accepted. HTTP 202 means the URLs were received while key validation is pending. IndexNow announces changed URLs but does not guarantee crawling or ranking.
             </p>
           </section>
 
@@ -100,8 +94,8 @@ export default function SeoStatusPage() {
                 <p>Generate the JSON report without failing the command on warnings.</p>
               </article>
               <article>
-                <code>npm run seo:audit:strict</code>
-                <p>Exit with an error when a critical crawl or metadata check fails.</p>
+                <code>npm run indexnow:verify</code>
+                <p>Fetch the live key file and confirm that its contents match the configured key.</p>
               </article>
               <article>
                 <code>npm run indexnow:submit</code>
@@ -109,15 +103,15 @@ export default function SeoStatusPage() {
               </article>
               <article>
                 <code>npm run indexnow:submit:all</code>
-                <p>Submit every URL currently listed in the sitemap.</p>
+                <p>Submit every sitemap URL once after the initial IndexNow setup.</p>
               </article>
               <article>
                 <code>npm run indexnow:dry-run</code>
                 <p>Print the full IndexNow payload without sending it.</p>
               </article>
               <article>
-                <code>npm run build</code>
-                <p>Synchronize metadata, generate the audit, build, and run the non-blocking IndexNow hook.</p>
+                <code>npm run deploy</code>
+                <p>Deploy the existing Cloudflare build and then submit today&apos;s changed URLs to IndexNow.</p>
               </article>
             </div>
           </section>
@@ -131,7 +125,7 @@ export default function SeoStatusPage() {
         </a>
         <div className="footer-meta">
           <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/updates/">Updates</a>
+          <a href="/guides/">Guides</a>
           <a href="/privacy/">Privacy</a>
           <a href="/contact/">Contact</a>
         </div>
