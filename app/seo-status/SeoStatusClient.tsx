@@ -104,7 +104,7 @@ export default function SeoStatusClient() {
         <article>
           <span>Errors</span>
           <strong>{report.summary.error}</strong>
-          <small>The strict production audit blocks on these</small>
+          <small>The optional strict audit exits on these</small>
         </article>
       </section>
 
