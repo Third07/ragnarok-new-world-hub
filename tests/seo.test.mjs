@@ -183,7 +183,7 @@ test("sitemap, robots, manifest, favicon, and deployment canary are current", as
     "00000100",
     "favicon.ico should have a valid ICO header",
   );
-  assert.match(deploymentVersion, /^version=2026-08-03-class-guides-1\s*$/);
+  assert.match(deploymentVersion, /^version=2026-08-03-indexnow-1\s*$/);
 });
 
 test("rendered home page exposes canonical metadata and WebSite schema", async () => {
@@ -227,7 +227,7 @@ test("Cloudflare build serves all class guides and active discovery routes", asy
       context,
     );
     assert.equal(response.status, 200, `${pathname} should return 200`);
-    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-class-guides-1");
+    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-indexnow-1");
   }
 
   for (const pathname of ["/updates/", "/feed.xml"]) {
