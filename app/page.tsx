@@ -31,7 +31,7 @@ const tools: HubTool[] = [
     badge: "Build tool",
   },
   {
-    title: "Interactive Maps",
+    title: "World Map",
     description: "Find monsters, quests, landmarks, and chests.",
     href: "/sea/maps/?lang=en-US#map=101",
     icon: "/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp",
@@ -53,21 +53,21 @@ const tools: HubTool[] = [
     category: "Planners",
   },
   {
-    title: "Equipment",
+    title: "Equipment Index",
     description: "Browse gear, stats, slots, and set bonuses.",
     href: "/sea/equipment/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
     category: "Database",
   },
   {
-    title: "Card Library",
+    title: "Card Index",
     description: "Search monster cards and fusion recipes.",
     href: "/sea/cards/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_tujian.webp",
     category: "Database",
   },
   {
-    title: "Monster Album",
+    title: "Monster Index",
     description: "Look up monsters, habitats, stats, and drops.",
     href: "/sea/monster_album/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_fuben.webp",
@@ -220,7 +220,7 @@ export default function Home() {
           <a href="/sea/skill_planner/">Skill Planner</a>
           <a href="/sea/rune_planner/">Rune Planner</a>
           <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
-          <a href="/sea/monster_album/">Monster Album</a>
+          <a href="/sea/monster_album/">Monster Index</a>
         </nav>
       </header>
 
@@ -371,7 +371,7 @@ export default function Home() {
             <article>
               <span>02</span>
               <h3>Find monsters and drops</h3>
-              <p>Use the <a href="/sea/maps/?lang=en-US#map=101">interactive map</a> with the Monster Album and Card Database to locate targets, inspect stats, and see where important cards can be obtained.</p>
+              <p>Use the <a href="/sea/maps/?lang=en-US#map=101">World Map</a> with the Monster Index and Card Index to locate targets, inspect stats, and see where important cards can be obtained.</p>
               <a className="guide-path-link" href="/sea/monster_album/">Search monsters →</a>
             </article>
             <article>
@@ -388,7 +388,7 @@ export default function Home() {
             <p className="eyebrow"><span /> Ready for the next quest?</p>
             <h2>See the whole world<br />before you set out.</h2>
           </div>
-          <a href="/sea/maps/?lang=en-US#map=101">Explore the map <span aria-hidden="true">→</span></a>
+          <a href="/sea/maps/?lang=en-US#map=101">Explore the World Map <span aria-hidden="true">→</span></a>
         </section>
       </main>
 
@@ -407,7 +407,7 @@ export default function Home() {
       <nav className="mobile-dock" aria-label="Quick mobile navigation">
         <a href="#top"><span aria-hidden="true">⌂</span>Home</a>
         <a href="#tools"><span aria-hidden="true">◇</span>Tools</a>
-        <a href="/sea/maps/?lang=en-US#map=101"><span aria-hidden="true">⌖</span>Map</a>
+        <a href="/sea/maps/?lang=en-US#map=101"><span aria-hidden="true">⌖</span>World Map</a>
         <a href="/sea/skill_planner/"><span aria-hidden="true">✦</span>Builds</a>
       </nav>
     </div>
