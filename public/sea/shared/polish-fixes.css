@@ -822,23 +822,71 @@ body {
   }
 
   .apocalypse-panel {
+    width: 100%;
+    min-width: 0;
     padding: 12px !important;
     gap: 13px !important;
+    overflow: hidden;
   }
 
   .apocalypse-category-chips,
   .apocalypse-quality-toggle,
   .apocalypse-job-chips {
-    flex-wrap: nowrap !important;
-    overflow-x: auto;
-    padding-bottom: 5px;
+    display: grid !important;
+    width: 100%;
+    min-width: 0;
+    gap: 8px !important;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .apocalypse-category-chips {
+    grid-template-columns: minmax(62px, .7fr) minmax(112px, 1.35fr) minmax(0, 2fr);
+  }
+
+  .apocalypse-job-chips {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .apocalypse-quality-toggle {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .apocalypse-category-chip,
   .apocalypse-quality-btn,
   .apocalypse-job-chip {
-    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0 !important;
     min-height: 42px;
+    padding: 8px 7px !important;
+    line-height: 1.15;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .apocalypse-category-chip {
+    font-size: clamp(.73rem, 3.4vw, .9rem);
+  }
+
+  .apocalypse-job-chip-icons {
+    width: 100%;
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .apocalypse-job-chip-icon {
+    width: clamp(18px, 5.5vw, 22px);
+    height: clamp(18px, 5.5vw, 22px);
+  }
+
+  .apocalypse-search-row {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .apocalypse-search {
+    width: 100%;
+    min-width: 0;
   }
 
   .apocalypse-grid {
@@ -889,6 +937,19 @@ body {
 }
 
 @media (max-width: 430px) {
+  .apocalypse-category-chips {
+    grid-template-columns: 58px minmax(96px, 1.15fr) minmax(0, 1.65fr);
+  }
+
+  .apocalypse-category-chip {
+    padding-inline: 5px !important;
+    font-size: clamp(.68rem, 3.25vw, .82rem);
+  }
+
+  .apocalypse-quality-btn {
+    font-size: .82rem;
+  }
+
   .skill-planner-page .job-skills-container {
     column-gap: 3px !important;
   }
