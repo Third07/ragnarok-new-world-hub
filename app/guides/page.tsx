@@ -61,10 +61,10 @@ const guideCategories = [
     number: "04",
     title: "Monsters, cards and farming",
     description:
-      "Research paths that connect monster information, card effects, drop sources, habitats, and World Map locations for faster in-game lookup.",
-    status: "Planned collection",
-    href: "/sea/monster_album/",
-    link: "Open Monster Index →",
+      "Choose cards by build fit, compare every obtain source, inspect the monster, plan a World Map route, and measure whether the farm is worth repeating.",
+    status: "1 guide published",
+    href: "/guides/farming-card-progression/",
+    link: "Read farming guide →",
   },
 ];
 
@@ -73,14 +73,14 @@ const roadmap = [
   ["02", "Beginner Progression Guide", "Published", "/guides/beginner-progression/"],
   ["03", "Druid Builds: Werewolf, Wereraptor & Arcanist", "Published", "/guides/druid-builds/"],
   ["04", "Refining and Equipment Upgrade Guide", "Published", "/guides/refining-equipment/"],
-  ["05", "Farming and Card Progression Guide", "Next", ""],
+  ["05", "Farming and Card Progression Guide", "Published", "/guides/farming-card-progression/"],
 ] as const;
 
 const tools = [
-  ["Refine Simulator", "/sea/refine/"],
-  ["Equipment Index", "/sea/equipment/"],
-  ["Skill Planner", "/sea/skill_planner/"],
+  ["Card Index", "/sea/cards/"],
+  ["Monster Index", "/sea/monster_album/"],
   ["World Map", "/sea/maps/?lang=en-US#map=101"],
+  ["Skill Planner", "/sea/skill_planner/"],
 ] as const;
 
 export default function GuidesPage() {
@@ -151,8 +151,8 @@ export default function GuidesPage() {
             <a href="/">Home</a>
             <a href="/guides/" aria-current="page">Guides</a>
             <a href="/#tools">All tools</a>
-            <a href="/sea/refine/">Refine Simulator</a>
-            <a href="/sea/equipment/">Equipment Index</a>
+            <a href="/sea/cards/">Card Index</a>
+            <a href="/sea/monster_album/">Monster Index</a>
           </nav>
         </details>
       </header>
@@ -167,11 +167,11 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Four complete guides now cover class rankings, beginner progression, all three Druid builds, and equipment refining. Every article connects its recommendations to working planners, indexes, and simulators.
+              Five cornerstone guides now cover class rankings, beginner progression, all three Druid builds, equipment refining, and card-farming routes. Every article connects its recommendations to working planners, indexes, and simulators.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primary} href="/guides/refining-equipment/">Read the refining guide <span aria-hidden="true">→</span></a>
-              <a className={styles.secondary} href="/guides/druid-builds/">Read the Druid guide <span aria-hidden="true">→</span></a>
+              <a className={styles.primary} href="/guides/farming-card-progression/">Read the farming guide <span aria-hidden="true">→</span></a>
+              <a className={styles.secondary} href="/guides/refining-equipment/">Read the refining guide <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -183,7 +183,7 @@ export default function GuidesPage() {
               <h2 id="library-title">Four clear paths for every adventurer.</h2>
             </div>
             <p>
-              Published categories link directly to complete articles. Collections still in development continue to point toward useful working tools instead of empty pages.
+              Every category now contains at least one complete article connected directly to the site's working game-data tools.
             </p>
           </div>
 
@@ -203,10 +203,10 @@ export default function GuidesPage() {
         </section>
 
         <section className={styles.roadmap} aria-labelledby="roadmap-title">
-          <p className={styles.kicker}>Publishing roadmap</p>
-          <h2 id="roadmap-title">The first five guide releases.</h2>
+          <p className={styles.kicker}>Foundation series</p>
+          <h2 id="roadmap-title">The first five guide releases are complete.</h2>
           <p className={styles.roadmapIntro}>
-            Each recommendation is reviewed against the available game data and clearly separated from editorial strategy before publication.
+            Each recommendation is reviewed against available game data and clearly separated from editorial strategy before publication.
           </p>
           <ol className={styles.roadmapList}>
             {roadmap.map(([number, title, status, href]) => (
@@ -221,9 +221,9 @@ export default function GuidesPage() {
 
         <section className={styles.toolLinks} aria-labelledby="tool-links-title">
           <p className={styles.kicker}>Available now</p>
-          <h2 id="tool-links-title">Plan the build before spending the materials.</h2>
+          <h2 id="tool-links-title">Move from build need to farming route.</h2>
           <p>
-            Inspect equipment, simulate refine attempts, plan skills, and locate targets without waiting for the next article.
+            Search card effects, inspect monster sources, locate habitats, and validate the character build with connected tools.
           </p>
           <div className={styles.toolGrid}>
             {tools.map(([name, href]) => (
