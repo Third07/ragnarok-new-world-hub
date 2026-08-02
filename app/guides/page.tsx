@@ -34,10 +34,10 @@ const guideCategories = [
     number: "01",
     title: "Classes and builds",
     description:
-      "Compare separate F2P, PvE, and PvP class rankings, then connect each recommendation to the Skill Planner before investing resources.",
-    status: "1 guide published",
-    href: "/guides/class-tier-list/",
-    link: "Read class tier list →",
+      "Compare F2P, PvE, and PvP class rankings, then study the separate Werewolf, Wereraptor, and Human Arcanist Druid builds before investing resources.",
+    status: "2 guides published",
+    href: "/guides/druid-builds/",
+    link: "Read Druid builds →",
   },
   {
     number: "02",
@@ -71,9 +71,9 @@ const guideCategories = [
 const roadmap = [
   ["01", "Class Tier List: F2P, PvE & PvP", "Published", "/guides/class-tier-list/"],
   ["02", "Beginner Progression Guide", "Published", "/guides/beginner-progression/"],
-  ["03", "Druid Werewolf Build", "Next", ""],
-  ["04", "Druid Arcanist Build", "Planned", ""],
-  ["05", "Refining and Equipment Upgrade Guide", "Planned", ""],
+  ["03", "Druid Builds: Werewolf, Wereraptor & Arcanist", "Published", "/guides/druid-builds/"],
+  ["04", "Refining and Equipment Upgrade Guide", "Next", ""],
+  ["05", "Farming and Card Progression Guide", "Planned", ""],
 ] as const;
 
 const tools = [
@@ -169,11 +169,11 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              The class tier list and beginner progression guide are now published. Each article connects recommendations to working planners, indexes, schedules, and game-data tools.
+              Three complete guides are now published: class rankings, beginner progression, and a Druid comparison covering Werewolf, Wereraptor, and Human Arcanist. Every article connects recommendations to working planners and game-data tools.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primary} href="/guides/beginner-progression/">Read the beginner guide <span aria-hidden="true">→</span></a>
-              <a className={styles.secondary} href="/guides/class-tier-list/">View class tier lists <span aria-hidden="true">→</span></a>
+              <a className={styles.primary} href="/guides/druid-builds/">Read the Druid build guide <span aria-hidden="true">→</span></a>
+              <a className={styles.secondary} href="/guides/beginner-progression/">Read the beginner guide <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
