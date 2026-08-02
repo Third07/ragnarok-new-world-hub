@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const siteOrigin = "https://rtnw.online";
-const routes = [
+const toolRoutes = [
   "skill_planner",
   "rune_planner",
   "affix_planner",
@@ -19,6 +19,27 @@ const routes = [
   "refine",
 ];
 
+const publicPageRoutes = [
+  "/",
+  "/guides/",
+  "/updates/",
+  "/guides/classes-builds/",
+  "/guides/beginner-guides/",
+  "/guides/progression-equipment/",
+  "/guides/monsters-cards-farming/",
+  "/guides/class-tier-list/",
+  "/guides/beginner-progression/",
+  "/guides/druid-builds/",
+  "/guides/refining-equipment/",
+  "/guides/farming-card-progression/",
+  "/about/",
+  "/contact/",
+  "/privacy/",
+  "/terms/",
+  "/disclaimer/",
+  ...toolRoutes.map((route) => `/sea/${route}/`),
+];
+
 function matchContent(html, pattern, label) {
   const match = html.match(pattern);
   assert.ok(match, `Missing ${label}`);
@@ -29,7 +50,7 @@ test("every indexable tool page has unique static SEO signals", async () => {
   const titles = new Set();
   const descriptions = new Set();
 
-  for (const route of routes) {
+  for (const route of toolRoutes) {
     const html = await readFile(`public/sea/${route}/index.html`, "utf8");
     const title = matchContent(html, /<title>([^<]+)<\/title>/i, `${route} title`);
     const description = matchContent(
@@ -64,22 +85,21 @@ test("every indexable tool page has unique static SEO signals", async () => {
   }
 });
 
-test("sitemap, robots, manifest, and favicon use the canonical domain", async () => {
-  const [sitemap, robots, manifest, favicon] = await Promise.all([
+test("sitemap, robots, manifest, favicon, and deployment canary are current", async () => {
+  const [sitemap, robots, manifest, favicon, deploymentVersion] = await Promise.all([
     readFile("public/sitemap.xml", "utf8"),
     readFile("public/robots.txt", "utf8"),
     readFile("public/site.webmanifest", "utf8"),
     readFile("public/favicon.ico"),
+    readFile("public/deployment-version.txt", "utf8"),
   ]);
 
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(urls, [
-    `${siteOrigin}/`,
-    ...routes.map((route) => `${siteOrigin}/sea/${route}/`),
-  ]);
+  assert.deepEqual(urls, publicPageRoutes.map((route) => `${siteOrigin}${route}`));
   assert.match(robots, new RegExp(`Sitemap: ${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\/sitemap\\.xml`));
   assert.equal(JSON.parse(manifest).name, "Ragnarok: The New World Hub");
   assert.equal(favicon.subarray(0, 4).toString("hex"), "00000100", "favicon.ico should have a valid ICO header");
+  assert.match(deploymentVersion, /^version=2026-08-03-route-fallback-1\s*$/);
 });
 
 test("rendered home page exposes canonical metadata and WebSite schema", async () => {
@@ -100,4 +120,46 @@ test("rendered home page exposes canonical metadata and WebSite schema", async (
   assert.match(html, /"@type":"ItemList"/);
   assert.match(html, /href="(?:https:\/\/rtnw\.online)?\/favicon\.ico"/i);
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
+});
+
+test("deployment artifact serves critical discovery and content routes", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("route-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+
+  const assets = {
+    async fetch(request) {
+      const pathname = new URL(request.url).pathname;
+      try {
+        const body = await readFile(`public${pathname}`);
+        const contentType = pathname.endsWith(".xml")
+          ? "application/xml; charset=utf-8"
+          : pathname.endsWith(".txt")
+            ? "text/plain; charset=utf-8"
+            : "application/octet-stream";
+        return new Response(request.method === "HEAD" ? null : body, {
+          status: 200,
+          headers: { "Content-Type": contentType },
+        });
+      } catch {
+        return new Response("Not found", { status: 404 });
+      }
+    },
+  };
+  const env = { ASSETS: assets };
+  const context = { waitUntil() {}, passThroughOnException() {} };
+
+  for (const pathname of ["/guides/", "/updates/", "/seo-status/", "/feed.xml", "/robots.txt", "/deployment-version.txt"]) {
+    const response = await worker.fetch(
+      new Request(`http://localhost${pathname}`, { headers: { accept: "text/html,application/xml" } }),
+      env,
+      context,
+    );
+    assert.equal(response.status, 200, `${pathname} should return 200`);
+    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-route-fallback-1");
+  }
+
+  const robotTypo = await worker.fetch(new Request("http://localhost/robot.txt"), env, context);
+  assert.equal(robotTypo.status, 308);
+  assert.equal(robotTypo.headers.get("location"), "http://localhost/robots.txt");
 });
