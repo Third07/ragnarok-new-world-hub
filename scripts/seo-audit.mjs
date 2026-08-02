@@ -11,7 +11,6 @@ const indexNowKeyPath = `public/${indexNowKey}.txt`;
 const expectedRoutes = [
   "/",
   "/guides/",
-  "/updates/",
   "/guides/classes-builds/",
   "/guides/beginner-guides/",
   "/guides/progression-equipment/",
@@ -44,7 +43,6 @@ const expectedRoutes = [
 const routeSources = {
   "/": "app/page.tsx",
   "/guides/": "app/guides/page.tsx",
-  "/updates/": "app/updates/page.tsx",
   "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
   "/guides/beginner-guides/": "app/guides/beginner-guides/page.tsx",
   "/guides/progression-equipment/": "app/guides/progression-equipment/page.tsx",
@@ -108,7 +106,6 @@ async function read(relativePath) {
 
 const sitemap = await read("public/sitemap.xml");
 const robots = await read("public/robots.txt");
-const layout = await read("app/layout.tsx");
 const packageJson = JSON.parse(await read("package.json"));
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].trim());
 const duplicateUrls = sitemapUrls.filter((url, index) => sitemapUrls.indexOf(url) !== index);
@@ -217,24 +214,16 @@ add(
   missingSocialSources,
 );
 
-const rssRouteReady = await exists("app/feed.xml/route.ts");
-const rssAdvertised = layout.includes('"application/rss+xml": "/feed.xml"');
-add(
-  rssRouteReady && rssAdvertised ? "pass" : "error",
-  "rss-feed",
-  rssRouteReady && rssAdvertised
-    ? "The RSS route exists and is advertised in site metadata."
-    : "The RSS route or autodiscovery metadata is missing.",
-  { route: rssRouteReady, autodiscovery: rssAdvertised },
-);
-
 const indexNowKeyReady =
   (await exists(indexNowKeyPath)) && (await read(indexNowKeyPath)).trim() === indexNowKey;
 const indexNowClientReady = await exists("scripts/indexnow-submit.mjs");
-const indexNowCommandsReady =
+const indexNowVerifierReady = await exists("scripts/indexnow-verify.mjs");
+const indexNowCommandsReady = Boolean(
   packageJson.scripts?.["indexnow:submit"] &&
   packageJson.scripts?.["indexnow:submit:all"] &&
-  packageJson.scripts?.postbuild?.includes("indexnow-submit.mjs");
+  packageJson.scripts?.["indexnow:verify"] &&
+  packageJson.scripts?.deploy?.includes("indexnow-submit.mjs"),
+);
 add(
   indexNowKeyReady ? "pass" : "error",
   "indexnow-key",
@@ -243,18 +232,23 @@ add(
     : "The IndexNow key file is missing or does not match its filename.",
 );
 add(
-  indexNowClientReady && indexNowCommandsReady ? "pass" : "error",
+  indexNowClientReady && indexNowVerifierReady && indexNowCommandsReady ? "pass" : "error",
   "indexnow-submission",
-  indexNowClientReady && indexNowCommandsReady
-    ? "IndexNow manual and non-blocking post-build submission commands are configured."
-    : "IndexNow submission wiring is incomplete.",
-  { client: indexNowClientReady, commands: Boolean(indexNowCommandsReady) },
+  indexNowClientReady && indexNowVerifierReady && indexNowCommandsReady
+    ? "IndexNow verification, manual submission, and post-deploy submission commands are configured."
+    : "IndexNow verification or deployment wiring is incomplete.",
+  {
+    client: indexNowClientReady,
+    verifier: indexNowVerifierReady,
+    commands: indexNowCommandsReady,
+  },
 );
 
 const verification = {
   google: Boolean(process.env.GOOGLE_SITE_VERIFICATION?.trim()),
   bing: Boolean(process.env.BING_SITE_VERIFICATION?.trim()),
-  indexNow: indexNowKeyReady && indexNowClientReady && Boolean(indexNowCommandsReady),
+  indexNow:
+    indexNowKeyReady && indexNowClientReady && indexNowVerifierReady && indexNowCommandsReady,
 };
 add(
   verification.google ? "pass" : "warn",
