@@ -95,6 +95,20 @@
   if (!tool) return;
 
   const url = `https://rtnw.online${path}`;
+  const organization = {
+    "@type": "Organization",
+    "@id": "https://rtnw.online/#organization",
+    name: "RTNW Hub",
+    url: "https://rtnw.online/",
+    logo: "https://rtnw.online/apple-touch-icon.png"
+  };
+  const website = {
+    "@type": "WebSite",
+    "@id": "https://rtnw.online/#website",
+    name: "RTNW Hub",
+    url: "https://rtnw.online/",
+    publisher: organization
+  };
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -110,8 +124,8 @@
     inLanguage: document.documentElement.lang || "en",
     featureList: tool.features,
     image: "https://rtnw.online/assets/rtnw-hero-1280.webp",
-    publisher: { "@id": "https://rtnw.online/#organization" },
-    isPartOf: { "@id": "https://rtnw.online/#website" },
+    publisher: organization,
+    isPartOf: website,
     about: {
       "@type": "VideoGame",
       name: "Ragnarok: The New World"
