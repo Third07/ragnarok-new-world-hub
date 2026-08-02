@@ -1,0 +1,28 @@
+.trust-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  margin-top: 8px;
+}
+
+.trust-footer-links a {
+  color: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  opacity: .82;
+}
+
+.trust-footer-links a:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .trust-footer-links {
+    max-width: 320px;
+    margin-inline: auto;
+  }
+}
