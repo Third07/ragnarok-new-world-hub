@@ -21,6 +21,16 @@ const toolRoutes = [
   "refine",
 ];
 
+const classGuideRoutes = [
+  "/guides/swordman-builds/",
+  "/guides/mage-builds/",
+  "/guides/archer-builds/",
+  "/guides/acolyte-builds/",
+  "/guides/thief-builds/",
+  "/guides/merchant-builds/",
+  "/guides/gunslinger-builds/",
+];
+
 const publicPageRoutes = [
   "/",
   "/guides/",
@@ -29,6 +39,7 @@ const publicPageRoutes = [
   "/guides/progression-equipment/",
   "/guides/monsters-cards-farming/",
   "/guides/class-tier-list/",
+  ...classGuideRoutes,
   "/guides/beginner-progression/",
   "/guides/druid-builds/",
   "/guides/refining-equipment/",
@@ -172,7 +183,7 @@ test("sitemap, robots, manifest, favicon, and deployment canary are current", as
     "00000100",
     "favicon.ico should have a valid ICO header",
   );
-  assert.match(deploymentVersion, /^version=2026-08-03-indexnow-1\s*$/);
+  assert.match(deploymentVersion, /^version=2026-08-03-class-guides-1\s*$/);
 });
 
 test("rendered home page exposes canonical metadata and WebSite schema", async () => {
@@ -194,12 +205,15 @@ test("rendered home page exposes canonical metadata and WebSite schema", async (
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
 
-test("Cloudflare build serves active discovery routes and removes retired routes", async () => {
+test("Cloudflare build serves all class guides and active discovery routes", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
 
   for (const pathname of [
     "/guides/",
+    "/guides/classes-builds/",
+    ...classGuideRoutes,
+    "/guides/druid-builds/",
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
@@ -213,7 +227,7 @@ test("Cloudflare build serves active discovery routes and removes retired routes
       context,
     );
     assert.equal(response.status, 200, `${pathname} should return 200`);
-    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-indexnow-1");
+    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-class-guides-1");
   }
 
   for (const pathname of ["/updates/", "/feed.xml"]) {
