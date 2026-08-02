@@ -257,7 +257,11 @@ function rssFallback(request: Request): Response {
 }
 
 async function assetResponse(request: Request, env: Env, path: string): Promise<Response> {
-  return env.ASSETS.fetch(new Request(new URL(path, request.url), request));
+  const assetRequest = new Request(new URL(path, request.url), {
+    method: request.method,
+    headers: request.headers,
+  });
+  return env.ASSETS.fetch(assetRequest);
 }
 
 // Image security config. SVG sources with .svg extension auto-skip the
