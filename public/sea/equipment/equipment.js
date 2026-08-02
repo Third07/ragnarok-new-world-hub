@@ -113,7 +113,8 @@ const CONFIG = {
     iconPathsUrl: "/sea/skill-simulator/data/icon_paths.json",
     iconBasePath: "/media/images/",
     itemIconBase: "/media/images/item/",
-    equipmentUrl: `/sea/equipment/data/equipment_${ACTIVE_LOCALE}.json`
+    equipmentUrl: `/sea/equipment/data/equipment_index_${ACTIVE_LOCALE}.json`,
+    equipmentDetailsBase: `/sea/equipment/data/optimized/${ACTIVE_LOCALE}/`
 }, withAssetVersion = window.withAssetVersion || (e => e), DEBUG_IDS = new URLSearchParams(window.location.search).has("debugIds");
 
 let iconPaths = null, equipmentData = null, fallbackItemNameMap = new Map, fallbackSuitMap = new Map, itemElements = new Map, itemLookup = new Map, activeSuitKey = null, activeSuitIds = null, activeItemId = null, activeEquipmentModalItemId = null, lastEquipmentModalTriggerEl = null, lastPointerPos = {
@@ -122,6 +123,7 @@ let iconPaths = null, equipmentData = null, fallbackItemNameMap = new Map, fallb
 };
 
 const LAZY_BATCH_SIZE = 60, LAZY_FILL_PADDING = 800, EQUIPMENT_DETAIL_MODAL_MEDIA = "(max-width: 1100px)";
+const equipmentDetailCache = new Map, equipmentChunkCache = new Map;
 
 let lazyQueue = [], lazyRendered = 0, lazyObserver = null;
 
@@ -273,9 +275,31 @@ function getRefinePerLevelLines(e, n) {
 }
 
 async function loadEquipmentData() {
-    const e = await fetch(withAssetVersion(CONFIG.equipmentUrl));
+    let e = await fetch(withAssetVersion(CONFIG.equipmentUrl));
+    if (!e.ok && "en-US" !== ACTIVE_LOCALE) e = await fetch(withAssetVersion("/sea/equipment/data/equipment_index_en-US.json"));
     if (!e.ok) throw new Error("Failed to load equipment data");
     return e.json();
+}
+
+async function loadEquipmentItemDetail(e) {
+    const t = getEquipmentItemById(e);
+    if (!t?._detailChunk) return t;
+    const n = String(t.id);
+    if (equipmentDetailCache.has(n)) return equipmentDetailCache.get(n);
+    const i = String(t._detailChunk), a = `${CONFIG.equipmentDetailsBase}${i}`;
+    let o = equipmentChunkCache.get(a);
+    if (!o) {
+        o = fetch(withAssetVersion(a)).then(async e => {
+            if (e.ok) return e.json();
+            if ("en-US" !== ACTIVE_LOCALE) {
+                const t = await fetch(withAssetVersion(`/sea/equipment/data/optimized/en-US/${i}`));
+                if (t.ok) return t.json();
+            }
+            throw new Error(`Failed to load equipment details (${e.status})`);
+        }), equipmentChunkCache.set(a, o);
+    }
+    const s = await o, l = (s?.items || []).find(e => String(e?.id) === n) || t;
+    return equipmentDetailCache.set(n, l), itemLookup.set(n, l), l;
 }
 
 function indexFallbackData(e) {
@@ -379,7 +403,7 @@ function buildItemStatText(e) {
 
 function prepareItems(e) {
     e.forEach(e => {
-        e._statText = buildItemStatText(e), e._openLevel = Number(e.openLevel || 0);
+        e._statText || (e._statText = buildItemStatText(e)), e._openLevel = Number(e.openLevel || 0);
     });
 }
 
@@ -812,7 +836,7 @@ function buildTooltipHtml(e) {
     const n = equipmentData.attributes || {}, i = equipmentData.buffs || {}, a = equipmentData.conditions || {}, o = (equipmentData.affixes, 
     equipmentData.stunts, equipmentData.itemTypes || {}), s = equipmentData.assemblyTypes || {}, l = equipmentData.suits || [], r = resolveItemIconPath(e.icon), c = [ o[e.itemType]?.name || "", e.assemblyType && s[e.assemblyType]?.name || "" ].filter(Boolean).join(" · ");
     let u = '<div class="tooltip-header">';
-    r && (u += `<img src="${r}" class="tooltip-icon" alt="">`), u += "<div>", u += `<div class="tooltip-title">${escapeHtml(e.name || `Item ${e.id}`)}</div>`, 
+    r && (u += `<img loading="lazy" decoding="async" src="${r}" class="tooltip-icon" alt="">`), u += "<div>", u += `<div class="tooltip-title">${escapeHtml(e.name || `Item ${e.id}`)}</div>`, 
     c && (u += `<div class="tooltip-subtitle">${escapeHtml(c)}</div>`), e.openLevel && (u += `<div class="tooltip-meta">${escapeHtml(t("tooltipLevel", {
         level: e.openLevel
     }))}</div>`), u += "</div></div>", e.desc && (u += `<div class="tooltip-desc">${escapeHtml(stripColorTags(e.desc))}</div>`);
@@ -889,7 +913,7 @@ function buildTooltipHtml(e) {
 }
 
 function getEquipmentItemById(e) {
-    return itemLookup.get(String(e)) || (equipmentData?.items || []).find(t => String(t.id) === String(e)) || null;
+    return equipmentDetailCache.get(String(e)) || itemLookup.get(String(e)) || (equipmentData?.items || []).find(t => String(t.id) === String(e)) || null;
 }
 
 function isCompactEquipmentDetailView() {
@@ -903,8 +927,8 @@ function renderEquipmentDetailModal() {
     e.innerHTML = n ? buildTooltipHtml(n) : "", t.textContent = n?.name || "Equipment Details";
 }
 
-function openEquipmentDetailModal(e, t = null) {
-    const n = document.getElementById("equipment-detail-modal"), i = getEquipmentItemById(e);
+async function openEquipmentDetailModal(e, t = null) {
+    const n = document.getElementById("equipment-detail-modal"), i = await loadEquipmentItemDetail(e).catch(() => getEquipmentItemById(e));
     if (!n || !i) return;
     hideTooltip(), activeEquipmentModalItemId = String(e), t instanceof HTMLElement ? lastEquipmentModalTriggerEl = t : document.activeElement instanceof HTMLElement && !n.contains(document.activeElement) && (lastEquipmentModalTriggerEl = document.activeElement), 
     renderEquipmentDetailModal(), n.classList.add("open"), n.setAttribute("aria-hidden", "false"), 
@@ -931,10 +955,10 @@ function closeEquipmentDetailModal() {
     });
 }
 
-function showTooltip(e, t, n, i) {
+async function showTooltip(e, t, n, i) {
     if (isCompactEquipmentDetailView()) return;
     if (activeItemId === e) return;
-    const a = document.getElementById("tooltip"), o = getEquipmentItemById(e);
+    const a = document.getElementById("tooltip"), o = await loadEquipmentItemDetail(e).catch(() => getEquipmentItemById(e));
     if (o) if (a.innerHTML = buildTooltipHtml(o), a.classList.add("visible"), a.classList.remove("hidden"), 
     activeItemId = e, "number" == typeof n && "number" == typeof i) positionTooltip(n, i); else {
         const e = t.getBoundingClientRect();

@@ -29,7 +29,8 @@ localStorage.setItem("ro_lang", ACTIVE_LOCALE), document.documentElement.setAttr
 const CONFIG = {
     iconPathsUrl: "/sea/skill-simulator/data/icon_paths.json",
     iconBasePath: "/media/images/",
-    monstersUrl: `/sea/monster-album/data/monster_album_${ACTIVE_LOCALE}.json`,
+    monstersUrl: `/sea/monster-album/data/monster_index_${ACTIVE_LOCALE}.json`,
+    monsterDetailsBase: `/sea/monster-album/data/optimized/${ACTIVE_LOCALE}/`,
     cardsUrl: `/sea/card-simulator/data/handbook_cards_${ACTIVE_LOCALE}.json`,
     monsterIconBase: "/media/images/monster/",
     itemIconBase: "/media/images/item/",
@@ -38,6 +39,7 @@ const CONFIG = {
 };
 
 let lastMonsterModalTriggerEl = null;
+const monsterDetailCache = new Map, monsterChunkCache = new Map;
 
 const INTEGER_FORMATTER = new Intl.NumberFormat(ACTIVE_LOCALE), PERCENT_FORMATTERS = new Map, UI_STRINGS = {
     "en-US": {
@@ -1150,13 +1152,34 @@ function closeMonsterDetailModal() {
 }
 
 async function loadMonsters() {
-    const e = await fetch(withAssetVersion(CONFIG.monstersUrl));
+    let e = await fetch(withAssetVersion(CONFIG.monstersUrl));
+    if (!e.ok && "en-US" !== ACTIVE_LOCALE) e = await fetch(withAssetVersion("/sea/monster-album/data/monster_index_en-US.json"));
     if (!e.ok) throw new Error(`Failed to load monsters (${e.status})`);
     const t = await e.json();
     return {
         monsters: Array.isArray(t?.monsters) ? t.monsters : [],
         meta: t?.meta || {}
     };
+}
+
+async function loadMonsterDetail(e) {
+    const t = Number(e?.id);
+    if (!Number.isFinite(t) || !e?._detailChunk) return e;
+    if (monsterDetailCache.has(t)) return monsterDetailCache.get(t);
+    const n = String(e._detailChunk), a = `${CONFIG.monsterDetailsBase}${n}`;
+    let r = monsterChunkCache.get(a);
+    if (!r) {
+        r = fetch(withAssetVersion(a)).then(async e => {
+            if (e.ok) return e.json();
+            if ("en-US" !== ACTIVE_LOCALE) {
+                const t = await fetch(withAssetVersion(`/sea/monster-album/data/optimized/en-US/${n}`));
+                if (t.ok) return t.json();
+            }
+            throw new Error(`Failed to load monster details (${e.status})`);
+        }), monsterChunkCache.set(a, r);
+    }
+    const o = await r, i = (o?.monsters || []).find(e => Number(e?.id) === t) || e;
+    return monsterDetailCache.set(t, i), i;
 }
 
 function setup() {
@@ -1209,11 +1232,13 @@ function setup() {
                 e.appendChild(buildLevelHeader(n.label));
                 continue;
             }
-            const a = buildMonsterCard(n.monster, (t, n) => {
-                y.selectedId = t.id, y.pendingSelectedId = null, renderMonsterDetail(m, t, y.activity, y.cardEffectsById), 
+            const a = buildMonsterCard(n.monster, async (t, n) => {
+                y.selectedId = t.id, y.pendingSelectedId = null;
+                const r = await loadMonsterDetail(t).catch(() => t), o = normalizeMonsterRecord(r, y.dropNameById);
+                renderMonsterDetail(m, o, y.activity, y.cardEffectsById), 
                 document.querySelectorAll(".monster-card.selected").forEach(e => e.classList.remove("selected"));
                 const a = e.querySelector(`.monster-card[data-id='${t.id}']`);
-                a && a.classList.add("selected"), isMonsterDetailModalMobile() ? openMonsterDetailModal(t, y.activity, n || a, y.cardEffectsById) : closeMonsterDetailModal(), 
+                a && a.classList.add("selected"), isMonsterDetailModalMobile() ? openMonsterDetailModal(o, y.activity, n || a, y.cardEffectsById) : closeMonsterDetailModal(), 
                 writeFilterHash(y);
             });
             null != y.selectedId && n.monster?.id === y.selectedId && a.classList.add("selected"), 
@@ -1256,7 +1281,7 @@ function setup() {
             if (!t) return !0;
             const a = t.startsWith("item:") || t.startsWith("drop:"), r = a ? t.replace(/^(item:|drop:)\s*/i, "") : t;
             if (!r) return !0;
-            const o = [ ...Array.isArray(e?.drops) ? e.drops : [], ...Array.isArray(e?.drop_rate_entries) ? e.drop_rate_entries : [], ...Array.isArray(e?.mvp_drop_rate_entries) ? e.mvp_drop_rate_entries : [], ...(Array.isArray(e?.activity_sources) ? e.activity_sources : []).flatMap(e => (Array.isArray(e?.groups) ? e.groups : []).flatMap(e => Array.isArray(e?.items) ? e.items : [])) ].map(e => e?.name || "").join("\n");
+            const o = e?._searchText || [ ...Array.isArray(e?.drops) ? e.drops : [], ...Array.isArray(e?.drop_rate_entries) ? e.drop_rate_entries : [], ...Array.isArray(e?.mvp_drop_rate_entries) ? e.mvp_drop_rate_entries : [], ...(Array.isArray(e?.activity_sources) ? e.activity_sources : []).flatMap(e => (Array.isArray(e?.groups) ? e.groups : []).flatMap(e => Array.isArray(e?.items) ? e.items : [])) ].map(e => e?.name || "").join("\n");
             return a ? normalizeText(o).includes(r) : normalizeText([ e?.name || "", o ].join("\n")).includes(r);
         }), null == y.selectedId || y.filtered.some(e => e?.id === y.selectedId) || (y.selectedId = null), 
         y.grouped = (e => {
@@ -1402,7 +1427,9 @@ function setup() {
         c.options.length && (y.activity = v(c, y.activity)), b(), null != y.pendingSelectedId) {
             y.selectedId = y.pendingSelectedId;
             const e = y.filtered.find(e => e?.id === y.selectedId);
-            e && (renderMonsterDetail(m, e, y.activity, y.cardEffectsById), isMonsterDetailModalMobile() && openMonsterDetailModal(e, y.activity, null, y.cardEffectsById)), g();
+            e && loadMonsterDetail(e).then(t => normalizeMonsterRecord(t, y.dropNameById)).catch(() => e).then(e => {
+                renderMonsterDetail(m, e, y.activity, y.cardEffectsById), isMonsterDetailModalMobile() && openMonsterDetailModal(e, y.activity, null, y.cardEffectsById);
+            }), g();
         }
         suppressHashWrite = !1;
     }), (async () => {
@@ -1482,7 +1509,9 @@ function setup() {
             y.activity = v(c, y.activity), o.checked = y.showAll, b(), null != y.pendingSelectedId) {
                 y.selectedId = y.pendingSelectedId;
                 const e = y.filtered.find(e => e?.id === y.selectedId);
-                e && (renderMonsterDetail(m, e, y.activity, y.cardEffectsById), isMonsterDetailModalMobile() && openMonsterDetailModal(e, y.activity, null, y.cardEffectsById)), g();
+                e && loadMonsterDetail(e).then(t => normalizeMonsterRecord(t, y.dropNameById)).catch(() => e).then(e => {
+                    renderMonsterDetail(m, e, y.activity, y.cardEffectsById), isMonsterDetailModalMobile() && openMonsterDetailModal(e, y.activity, null, y.cardEffectsById);
+                }), g();
             }
         } catch (n) {
             e.textContent = "";

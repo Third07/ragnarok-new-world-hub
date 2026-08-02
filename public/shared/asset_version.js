@@ -333,6 +333,18 @@
         root.querySelectorAll?.("select").forEach(enhanceSelect);
     }
 
+    function optimizeImages(root = document) {
+        const images = [];
+        root.matches?.("img") && images.push(root);
+        root.querySelectorAll?.("img")?.forEach(image => images.push(image));
+        images.forEach(image => {
+            image.decoding ||= "async";
+            if (!image.closest(".site-header, .page-header, .header, nav") && !image.classList.contains("hero-art")) {
+                image.loading ||= "lazy";
+            }
+        });
+    }
+
     window.RO_ASSET_VERSION = (() => {
         const meta = document.querySelector('meta[name="asset-version"]');
         return meta ? String(meta.getAttribute("content") || "") : "";
@@ -432,12 +444,14 @@
 
         syncCompactNav();
         enhanceSelects();
+        optimizeImages();
 
         new MutationObserver(mutations => {
             mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
                 if (node.nodeType !== Node.ELEMENT_NODE) return;
                 if (node.matches?.("select")) enhanceSelect(node);
                 enhanceSelects(node);
+                optimizeImages(node);
             }));
         }).observe(document.body, { childList: true, subtree: true });
 

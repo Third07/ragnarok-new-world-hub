@@ -591,7 +591,7 @@
 
     function buildEventTileHtml(occurrence) {
         return `<button type="button" class="events-event-tile" data-modal-key="${escapeHtml(occurrence.modalKey)}">
-            ${occurrence.iconPath ? `<img class="events-event-icon" src="${escapeHtml(occurrence.iconPath)}" alt="">` : `<div class="events-event-icon events-event-icon-placeholder"></div>`}
+            ${occurrence.iconPath ? `<img loading="lazy" decoding="async" class="events-event-icon" src="${escapeHtml(occurrence.iconPath)}" alt="">` : `<div class="events-event-icon events-event-icon-placeholder"></div>`}
             <div class="events-event-name">${escapeHtml(occurrence.title)}</div>
             <div class="events-event-time">${escapeHtml(occurrence.timeText)}</div>
             ${occurrence.unlockRequirement ? `<div class="events-event-requirement">${escapeHtml(occurrence.unlockRequirement)}</div>` : ""}
@@ -701,7 +701,7 @@
         }
         return `<div class="events-calendar-grid">${entries.map(function(entry) {
             return `<button type="button" class="events-calendar-card" data-modal-key="${escapeHtml(entry.modalKey)}">
-                ${entry.iconPath ? `<img class="events-calendar-icon" src="${escapeHtml(entry.iconPath)}" alt="">` : `<div class="events-calendar-icon events-calendar-icon-placeholder"></div>`}
+                ${entry.iconPath ? `<img loading="lazy" decoding="async" class="events-calendar-icon" src="${escapeHtml(entry.iconPath)}" alt="">` : `<div class="events-calendar-icon events-calendar-icon-placeholder"></div>`}
                 <div class="events-calendar-name">${escapeHtml(entry.title)}</div>
                 <div class="events-calendar-range">${escapeHtml(formatCalendarRange(entry.startUtcMs, entry.endUtcMs))}</div>
                 ${entry.unlockRequirement ? `<div class="events-calendar-requirement">${escapeHtml(entry.unlockRequirement)}</div>` : ""}
@@ -811,7 +811,7 @@
         elements.modalRewards.innerHTML = rewards.map(function(reward) {
             const qualityClass = `quality-${Math.max(0, Number(reward.quality || 0) || 0)}`;
             return `<div class="events-modal-reward ${qualityClass}" title="${escapeHtml(reward.name || "")}">
-                ${reward.iconPath ? `<img src="${escapeHtml(reward.iconPath)}" alt="">` : ""}
+                ${reward.iconPath ? `<img loading="lazy" decoding="async" src="${escapeHtml(reward.iconPath)}" alt="">` : ""}
                 ${Number(reward.count || 0) > 1 ? `<div class="events-modal-reward-count">${escapeHtml(String(reward.count))}</div>` : ""}
             </div>`;
         }).join("");

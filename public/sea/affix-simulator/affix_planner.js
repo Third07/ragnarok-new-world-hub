@@ -28,7 +28,8 @@ localStorage.setItem("ro_lang", ACTIVE_LOCALE), document.documentElement.setAttr
 const CONFIG = {
     iconBasePath: "/media/images/",
     iconPathsUrl: "/sea/skill-simulator/data/icon_paths.json",
-    stuntDataUrl: `/sea/affix-simulator/data/stunt_skill_library_${ACTIVE_LOCALE}.json`,
+    stuntManifestUrl: `/sea/affix-simulator/data/stunt_shard_manifest_${ACTIVE_LOCALE}.json`,
+    stuntShardBase: `/sea/affix-simulator/data/optimized/${ACTIVE_LOCALE}/`,
     stuntIndexUrl: `/sea/affix-simulator/data/stunt_package_index_${ACTIVE_LOCALE}.json`,
     jobIndexUrl: `/sea/skill-simulator/data/skills_index_${ACTIVE_LOCALE}.json`
 }, withAssetVersion = window.withAssetVersion || (e => e), QUALITY_LABEL = {
@@ -157,7 +158,10 @@ const T = UI_TEXT[ACTIVE_LOCALE] || UI_TEXT["en-US"], STUNT_COLOR_CLASS = {
     6: "stunt-red"
 };
 
-let iconPaths = null, stuntData = null, stuntIndex = null, jobIndex = null, visibleStuntsById = new Map, stuntById = new Map, currentJobFilterMode = "base", currentJobFilterIds = [];
+let iconPaths = null, stuntData = {
+    packages: {}
+}, stuntManifest = null, stuntIndex = null, jobIndex = null, visibleStuntsById = new Map, stuntById = new Map, currentJobFilterMode = "base", currentJobFilterIds = [], renderSequence = 0;
+const loadedStuntShards = new Set, loadingStuntShards = new Map;
 
 const selected = {
     weapon: null,
@@ -278,6 +282,21 @@ async function loadJson(e) {
     }
     if (!t.ok) throw new Error(`Failed to load ${e}: ${t.status}`);
     return t.json();
+}
+
+async function ensureStuntPackages(e) {
+    const t = Array.from(new Set((e || []).map(String).filter(Boolean))), r = Array.from(new Set(t.map(e => stuntManifest?.packageToShard?.[e]).filter(Boolean))).filter(e => !loadedStuntShards.has(e));
+    await Promise.all(r.map(async e => {
+        if (loadingStuntShards.has(e)) return loadingStuntShards.get(e);
+        const t = (async () => {
+            let t = await fetch(withAssetVersion(`${CONFIG.stuntShardBase}${e}`));
+            if (!t.ok && "en-US" !== ACTIVE_LOCALE) t = await fetch(withAssetVersion(`/sea/affix-simulator/data/optimized/en-US/${e}`));
+            if (!t.ok) throw new Error(`Failed to load affix shard ${e}`);
+            const r = await t.json();
+            Object.assign(stuntData.packages, r?.packages || {}), loadedStuntShards.add(e);
+        })().finally(() => loadingStuntShards.delete(e));
+        return loadingStuntShards.set(e, t), t;
+    }));
 }
 
 function parseHashState() {
@@ -419,10 +438,10 @@ function renderSelectedSummary() {
     } ];
     const r = t.map(e => {
         const t = "accessory" === e.key ? 2 : 1, r = Array.from({ length: t }).map((t, r) => {
-            const n = e.ids[r] || null, o = e.contexts[r] || null, a = o?.mode || ("weapon" === e.key ? "weapon" : "armor"), s = Number(o?.typeId) || ("armor" === e.key ? 4 : "cloak" === e.key ? 7 : "accessory" === e.key ? 10 : Number(current.typeId) && "weapon" === current.mode ? Number(current.typeId) : getVisibleTypeIds("weapon")[0] || null), l = getTypeMeta(a, s), c = resolveIconPath(String(l?.icon || getTypeFallbackIconName(a, s) || "")), i = l?.name || e.label, u = o?.level && "all" !== o.level ? `Lv.${o.level}` : "Any level", k = `<button type="button" class="affix-equipment-tile" data-affix-type-mode="${escapeHtml(a)}" data-affix-type-id="${escapeHtml(String(s || ""))}" aria-label="Select ${escapeHtml(i)}">${c ? `<img src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span>${n ? `<small>${escapeHtml(u)}</small>` : ""}</button>`;
+            const n = e.ids[r] || null, o = e.contexts[r] || null, a = o?.mode || ("weapon" === e.key ? "weapon" : "armor"), s = Number(o?.typeId) || ("armor" === e.key ? 4 : "cloak" === e.key ? 7 : "accessory" === e.key ? 10 : Number(current.typeId) && "weapon" === current.mode ? Number(current.typeId) : getVisibleTypeIds("weapon")[0] || null), l = getTypeMeta(a, s), c = resolveIconPath(String(l?.icon || getTypeFallbackIconName(a, s) || "")), i = l?.name || e.label, u = o?.level && "all" !== o.level ? `Lv.${o.level}` : "Any level", k = `<button type="button" class="affix-equipment-tile" data-affix-type-mode="${escapeHtml(a)}" data-affix-type-id="${escapeHtml(String(s || ""))}" aria-label="Select ${escapeHtml(i)}">${c ? `<img loading="lazy" decoding="async" src="${escapeHtml(c)}" alt="">` : ""}<span>${escapeHtml(i)}</span>${n ? `<small>${escapeHtml(u)}</small>` : ""}</button>`;
             if (!n) return `\n                <div class="affix-loadout-row is-empty">\n                    ${k}\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card affix-selected-empty"><div class="affix-selected-empty-text">Choose an affix</div></div>\n                </div>`;
             const d = stuntById.get(String(n)) || null, b = resolveStuntDisplay(d || {}), f = escapeHtml(b.name || `#${n}`), g = Number(d?.level) || 1, p = QUALITY_LABEL[g] || `Lv.${g}`, m = Number(d?.color) || 2, h = STUNT_COLOR_CLASS[m] || "stunt-blue", v = resolveIconPath(String(d?.icon || "")), y = formatRichText(b.desc || "");
-            return `\n                <div class="affix-loadout-row">\n                    ${k}\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card ${h}">\n                        ${v ? `<img class="affix-selected-icon" src="${escapeHtml(v)}" alt="">` : ""}\n                        <div class="affix-selected-meta"><div class="affix-selected-name">${f}</div><div class="affix-selected-level">${p}</div>${y ? `<div class="affix-selected-desc">${y}</div>` : ""}</div>\n                        <button type="button" class="affix-selected-remove" data-bucket="${escapeHtml(e.key)}" data-index="${escapeHtml(String(r))}" aria-label="Remove ${f}">×</button>\n                    </div>\n                </div>`;
+            return `\n                <div class="affix-loadout-row">\n                    ${k}\n                    <div class="affix-loadout-link" aria-hidden="true">+</div>\n                    <div class="affix-selected-card ${h}">\n                        ${v ? `<img loading="lazy" decoding="async" class="affix-selected-icon" src="${escapeHtml(v)}" alt="">` : ""}\n                        <div class="affix-selected-meta"><div class="affix-selected-name">${f}</div><div class="affix-selected-level">${p}</div>${y ? `<div class="affix-selected-desc">${y}</div>` : ""}</div>\n                        <button type="button" class="affix-selected-remove" data-bucket="${escapeHtml(e.key)}" data-index="${escapeHtml(String(r))}" aria-label="Remove ${f}">×</button>\n                    </div>\n                </div>`;
         }).join("");
         return `\n            <div class="affix-selected-group">\n                <div class="affix-selected-group-title">${escapeHtml(e.label)}</div>\n                <div class="affix-selected-group-body">${r}</div>\n            </div>`;
     }).join("");
@@ -459,7 +478,7 @@ function getVisibleTypeIds(e) {
 
 function typeHasData(e, t) {
     const r = getActiveForgeJobIds();
-    if (r.length && !getForgeEligibleStuntIdsForJobs(e, t, r).length) return !1;
+    if (r.length && !r.some(r => getForgeEligibleStuntIds(e, t, r).length)) return !1;
     const n = getPackagesByTypeAndLevel(e, t);
     return !(!n || "object" != typeof n) && Object.values(n).some(e => Array.isArray(e) && e.length > 0);
 }
@@ -662,7 +681,7 @@ function renderTypeSections() {
             String(t) === String(current.typeId) && e === current.mode && a.classList.add("selected"),
             n || a.classList.add("is-empty");
             const s = resolveIconPath((r?.icon || "").trim() || getTypeFallbackIconName(e, t)), l = r?.name || String(t);
-            n || (a.title = T.noDataYet), a.innerHTML = `\n                <div class="affix-type-icon">\n                    ${s ? `<img src="${escapeHtml(s)}" alt="" onerror="this.style.display='none'">` : ""}\n                </div>\n                <div class="affix-type-name">${escapeHtml(l)}</div>\n            `,
+            n || (a.title = T.noDataYet), a.innerHTML = `\n                <div class="affix-type-icon">\n                    ${s ? `<img loading="lazy" decoding="async" src="${escapeHtml(s)}" alt="" onerror="this.style.display='none'">` : ""}\n                </div>\n                <div class="affix-type-name">${escapeHtml(l)}</div>\n            `,
             a.addEventListener("click", () => setSelectedType(e, t)), o.appendChild(a);
         }), n.appendChild(o), r;
     }, r = getVisibleTypeIds("armor"), n = getVisibleTypeIds("weapon"), o = [ t("armor", r.filter(e => [ 4, 7, 10 ].includes(e))), t("weapon", n) ].filter(Boolean);
@@ -876,7 +895,7 @@ function renderAffixGrid(e) {
     e.forEach(e => visibleStuntsById.set(String(e.id), e));
     const n = e.map(e => {
         const t = Number(e.level) || 1, r = Number(e.color) || 2, n = STUNT_COLOR_CLASS[r] || "stunt-blue", o = resolveStuntDisplay(e || {}), a = escapeHtml(o.name || ""), s = formatRichText(o.desc || ""), l = QUALITY_LABEL[t] || `Lv.${t}`, c = isPicked(e.id) ? "picked" : "", i = resolveIconPath(String(e.icon || ""));
-        return `\n            <button type="button" class="affix-card ${n} ${c}" data-stunt-id="${escapeHtml(e.id)}">\n                <div class="affix-card-top">\n                    <div class="affix-card-name">\n                        ${i ? `<img class="affix-card-icon" src="${escapeHtml(i)}" alt="" onerror="this.style.display='none'">` : ""}\n                        <span>${a}</span>\n                    </div>\n                    <div class="affix-card-level">${l}</div>\n                </div>\n                <div class="affix-card-desc">${s}</div>\n            </button>\n        `;
+        return `\n            <button type="button" class="affix-card ${n} ${c}" data-stunt-id="${escapeHtml(e.id)}">\n                <div class="affix-card-top">\n                    <div class="affix-card-name">\n                        ${i ? `<img loading="lazy" decoding="async" class="affix-card-icon" src="${escapeHtml(i)}" alt="" onerror="this.style.display='none'">` : ""}\n                        <span>${a}</span>\n                    </div>\n                    <div class="affix-card-level">${l}</div>\n                </div>\n                <div class="affix-card-desc">${s}</div>\n            </button>\n        `;
     }).join("");
     r.innerHTML = `<div class="affix-card-grid">${n}</div>`, r.querySelectorAll(".affix-card").forEach(e => {
         e.addEventListener("click", () => {
@@ -891,9 +910,15 @@ function syncPickedCards() {
     });
 }
 
-function renderAll() {
-    renderJobChips(), ensureSelectedTypeAvailable(), renderTypeSections(), renderLevelRow(),
-    renderRarityToggle(), renderQualityToggle();
+async function renderAll() {
+    const r = ++renderSequence;
+    renderJobChips(), ensureSelectedTypeAvailable(), renderTypeSections(), renderLevelRow(), renderRarityToggle(), renderQualityToggle();
+    const n = collectPackageIds(), o = [ selected.weapon, selected.armor, selected.cloak, ...selected.accessory ].filter(Boolean).map(e => stuntManifest?.stuntToPackage?.[String(e)]).filter(Boolean);
+    const a = document.getElementById("affix-grid");
+    a && (a.innerHTML = '<div class="loading-state">Loading matching affixes…</div>');
+    await ensureStuntPackages([ ...n, ...o ]);
+    if (r !== renderSequence) return;
+    buildStuntByIdIndex();
     const e = current.typeId && !typeHasData(current.mode, current.typeId), t = collectStunts(collectPackageIds());
     document.getElementById("affix-count").textContent = e ? T.noDataYet : "en-US" === ACTIVE_LOCALE ? `${t.length} ${T.skills}` : `${t.length}${T.skills}`,
     renderAffixGrid(t), renderSelectedSummary(), updateUrlHash();
@@ -928,8 +953,8 @@ async function init() {
     const e = document.getElementById("affix-grid");
     try {
         if (await loadIconPaths(), applyHeaderIcons(), applyStaticText(), await loadJobIndex(),
-        [stuntData, stuntIndex] = await Promise.all([ loadJson(CONFIG.stuntDataUrl), loadJson(CONFIG.stuntIndexUrl) ]),
-        buildStuntByIdIndex(), applyHashState(parseHashState()), !current.typeId) {
+        [stuntManifest, stuntIndex] = await Promise.all([ loadJson(CONFIG.stuntManifestUrl), loadJson(CONFIG.stuntIndexUrl) ]),
+        applyHashState(parseHashState()), !current.typeId) {
             const e = getVisibleTypeIds(current.mode);
             current.typeId = e.length ? e[0] : null;
         }

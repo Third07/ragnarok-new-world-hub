@@ -285,6 +285,32 @@ const MOBILE_SHOP_MEDIA = "(max-width: 768px)", state = {
     renderTokens: [],
     renderedTokens: 0
 }, RENDER_BATCH_SIZE = 60, RENDER_FILL_PADDING = 800;
+const shopDetailCache = new Map, shopChunkCache = new Map;
+
+function getShopItem(e) {
+    return shopDetailCache.get(String(e)) || state.items.find(t => String(t.id) === String(e)) || null;
+}
+
+async function loadShopItemDetail(e) {
+    const t = getShopItem(e);
+    if (!t?._detailChunk) return t;
+    const n = String(t.id);
+    if (shopDetailCache.has(n)) return shopDetailCache.get(n);
+    const i = String(t._detailChunk), o = `/sea/shop/data/optimized/${ACTIVE_LOCALE}/${i}`;
+    let r = shopChunkCache.get(o);
+    if (!r) {
+        r = fetch(withAssetVersion(o)).then(async e => {
+            if (e.ok) return e.json();
+            if ("en-US" !== ACTIVE_LOCALE) {
+                const t = await fetch(withAssetVersion(`/sea/shop/data/optimized/en-US/${i}`));
+                if (t.ok) return t.json();
+            }
+            throw new Error(`Failed to load shop details (${e.status})`);
+        }), shopChunkCache.set(o, r);
+    }
+    const a = await r, s = (a?.items || []).find(e => String(e?.id) === n) || t;
+    return shopDetailCache.set(n, s), s;
+}
 
 function readFilterHash() {
     const e = window.location.hash ? window.location.hash.slice(1) : "";
@@ -384,7 +410,7 @@ function renderBoxPreviewSection(e, n = "detail") {
     const i = e?.boxPreview, o = Array.isArray(i?.contents) ? i.contents : [], r = "tooltip" === n ? o.slice(0, 30) : o;
     if (!r.length) return "";
     const a = "tooltip" === n && o.length > r.length, s = Math.max(0, o.length - r.length), l = "tooltip" === n ? "tooltip-box-wrap" : "shop-detail-box-wrap", c = "tooltip" === n ? "tooltip-box-item" : "shop-detail-box-item", d = "tooltip" === n ? "tooltip-box-grid" : "shop-detail-box-grid", u = "tooltip" === n ? "tooltip-box-meta" : "shop-detail-box-meta";
-    return `\n        <div class="${"tooltip" === n ? "tooltip-section" : "shop-detail-section"}">\n            <div class="${"tooltip" === n ? "tooltip-section-title" : "shop-detail-section-title"}">${escapeHtml(t("boxPreviewTitle"))}</div>\n            <div class="${u}">${escapeHtml(boxPreviewModeLabel(i.mode))}</div>\n            <div class="${l}${a ? " is-truncated" : ""}">\n                <div class="${d}">\n                    ${r.map(e => `\n                    <div class="${c}" title="${escapeHtml(e.name || `Item ${e.itemId}`)}">\n                        <div class="${c}-icon-wrap quality-${escapeHtml(e.quality || 0)}">\n                            ${e.iconPath ? `<img class="${c}-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n                            ${Number(e.count) > 0 ? `<span class="${c}-count">x${escapeHtml(formatNumber(e.count))}</span>` : ""}\n                        </div>\n                    </div>\n                `).join("")}\n                </div>\n                ${a ? `<div class="tooltip-box-more">${escapeHtml(t("boxPreviewMore", {
+    return `\n        <div class="${"tooltip" === n ? "tooltip-section" : "shop-detail-section"}">\n            <div class="${"tooltip" === n ? "tooltip-section-title" : "shop-detail-section-title"}">${escapeHtml(t("boxPreviewTitle"))}</div>\n            <div class="${u}">${escapeHtml(boxPreviewModeLabel(i.mode))}</div>\n            <div class="${l}${a ? " is-truncated" : ""}">\n                <div class="${d}">\n                    ${r.map(e => `\n                    <div class="${c}" title="${escapeHtml(e.name || `Item ${e.itemId}`)}">\n                        <div class="${c}-icon-wrap quality-${escapeHtml(e.quality || 0)}">\n                            ${e.iconPath ? `<img loading="lazy" decoding="async" class="${c}-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n                            ${Number(e.count) > 0 ? `<span class="${c}-count">x${escapeHtml(formatNumber(e.count))}</span>` : ""}\n                        </div>\n                    </div>\n                `).join("")}\n                </div>\n                ${a ? `<div class="tooltip-box-more">${escapeHtml(t("boxPreviewMore", {
         count: s
     }))}</div>` : ""}\n            </div>\n        </div>\n    `;
 }
@@ -512,25 +538,25 @@ function renderCurrencyFilters() {
             });
         }
         const a = (state.data.currencyGroups || []).find(e => e.id === n), s = document.createElement("section");
-        s.className = "currency-group", s.innerHTML = `\n                <div class="currency-group-title">${escapeHtml(a?.name || t("currencies"))}</div>\n                <div class="currency-chip-row">\n                    ${Array.from(r.values()).map(e => `\n                        <button type="button"\n                                class="currency-chip ${state.selectedCurrencyKey === e.key ? "active" : ""}"\n                                data-currency-key="${escapeHtml(e.key)}"\n                                data-currency-ids="${escapeHtml(e.ids.join(","))}"\n                                title="${escapeHtml(e.name)}">\n                            ${e.iconPath ? `<img src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n                            <span>${escapeHtml(e.name)}</span>\n                        </button>\n                    `).join("")}\n                </div>\n            `, 
+        s.className = "currency-group", s.innerHTML = `\n                <div class="currency-group-title">${escapeHtml(a?.name || t("currencies"))}</div>\n                <div class="currency-chip-row">\n                    ${Array.from(r.values()).map(e => `\n                        <button type="button"\n                                class="currency-chip ${state.selectedCurrencyKey === e.key ? "active" : ""}"\n                                data-currency-key="${escapeHtml(e.key)}"\n                                data-currency-ids="${escapeHtml(e.ids.join(","))}"\n                                title="${escapeHtml(e.name)}">\n                            ${e.iconPath ? `<img loading="lazy" decoding="async" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n                            <span>${escapeHtml(e.name)}</span>\n                        </button>\n                    `).join("")}\n                </div>\n            `, 
         e.appendChild(s);
     });
 }
 
 function pricePill(e) {
     const t = primaryOption(e);
-    return t ? `\n        <div class="shop-price-pill">\n            ${t.iconPath ? `<img src="${escapeHtml(t.iconPath)}" alt="">` : ""}\n            <strong>${escapeHtml(formatNumber(effectiveAmount(t, e)))}</strong>\n        </div>\n    ` : "";
+    return t ? `\n        <div class="shop-price-pill">\n            ${t.iconPath ? `<img loading="lazy" decoding="async" src="${escapeHtml(t.iconPath)}" alt="">` : ""}\n            <strong>${escapeHtml(formatNumber(effectiveAmount(t, e)))}</strong>\n        </div>\n    ` : "";
 }
 
 function buildItemCard(e) {
     const n = 0 === Number(e.isShow), i = cardPurchaseLimitLabel(e), o = unlockLabels(e);
-    return `\n        <article class="shop-card ${String(e.id) === String(state.activeItemId) ? "active" : ""} ${n ? "is-hidden-config" : ""}"\n                 tabindex="0" data-item-id="${escapeHtml(e.id)}">\n            <div class="shop-card-art">\n                ${e.iconPath ? `<img class="shop-card-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n            </div>\n            <div class="shop-card-copy">\n                <div class="shop-card-name">${escapeHtml(e.name || `Item ${e.itemId}`)}</div>\n                <div class="shop-card-sub">${escapeHtml(e.itemNum > 1 ? `${t("quantity")} x${formatNumber(e.itemNum)}` : e.tabName || e.storeName || "")}</div>\n                ${pricePill(e)}\n                ${i ? `<div class="shop-card-limit">${escapeHtml(i)}</div>` : ""}\n                ${o.length ? `<div class="shop-card-unlock">${o.map(e => escapeHtml(e)).join(" · ")}</div>` : ""}\n            </div>\n        </article>\n    `;
+    return `\n        <article class="shop-card ${String(e.id) === String(state.activeItemId) ? "active" : ""} ${n ? "is-hidden-config" : ""}"\n                 tabindex="0" data-item-id="${escapeHtml(e.id)}">\n            <div class="shop-card-art">\n                ${e.iconPath ? `<img loading="lazy" decoding="async" class="shop-card-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n            </div>\n            <div class="shop-card-copy">\n                <div class="shop-card-name">${escapeHtml(e.name || `Item ${e.itemId}`)}</div>\n                <div class="shop-card-sub">${escapeHtml(e.itemNum > 1 ? `${t("quantity")} x${formatNumber(e.itemNum)}` : e.tabName || e.storeName || "")}</div>\n                ${pricePill(e)}\n                ${i ? `<div class="shop-card-limit">${escapeHtml(i)}</div>` : ""}\n                ${o.length ? `<div class="shop-card-unlock">${o.map(e => escapeHtml(e)).join(" · ")}</div>` : ""}\n            </div>\n        </article>\n    `;
 }
 
 function buildDetailHtml(e) {
     if (!e) return `<div class="shop-detail-empty">${escapeHtml(t("noSelection"))}</div>`;
     const n = Array.isArray(e.purchaseOptions) ? e.purchaseOptions : [], i = [ e.storeName ? `${t("tooltipStore")}: ${e.storeName}` : "", e.tabName ? `${t("tooltipTab")}: ${e.tabName}` : "", null != e.requiredLevel ? `${t("tooltipLevel")}: ${groupLabel(e.requiredLevel)}` : "", purchaseLimitLabel(e) || "", e.binding ? `${t("tooltipBound")}: ${t("yes")}` : "", ...unlockLabels(e) ].filter(Boolean);
-    return `\n        <div class="shop-detail-card">\n            <div class="shop-detail-rarity quality-${escapeHtml(e.quality || 0)}"></div>\n            <div class="shop-detail-head">\n                ${e.iconPath ? `<img class="shop-detail-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n                <div>\n                    <div class="shop-detail-kicker">${escapeHtml(t("detailTitle"))}</div>\n                    <h2>${escapeHtml(e.name || `Item ${e.itemId}`)}</h2>\n                </div>\n            </div>\n            ${e.desc ? `<div class="shop-detail-desc">${renderMarkup(e.desc)}</div>` : ""}\n            ${e.story ? `<div class="shop-detail-story">${renderMarkup(e.story)}</div>` : ""}\n            ${statLineHtml(e)}\n            ${renderBoxPreviewSection(e, "detail")}\n            <div class="shop-detail-section">\n                <div class="shop-detail-section-title">${escapeHtml(t("tooltipPurchase"))}</div>\n                <div class="shop-detail-prices">\n                    ${n.map(n => `\n                        <div class="shop-detail-price">\n                            ${n.iconPath ? `<img src="${escapeHtml(n.iconPath)}" alt="">` : ""}\n                            <span>${escapeHtml(n.currencyName || t("unknownCurrency"))}</span>\n                            <strong>${escapeHtml(formatNumber(effectiveAmount(n, e)))}</strong>\n                        </div>\n                    `).join("")}\n                </div>\n            </div>\n            ${i.length ? `\n                <div class="shop-detail-section">\n                    <div class="shop-detail-section-title">${escapeHtml(t("tooltipAvailability"))}</div>\n                    ${i.map(e => `<div class="shop-detail-line">${escapeHtml(e)}</div>`).join("")}\n                </div>\n            ` : ""}\n        </div>\n    `;
+    return `\n        <div class="shop-detail-card">\n            <div class="shop-detail-rarity quality-${escapeHtml(e.quality || 0)}"></div>\n            <div class="shop-detail-head">\n                ${e.iconPath ? `<img loading="lazy" decoding="async" class="shop-detail-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n                <div>\n                    <div class="shop-detail-kicker">${escapeHtml(t("detailTitle"))}</div>\n                    <h2>${escapeHtml(e.name || `Item ${e.itemId}`)}</h2>\n                </div>\n            </div>\n            ${e.desc ? `<div class="shop-detail-desc">${renderMarkup(e.desc)}</div>` : ""}\n            ${e.story ? `<div class="shop-detail-story">${renderMarkup(e.story)}</div>` : ""}\n            ${statLineHtml(e)}\n            ${renderBoxPreviewSection(e, "detail")}\n            <div class="shop-detail-section">\n                <div class="shop-detail-section-title">${escapeHtml(t("tooltipPurchase"))}</div>\n                <div class="shop-detail-prices">\n                    ${n.map(n => `\n                        <div class="shop-detail-price">\n                            ${n.iconPath ? `<img loading="lazy" decoding="async" src="${escapeHtml(n.iconPath)}" alt="">` : ""}\n                            <span>${escapeHtml(n.currencyName || t("unknownCurrency"))}</span>\n                            <strong>${escapeHtml(formatNumber(effectiveAmount(n, e)))}</strong>\n                        </div>\n                    `).join("")}\n                </div>\n            </div>\n            ${i.length ? `\n                <div class="shop-detail-section">\n                    <div class="shop-detail-section-title">${escapeHtml(t("tooltipAvailability"))}</div>\n                    ${i.map(e => `<div class="shop-detail-line">${escapeHtml(e)}</div>`).join("")}\n                </div>\n            ` : ""}\n        </div>\n    `;
 }
 
 function renderDetail(e) {
@@ -545,8 +571,8 @@ function renderDetailModal(e) {
 
 let lastShopModalTriggerEl = null;
 
-function openShopDetailModal(e = state.activeItemId, t = null) {
-    const n = document.getElementById("shop-detail-modal"), i = state.items.find(t => String(t.id) === String(e));
+async function openShopDetailModal(e = state.activeItemId, t = null) {
+    const n = document.getElementById("shop-detail-modal"), i = await loadShopItemDetail(e).catch(() => getShopItem(e));
     if (!n || !i) return;
     hideTooltip(), t instanceof HTMLElement ? lastShopModalTriggerEl = t : document.activeElement instanceof HTMLElement && !n.contains(document.activeElement) && (lastShopModalTriggerEl = document.activeElement), 
     renderDetailModal(i), n.classList.add("open"), n.setAttribute("aria-hidden", "false"), 
@@ -637,12 +663,17 @@ function renderList() {
     state.renderTokens = [], state.renderedTokens = 0, void renderDetail(null);
     state.renderTokens = buildRenderTokens(n), state.renderedTokens = 0, e.innerHTML = '<div class="shop-sentinel" aria-hidden="true"></div>';
     const i = e.querySelector(".shop-sentinel");
-    i && ensureListObserver().observe(i), renderNextBatch(), renderDetail(state.items.find(e => String(e.id) === String(state.activeItemId)));
+    if (i && ensureListObserver().observe(i), renderNextBatch(), renderDetail(getShopItem(state.activeItemId)), state.activeItemId) {
+        const e = state.activeItemId;
+        loadShopItemDetail(e).then(t => {
+            String(state.activeItemId) === String(e) && renderDetail(t);
+        }).catch(() => {});
+    }
 }
 
 function buildTooltipHtml(e) {
     const n = Array.isArray(e.purchaseOptions) ? e.purchaseOptions : [];
-    return `\n        <div class="tooltip-header">\n            ${e.iconPath ? `<img class="tooltip-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n            <div>\n                <div class="tooltip-title">${escapeHtml(e.name || `Item ${e.itemId}`)}</div>\n                ${e.desc ? `<div class="tooltip-meta">${renderMarkup(e.desc)}</div>` : ""}\n                ${e.story ? `<div class="tooltip-meta">${renderMarkup(e.story)}</div>` : ""}\n            </div>\n        </div>\n        ${statLineHtml(e)}\n        ${renderBoxPreviewSection(e, "tooltip")}\n        <div class="tooltip-section">\n            <div class="tooltip-section-title">${escapeHtml(t("tooltipPurchase"))}</div>\n            ${n.map(n => `\n                <div class="tooltip-price-item">\n                    ${n.iconPath ? `<img src="${escapeHtml(n.iconPath)}" alt="">` : ""}\n                    <span>${escapeHtml(n.currencyName || t("unknownCurrency"))}</span>\n                    <strong>${escapeHtml(formatNumber(effectiveAmount(n, e)))}</strong>\n                </div>\n            `).join("")}\n        </div>\n    `;
+    return `\n        <div class="tooltip-header">\n            ${e.iconPath ? `<img loading="lazy" decoding="async" class="tooltip-icon" src="${escapeHtml(e.iconPath)}" alt="">` : ""}\n            <div>\n                <div class="tooltip-title">${escapeHtml(e.name || `Item ${e.itemId}`)}</div>\n                ${e.desc ? `<div class="tooltip-meta">${renderMarkup(e.desc)}</div>` : ""}\n                ${e.story ? `<div class="tooltip-meta">${renderMarkup(e.story)}</div>` : ""}\n            </div>\n        </div>\n        ${statLineHtml(e)}\n        ${renderBoxPreviewSection(e, "tooltip")}\n        <div class="tooltip-section">\n            <div class="tooltip-section-title">${escapeHtml(t("tooltipPurchase"))}</div>\n            ${n.map(n => `\n                <div class="tooltip-price-item">\n                    ${n.iconPath ? `<img loading="lazy" decoding="async" src="${escapeHtml(n.iconPath)}" alt="">` : ""}\n                    <span>${escapeHtml(n.currencyName || t("unknownCurrency"))}</span>\n                    <strong>${escapeHtml(formatNumber(effectiveAmount(n, e)))}</strong>\n                </div>\n            `).join("")}\n        </div>\n    `;
 }
 
 function positionTooltip(e, t) {
@@ -654,9 +685,9 @@ function positionTooltip(e, t) {
     n.style.left = `${r}px`, n.style.top = `${a}px`;
 }
 
-function showTooltip(e, t, n, i) {
+async function showTooltip(e, t, n, i) {
     if (isMobileShopView()) return;
-    const o = document.getElementById("shop-tooltip"), r = state.items.find(t => String(t.id) === String(e));
+    const o = document.getElementById("shop-tooltip"), r = await loadShopItemDetail(e).catch(() => getShopItem(e));
     if (!o || !r) return;
     o.innerHTML = buildTooltipHtml(r), o.classList.remove("hidden"), o.classList.add("visible");
     const a = i?.getBoundingClientRect?.();
@@ -668,9 +699,9 @@ function hideTooltip() {
     e && (e.classList.remove("visible"), e.classList.add("hidden"));
 }
 
-function setActiveItem(e) {
+async function setActiveItem(e) {
     state.activeItemId = String(e || "");
-    const t = state.items.find(e => String(e.id) === state.activeItemId);
+    const t = await loadShopItemDetail(state.activeItemId).catch(() => getShopItem(state.activeItemId));
     renderDetail(t);
     const n = document.getElementById("shop-detail-modal");
     n && n.classList.contains("open") && renderDetailModal(t), document.querySelectorAll(".shop-card").forEach(e => {
@@ -741,7 +772,8 @@ function applyPageText() {
 }
 
 async function loadData() {
-    const e = await fetch(withAssetVersion(`/sea/shop/data/shop_${ACTIVE_LOCALE}.json`));
+    let e = await fetch(withAssetVersion(`/sea/shop/data/shop_index_${ACTIVE_LOCALE}.json`));
+    if (!e.ok && "en-US" !== ACTIVE_LOCALE) e = await fetch(withAssetVersion("/sea/shop/data/shop_index_en-US.json"));
     if (!e.ok) throw new Error(`HTTP ${e.status}`);
     return e.json();
 }

@@ -179,7 +179,8 @@ img { display: block; max-width: 100%; }
   height: 90px;
   background: linear-gradient(180deg, transparent, rgba(248,240,223,.94));
 }
-.hero-art { position: absolute; inset: 84px 0 0; width: 100%; height: calc(100% - 84px); object-fit: cover; object-position: center; }
+.hero-picture { position: absolute; inset: 84px 0 0; width: 100%; height: calc(100% - 84px); }
+.hero-art { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .hero-sky-wash {
   position: absolute;
   inset: 84px 0 0;
@@ -352,7 +353,7 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(12,53,47,.97), rgba(22,78,69,.76)),
-    url('/assets/rtnw-hero.png') center 55% / cover;
+    url('/assets/rtnw-hero-1672.webp') center 55% / cover;
   border: 1px solid var(--gold);
   border-radius: 18px;
   color: white;
@@ -399,7 +400,8 @@ footer > a:last-child { justify-self: end; color: var(--forest); font-size: 11px
   .mobile-menu { top: 61px; right: 16px; }
 
   .hero { min-height: 760px; padding: 68px 20px 44px; align-items: end; }
-  .hero-art { inset: 68px 0 auto; height: 420px; object-position: 65% center; }
+  .hero-picture { inset: 68px 0 auto; height: 420px; }
+  .hero-art { object-position: 65% center; }
   .hero-sky-wash { inset: 68px 0 auto; height: 500px; background: linear-gradient(180deg, transparent 15%, rgba(248,246,235,.3) 50%, rgba(248,240,223,1) 86%); }
   .hero::after { height: 120px; }
   .hero-content { width: 100%; padding-top: 360px; }
@@ -435,7 +437,7 @@ footer > a:last-child { justify-self: end; color: var(--forest); font-size: 11px
   .tool-card h3 { font-size: 20px; }
   .tool-card p { font-size: 11px; }
 
-  .journey-banner { min-height: 390px; align-items: flex-start; flex-direction: column; justify-content: end; margin-bottom: 44px; padding: 30px 24px; background: linear-gradient(180deg, rgba(12,53,47,.18), rgba(12,53,47,.98) 68%), url('/assets/rtnw-hero.png') 66% center / cover; }
+  .journey-banner { min-height: 390px; align-items: flex-start; flex-direction: column; justify-content: end; margin-bottom: 44px; padding: 30px 24px; background: linear-gradient(180deg, rgba(12,53,47,.18), rgba(12,53,47,.98) 68%), url('/assets/rtnw-hero-960.webp') 66% center / cover; }
   .journey-banner h2 { font-size: clamp(38px, 12vw, 52px); }
   .journey-banner > a { width: 100%; }
 

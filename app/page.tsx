@@ -200,7 +200,22 @@ export default function Home() {
 
       <main id="main-content">
         <section className="hero" id="top" aria-labelledby="hero-title">
-          <img className="hero-art" src="/assets/rtnw-hero.png" alt="Fantasy adventurers exploring floating islands above the clouds" />
+          <picture className="hero-picture">
+            <source
+              type="image/webp"
+              srcSet="/assets/rtnw-hero-640.webp 640w, /assets/rtnw-hero-960.webp 960w, /assets/rtnw-hero-1280.webp 1280w, /assets/rtnw-hero-1672.webp 1672w"
+              sizes="100vw"
+            />
+            <img
+              className="hero-art"
+              src="/assets/rtnw-hero-1672.webp"
+              width="1672"
+              height="941"
+              fetchPriority="high"
+              decoding="async"
+              alt="Fantasy adventurers exploring floating islands above the clouds"
+            />
+          </picture>
           <div className="hero-sky-wash" />
           <div className="hero-content">
             <p className="eyebrow"><span /> The New World Adventure Toolkit</p>

@@ -109,14 +109,14 @@
     let matHtml = "";
     if (ld.material?.item) {
       matHtml += `<div class="material-item">
-        <img src="${ld.material.item.iconPath}" alt="${ld.material.item.name}">
+        <img loading="lazy" decoding="async" src="${ld.material.item.iconPath}" alt="${ld.material.item.name}">
         <span class="material-name">${ld.material.item.name}</span>
         <span class="material-amount">x${ld.material.amount}</span>
       </div>`;
     }
     if (ld.consumable?.item) {
       matHtml += `<div class="material-item">
-        <img src="${ld.consumable.item.iconPath}" alt="${ld.consumable.item.name}">
+        <img loading="lazy" decoding="async" src="${ld.consumable.item.iconPath}" alt="${ld.consumable.item.name}">
         <span class="material-name">${ld.consumable.item.name}</span>
         <span class="material-amount">${ld.consumable.amount.toLocaleString()}</span>
       </div>`;
@@ -137,7 +137,7 @@
       const cls = !enabled ? "support-toggle disabled" : active ? "support-toggle active" : "support-toggle";
       const icon = sd?.item?.iconPath || "";
       supHtml += `<div class="${cls}" data-support="${s.key}" ${!enabled ? "" : ""}>
-        ${icon ? `<img src="${icon}" alt="${s.label}">` : ""}
+        ${icon ? `<img loading="lazy" decoding="async" src="${icon}" alt="${s.label}">` : ""}
         <span>${s.label}${sd?.amount ? ` x${sd.amount}` : ""}</span>
       </div>`;
     }
@@ -165,7 +165,7 @@
     let muHtml = "";
     for (const [name, info] of Object.entries(materialsUsed)) {
       muHtml += `<div class="material-item">
-        ${info.icon ? `<img src="${info.icon}" alt="${name}">` : ""}
+        ${info.icon ? `<img loading="lazy" decoding="async" src="${info.icon}" alt="${name}">` : ""}
         <span class="material-name">${name}</span>
         <span class="material-amount">x${info.amount.toLocaleString()}</span>
       </div>`;
@@ -273,7 +273,7 @@
     for (const group of refineData.groups) {
       html += `<div class="refine-group">
         <div class="refine-group-header">
-          <img src="${group.material.iconPath}" alt="${group.material.name}">
+          <img loading="lazy" decoding="async" src="${group.material.iconPath}" alt="${group.material.name}">
           <span class="refine-group-label">${group.label} — ${group.material.name}</span>
         </div>
         <table class="refine-table">

@@ -185,7 +185,7 @@ const CONFIG = {
     iconPathsUrl: "/sea/skill-simulator/data/icon_paths.json",
     iconBasePath: "/media/images/",
     cardsUrl: `/sea/card-simulator/data/handbook_cards_${ACTIVE_LOCALE}.json`,
-    monstersUrl: "/sea/monster-album/data/monster_album_en-US.json",
+    cardSourcesUrl: "/sea/card-simulator/data/card_monster_sources_en-US.json",
     cardIconBase: "/media/images/item/",
     buffIconBase: "/media/images/buff/",
     equipSlotIconBase: "/media/images/equipslot/",
@@ -339,10 +339,10 @@ function buildCardSourceIndex(e) {
 
 async function loadCardSourceIndex() {
     if (cardSourceIndexPromise) return cardSourceIndexPromise;
-    return cardSourceIndexPromise = fetch(withAssetVersion(CONFIG.monstersUrl)).then(e => {
-        if (!e.ok) throw new Error(`Failed to load monster sources (${e.status})`);
+    return cardSourceIndexPromise = fetch(withAssetVersion(CONFIG.cardSourcesUrl)).then(e => {
+        if (!e.ok) throw new Error(`Failed to load card sources (${e.status})`);
         return e.json();
-    }).then(e => buildCardSourceIndex(e?.monsters || [])).catch(e => {
+    }).then(e => new Map(Object.entries(e?.cards || {}).map(([e, t]) => [ Number(e), Array.isArray(t) ? t : [] ]))).catch(e => {
         throw cardSourceIndexPromise = null, e;
     });
 }
@@ -378,7 +378,7 @@ async function renderCardSources(e, t) {
                 a.className = "card-monster-source", a.href = `/sea/monster_album/#showAll=1&monsterId=${encodeURIComponent(e.monsterId)}`,
                 a.setAttribute("aria-label", `View ${e.name} in the Monster Album`);
                 const n = resolveMonsterSourceIcon(e.image);
-                n && (a.innerHTML = `<img src="${n}" alt="">`);
+                n && (a.innerHTML = `<img loading="lazy" decoding="async" src="${n}" alt="">`);
                 const r = document.createElement("span");
                 r.textContent = `${e.name}${Number.isFinite(e.level) ? ` · Lv.${e.level}` : ""}`, a.appendChild(r);
                 const i = formatCardSourceRate(e.rate);
