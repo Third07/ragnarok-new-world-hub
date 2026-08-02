@@ -7,7 +7,10 @@
   },
   "scripts": {
     "install:ci": "bash scripts/install-ci.sh",
+    "names:sync": "node scripts/standardize-index-names.mjs",
+    "predev": "npm run names:sync",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
+    "prebuild": "npm run names:sync",
     "build": "node scripts/generate-performance-data.mjs && bash scripts/build-verified.sh",
     "data:optimize": "node scripts/generate-performance-data.mjs",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
