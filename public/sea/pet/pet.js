@@ -544,27 +544,30 @@ function getFilteredPets() {
 }
 
 function renderList() {
-    const e = document.getElementById("pet-list"), t = document.getElementById("pet-count"), a = getFilteredPets();
-    e.innerHTML = "", t.textContent = `${a.length} / ${state.data?.petCount || 0} ${PT.petsCount}`, 
+    const e = document.getElementById("pet-list"), t = document.getElementById("pet-count"), a = getFilteredPets(), n = e.scrollTop;
+    e.innerHTML = "", t.textContent = `${a.length} / ${state.data?.petCount || 0} ${PT.petsCount}`,
     a.forEach(t => {
         const a = document.createElement("button");
         a.type = "button", a.className = "pet-item", t.id === state.selectedPetId && a.classList.add("active");
-        const n = document.createElement("img");
-        n.alt = t?.quality?.tag || "", n.className = "pet-quality-badge";
-        const l = buildQualityIconCandidates(t);
-        l.length || 0 !== Number(t?.quality?.quality || 0) ? bindFallbackImage(n, l) : bindFallbackImage(n, [ "/media/images/pet/icon_pet_quality_new_5.webp" ]);
-        const i = document.createElement("img");
-        i.alt = t.name || "", bindFallbackImage(i, buildIconCandidates(t));
-        const s = document.createElement("div");
-        s.textContent = t.name || `#${t.id}`, a.appendChild(n), a.appendChild(i), a.appendChild(s), 
+        const l = document.createElement("img");
+        l.alt = t?.quality?.tag || "", l.className = "pet-quality-badge";
+        const i = buildQualityIconCandidates(t);
+        i.length || 0 !== Number(t?.quality?.quality || 0) ? bindFallbackImage(l, i) : bindFallbackImage(l, [ "/media/images/pet/icon_pet_quality_new_5.webp" ]);
+        const s = document.createElement("img");
+        s.alt = t.name || "", bindFallbackImage(s, buildIconCandidates(t));
+        const o = document.createElement("div");
+        o.textContent = t.name || `#${t.id}`, a.appendChild(l), a.appendChild(s), a.appendChild(o),
         a.addEventListener("click", () => {
             if (state.selectedPetId = t.id, !state.levelIndexByPet.has(t.id)) {
-                const e = getDefaultLevelIndex(Array.isArray(t.levels) ? t.levels : []);
-                state.levelIndexByPet.set(t.id, e);
+                const a = getDefaultLevelIndex(Array.isArray(t.levels) ? t.levels : []);
+                state.levelIndexByPet.set(t.id, a);
             }
             render();
         }), e.appendChild(a);
-    }), a.some(e => e.id === state.selectedPetId) || (state.selectedPetId = a[0]?.id ?? null);
+    }), a.some(e => e.id === state.selectedPetId) || (state.selectedPetId = a[0]?.id ?? null), requestAnimationFrame(() => {
+        e.scrollTop = n;
+        e.querySelector(".pet-item.active")?.scrollIntoView({ block: "nearest" });
+    });
 }
 
 function renderDetail() {

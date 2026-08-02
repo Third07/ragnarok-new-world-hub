@@ -235,6 +235,104 @@
         nav.classList.toggle("site-nav--compact", compact);
     }
 
+    function getSelectLabel(select) {
+        const explicit = select.getAttribute("aria-label");
+        if (explicit) return explicit;
+        const labelledBy = select.getAttribute("aria-labelledby");
+        if (labelledBy) {
+            const node = document.getElementById(labelledBy);
+            if (node?.textContent?.trim()) return node.textContent.trim();
+        }
+        const label = select.closest("label");
+        const labelText = label?.querySelector(":scope > span")?.textContent?.trim();
+        return labelText || select.name || "Choose an option";
+    }
+
+    function enhanceSelect(select) {
+        if (!(select instanceof HTMLSelectElement) || select.multiple || select.dataset.nativeSelect === "true" || select.classList.contains("job-select-native") || select.closest(".rtnw-select")) return;
+
+        const shell = document.createElement("span");
+        shell.className = "rtnw-select";
+        select.parentNode.insertBefore(shell, select);
+        shell.appendChild(select);
+        select.classList.add("rtnw-select-native");
+
+        const trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "rtnw-select-trigger";
+        trigger.setAttribute("aria-haspopup", "listbox");
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.innerHTML = '<span class="rtnw-select-value"></span><span class="rtnw-select-caret" aria-hidden="true"></span>';
+        shell.appendChild(trigger);
+
+        const sync = () => {
+            const selected = select.options[select.selectedIndex];
+            trigger.querySelector(".rtnw-select-value").textContent = selected?.textContent?.trim() || select.getAttribute("placeholder") || "Select";
+            trigger.disabled = select.disabled;
+            trigger.setAttribute("aria-label", `${getSelectLabel(select)}: ${selected?.textContent?.trim() || "Select"}`);
+        };
+
+        const closeMenu = () => {
+            document.querySelector(".rtnw-select-layer")?.remove();
+            document.body.classList.remove("rtnw-select-open");
+            document.querySelectorAll(".rtnw-select-trigger[aria-expanded='true']").forEach(button => button.setAttribute("aria-expanded", "false"));
+        };
+
+        const openMenu = event => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (select.disabled) return;
+            closeMenu();
+
+            const layer = document.createElement("div");
+            layer.className = "rtnw-select-layer";
+            layer.innerHTML = '<button class="rtnw-select-backdrop" type="button" aria-label="Close options"></button><div class="rtnw-select-menu" role="dialog" aria-modal="true"><div class="rtnw-select-menu-head"><strong></strong><button class="rtnw-select-close" type="button" aria-label="Close options">\u00d7</button></div><div class="rtnw-select-options" role="listbox"></div></div>';
+            layer.querySelector("strong").textContent = getSelectLabel(select);
+            const optionsHost = layer.querySelector(".rtnw-select-options");
+
+            Array.from(select.options).forEach((option, index) => {
+                const item = document.createElement("button");
+                item.type = "button";
+                item.className = "rtnw-select-option";
+                item.textContent = option.textContent.trim();
+                item.disabled = option.disabled;
+                item.setAttribute("role", "option");
+                item.setAttribute("aria-selected", String(index === select.selectedIndex));
+                if (index === select.selectedIndex) item.classList.add("selected");
+                item.addEventListener("click", () => {
+                    if (select.selectedIndex !== index) {
+                        select.selectedIndex = index;
+                        select.dispatchEvent(new Event("input", { bubbles: true }));
+                        select.dispatchEvent(new Event("change", { bubbles: true }));
+                    }
+                    sync();
+                    closeMenu();
+                    trigger.focus({ preventScroll: true });
+                });
+                optionsHost.appendChild(item);
+            });
+
+            layer.querySelector(".rtnw-select-backdrop").addEventListener("click", closeMenu);
+            layer.querySelector(".rtnw-select-close").addEventListener("click", closeMenu);
+            document.body.appendChild(layer);
+            document.body.classList.add("rtnw-select-open");
+            trigger.setAttribute("aria-expanded", "true");
+            requestAnimationFrame(() => {
+                layer.classList.add("is-open");
+                optionsHost.querySelector(".selected")?.scrollIntoView({ block: "nearest" });
+            });
+        };
+
+        trigger.addEventListener("click", openMenu);
+        select.addEventListener("change", sync);
+        new MutationObserver(sync).observe(select, { childList: true, subtree: true, attributes: true });
+        sync();
+    }
+
+    function enhanceSelects(root = document) {
+        root.querySelectorAll?.("select").forEach(enhanceSelect);
+    }
+
     window.RO_ASSET_VERSION = (() => {
         const meta = document.querySelector('meta[name="asset-version"]');
         return meta ? String(meta.getAttribute("content") || "") : "";
@@ -333,6 +431,15 @@
         }
 
         syncCompactNav();
+        enhanceSelects();
+
+        new MutationObserver(mutations => {
+            mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
+                if (node.nodeType !== Node.ELEMENT_NODE) return;
+                if (node.matches?.("select")) enhanceSelect(node);
+                enhanceSelects(node);
+            }));
+        }).observe(document.body, { childList: true, subtree: true });
 
         if (window.matchMedia && window.matchMedia("(max-width: 1000px)").matches) {
             const activeNavItem = document.querySelector(".site-nav-item.active");
@@ -353,4 +460,9 @@
         document.addEventListener("DOMContentLoaded", bootstrapPage, { once: true });
     }
     window.addEventListener("resize", syncCompactNav);
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            document.querySelector(".rtnw-select-layer")?.querySelector(".rtnw-select-close")?.click();
+        }
+    });
 })();
