@@ -1,0 +1,49 @@
+name: Feature or guide request
+description: Suggest a new tool, guide, database improvement, or usability enhancement.
+title: "[Request]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the player problem first, then the proposed solution. Requests may be adapted or declined based on data availability, maintenance cost, and project scope.
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request type
+      options:
+        - New guide
+        - New tool or planner
+        - Database improvement
+        - Mobile or accessibility improvement
+        - Navigation or design improvement
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What player problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Available data, examples, or references
+      description: Mention existing RTNW Hub tools or data files that could support the request.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: This request is for RTNW Hub and not for an official game account, payment, server, or publisher-support problem.
+          required: true
