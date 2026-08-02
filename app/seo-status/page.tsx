@@ -42,10 +42,10 @@ export default function SeoStatusPage() {
 
       <main id="seo-status-content">
         <section className={styles.hero}>
-          <p className={styles.kicker}>No accounts · No analytics · No visitor tracking</p>
+          <p className={styles.kicker}>No accounts · No first-party analytics · No user database</p>
           <h1>SEO maintenance <em>status.</em></h1>
           <p>
-            Build-time crawl diagnostics for RTNW Hub. This page reads a generated technical report and does not collect visitor information.
+            Build-time crawl diagnostics for RTNW Hub. This page reads a generated technical report and does not ask visitors to submit personal information.
           </p>
           <div className={styles.heroLinks}>
             <a href="/sitemap.xml">Open sitemap <span aria-hidden="true">↗</span></a>
