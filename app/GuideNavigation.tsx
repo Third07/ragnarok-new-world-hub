@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const GUIDE_HREF = "/guides/";
+const UPDATES_HREF = "/updates/";
 const TRUST_LINKS = [
   ["About", "/about/"],
   ["Contact", "/contact/"],
@@ -11,17 +12,18 @@ const TRUST_LINKS = [
   ["Disclaimer", "/disclaimer/"],
 ] as const;
 
-function createGuideLink(className?: string) {
+function createLink(href: string, label: string, className?: string) {
   const link = document.createElement("a");
-  link.href = GUIDE_HREF;
-  link.textContent = className === "guide-path-link" ? "Browse all guides →" : "Guides";
-  link.dataset.guideNavigation = "true";
+  link.href = href;
+  link.textContent = label;
+  if (href === GUIDE_HREF) link.dataset.guideNavigation = "true";
+  if (href === UPDATES_HREF) link.dataset.updatesNavigation = "true";
   if (className) link.className = className;
   return link;
 }
 
-function hasGuideLink(root: Element) {
-  return Boolean(root.querySelector(`a[href="${GUIDE_HREF}"]`));
+function hasLink(root: Element, href: string) {
+  return Boolean(root.querySelector(`a[href="${href}"]`));
 }
 
 function injectTrustLinks(footerMeta: Element) {
@@ -33,51 +35,54 @@ function injectTrustLinks(footerMeta: Element) {
   nav.setAttribute("aria-label", "Site information");
 
   for (const [label, href] of TRUST_LINKS) {
-    const link = document.createElement("a");
-    link.href = href;
-    link.textContent = label;
-    nav.appendChild(link);
+    nav.appendChild(createLink(href, label));
   }
 
   footerMeta.appendChild(nav);
 }
 
-function injectFooterGuideLink(footerMeta: Element) {
-  if (hasGuideLink(footerMeta)) return;
+function injectFooterLink(footerMeta: Element, href: string, label: string) {
+  if (hasLink(footerMeta, href)) return;
 
-  const guideLink = createGuideLink();
+  const link = createLink(href, label);
   const sitemapLink = footerMeta.querySelector('a[href="/sitemap.xml"]');
   const linkParent = sitemapLink?.parentElement;
 
   if (sitemapLink && linkParent) {
-    linkParent.insertBefore(guideLink, sitemapLink);
+    linkParent.insertBefore(link, sitemapLink);
   } else {
-    footerMeta.appendChild(guideLink);
+    footerMeta.appendChild(link);
   }
+}
+
+function injectPrimaryLink(root: Element, href: string, label: string, before: Element | null) {
+  if (hasLink(root, href)) return;
+  root.insertBefore(createLink(href, label), before);
 }
 
 function injectGuideNavigation() {
   const desktopNav = document.querySelector(".desktop-nav");
-  if (desktopNav && !hasGuideLink(desktopNav)) {
-    const guideLink = createGuideLink();
+  if (desktopNav) {
     const worldMapLink = desktopNav.querySelector('a[href^="/sea/maps/"]');
-    desktopNav.insertBefore(guideLink, worldMapLink ?? null);
+    injectPrimaryLink(desktopNav, GUIDE_HREF, "Guides", worldMapLink);
+    injectPrimaryLink(desktopNav, UPDATES_HREF, "Updates", worldMapLink);
   }
 
   const mobileMenu = document.querySelector(".mobile-menu");
-  if (mobileMenu && !hasGuideLink(mobileMenu)) {
-    const guideLink = createGuideLink();
+  if (mobileMenu) {
     const firstTool = mobileMenu.querySelector("a:nth-of-type(2)");
-    mobileMenu.insertBefore(guideLink, firstTool ?? null);
+    injectPrimaryLink(mobileMenu, GUIDE_HREF, "Guides", firstTool);
+    injectPrimaryLink(mobileMenu, UPDATES_HREF, "Updates", firstTool);
   }
 
   const guideOverview = document.querySelector(".guide-overview-heading");
-  if (guideOverview && !hasGuideLink(guideOverview)) {
-    guideOverview.appendChild(createGuideLink("guide-path-link"));
+  if (guideOverview && !hasLink(guideOverview, GUIDE_HREF)) {
+    guideOverview.appendChild(createLink(GUIDE_HREF, "Browse all guides →", "guide-path-link"));
   }
 
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
-    injectFooterGuideLink(footerMeta);
+    injectFooterLink(footerMeta, GUIDE_HREF, "Guides");
+    injectFooterLink(footerMeta, UPDATES_HREF, "Updates");
     injectTrustLinks(footerMeta);
   });
 }
