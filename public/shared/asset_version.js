@@ -239,14 +239,14 @@
         if (!document.querySelector('link[data-rtnw-ads]')) {
             const stylesheet = document.createElement("link");
             stylesheet.rel = "stylesheet";
-            stylesheet.href = "/shared/responsive_ads.css?v=20260802-ads1";
+            stylesheet.href = "/shared/responsive_ads.css?v=20260802-ads2";
             stylesheet.dataset.rtnwAds = "true";
             document.head.appendChild(stylesheet);
         }
 
         if (document.querySelector('script[data-rtnw-ads]')) return;
         const script = document.createElement("script");
-        script.src = "/shared/responsive_ads.js?v=20260802-ads1";
+        script.src = "/shared/responsive_ads.js?v=20260802-ads2";
         script.defer = true;
         script.dataset.rtnwAds = "true";
         document.body.appendChild(script);

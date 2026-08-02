@@ -8,21 +8,23 @@
     leaderboard: {
       key: "91fde19eac5358fcbb0ccc7f92fcf7e8",
       width: 728,
-      height: 90
+      height: 90,
+      frame: "/shared/ads/leaderboard.html?v=20260802-ads2"
     },
     mobileBanner: {
       key: "4281407f118f027b278a4d1dbbd94232",
       width: 320,
-      height: 50
+      height: 50,
+      frame: "/shared/ads/mobile-banner.html?v=20260802-ads2"
     },
     rectangle: {
       key: "0e2fb144411b70df25b2a26a11d69c2b",
       width: 300,
-      height: 250
+      height: 250,
+      frame: "/shared/ads/rectangle.html?v=20260802-ads2"
     }
   };
 
-  const AD_HOST = "https://flaskledgeheadquarters.com";
   const PREVIEW_HOSTS = new Set(["terminal.local", "localhost", "127.0.0.1"]);
   const previewMode = PREVIEW_HOSTS.has(window.location.hostname);
 
@@ -32,24 +34,12 @@
       : AD_UNITS.mobileBanner;
   }
 
-  function adDocument(unit, name) {
-    if (previewMode) {
-      return `<!doctype html><html><head><meta charset="utf-8"><style>
-        *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0}
-        body{display:grid;place-items:center;background:linear-gradient(135deg,#fffaf0,#f8f0df);color:#687c72;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed rgba(22,78,69,.26)}
-        span{padding:8px}strong{display:block;color:#164e45;font-size:12px}
-      </style></head><body><span><strong>Advertisement preview</strong>${name} · ${unit.width}×${unit.height}</span></body></html>`;
-    }
-
-    const options = JSON.stringify({
-      key: unit.key,
-      format: "iframe",
-      height: unit.height,
-      width: unit.width,
-      params: {}
-    }).replace(/</g, "\\u003c");
-
-    return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:transparent}body{display:grid;place-items:center}</style></head><body><script>window.atOptions=${options};<\/script><script src="${AD_HOST}/${unit.key}/invoke.js"><\/script></body></html>`;
+  function previewDocument(unit, name) {
+    return `<!doctype html><html><head><meta charset="utf-8"><style>
+      *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0}
+      body{display:grid;place-items:center;background:linear-gradient(135deg,#fffaf0,#f8f0df);color:#687c72;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed rgba(22,78,69,.26)}
+      span{padding:8px}strong{display:block;color:#164e45;font-size:12px}
+    </style></head><body><span><strong>Advertisement preview</strong>${name} · ${unit.width}×${unit.height}</span></body></html>`;
   }
 
   function createFrame(slot, unit, name) {
@@ -60,15 +50,19 @@
     frame.title = "Advertisement";
     frame.width = String(unit.width);
     frame.height = String(unit.height);
-    frame.loading = "lazy";
+    frame.loading = "eager";
     frame.scrolling = "no";
     frame.referrerPolicy = "strict-origin-when-cross-origin";
-    frame.setAttribute("sandbox", "allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox");
+    frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
     frame.setAttribute("aria-label", `Advertisement, ${unit.width} by ${unit.height}`);
     frame.addEventListener("load", () => {
       slot.dataset.adState = "loaded";
     }, { once: true });
-    frame.srcdoc = adDocument(unit, name);
+    if (previewMode) {
+      frame.srcdoc = previewDocument(unit, name);
+    } else {
+      frame.src = unit.frame;
+    }
     slot.appendChild(frame);
   }
 

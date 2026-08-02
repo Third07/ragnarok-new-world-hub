@@ -133,7 +133,7 @@ export default function Home() {
 
     if (!document.querySelector('script[data-rtnw-ads]')) {
       const script = document.createElement("script");
-      script.src = "/shared/responsive_ads.js?v=20260802-ads1";
+      script.src = "/shared/responsive_ads.js?v=20260802-ads2";
       script.async = true;
       script.dataset.rtnwAds = "true";
       document.body.appendChild(script);

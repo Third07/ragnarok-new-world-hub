@@ -5,7 +5,13 @@ import test from "node:test";
 const read = path => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("ad system uses only the approved non-disruptive formats", async () => {
-  const source = await read("public/shared/responsive_ads.js");
+  const files = await Promise.all([
+    read("public/shared/responsive_ads.js"),
+    read("public/shared/ads/leaderboard.html"),
+    read("public/shared/ads/mobile-banner.html"),
+    read("public/shared/ads/rectangle.html")
+  ]);
+  const source = files.join("\n");
 
   for (const key of [
     "91fde19eac5358fcbb0ccc7f92fcf7e8",
@@ -24,6 +30,12 @@ test("ad system uses only the approved non-disruptive formats", async () => {
   ]) {
     assert.doesNotMatch(source, new RegExp(excludedKey));
   }
+
+  assert.match(files[0], /frame\.src = unit\.frame/);
+  assert.doesNotMatch(files[0], /flaskledgeheadquarters\.com/);
+  assert.match(files[1], /width:\s*728/);
+  assert.match(files[2], /width:\s*320/);
+  assert.match(files[3], /width:\s*300/);
 });
 
 test("homepage and legacy tools receive restrained placements", async () => {
