@@ -9,6 +9,10 @@ const reportPath = path.join(root, "public", "seo-audit.json");
 const expectedRoutes = [
   "/",
   "/guides/",
+  "/guides/classes-builds/",
+  "/guides/beginner-guides/",
+  "/guides/progression-equipment/",
+  "/guides/monsters-cards-farming/",
   "/guides/class-tier-list/",
   "/guides/beginner-progression/",
   "/guides/druid-builds/",
@@ -37,6 +41,10 @@ const expectedRoutes = [
 const routeSources = {
   "/": "app/page.tsx",
   "/guides/": "app/guides/page.tsx",
+  "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
+  "/guides/beginner-guides/": "app/guides/beginner-guides/page.tsx",
+  "/guides/progression-equipment/": "app/guides/progression-equipment/page.tsx",
+  "/guides/monsters-cards-farming/": "app/guides/monsters-cards-farming/page.tsx",
   "/guides/class-tier-list/": "app/guides/class-tier-list/page.tsx",
   "/guides/beginner-progression/": "app/guides/beginner-progression/page.tsx",
   "/guides/druid-builds/": "app/guides/druid-builds/page.tsx",
