@@ -248,7 +248,7 @@ img { display: block; max-width: 100%; }
 .hero-meta span::before { content: "✦"; color: var(--gold); font-size: 9px; }
 .hero-meta strong { color: var(--forest); font-size: 13px; }
 
-.quick-tools, .tool-library { width: min(1320px, calc(100% - 44px)); margin-inline: auto; }
+.quick-tools, .tool-library, .guide-overview { width: min(1320px, calc(100% - 44px)); margin-inline: auto; }
 .quick-tools { position: relative; z-index: 5; margin-top: -42px; padding-bottom: 110px; }
 .section-kicker { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; color: var(--forest); font-size: 10px; font-weight: 900; letter-spacing: .15em; text-transform: uppercase; }
 .section-kicker .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
@@ -340,6 +340,23 @@ img { display: block; max-width: 100%; }
 .empty-state p { margin: 0 0 18px; color: var(--sage); font-size: 13px; }
 .empty-state button { padding: 10px 16px; border: 1px solid var(--forest); border-radius: 8px; background: transparent; color: var(--forest); font-weight: 800; cursor: pointer; }
 
+.guide-overview {
+  display: grid;
+  grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
+  gap: clamp(36px, 6vw, 88px);
+  padding: 80px 0 120px;
+  border-top: 1px solid var(--line);
+}
+.guide-overview-heading h2 { margin: 0; color: var(--forest-deep); font-family: Georgia, serif; font-size: clamp(38px, 4.3vw, 62px); font-weight: 600; line-height: 1; letter-spacing: -.035em; }
+.guide-overview-heading > p:last-child { margin: 24px 0 0; color: var(--sage); font-size: 14px; line-height: 1.75; }
+.guide-paths { display: grid; gap: 14px; }
+.guide-paths article { position: relative; padding: 26px 28px 26px 70px; background: rgba(255,250,240,.72); border: 1px solid rgba(96,88,63,.16); border-radius: 14px; }
+.guide-paths article > span { position: absolute; left: 24px; top: 29px; color: var(--gold); font: 700 13px/1 Georgia, serif; }
+.guide-paths h3 { margin: 0 0 8px; color: var(--forest-deep); font: 600 24px/1.2 Georgia, serif; }
+.guide-paths p { margin: 0; color: var(--sage); font-size: 13px; line-height: 1.7; }
+.guide-paths p a { color: var(--ruby-dark); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.guide-path-link { display: inline-block; margin-top: 14px; color: var(--forest); font-size: 11px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+
 .journey-banner {
   position: relative;
   width: min(1320px, calc(100% - 44px));
@@ -365,6 +382,8 @@ img { display: block; max-width: 100%; }
 
 footer { min-height: 150px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 30px; padding: 30px clamp(22px, 4vw, 64px); background: var(--paper); border-top: 1px solid var(--line); }
 footer p { margin: 0; color: var(--sage); font-size: 11px; text-align: center; }
+.footer-meta { display: grid; justify-items: center; gap: 7px; }
+.footer-meta a { color: var(--forest); font-size: 10px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
 footer > a:last-child { justify-self: end; color: var(--forest); font-size: 11px; font-weight: 800; }
 .mobile-dock { display: none; }
 
@@ -412,7 +431,7 @@ footer > a:last-child { justify-self: end; color: var(--forest); font-size: 11px
   .primary-button, .secondary-button { width: 100%; min-height: 54px; }
   .hero-meta { gap: 9px 18px; margin-top: 22px; }
 
-  .quick-tools, .tool-library, .journey-banner { width: calc(100% - 32px); }
+  .quick-tools, .tool-library, .guide-overview, .journey-banner { width: calc(100% - 32px); }
   .quick-tools { margin-top: -22px; padding-bottom: 78px; }
   .section-kicker span:last-child { display: none; }
   .quick-grid { display: flex; gap: 12px; overflow-x: auto; padding: 3px 3px 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
@@ -436,6 +455,11 @@ footer > a:last-child { justify-self: end; color: var(--forest); font-size: 11px
   .tool-icon { width: 50px; height: 50px; }
   .tool-card h3 { font-size: 20px; }
   .tool-card p { font-size: 11px; }
+
+  .guide-overview { grid-template-columns: 1fr; gap: 32px; padding: 56px 0 76px; }
+  .guide-overview-heading h2 { font-size: clamp(38px, 11vw, 52px); }
+  .guide-paths article { padding: 22px 20px 22px 54px; }
+  .guide-paths article > span { left: 18px; top: 25px; }
 
   .journey-banner { min-height: 390px; align-items: flex-start; flex-direction: column; justify-content: end; margin-bottom: 44px; padding: 30px 24px; background: linear-gradient(180deg, rgba(12,53,47,.18), rgba(12,53,47,.98) 68%), url('/assets/rtnw-hero-960.webp') 66% center / cover; }
   .journey-banner h2 { font-size: clamp(38px, 12vw, 52px); }

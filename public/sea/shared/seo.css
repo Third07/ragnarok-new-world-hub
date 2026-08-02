@@ -1,0 +1,77 @@
+.header h1.header-title {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.seo-guide {
+  width: min(1180px, calc(100% - 32px));
+  margin: 28px auto 112px;
+  padding: clamp(22px, 4vw, 36px);
+  color: #24464b;
+  background: linear-gradient(145deg, rgba(255, 253, 245, 0.98), rgba(244, 251, 250, 0.96));
+  border: 1px solid rgba(194, 153, 66, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 16px 42px rgba(27, 72, 74, 0.12), inset 0 1px rgba(255, 255, 255, 0.85);
+}
+
+.seo-guide h2 {
+  margin: 0 0 12px;
+  color: #174f55;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.seo-guide p {
+  max-width: 82ch;
+  margin: 0;
+  color: #405f63;
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.seo-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.seo-related a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 9px 15px;
+  color: #176f87;
+  font-weight: 750;
+  text-decoration: none;
+  background: #edfaff;
+  border: 1px solid #abd9e8;
+  border-radius: 999px;
+}
+
+.seo-related a:hover,
+.seo-related a:focus-visible {
+  color: #fff;
+  background: #197da2;
+  border-color: #197da2;
+}
+
+@media (max-width: 640px) {
+  .seo-guide {
+    width: calc(100% - 20px);
+    margin: 18px auto calc(96px + env(safe-area-inset-bottom));
+    padding: 20px 18px;
+    border-radius: 18px;
+  }
+
+  .seo-related {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .seo-related a {
+    justify-content: center;
+  }
+}

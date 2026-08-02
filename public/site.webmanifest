@@ -1,0 +1,22 @@
+{
+  "name": "Ragnarok: The New World Hub",
+  "short_name": "RTNW Hub",
+  "description": "English Ragnarok: The New World guides, builds, planners, maps, and databases.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f1df",
+  "theme_color": "#174f55",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -157,8 +157,25 @@ export default function Home() {
     document.getElementById("tools")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const toolListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Ragnarok: The New World tools and guides",
+    numberOfItems: tools.length,
+    itemListElement: tools.map((tool, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: tool.title,
+      url: `https://rtnw.online${tool.href.split("?")[0]}`,
+    })),
+  };
+
   return (
     <div className="site-shell">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(toolListSchema) }}
+      />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -227,10 +244,10 @@ export default function Home() {
           </picture>
           <div className="hero-sky-wash" />
           <div className="hero-content">
-            <p className="eyebrow"><span /> The New World Adventure Toolkit</p>
-            <h1 id="hero-title">Your adventure,<br /><em>mapped.</em></h1>
+            <p className="eyebrow"><span /> Ragnarok: The New World Guide Hub</p>
+            <h1 id="hero-title">Ragnarok: The New World<br /><em>guides &amp; tools.</em></h1>
             <p className="hero-copy">
-              Build smarter, discover faster, and explore Rune-Midgard with a complete collection of English planners, databases, and interactive guides.
+              Plan stronger class builds, find monsters and card drops, and explore Rune-Midgard with English planners, databases, tutorials, and interactive guides.
             </p>
             <div className="hero-actions">
               <button className="primary-button" type="button" onClick={jumpToTools}>
@@ -336,6 +353,36 @@ export default function Home() {
 
         <aside className="rtnw-ad-slot rtnw-ad-slot--rectangle" data-ad-slot="true" data-ad-format="rectangle" data-ad-placement="home-end" />
 
+        <section className="guide-overview" aria-labelledby="guide-overview-heading">
+          <div className="guide-overview-heading">
+            <p className="eyebrow dark"><span /> Guides, builds and game data</p>
+            <h2 id="guide-overview-heading">Ragnarok: The New World guides built around useful tools.</h2>
+            <p>
+              RTNW Hub helps SEA players turn game data into practical decisions. Every guide path below connects to a working planner, map, or searchable database, so you can research a build and apply it in the same place.
+            </p>
+          </div>
+          <div className="guide-paths">
+            <article>
+              <span>01</span>
+              <h3>Plan class builds</h3>
+              <p>Choose a job in the <a href="/sea/skill_planner/">Skill Planner</a>, compare rune effects, test equipment affixes, and save a shareable build before spending resources in game.</p>
+              <a className="guide-path-link" href="/sea/skill_planner/">Start a skill build →</a>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Find monsters and drops</h3>
+              <p>Use the <a href="/sea/maps/?lang=en-US#map=101">interactive map</a> with the Monster Album and Card Database to locate targets, inspect stats, and see where important cards can be obtained.</p>
+              <a className="guide-path-link" href="/sea/monster_album/">Search monsters →</a>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Improve progression</h3>
+              <p>Check refine rates, pet skills, event schedules, shop items, and quiz answers. These references are designed for quick use on both desktop and mobile while you play.</p>
+              <a className="guide-path-link" href="/sea/refine/">Open refine simulator →</a>
+            </article>
+          </div>
+        </section>
+
         <section className="journey-banner" aria-label="Explore Rune-Midgard">
           <div>
             <p className="eyebrow"><span /> Ready for the next quest?</p>
@@ -350,7 +397,10 @@ export default function Home() {
           <span className="brand-crest" aria-hidden="true">✦</span>
           <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
         </a>
-        <p>Community game-data toolkit for Ragnarok: The New World.</p>
+        <div className="footer-meta">
+          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
+          <a href="/sitemap.xml">Sitemap</a>
+        </div>
         <a href="#top">Back to top ↑</a>
       </footer>
 

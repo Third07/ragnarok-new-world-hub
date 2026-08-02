@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /sea/cache/
+Disallow: /sea/logs/
+
+Sitemap: https://rtnw.online/sitemap.xml
