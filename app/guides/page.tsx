@@ -36,35 +36,35 @@ const guideCategories = [
     description:
       "Compare F2P, PvE, and PvP class rankings, then study the separate Werewolf, Wereraptor, and Human Arcanist Druid builds before investing resources.",
     status: "2 guides published",
-    href: "/guides/druid-builds/",
-    link: "Read Druid builds →",
+    href: "/guides/classes-builds/",
+    link: "Browse class guides →",
   },
   {
     number: "02",
     title: "Beginner guides",
     description:
       "Follow a first-hours and first-week route with daily routines, F2P resource priorities, tool workflows, and common progression mistakes.",
-    status: "1 guide published",
-    href: "/guides/beginner-progression/",
-    link: "Read beginner guide →",
+    status: "2 connected guides",
+    href: "/guides/beginner-guides/",
+    link: "Browse beginner guides →",
   },
   {
     number: "03",
     title: "Progression and equipment",
     description:
       "Choose better base equipment, prioritize the correct slot, and plan around the +6, +9, +12, and +15 refine checkpoints before spending materials.",
-    status: "1 guide published",
-    href: "/guides/refining-equipment/",
-    link: "Read refining guide →",
+    status: "2 connected guides",
+    href: "/guides/progression-equipment/",
+    link: "Browse progression guides →",
   },
   {
     number: "04",
     title: "Monsters, cards and farming",
     description:
       "Choose cards by build fit, compare every obtain source, inspect the monster, plan a World Map route, and measure whether the farm is worth repeating.",
-    status: "1 guide published",
-    href: "/guides/farming-card-progression/",
-    link: "Read farming guide →",
+    status: "2 connected guides",
+    href: "/guides/monsters-cards-farming/",
+    link: "Browse farming guides →",
   },
 ];
 
@@ -183,7 +183,7 @@ export default function GuidesPage() {
               <h2 id="library-title">Four clear paths for every adventurer.</h2>
             </div>
             <p>
-              Every category now contains at least one complete article connected directly to the site's working game-data tools.
+              Every category now has a dedicated landing page that combines its published articles with the relevant planners and searchable game-data tools.
             </p>
           </div>
 
