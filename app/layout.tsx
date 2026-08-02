@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import GuideNavigation from "./GuideNavigation";
+import PrivacyChoicesLoader from "./PrivacyChoicesLoader";
 import "./globals.css";
 import "./trust-navigation.css";
 import "../public/shared/responsive_ads.css";
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <GuideNavigation />
+        <PrivacyChoicesLoader />
         {children}
       </body>
     </html>
