@@ -68,16 +68,37 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const websiteSchema = {
+  const siteSchema = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://rtnw.online/#website",
-    url: "https://rtnw.online/",
-    name: "RTNW Hub",
-    alternateName: "Ragnarok: The New World Hub",
-    description:
-      "English Ragnarok: The New World guides, builds, planners, maps, and game databases.",
-    inLanguage: "en",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://rtnw.online/#organization",
+        name: "RTNW Hub",
+        alternateName: "Ragnarok: The New World Hub",
+        url: "https://rtnw.online/",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://rtnw.online/apple-touch-icon.png",
+          width: 180,
+          height: 180,
+        },
+        description:
+          "Independent fan-made Ragnarok: The New World guide and game-data project.",
+        sameAs: ["https://github.com/Third07/ragnarok-new-world-hub"],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://rtnw.online/#website",
+        url: "https://rtnw.online/",
+        name: "RTNW Hub",
+        alternateName: "Ragnarok: The New World Hub",
+        description:
+          "English Ragnarok: The New World guides, builds, planners, maps, and game databases.",
+        publisher: { "@id": "https://rtnw.online/#organization" },
+        inLanguage: "en",
+      },
+    ],
   };
 
   return (
@@ -85,7 +106,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <GuideNavigation />
         {children}
