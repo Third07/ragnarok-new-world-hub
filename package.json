@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "install:ci": "bash scripts/install-ci.sh",
+    "install:ci": "npm ci",
     "names:sync": "node scripts/standardize-index-names.mjs",
     "social:sync": "node scripts/sync-social-images.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
@@ -15,16 +15,16 @@
     "indexnow:submit:all": "node scripts/indexnow-submit.mjs --all",
     "indexnow:dry-run": "node scripts/indexnow-submit.mjs --all --dry-run",
     "predev": "npm run names:sync && npm run social:sync && npm run seo:audit",
-    "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
+    "dev": "vite",
     "prebuild": "npm run names:sync && npm run social:sync && npm run seo:audit",
-    "build": "node scripts/generate-performance-data.mjs && bash scripts/build-verified.sh",
-    "postbuild": "node scripts/indexnow-submit.mjs --auto --nonfatal",
+    "build": "node scripts/generate-performance-data.mjs && vite build",
+    "preview": "npm run build && vite preview",
+    "start": "vite preview",
+    "deploy": "npm run build && wrangler deploy && node scripts/indexnow-submit.mjs --auto --nonfatal",
     "data:optimize": "node scripts/generate-performance-data.mjs",
-    "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/*.test.mjs",
-    "validate:artifact": "bash scripts/validate-artifact.sh",
-    "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
