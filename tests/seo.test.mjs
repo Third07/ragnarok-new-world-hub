@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import test from "node:test";
 
 const siteOrigin = "https://rtnw.online";
@@ -44,6 +46,68 @@ function matchContent(html, pattern, label) {
   const match = html.match(pattern);
   assert.ok(match, `Missing ${label}`);
   return match[1];
+}
+
+async function findFiles(directory, filename) {
+  const results = [];
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    const candidate = path.join(directory, entry.name);
+    if (entry.isDirectory()) results.push(...(await findFiles(candidate, filename)));
+    if (entry.isFile() && entry.name === filename) results.push(candidate);
+  }
+  return results;
+}
+
+async function loadBuiltWorker() {
+  const configs = await findFiles("dist", "wrangler.json");
+  assert.ok(configs.length > 0, "Cloudflare build did not emit an output wrangler.json");
+
+  for (const configPath of configs) {
+    const config = JSON.parse(await readFile(configPath, "utf8"));
+    if (typeof config.main !== "string") continue;
+    const workerPath = path.resolve(path.dirname(configPath), config.main);
+    try {
+      await access(workerPath);
+    } catch {
+      continue;
+    }
+    const workerUrl = pathToFileURL(workerPath);
+    workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
+    const module = await import(workerUrl.href);
+    if (module.default && typeof module.default.fetch === "function") {
+      return module.default;
+    }
+  }
+
+  assert.fail("No generated Cloudflare Worker entry exported default.fetch");
+}
+
+function createTestRuntime() {
+  const assets = {
+    async fetch(request) {
+      const pathname = new URL(request.url).pathname;
+      try {
+        const body = await readFile(`public${pathname}`);
+        const contentType = pathname.endsWith(".xml")
+          ? "application/xml; charset=utf-8"
+          : pathname.endsWith(".txt")
+            ? "text/plain; charset=utf-8"
+            : "application/octet-stream";
+        return new Response(request.method === "HEAD" ? null : body, {
+          status: 200,
+          headers: { "Content-Type": contentType },
+        });
+      } catch {
+        return new Response("Not found", { status: 404 });
+      }
+    },
+  };
+
+  return {
+    env: { ASSETS: assets },
+    context: { waitUntil() {}, passThroughOnException() {} },
+  };
 }
 
 test("every indexable tool page has unique static SEO signals", async () => {
@@ -103,13 +167,12 @@ test("sitemap, robots, manifest, favicon, and deployment canary are current", as
 });
 
 test("rendered home page exposes canonical metadata and WebSite schema", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("seo-test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
   const response = await worker.fetch(
     new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
+    env,
+    context,
   );
   const html = await response.text();
 
@@ -122,32 +185,9 @@ test("rendered home page exposes canonical metadata and WebSite schema", async (
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
 
-test("deployment artifact serves critical discovery and content routes", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("route-test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  const assets = {
-    async fetch(request) {
-      const pathname = new URL(request.url).pathname;
-      try {
-        const body = await readFile(`public${pathname}`);
-        const contentType = pathname.endsWith(".xml")
-          ? "application/xml; charset=utf-8"
-          : pathname.endsWith(".txt")
-            ? "text/plain; charset=utf-8"
-            : "application/octet-stream";
-        return new Response(request.method === "HEAD" ? null : body, {
-          status: 200,
-          headers: { "Content-Type": contentType },
-        });
-      } catch {
-        return new Response("Not found", { status: 404 });
-      }
-    },
-  };
-  const env = { ASSETS: assets };
-  const context = { waitUntil() {}, passThroughOnException() {} };
+test("Cloudflare build serves critical discovery and content routes", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
 
   for (const pathname of ["/guides/", "/updates/", "/seo-status/", "/feed.xml", "/robots.txt", "/deployment-version.txt"]) {
     const response = await worker.fetch(
