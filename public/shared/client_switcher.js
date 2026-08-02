@@ -64,8 +64,7 @@
         }();
     }
     (function() {
-        if (!("/" === n.pathname || "/index.html" === n.pathname || "/sea/" === n.pathname || "/sea/index.html" === n.pathname)) return localStorage.setItem("ro_client", a), 
-        !1;
+        if (!("/" === n.pathname || "/index.html" === n.pathname || "/sea/" === n.pathname || "/sea/index.html" === n.pathname)) return localStorage.setItem("ro_client", a), !1;
         const e = localStorage.getItem("ro_client"), r = e && t[e] || function() {
             const t = [ new URLSearchParams(n.search).get("lang"), localStorage.getItem("ro_lang"), navigator.language, ...Array.isArray(navigator.languages) ? navigator.languages : [] ].filter(Boolean);
             for (const e of t) {
@@ -77,8 +76,7 @@
             }
             return "SEA";
         }();
-        return r !== a ? (localStorage.setItem("ro_client", r), n.replace(`${s(r)}${n.search}${n.hash}`), 
-        !0) : (localStorage.setItem("ro_client", a), !1);
+        return r !== a ? (localStorage.setItem("ro_client", r), n.replace(`${s(r)}${n.search}${n.hash}`), !0) : (localStorage.setItem("ro_client", a), !1);
     })() || (window.RO_ACTIVE_CLIENT = a, document.body ? i() : document.addEventListener("DOMContentLoaded", i, {
         once: !0
     }));
@@ -101,5 +99,24 @@
         document.addEventListener("DOMContentLoaded", addHubShortcut, { once: true });
     } else {
         addHubShortcut();
+    }
+})();
+
+(() => {
+    const src = "/shared/tool_structured_data.js?v=20260803-schema1";
+
+    function loadToolStructuredData() {
+        if (document.querySelector("script[data-rtnw-tool-schema]")) return;
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.dataset.rtnwToolSchema = "true";
+        (document.head || document.documentElement).appendChild(script);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadToolStructuredData, { once: true });
+    } else {
+        loadToolStructuredData();
     }
 })();
