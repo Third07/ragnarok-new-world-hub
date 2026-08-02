@@ -4,6 +4,19 @@ import "./globals.css";
 import "./trust-navigation.css";
 import "../public/shared/responsive_ads.css";
 
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
+
+const siteVerification: Metadata["verification"] =
+  googleSiteVerification || bingSiteVerification
+    ? {
+        ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+        ...(bingSiteVerification
+          ? { other: { "msvalidate.01": bingSiteVerification } }
+          : {}),
+      }
+    : undefined;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://rtnw.online"),
   title: {
@@ -48,6 +61,7 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  verification: siteVerification,
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
