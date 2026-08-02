@@ -24,7 +24,6 @@ const toolRoutes = [
 const publicPageRoutes = [
   "/",
   "/guides/",
-  "/updates/",
   "/guides/classes-builds/",
   "/guides/beginner-guides/",
   "/guides/progression-equipment/",
@@ -130,7 +129,10 @@ test("every indexable tool page has unique static SEO signals", async () => {
 
     assert.match(title, /Ragnarok: The New World/i, `${route} title should name the game`);
     assert.match(title, /RTNW Hub/i, `${route} title should include the site name`);
-    assert.ok(description.length >= 100 && description.length <= 180, `${route} description length is ${description.length}`);
+    assert.ok(
+      description.length >= 100 && description.length <= 180,
+      `${route} description length is ${description.length}`,
+    );
     assert.equal(canonical, `${siteOrigin}/sea/${route}/`);
     assert.match(html, /<meta\s+name="robots"\s+content="index,follow/i);
     assert.match(html, /<link\s+rel="icon"\s+href="\/favicon\.ico"/i);
@@ -160,10 +162,17 @@ test("sitemap, robots, manifest, favicon, and deployment canary are current", as
 
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(urls, publicPageRoutes.map((route) => `${siteOrigin}${route}`));
-  assert.match(robots, new RegExp(`Sitemap: ${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\/sitemap\\.xml`));
+  assert.match(
+    robots,
+    new RegExp(`Sitemap: ${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\/sitemap\\.xml`),
+  );
   assert.equal(JSON.parse(manifest).name, "Ragnarok: The New World Hub");
-  assert.equal(favicon.subarray(0, 4).toString("hex"), "00000100", "favicon.ico should have a valid ICO header");
-  assert.match(deploymentVersion, /^version=2026-08-03-route-fallback-1\s*$/);
+  assert.equal(
+    favicon.subarray(0, 4).toString("hex"),
+    "00000100",
+    "favicon.ico should have a valid ICO header",
+  );
+  assert.match(deploymentVersion, /^version=2026-08-03-indexnow-1\s*$/);
 });
 
 test("rendered home page exposes canonical metadata and WebSite schema", async () => {
@@ -185,21 +194,42 @@ test("rendered home page exposes canonical metadata and WebSite schema", async (
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
 
-test("Cloudflare build serves critical discovery and content routes", async () => {
+test("Cloudflare build serves active discovery routes and removes retired routes", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
 
-  for (const pathname of ["/guides/", "/updates/", "/seo-status/", "/feed.xml", "/robots.txt", "/deployment-version.txt"]) {
+  for (const pathname of [
+    "/guides/",
+    "/seo-status/",
+    "/robots.txt",
+    "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
+    "/deployment-version.txt",
+  ]) {
     const response = await worker.fetch(
-      new Request(`http://localhost${pathname}`, { headers: { accept: "text/html,application/xml" } }),
+      new Request(`http://localhost${pathname}`, {
+        headers: { accept: "text/html,text/plain" },
+      }),
       env,
       context,
     );
     assert.equal(response.status, 200, `${pathname} should return 200`);
-    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-route-fallback-1");
+    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-indexnow-1");
   }
 
-  const robotTypo = await worker.fetch(new Request("http://localhost/robot.txt"), env, context);
+  for (const pathname of ["/updates/", "/feed.xml"]) {
+    const response = await worker.fetch(
+      new Request(`http://localhost${pathname}`),
+      env,
+      context,
+    );
+    assert.equal(response.status, 404, `${pathname} should remain removed`);
+  }
+
+  const robotTypo = await worker.fetch(
+    new Request("http://localhost/robot.txt"),
+    env,
+    context,
+  );
   assert.equal(robotTypo.status, 308);
   assert.equal(robotTypo.headers.get("location"), "http://localhost/robots.txt");
 });
