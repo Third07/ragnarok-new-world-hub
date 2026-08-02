@@ -34,10 +34,10 @@ const guideCategories = [
     number: "01",
     title: "Classes and builds",
     description:
-      "Build-focused articles will connect recommended skills, runes, affixes, equipment choices, and playstyle notes directly to the available planning tools.",
-    status: "First guide in progress",
-    href: "/sea/skill_planner/",
-    link: "Open Skill Planner →",
+      "Compare separate F2P, PvE, and PvP class rankings, then connect each recommendation to the Skill Planner before investing resources.",
+    status: "1 guide published",
+    href: "/guides/class-tier-list/",
+    link: "Read class tier list →",
   },
   {
     number: "02",
@@ -69,11 +69,11 @@ const guideCategories = [
 ];
 
 const roadmap = [
-  ["01", "Best F2P Classes in Ragnarok: The New World", "Next"],
-  ["02", "Beginner Progression Guide", "Planned"],
-  ["03", "Druid Werewolf Build", "Planned"],
-  ["04", "Druid Arcanist Build", "Planned"],
-  ["05", "Refining and Equipment Upgrade Guide", "Planned"],
+  ["01", "Class Tier List: F2P, PvE & PvP", "Published", "/guides/class-tier-list/"],
+  ["02", "Beginner Progression Guide", "Next", ""],
+  ["03", "Druid Werewolf Build", "Planned", ""],
+  ["04", "Druid Arcanist Build", "Planned", ""],
+  ["05", "Refining and Equipment Upgrade Guide", "Planned", ""],
 ] as const;
 
 const tools = [
@@ -169,10 +169,10 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Practical articles organized around the same planners, indexes, and World Map already available on RTNW Hub. Guide content will be added in controlled releases and linked to working tools whenever possible.
+              Practical articles organized around the same planners, indexes, and World Map already available on RTNW Hub. The first class tier list is now published, with more focused builds and progression guides following in controlled releases.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primary} href="#guide-library">Explore guide categories <span aria-hidden="true">↓</span></a>
+              <a className={styles.primary} href="/guides/class-tier-list/">Read the class tier list <span aria-hidden="true">→</span></a>
               <a className={styles.secondary} href="/#tools">Browse all tools <span aria-hidden="true">→</span></a>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function GuidesPage() {
               <h2 id="library-title">Four clear paths for every adventurer.</h2>
             </div>
             <p>
-              The library starts with broad categories, then expands into focused articles. Until an article is published, every category points to a relevant working tool instead of an empty page.
+              Published guides link directly to complete articles. Categories still in development continue to point toward useful working tools instead of empty pages.
             </p>
           </div>
 
@@ -208,14 +208,14 @@ export default function GuidesPage() {
           <p className={styles.kicker}>Publishing roadmap</p>
           <h2 id="roadmap-title">The first five guide releases.</h2>
           <p className={styles.roadmapIntro}>
-            This roadmap keeps the guide section useful and focused. Each article will be reviewed against the available game data before it is presented as a recommendation.
+            This roadmap keeps the guide section useful and focused. Each recommendation is reviewed against available game data and early player experience before publication.
           </p>
           <ol className={styles.roadmapList}>
-            {roadmap.map(([number, title, status]) => (
+            {roadmap.map(([number, title, status, href]) => (
               <li key={title}>
                 <span className={styles.categoryNumber}>{number}</span>
-                <strong>{title}</strong>
-                <span className={status === "Next" ? styles.statusNext : styles.statusPlanned}>{status}</span>
+                <strong>{href ? <a href={href}>{title}</a> : title}</strong>
+                <span className={status === "Published" ? styles.statusPublished : status === "Next" ? styles.statusNext : styles.statusPlanned}>{status}</span>
               </li>
             ))}
           </ol>
