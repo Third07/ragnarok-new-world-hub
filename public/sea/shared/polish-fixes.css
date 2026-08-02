@@ -172,6 +172,268 @@ body {
   margin-top: 5px;
 }
 
+/* Rune Planner: match the equipment-to-effect loadout used by Affix Planner. */
+.rune-planner-page .rune-loadout-section {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  padding: clamp(12px, 2vw, 18px);
+  background: rgba(255,253,247,.96);
+  border: 1px solid rgba(181,143,91,.38);
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(40,68,127,.11), inset 0 0 0 2px rgba(255,255,255,.72);
+}
+
+.rune-planner-page .rune-loadout-title {
+  color: #51648f;
+  font-size: .72rem;
+  font-weight: 950;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.rune-planner-page .rune-slot-grid {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-flow: row;
+  grid-auto-columns: auto;
+  gap: 10px;
+  overflow: visible;
+  padding: 0;
+}
+
+.rune-planner-page .rune-loadout-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 92px 22px minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.rune-planner-page .rune-loadout-slot,
+.rune-planner-page .rune-loadout-card,
+.rune-planner-page .rune-loadout-card-main {
+  min-width: 0;
+  color: #31497d;
+  font: inherit;
+}
+
+.rune-planner-page .rune-loadout-slot {
+  min-height: 92px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  padding: 7px 5px;
+  background: linear-gradient(180deg, #eef4ff, #e2ebfb);
+  border: 1px solid rgba(89,112,176,.22);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.rune-planner-page .rune-loadout-row.selected .rune-loadout-slot {
+  background: linear-gradient(180deg, #e7eeff, #d9e5ff);
+  border-color: #5a73d9;
+  box-shadow: 0 0 0 3px rgba(90,115,217,.13);
+}
+
+.rune-planner-page .rune-loadout-slot-label,
+.rune-planner-page .rune-loadout-element {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: .67rem;
+  font-weight: 950;
+  line-height: 1.12;
+  text-align: center;
+}
+
+.rune-planner-page .rune-loadout-element {
+  color: var(--element-color, #7180a3);
+  font-size: .62rem;
+}
+
+.rune-planner-page .rune-loadout-slot-icon,
+.rune-planner-page .rune-loadout-card-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: rgba(255,255,255,.74);
+  border-radius: 9px;
+}
+
+.rune-planner-page .rune-loadout-slot-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.rune-planner-page .rune-loadout-slot-icon--empty {
+  color: #7180a3;
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.rune-planner-page .rune-loadout-slot-icon img,
+.rune-planner-page .rune-loadout-card-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.rune-planner-page .rune-loadout-link {
+  display: grid;
+  place-items: center;
+  color: #8b98b7;
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.rune-planner-page .rune-loadout-card {
+  min-height: 92px;
+  position: relative;
+  overflow: hidden;
+  background: #f2f6ff;
+  border: 1px solid rgba(89,112,176,.16);
+  border-radius: 12px;
+}
+
+.rune-planner-page .rune-loadout-row.selected .rune-loadout-card {
+  border-color: rgba(90,115,217,.7);
+  box-shadow: 0 0 0 3px rgba(90,115,217,.1);
+}
+
+.rune-planner-page .rune-loadout-card-main {
+  width: 100%;
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  padding: 10px 42px 10px 10px;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rune-planner-page .rune-loadout-card-icon {
+  width: 46px;
+  height: 46px;
+}
+
+.rune-planner-page .rune-loadout-card-meta {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.rune-planner-page .rune-loadout-card-name {
+  color: #28447f;
+  font-size: .83rem;
+  font-weight: 950;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.rune-planner-page .rune-loadout-card-level {
+  color: #5a73d9;
+  font-size: .68rem;
+  font-weight: 900;
+}
+
+.rune-planner-page .rune-loadout-card-desc {
+  color: #52648f;
+  font-size: .7rem;
+  line-height: 1.38;
+  overflow-wrap: anywhere;
+}
+
+.rune-planner-page .rune-loadout-colors {
+  display: flex;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.rune-planner-page .rune-slot-clear {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  color: #875060;
+  background: #fff3f5;
+  border: 1px solid rgba(185,77,100,.25);
+  border-radius: 50%;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rune-planner-page .rune-loadout-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  padding: 10px;
+  color: #7d8baa;
+  background: #f4f7fd;
+  border-style: dashed;
+  text-align: center;
+  cursor: pointer;
+}
+
+.rune-planner-page .rune-loadout-empty-text {
+  color: #40558b;
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.rune-planner-page .rune-loadout-empty-hint {
+  max-width: 34ch;
+  font-size: .67rem;
+  line-height: 1.3;
+}
+
+@media (max-width: 430px) {
+  .rune-planner-page .rune-loadout-section {
+    padding: 11px;
+  }
+
+  .rune-planner-page .rune-loadout-row {
+    grid-template-columns: 76px 18px minmax(0, 1fr);
+  }
+
+  .rune-planner-page .rune-loadout-slot,
+  .rune-planner-page .rune-loadout-card,
+  .rune-planner-page .rune-loadout-card-main {
+    min-height: 84px;
+  }
+
+  .rune-planner-page .rune-loadout-slot-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .rune-planner-page .rune-loadout-card-main {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 7px;
+    padding: 8px 36px 8px 8px;
+  }
+
+  .rune-planner-page .rune-loadout-card-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .rune-planner-page .rune-loadout-card-desc {
+    font-size: .66rem;
+  }
+}
+
 /* Skill planner: the mobile JS already uses a modal, so remove desktop columns. */
 .skill-planner-page .skill-planner-layout,
 .skill-planner-page #simulator-container,

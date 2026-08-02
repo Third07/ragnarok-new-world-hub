@@ -619,31 +619,59 @@ function buildAffixOptions(e, t) {
 }
 
 function renderRuneSlots(e, t) {
-    const n = document.createElement("div");
-    n.className = "rune-slot-grid";
-    for (let e = 0; e < 5; e++) {
-        const r = document.createElement("button");
-        r.className = "rune-slot " + (state.selectedSlotIndex === e ? "selected" : ""), 
-        r.type = "button";
-        const a = getSavedSlot(e);
+    const n = document.createElement("section"), r = document.createElement("div");
+    n.className = "rune-loadout-section", n.setAttribute("aria-labelledby", "rune-loadout-title"),
+    n.innerHTML = '<div id="rune-loadout-title" class="rune-loadout-title">Rune Loadout</div>',
+    r.className = "rune-slot-grid";
+    for (let n = 0; n < 5; n++) {
+        const a = getSavedSlot(n), s = document.createElement("div"), o = () => {
+            state.selectedSlotIndex = n, ensureDraft(n), state.slots[n] || (engineData && ensureValidPrimarySelection(engineData, state.draft.selection),
+            state.draft.dirty = !0, autosaveDraft()), scheduleUrlStateWrite(), renderAll();
+        };
+        s.className = `rune-loadout-row${state.selectedSlotIndex === n ? " selected" : ""}${a ? "" : " is-empty"}`;
         if (a) {
-            const n = getPrimaryConfig(t, a), s = n ? emberIconUrl(n.icon, a.elementId) : "", o = t.elements && t.elements[String(a.elementId)] && t.elements[String(a.elementId)].name ? t.elements[String(a.elementId)].name : "", l = elementColor(Number(a.elementId)), i = (a.colors || []).map(e => {
+            const e = getPrimaryConfig(t, a), r = e ? emberIconUrl(e.icon, a.elementId) : "", o = t.elements && t.elements[String(a.elementId)] && t.elements[String(a.elementId)].name ? t.elements[String(a.elementId)].name : "", l = elementColor(Number(a.elementId)), i = (a.colors || []).map(e => {
                 const n = t.elements[String(e)];
                 return `<span class="element-dot" style="--dot-color: ${elementColor(Number(e))}" title="${escapeHtml(n ? n.name : `Element ${e}`)}"></span>`;
             }).join("");
-            r.innerHTML = `\n                <div class="rune-slot-header">\n                    <span class="rune-slot-label">Slot ${e + 1}</span>\n                    <span class="rune-slot-clear" title="Clear slot" aria-label="Clear slot">&times;</span>\n                    <span class="rune-slot-element${o ? "" : " rune-slot-element--empty"}" ${o ? `style="--element-color: ${l}"` : 'aria-hidden="true"'}>\n                        ${o ? escapeHtml(o) : ""}\n                    </span>\n                </div>\n                <div class="rune-slot-body">\n                    <div class="rune-slot-icon">\n                        ${s ? `<img src="${s}" alt="">` : '<div class="rune-slot-icon-placeholder"></div>'}\n                    </div>\n                    <div class="rune-slot-meta">\n                        <div class="rune-slot-primary ${hasTiangongPrimary(a) ? "rune-tier-5" : ""}">${escapeHtml(n ? n.name : "")}</div>\n                        <div class="rune-slot-desc">${escapeHtml(n ? n.desc : "")}</div>\n                        <div class="rune-slot-colors rune-slot-colors-dots">${i}</div>\n                    </div>\n                </div>\n            `;
-            const c = r.querySelector(".rune-slot-clear");
-            c && c.addEventListener("click", t => {
-                t.stopPropagation(), state.slots[e] = null, state.selectedSlotIndex === e && ensureDraft(e), 
+            s.innerHTML = `
+                <button type="button" class="rune-loadout-slot" aria-label="Edit rune slot ${n + 1}">
+                    <span class="rune-loadout-slot-label">Slot ${n + 1}</span>
+                    <span class="rune-loadout-slot-icon">${r ? `<img src="${r}" alt="">` : '<span class="rune-slot-icon-placeholder"></span>'}</span>
+                    <span class="rune-loadout-element" style="--element-color: ${l}">${escapeHtml(o)}</span>
+                </button>
+                <div class="rune-loadout-link" aria-hidden="true">+</div>
+                <div class="rune-loadout-card">
+                    <button type="button" class="rune-loadout-card-main" aria-label="Edit ${escapeHtml(e ? e.name : `rune slot ${n + 1}`)}">
+                        <span class="rune-loadout-card-icon">${r ? `<img src="${r}" alt="">` : '<span class="rune-slot-icon-placeholder"></span>'}</span>
+                        <span class="rune-loadout-card-meta">
+                            <span class="rune-loadout-card-name ${hasTiangongPrimary(a) ? "rune-tier-5" : ""}">${escapeHtml(e ? e.name : "Selected Rune")}</span>
+                            <span class="rune-loadout-card-level">Lv.${escapeHtml(String(a.qualityTier || 1))}</span>
+                            <span class="rune-loadout-card-desc">${escapeHtml(e ? e.desc : "")}</span>
+                            <span class="rune-loadout-colors" aria-label="Rune colors">${i}</span>
+                        </span>
+                    </button>
+                    <button type="button" class="rune-slot-clear" title="Clear slot" aria-label="Clear rune slot ${n + 1}">&times;</button>
+                </div>`;
+            s.querySelector(".rune-slot-clear").addEventListener("click", e => {
+                e.stopPropagation(), state.slots[n] = null, state.selectedSlotIndex === n && ensureDraft(n),
                 scheduleUrlStateWrite(), renderAll();
             });
-        } else r.innerHTML = `<div class="rune-slot-empty">Slot ${e + 1}</div>`;
-        r.addEventListener("click", () => {
-            state.selectedSlotIndex = e, ensureDraft(e), state.slots[e] || (engineData && ensureValidPrimarySelection(engineData, state.draft.selection), 
-            state.draft.dirty = !0, autosaveDraft()), scheduleUrlStateWrite(), renderAll();
-        }), n.appendChild(r);
+        } else s.innerHTML = `
+            <button type="button" class="rune-loadout-slot" aria-label="Configure rune slot ${n + 1}">
+                <span class="rune-loadout-slot-label">Slot ${n + 1}</span>
+                <span class="rune-loadout-slot-icon rune-loadout-slot-icon--empty">+</span>
+                <span class="rune-loadout-element">Empty</span>
+            </button>
+            <div class="rune-loadout-link" aria-hidden="true">+</div>
+            <button type="button" class="rune-loadout-card rune-loadout-empty" aria-label="Choose a rune for slot ${n + 1}">
+                <span class="rune-loadout-empty-text">Choose a rune</span>
+                <span class="rune-loadout-empty-hint">Configure its element, level, colors, and effects</span>
+            </button>`;
+        s.querySelectorAll(".rune-loadout-slot, .rune-loadout-card-main, .rune-loadout-empty").forEach(e => e.addEventListener("click", o)),
+        r.appendChild(s);
     }
-    e.appendChild(n);
+    n.appendChild(r), e.appendChild(n);
 }
 
 function computeRandomAffixTotals(e) {
