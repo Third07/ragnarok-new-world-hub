@@ -30,12 +30,13 @@ npm run dev
 Useful commands:
 
 ```bash
-npm run build          # Generate data, build the Vinext app and Cloudflare Worker
-npm run preview        # Build and preview in the Cloudflare Workers runtime
-npm test               # Build and run repository integrity tests
-npm run lint           # Run ESLint
-npm run seo:audit      # Generate public/seo-audit.json
-npm run indexnow:dry-run
+npm run build             # Generate data and build the Vinext Cloudflare Worker
+npm run preview           # Build and preview in the Cloudflare Workers runtime
+npm test                  # Build and run repository integrity tests
+npm run lint              # Run ESLint
+npm run seo:audit         # Generate public/seo-audit.json
+npm run indexnow:verify   # Verify the live public IndexNow key
+npm run indexnow:dry-run  # Print the bulk submission without sending it
 ```
 
 ## Cloudflare configuration
@@ -56,7 +57,7 @@ The Cloudflare Vite plugin creates a deployment-ready output Wrangler configurat
 Authenticate Wrangler once, then run:
 
 ```bash
-npm run deploy
+npm run deploy:full
 ```
 
 This builds the site, deploys the generated Worker and assets, then sends a non-blocking IndexNow notification.
@@ -69,19 +70,13 @@ Connect this repository to the existing Cloudflare Worker and use:
 - Root directory: `/`
 - Install command: `npm ci`
 - Build command: `npm run build`
-- Deploy command: `npx wrangler deploy`
+- Deploy command: `npm run deploy`
 
-When the Cloudflare interface provides only one deployment command, use:
-
-```bash
-npm run deploy
-```
-
-Keep the custom domain `rtnw.online` attached to this Worker in the Cloudflare dashboard.
+The build stage generates the Worker. The deploy stage publishes it and then runs the IndexNow client. Keep the custom domain `rtnw.online` attached to this Worker in the Cloudflare dashboard.
 
 ## Deployment verification
 
-After deployment, verify:
+After deployment, open:
 
 ```text
 https://rtnw.online/deployment-version.txt
@@ -90,19 +85,45 @@ https://rtnw.online/deployment-version.txt
 Expected value:
 
 ```text
-version=2026-08-03-route-fallback-1
+version=2026-08-03-indexnow-1
 ```
 
 Then verify these routes:
 
 ```text
 /guides/
-/updates/
 /seo-status/
-/feed.xml
 /robots.txt
 /sitemap.xml
+/4cc78cf9b31d099f4de23a0874b08a5e.txt
 ```
+
+The retired `/updates/` and `/feed.xml` routes should return 404.
+
+## IndexNow
+
+The public key is hosted at:
+
+```text
+https://rtnw.online/4cc78cf9b31d099f4de23a0874b08a5e.txt
+```
+
+It must display only:
+
+```text
+4cc78cf9b31d099f4de23a0874b08a5e
+```
+
+Commands:
+
+```bash
+npm run indexnow:verify       # Check the live key file
+npm run indexnow:submit       # Submit sitemap URLs modified today
+npm run indexnow:submit:all   # One-time submission of the complete sitemap
+npm run indexnow:dry-run      # Inspect the complete payload without sending it
+```
+
+A successful submission prints HTTP 200 or HTTP 202. Bing Webmaster Tools provides the authoritative received-URL view under its IndexNow section.
 
 ## Environment variables
 
