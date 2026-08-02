@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /sea/cache/
 Disallow: /sea/logs/
+Disallow: /seo-audit.json
 
 Sitemap: https://rtnw.online/sitemap.xml
