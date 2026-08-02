@@ -351,6 +351,11 @@
   font-size: 18px;
 }
 
+.roadmapList strong a:hover {
+  color: var(--ruby-dark);
+}
+
+.statusPublished,
 .statusNext,
 .statusPlanned {
   padding: 5px 9px;
@@ -359,6 +364,11 @@
   font-weight: 900;
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+
+.statusPublished {
+  background: var(--forest);
+  color: white;
 }
 
 .statusNext {
