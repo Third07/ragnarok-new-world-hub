@@ -1,0 +1,63 @@
+name: Website bug
+description: Report a broken page, visual problem, loading failure, or incorrect tool behavior.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe a reproducible website problem. Do not include game account credentials, payment details, or sensitive personal information.
+  - type: input
+    id: page
+    attributes:
+      label: Affected page or tool URL
+      placeholder: https://rtnw.online/sea/skill_planner/
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open...
+        2. Select...
+        3. Tap...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and operating system
+      placeholder: Android 14, Windows 11, iPhone iOS 18
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 150, Firefox 145, Safari 18
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Screenshots, recordings, or console errors
+      description: Drag files into this box or paste relevant error text.
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I checked that this is a website problem rather than an official game account or server-support issue.
+          required: true
