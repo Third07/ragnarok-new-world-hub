@@ -1,0 +1,54 @@
+name: Data correction
+description: Report incorrect or incomplete game data shown on RTNW Hub.
+title: "[Data correction]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve RTNW Hub. Please include enough detail to verify the correction. Do not post private account information.
+  - type: input
+    id: page
+    attributes:
+      label: Affected page or tool URL
+      placeholder: https://rtnw.online/sea/cards/
+    validations:
+      required: true
+  - type: input
+    id: entry
+    attributes:
+      label: Affected entry
+      description: Item, monster, card, skill, map, class, or other entry name.
+      placeholder: Marduk Card
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What is currently shown?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should it show instead?
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Server, language, and game version
+      placeholder: SEA, English, current live version
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting evidence
+      description: Add a source, screenshot, or explanation that can be checked. Drag files into this box to attach them.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have not included private account information or other sensitive personal data.
+          required: true
