@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import GuideNavigation from "./GuideNavigation";
 import "./globals.css";
 import "../public/shared/responsive_ads.css";
 
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <GuideNavigation />
         {children}
       </body>
     </html>
