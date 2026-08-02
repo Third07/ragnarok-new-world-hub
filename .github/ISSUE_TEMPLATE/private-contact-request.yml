@@ -1,0 +1,41 @@
+name: Private contact request
+description: Request a private follow-up for a privacy, copyright, trademark, security, or other sensitive matter.
+title: "[Private contact request]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GitHub issues are public. Do not post addresses, identification documents, signatures, private account data, confidential files, or other sensitive personal information here. Provide only enough detail to identify the affected RTNW Hub page and the type of request.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Request category
+      options:
+        - Privacy or personal-data request
+        - Copyright concern
+        - Trademark concern
+        - Security concern
+        - Other sensitive matter
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Affected RTNW Hub URL
+      placeholder: https://rtnw.online/...
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Non-sensitive summary
+      description: Explain the type of issue without including private evidence or confidential details.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I understand this issue is public and have not included sensitive personal information or confidential evidence.
+          required: true
