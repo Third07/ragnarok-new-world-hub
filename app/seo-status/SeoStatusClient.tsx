@@ -23,6 +23,7 @@ type AuditReport = {
   verification: {
     google: boolean;
     bing: boolean;
+    indexNow: boolean;
   };
   summary: {
     pass: number;
@@ -110,9 +111,9 @@ export default function SeoStatusClient() {
 
       <section className={styles.verificationPanel} aria-labelledby="verification-title">
         <div>
-          <p className={styles.kicker}>Search ownership</p>
-          <h2 id="verification-title">Verification configuration</h2>
-          <p>Tokens are read from deployment environment variables and emitted as public HTML meta tags.</p>
+          <p className={styles.kicker}>Search services</p>
+          <h2 id="verification-title">Ownership and update notification</h2>
+          <p>Google and Bing use deployment verification tags. IndexNow uses a public root key and URL-submission client.</p>
         </div>
         <div className={styles.verificationGrid}>
           <article>
@@ -124,6 +125,11 @@ export default function SeoStatusClient() {
             <span>Bing Webmaster Tools</span>
             <strong>{report.verification.bing ? "Configured" : "Not configured"}</strong>
             <StatusPill status={report.verification.bing ? "pass" : "warn"} />
+          </article>
+          <article>
+            <span>IndexNow</span>
+            <strong>{report.verification.indexNow ? "Configured" : "Incomplete"}</strong>
+            <StatusPill status={report.verification.indexNow ? "pass" : "error"} />
           </article>
         </div>
       </section>
