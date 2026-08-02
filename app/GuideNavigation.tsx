@@ -42,6 +42,20 @@ function injectTrustLinks(footerMeta: Element) {
   footerMeta.appendChild(nav);
 }
 
+function injectFooterGuideLink(footerMeta: Element) {
+  if (hasGuideLink(footerMeta)) return;
+
+  const guideLink = createGuideLink();
+  const sitemapLink = footerMeta.querySelector('a[href="/sitemap.xml"]');
+  const linkParent = sitemapLink?.parentElement;
+
+  if (sitemapLink && linkParent) {
+    linkParent.insertBefore(guideLink, sitemapLink);
+  } else {
+    footerMeta.appendChild(guideLink);
+  }
+}
+
 function injectGuideNavigation() {
   const desktopNav = document.querySelector(".desktop-nav");
   if (desktopNav && !hasGuideLink(desktopNav)) {
@@ -63,10 +77,7 @@ function injectGuideNavigation() {
   }
 
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
-    if (!hasGuideLink(footerMeta)) {
-      const sitemapLink = footerMeta.querySelector('a[href="/sitemap.xml"]');
-      footerMeta.insertBefore(createGuideLink(), sitemapLink ?? null);
-    }
+    injectFooterGuideLink(footerMeta);
     injectTrustLinks(footerMeta);
   });
 }
