@@ -46,6 +46,7 @@ const publicPageRoutes = [
   "/guides/class-tier-list/",
   ...classGuideRoutes,
   "/guides/beginner-progression/",
+  "/guides/redeem-codes/",
   "/guides/druid-builds/",
   "/guides/refining-equipment/",
   "/guides/farming-card-progression/",
@@ -214,7 +215,7 @@ test("rendered home page exposes canonical metadata, social identity, and WebSit
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
 
-test("Cloudflare build serves all class guides and active discovery routes", async () => {
+test("Cloudflare build serves guides and active discovery routes", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
 
@@ -223,6 +224,7 @@ test("Cloudflare build serves all class guides and active discovery routes", asy
     "/guides/classes-builds/",
     ...classGuideRoutes,
     "/guides/druid-builds/",
+    "/guides/redeem-codes/",
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
