@@ -168,13 +168,12 @@ test("every indexable tool page has unique static SEO signals", async () => {
   }
 });
 
-test("sitemap, robots, manifest, favicon, and deployment canary are current", async () => {
-  const [sitemap, robots, manifest, favicon, deploymentVersion] = await Promise.all([
+test("sitemap, robots, manifest, and favicon are current", async () => {
+  const [sitemap, robots, manifest, favicon] = await Promise.all([
     readFile("public/sitemap.xml", "utf8"),
     readFile("public/robots.txt", "utf8"),
     readFile("public/site.webmanifest", "utf8"),
     readFile("public/favicon.ico"),
-    readFile("public/deployment-version.txt", "utf8"),
   ]);
 
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
@@ -189,7 +188,6 @@ test("sitemap, robots, manifest, favicon, and deployment canary are current", as
     "00000100",
     "favicon.ico should have a valid ICO header",
   );
-  assert.match(deploymentVersion, /^version=2026-08-03-indexnow-1\s*$/);
 });
 
 test("rendered home page exposes canonical metadata, social identity, and WebSite schema", async () => {
@@ -228,7 +226,6 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
-    "/deployment-version.txt",
   ]) {
     const response = await worker.fetch(
       new Request(`http://localhost${pathname}`, {
@@ -238,10 +235,9 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
       context,
     );
     assert.equal(response.status, 200, `${pathname} should return 200`);
-    assert.equal(response.headers.get("x-rtnw-deployment"), "2026-08-03-indexnow-1");
   }
 
-  for (const pathname of ["/updates/", "/feed.xml"]) {
+  for (const pathname of ["/updates/", "/feed.xml", "/deployment-version.txt"]) {
     const response = await worker.fetch(
       new Request(`http://localhost${pathname}`),
       env,
