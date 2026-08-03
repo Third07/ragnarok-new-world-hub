@@ -25,6 +25,7 @@
 # Generated reports
 /public/seo-audit.json
 /.skill-data-import/
+/.roworlddb-mirror/
 
 # Miscellaneous
 .DS_Store
