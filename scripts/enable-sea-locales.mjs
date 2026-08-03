@@ -49,6 +49,11 @@ await patch('public/sea/skill-simulator/skill_locale_bootstrap.js', [
 
 await patch('scripts/generate-performance-data.mjs', [
   [
+    'async function readJson(relativePath) {\n  const sourcePath = path.join(root, "source-data", relativePath);\n  try {\n    return JSON.parse(await readFile(sourcePath, "utf8"));\n  } catch {\n    return JSON.parse(await readFile(path.join(publicRoot, relativePath), "utf8"));\n  }\n}',
+    'async function readJson(relativePath) {\n  const candidates = [\n    path.join(root, "source-data", relativePath),\n    path.join(publicRoot, relativePath),\n  ];\n  const fallbackPath = relativePath.replace(/_(?:zh-CN|th-TH|id-ID)(?=\\.json$)/, "_en-US");\n  if (fallbackPath !== relativePath) {\n    candidates.push(path.join(root, "source-data", fallbackPath), path.join(publicRoot, fallbackPath));\n  }\n  let lastError;\n  for (const candidate of candidates) {\n    try {\n      return JSON.parse(await readFile(candidate, "utf8"));\n    } catch (error) {\n      lastError = error;\n    }\n  }\n  throw lastError;\n}',
+    'localized source-data fallback',
+  ],
+  [
     'for (const locale of ["en-US", "zh-TW"]) {',
     'for (const locale of ["en-US", "zh-TW", "zh-CN", "th-TH", "id-ID"]) {',
     'performance data locale loop',
