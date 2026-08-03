@@ -4,17 +4,25 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Beginner Guides",
   description:
-    "Start Ragnarok: The New World with first-hours priorities, daily routines, F2P resource planning, class preparation, and connected tools.",
+    "Start Ragnarok: The New World with current redeem codes, first-hours priorities, daily routines, F2P resource planning, class preparation, and connected tools.",
   alternates: { canonical: "/guides/beginner-guides/" },
   openGraph: {
     type: "website",
     url: "/guides/beginner-guides/",
     title: "Ragnarok: The New World Beginner Guides",
-    description: "A practical starting route for new and returning RTNW players.",
+    description: "Current gift codes and a practical starting route for new and returning RTNW players.",
   },
 };
 
 const guides = [
+  {
+    title: "Redeem Codes and How to Claim Them",
+    description:
+      "Copy the current RTNW SEA gift codes, review reported rewards, follow the login-screen Gift Code Exchange steps, and troubleshoot expired, used, or region-limited codes.",
+    href: "/guides/redeem-codes/",
+    label: "Free rewards",
+    meta: "Updated August 4 · Copy buttons · Mobile and PC",
+  },
   {
     title: "Beginner Progression Guide",
     description:
@@ -34,6 +42,7 @@ const guides = [
 ];
 
 const steps = [
+  "Redeem current launch and event codes first because gift codes can expire or become region-limited without advance notice.",
   "Complete the main progression route and unlock the systems naturally instead of scattering time across every side activity immediately.",
   "Choose one main class direction and use free skill resets to test the role before spending heavily on several gear paths.",
   "Build a repeatable daily routine around your available playtime rather than copying a schedule designed for much longer sessions.",
@@ -41,6 +50,11 @@ const steps = [
 ];
 
 const tools = [
+  {
+    name: "Redeem Codes",
+    description: "Copy current codes and follow the Gift Code Exchange steps.",
+    href: "/guides/redeem-codes/",
+  },
   {
     name: "Events",
     description: "Review current event tasks, schedules, and rewards.",
@@ -56,21 +70,16 @@ const tools = [
     description: "Locate monsters, quests, chests, landmarks, and services.",
     href: "/sea/maps/?lang=en-US#map=101",
   },
-  {
-    name: "Monster Index",
-    description: "Check levels, elements, habitats, stats, and drops.",
-    href: "/sea/monster_album/",
-  },
 ];
 
 export default function BeginnerGuidesCategoryPage() {
   return (
     <GuideCategoryPage
       currentPath="/guides/beginner-guides/"
-      eyebrow="First hours, first week and F2P priorities"
+      eyebrow="Free rewards, first hours, first week and F2P priorities"
       title="Beginner Guides"
-      summary="Build a stable account foundation with clear priorities, realistic daily routines, and tools that show where to go next."
-      introduction="New players benefit most from a controlled sequence: progress the main systems, select a focused class direction, establish a repeatable routine, and only then optimize cards, refining, and specialized equipment. These guides avoid hard-coded unlock values when live patches may change them."
+      summary="Claim time-limited rewards, then build a stable account foundation with clear priorities, realistic daily routines, and tools that show where to go next."
+      introduction="New players benefit most from a controlled sequence: redeem available codes, progress the main systems, select a focused class direction, establish a repeatable routine, and only then optimize cards, refining, and specialized equipment. These guides avoid hard-coded unlock values when live patches may change them."
       guides={guides}
       steps={steps}
       tools={tools}
