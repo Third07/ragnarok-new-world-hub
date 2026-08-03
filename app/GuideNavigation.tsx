@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const GUIDE_HREF = "/guides/";
+const REDEEM_HREF = "/guides/redeem-codes/";
 const TRUST_LINKS = [
   ["About", "/about/"],
   ["Contact", "/contact/"],
@@ -34,6 +35,7 @@ function createLink(href: string, label: string, className?: string) {
   link.href = href;
   link.textContent = label;
   if (href === GUIDE_HREF) link.dataset.guideNavigation = "true";
+  if (href === REDEEM_HREF) link.dataset.redeemNavigation = "true";
   if (className) link.className = className;
   return link;
 }
@@ -121,12 +123,14 @@ function injectGuideNavigation() {
   if (desktopNav) {
     const worldMapLink = desktopNav.querySelector('a[href^="/sea/maps/"]');
     injectPrimaryLink(desktopNav, GUIDE_HREF, "Guides", worldMapLink);
+    injectPrimaryLink(desktopNav, REDEEM_HREF, "Redeem Codes", worldMapLink);
   }
 
   const mobileMenu = document.querySelector(".mobile-menu");
   if (mobileMenu) {
     const firstTool = mobileMenu.querySelector("a:nth-of-type(2)");
     injectPrimaryLink(mobileMenu, GUIDE_HREF, "Guides", firstTool);
+    injectPrimaryLink(mobileMenu, REDEEM_HREF, "Redeem Codes", firstTool);
   }
 
   const guideOverview = document.querySelector(".guide-overview-heading");
@@ -136,6 +140,7 @@ function injectGuideNavigation() {
 
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
     injectFooterLink(footerMeta, GUIDE_HREF, "Guides");
+    injectFooterLink(footerMeta, REDEEM_HREF, "Redeem Codes");
     injectTrustLinks(footerMeta);
     injectSocialLinks(footerMeta);
   });
