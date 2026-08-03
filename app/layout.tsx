@@ -99,7 +99,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         },
         description:
           "Independent fan-made Ragnarok: The New World guide and game-data project.",
-        sameAs: ["https://github.com/Third07/ragnarok-new-world-hub"],
+        sameAs: [
+          "https://github.com/Third07/ragnarok-new-world-hub",
+          "https://www.youtube.com/@rtnw.online",
+          "https://www.tiktok.com/@rtnw.online",
+          "https://www.facebook.com/RtnwOnline",
+        ],
       },
       {
         "@type": "WebSite",
