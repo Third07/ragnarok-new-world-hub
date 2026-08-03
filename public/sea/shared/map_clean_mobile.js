@@ -52,9 +52,25 @@
     document.getElementById("map-panel")?.classList.remove("map-explore-active");
   }
 
-  function initializeCleanMapUi() {
-    removeFullscreenState();
+  function rebuildToolbar() {
+    const toolbar = document.querySelector(".map-toolbar");
+    const filterToggle = document.getElementById("map-filter-toggle");
+    const filterStack = document.getElementById("map-filter-stack");
 
+    document.querySelector(".map-action-controls")?.remove();
+    document.querySelector(".map-search-wrapper")?.remove();
+    document.getElementById("map-filter-backdrop")?.remove();
+
+    if (toolbar && filterToggle) {
+      filterToggle.className = "map-toolbar-filter-toggle";
+      filterToggle.innerHTML = '<span aria-hidden="true">☷</span><span>Filters</span><span id="map-filter-badge" class="map-filter-badge">0</span><span class="map-filter-caret" aria-hidden="true">⌄</span>';
+      toolbar.appendChild(filterToggle);
+    }
+
+    if (toolbar && filterStack) toolbar.insertAdjacentElement("afterend", filterStack);
+  }
+
+  function initializeLabels() {
     const toggle = document.getElementById("show-monster-portrait-labels");
     const toggleLabel = document.querySelector("[data-map-monster-portrait-labels-label]");
     const portraitToggle = document.getElementById("use-monster-portraits");
@@ -83,13 +99,22 @@
         if (toggle instanceof HTMLInputElement) toggle.disabled = false;
       });
     });
+  }
 
+  function initializeZoomControls() {
     const controls = document.querySelector(".map-touch-controls");
     const reset = document.getElementById("zoom-reset");
-    if (controls && reset && !controls.querySelector(".map-clean-zoom-button")) {
-      controls.insertBefore(createZoomButton("−", -0.6, "map-clean-zoom-out"), reset);
-      controls.appendChild(createZoomButton("+", 0.6, "map-clean-zoom-in"));
-    }
+    if (!controls || !reset || controls.querySelector(".map-clean-zoom-button")) return;
+
+    controls.insertBefore(createZoomButton("−", -0.6, "map-clean-zoom-out"), reset);
+    controls.appendChild(createZoomButton("+", 0.6, "map-clean-zoom-in"));
+  }
+
+  function initializeCleanMapUi() {
+    removeFullscreenState();
+    rebuildToolbar();
+    initializeLabels();
+    initializeZoomControls();
 
     const mapSelect = document.getElementById("map-select");
     const filterToggle = document.getElementById("map-filter-toggle");
