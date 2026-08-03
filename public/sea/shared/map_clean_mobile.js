@@ -19,9 +19,6 @@
     } catch {}
   }
 
-  const labelsEnabled = readLabelPreference();
-  writeLabelPreference(labelsEnabled);
-
   function syncLabelState(toggle) {
     const enabled = Boolean(toggle?.checked);
     document.body.classList.toggle("map-labels-enabled", enabled);
@@ -40,42 +37,67 @@
     slider.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
+  function createZoomButton(label, delta, className) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `map-clean-zoom-button ${className}`;
+    button.textContent = label;
+    button.setAttribute("aria-label", delta > 0 ? "Zoom in" : "Zoom out");
+    button.addEventListener("click", () => adjustZoom(delta));
+    return button;
+  }
+
+  function removeFullscreenState() {
+    document.body.classList.remove("map-explore-active");
+    document.getElementById("map-panel")?.classList.remove("map-explore-active");
+  }
+
   function initializeCleanMapUi() {
+    removeFullscreenState();
+
     const toggle = document.getElementById("show-monster-portrait-labels");
     const toggleLabel = document.querySelector("[data-map-monster-portrait-labels-label]");
+    const portraitToggle = document.getElementById("use-monster-portraits");
+    const labelsEnabled = readLabelPreference();
 
     if (toggleLabel) toggleLabel.textContent = "Show marker labels";
     if (toggle instanceof HTMLInputElement) {
+      toggle.disabled = false;
       toggle.checked = labelsEnabled;
       syncLabelState(toggle);
-      toggle.addEventListener("change", () => syncLabelState(toggle));
+      toggle.addEventListener("change", () => {
+        toggle.disabled = false;
+        syncLabelState(toggle);
+      });
       requestAnimationFrame(() => {
+        toggle.disabled = false;
         toggle.dispatchEvent(new Event("change", { bubbles: true }));
       });
     } else {
       document.body.classList.remove("map-labels-enabled");
+      writeLabelPreference(false);
     }
+
+    portraitToggle?.addEventListener("change", () => {
+      requestAnimationFrame(() => {
+        if (toggle instanceof HTMLInputElement) toggle.disabled = false;
+      });
+    });
 
     const controls = document.querySelector(".map-touch-controls");
     const reset = document.getElementById("zoom-reset");
     if (controls && reset && !controls.querySelector(".map-clean-zoom-button")) {
-      const minus = document.createElement("button");
-      minus.type = "button";
-      minus.className = "map-clean-zoom-button map-clean-zoom-out";
-      minus.textContent = "−";
-      minus.setAttribute("aria-label", "Zoom out");
-      minus.addEventListener("click", () => adjustZoom(-0.6));
-
-      const plus = document.createElement("button");
-      plus.type = "button";
-      plus.className = "map-clean-zoom-button map-clean-zoom-in";
-      plus.textContent = "+";
-      plus.setAttribute("aria-label", "Zoom in");
-      plus.addEventListener("click", () => adjustZoom(0.6));
-
-      controls.insertBefore(minus, reset);
-      controls.appendChild(plus);
+      controls.insertBefore(createZoomButton("−", -0.6, "map-clean-zoom-out"), reset);
+      controls.appendChild(createZoomButton("+", 0.6, "map-clean-zoom-in"));
     }
+
+    const mapSelect = document.getElementById("map-select");
+    const filterToggle = document.getElementById("map-filter-toggle");
+    mapSelect?.addEventListener("change", () => {
+      if (document.body.classList.contains("map-filters-open")) filterToggle?.click();
+    });
+
+    window.addEventListener("pageshow", removeFullscreenState);
   }
 
   if (document.readyState === "loading") {
