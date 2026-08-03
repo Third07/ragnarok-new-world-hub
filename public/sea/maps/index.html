@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="asset-version" content="20260802-polish2">
+    <meta name="asset-version" content="20260803-mapexplorer1">
     <title>Ragnarok: The New World Interactive Map | RTNW Hub</title>
     <meta name="description" content="Explore Ragnarok: The New World maps and find monsters, quests, chests, landmarks, NPC services, recipes, and other map markers.">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -16,7 +16,7 @@
     <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://rtnw.online/sea/maps/#webpage","url":"https://rtnw.online/sea/maps/","name":"Ragnarok: The New World Interactive Map","description":"Find monsters, quests, chests, landmarks, services, and recipes on interactive maps.","isPartOf":{"@id":"https://rtnw.online/#website"},"inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"RTNW Hub","item":"https://rtnw.online/"},{"@type":"ListItem","position":2,"name":"Interactive Map","item":"https://rtnw.online/sea/maps/"}]}]}</script>
-    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260802-themed-selects">
+    <link rel="stylesheet" href="/sea/skill-simulator/styles.css?v=20260803-mapexplorer1">
     <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260802-performance2">
     <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-ux8">
     <link rel="stylesheet" href="/sea/shared/seo.css?v=20260802-seo1">
@@ -88,13 +88,19 @@
 
         <main class="main-content">
             <div class="simulator-layout map-layout">
-                <section class="map-panel">
+                <section id="map-panel" class="map-panel">
                     <div class="map-toolbar">
                         <div class="quick-select-wrapper">
                             <label for="map-select">Map:</label>
                             <select id="map-select" class="form-select">
                                 <option value="">Loading...</option>
                             </select>
+                        </div>
+                        <div class="map-search-wrapper">
+                            <label class="sr-only" for="map-search">Search current map</label>
+                            <input id="map-search" class="map-search" type="search" inputmode="search"
+                                autocomplete="off" placeholder="Search markers on this map…">
+                            <div id="map-search-results" class="map-search-results" role="listbox" hidden></div>
                         </div>
                     </div>
                     <div class="map-canvas-wrap">
@@ -105,17 +111,34 @@
                                     xmlns="http://www.w3.org/2000/svg"></svg>
                                 <div id="markers-layer" class="map-markers"></div>
                             </div>
-                            <div class="map-touch-hint" aria-hidden="true">Drag to move · Pinch or use the buttons to zoom</div>
+                            <div id="map-touch-hint" class="map-touch-hint" aria-hidden="true">Drag to move · Pinch or use the slider to zoom</div>
+                            <div class="map-action-controls" aria-label="Map view controls">
+                                <button id="map-explore-toggle" class="map-overlay-button" type="button" aria-label="Open fullscreen map" aria-pressed="false">
+                                    <span aria-hidden="true">⛶</span><span class="map-control-label">Fullscreen</span>
+                                </button>
+                                <button id="map-landscape-toggle" class="map-overlay-button map-landscape-button" type="button" aria-label="Open landscape fullscreen">
+                                    <span aria-hidden="true">▱</span><span class="map-control-label">Landscape</span>
+                                </button>
+                            </div>
+                            <button id="map-filter-toggle" class="map-overlay-button map-filter-toggle" type="button" aria-controls="map-filter-stack" aria-expanded="false">
+                                <span aria-hidden="true">☷</span><span>Filters</span><span id="map-filter-badge" class="map-filter-badge">0</span>
+                            </button>
                             <div class="map-touch-controls" aria-label="Map zoom controls">
-                                <button id="zoom-out" class="map-zoom-button" type="button" aria-label="Zoom out">−</button>
+                                <label for="map-zoom-slider">Zoom</label>
+                                <input id="map-zoom-slider" class="map-zoom-slider" type="range" min="1" max="9" step="0.1" value="1" aria-label="Map zoom">
+                                <output id="map-zoom-value" class="map-zoom-value" for="map-zoom-slider">1×</output>
                                 <button id="zoom-reset" class="map-zoom-reset" type="button">Reset</button>
-                                <button id="zoom-in" class="map-zoom-button" type="button" aria-label="Zoom in">+</button>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <div class="map-filter-stack">
+                <button id="map-filter-backdrop" class="map-filter-backdrop" type="button" aria-label="Close filters" hidden></button>
+                <div id="map-filter-stack" class="map-filter-stack" aria-label="Map filters">
+                    <div class="map-filter-sheet-header">
+                        <div><strong>Map filters</strong><span id="map-filter-summary">Choose what appears on the map</span></div>
+                        <button id="map-filter-close" class="map-sheet-close" type="button" aria-label="Close filters">×</button>
+                    </div>
                     <aside class="details-panel map-filter-panel map-options-panel">
                         <h2 data-map-options-title>Options</h2>
                         <div class="map-options">
@@ -164,7 +187,7 @@
     <script src="/shared/asset_version.js?v=20260802-performance2"></script>
     <script src="/shared/client_switcher.js?v=20260802-performance2"></script>
     <script src="/shared/sticky_header.js?v=20260802-performance2"></script>
-    <script src="/sea/map-simulator/map_view.js?v=20260802-performance2"></script>
+    <script src="/sea/map-simulator/map_view.js?v=20260803-mapexplorer1"></script>
     <script src="/shared/reference_asset_fallback.js"></script>
 </body>
 
