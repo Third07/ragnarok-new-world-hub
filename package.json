@@ -19,6 +19,7 @@
     "skills:sync:apply": "node scripts/sync-roworlddb-skills.mjs --apply",
     "skills:sync:build": "node scripts/build-skill-data.mjs",
     "skills:locale:version": "node scripts/version-skill-locale-assets.mjs",
+    "data:mirror:roworlddb": "node scripts/mirror-roworlddb-sea.mjs",
     "predev": "npm run skills:locale:version && npm run names:sync && npm run social:sync && npm run seo:audit",
     "dev": "vite",
     "prebuild": "npm run skills:sync:build && npm run skills:locale:version && npm run names:sync && npm run social:sync && npm run seo:audit",
