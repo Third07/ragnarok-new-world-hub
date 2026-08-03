@@ -5,6 +5,11 @@ import { pathToFileURL } from "node:url";
 import test from "node:test";
 
 const siteOrigin = "https://rtnw.online";
+const socialProfileUrls = [
+  "https://www.youtube.com/@rtnw.online",
+  "https://www.tiktok.com/@rtnw.online",
+  "https://www.facebook.com/RtnwOnline",
+];
 const toolRoutes = [
   "skill_planner",
   "rune_planner",
@@ -186,7 +191,7 @@ test("sitemap, robots, manifest, favicon, and deployment canary are current", as
   assert.match(deploymentVersion, /^version=2026-08-03-indexnow-1\s*$/);
 });
 
-test("rendered home page exposes canonical metadata and WebSite schema", async () => {
+test("rendered home page exposes canonical metadata, social identity, and WebSite schema", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
   const response = await worker.fetch(
@@ -200,8 +205,12 @@ test("rendered home page exposes canonical metadata and WebSite schema", async (
   assert.match(html, /<link[^>]+rel="canonical"[^>]+href="https:\/\/rtnw\.online\/"/i);
   assert.match(html, /Ragnarok: The New World Guides, Builds &amp; Tools/i);
   assert.match(html, /"@type":"WebSite"/);
+  assert.match(html, /"@type":"Organization"/);
   assert.match(html, /"@type":"ItemList"/);
   assert.match(html, /href="(?:https:\/\/rtnw\.online)?\/favicon\.ico"/i);
+  for (const profileUrl of socialProfileUrls) {
+    assert.ok(html.includes(profileUrl), `Missing social profile in Organization.sameAs: ${profileUrl}`);
+  }
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
 
