@@ -39,6 +39,7 @@ const commonReplacements = [
 const pageSpecificReplacements = {
   "public/sea/maps/index.html": [
     ['<h1 class="header-title">Maps</h1>', '<h1 class="header-title">World Map</h1>'],
+    ["20260803-mapclean1", "20260804-mapclean2"],
   ],
   "public/sea/monster_album/index.html": [
     ['<h1 class="header-title">Monster Album</h1>', '<h1 class="header-title">Monster Index</h1>'],
