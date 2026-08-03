@@ -11,12 +11,50 @@ const TRUST_LINKS = [
   ["Disclaimer", "/disclaimer/"],
 ] as const;
 
+const SOCIAL_LINKS = [
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@rtnw.online",
+    mark: "▶",
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@rtnw.online",
+    mark: "♪",
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/RtnwOnline",
+    mark: "f",
+  },
+] as const;
+
 function createLink(href: string, label: string, className?: string) {
   const link = document.createElement("a");
   link.href = href;
   link.textContent = label;
   if (href === GUIDE_HREF) link.dataset.guideNavigation = "true";
   if (className) link.className = className;
+  return link;
+}
+
+function createSocialLink(label: string, href: string, mark: string) {
+  const link = document.createElement("a");
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "me noopener noreferrer";
+  link.title = `Follow RTNW Hub on ${label}`;
+  link.setAttribute("aria-label", `Follow RTNW Hub on ${label} (opens in a new tab)`);
+
+  const icon = document.createElement("span");
+  icon.className = "social-footer-mark";
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = mark;
+
+  const text = document.createElement("span");
+  text.textContent = label;
+
+  link.append(icon, text);
   return link;
 }
 
@@ -34,6 +72,26 @@ function injectTrustLinks(footerMeta: Element) {
 
   for (const [label, href] of TRUST_LINKS) {
     nav.appendChild(createLink(href, label));
+  }
+
+  footerMeta.appendChild(nav);
+}
+
+function injectSocialLinks(footerMeta: Element) {
+  if (footerMeta.querySelector('[data-social-navigation="true"]')) return;
+
+  const nav = document.createElement("nav");
+  nav.className = "social-footer-links";
+  nav.dataset.socialNavigation = "true";
+  nav.setAttribute("aria-label", "Follow RTNW Hub");
+
+  const label = document.createElement("span");
+  label.className = "social-footer-label";
+  label.textContent = "Follow RTNW Hub";
+  nav.appendChild(label);
+
+  for (const social of SOCIAL_LINKS) {
+    nav.appendChild(createSocialLink(social.label, social.href, social.mark));
   }
 
   footerMeta.appendChild(nav);
@@ -79,6 +137,7 @@ function injectGuideNavigation() {
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
     injectFooterLink(footerMeta, GUIDE_HREF, "Guides");
     injectTrustLinks(footerMeta);
+    injectSocialLinks(footerMeta);
   });
 }
 
