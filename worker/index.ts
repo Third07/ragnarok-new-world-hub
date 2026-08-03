@@ -18,8 +18,6 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-const DEPLOYMENT_VERSION = "2026-08-03-indexnow-1";
-
 const guideFallbacks: Record<
   string,
   { title: string; description: string; links: Array<[string, string]> }
@@ -140,7 +138,6 @@ function withPerformanceHeaders(request: Request, response: Response): Response 
   }
 
   headers.set("X-Content-Type-Options", "nosniff");
-  headers.set("X-RTNW-Deployment", DEPLOYMENT_VERSION);
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
@@ -270,7 +267,6 @@ const worker = {
       url.pathname === "/robots.txt" ||
       url.pathname === "/sitemap.xml" ||
       url.pathname === "/seo-audit.json" ||
-      url.pathname === "/deployment-version.txt" ||
       url.pathname === "/4cc78cf9b31d099f4de23a0874b08a5e.txt"
     ) {
       return withPerformanceHeaders(
