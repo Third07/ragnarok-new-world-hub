@@ -120,3 +120,32 @@
         loadToolStructuredData();
     }
 })();
+
+(() => {
+    const styleHref = "/shared/responsive_ads.css?v=20260804-ads3";
+    const scriptSrc = "/shared/responsive_ads.js?v=20260804-ads3";
+
+    function loadResponsiveAds() {
+        if (!document.querySelector("link[data-rtnw-ads-style]")) {
+            const style = document.createElement("link");
+            style.rel = "stylesheet";
+            style.href = styleHref;
+            style.dataset.rtnwAdsStyle = "true";
+            (document.head || document.documentElement).appendChild(style);
+        }
+
+        if (!document.querySelector("script[data-rtnw-ads]")) {
+            const script = document.createElement("script");
+            script.src = scriptSrc;
+            script.async = true;
+            script.dataset.rtnwAds = "true";
+            (document.head || document.documentElement).appendChild(script);
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadResponsiveAds, { once: true });
+    } else {
+        loadResponsiveAds();
+    }
+})();
