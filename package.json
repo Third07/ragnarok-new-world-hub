@@ -15,6 +15,8 @@
     "indexnow:submit": "node scripts/indexnow-submit.mjs",
     "indexnow:submit:all": "node scripts/indexnow-submit.mjs --all",
     "indexnow:dry-run": "node scripts/indexnow-submit.mjs --all --dry-run",
+    "skills:sync:preview": "node scripts/sync-roworlddb-skills.mjs",
+    "skills:sync:apply": "node scripts/sync-roworlddb-skills.mjs --apply",
     "predev": "npm run names:sync && npm run social:sync && npm run seo:audit",
     "dev": "vite",
     "prebuild": "npm run names:sync && npm run social:sync && npm run seo:audit",
