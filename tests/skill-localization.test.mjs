@@ -6,14 +6,14 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('build performs a nonfatal validated SEA skill sync', async () => {
   const packageJson = JSON.parse(await read('package.json'));
-  const wrapper = await read('scripts/build-skill-data.mjs');
+  const wrapper = await read('scripts/build-data-sync.mjs');
   const importer = await read('scripts/sync-roworlddb-skills.mjs');
 
-  assert.equal(packageJson.scripts['skills:sync:build'], 'node scripts/build-skill-data.mjs');
-  assert.match(packageJson.scripts.prebuild, /skills:sync:build/);
+  assert.equal(packageJson.scripts['data:sync:build'], 'node scripts/build-data-sync.mjs');
+  assert.match(packageJson.scripts.prebuild, /data:sync:build/);
   assert.match(wrapper, /sync-roworlddb-skills\.mjs/);
   assert.match(wrapper, /--apply/);
-  assert.match(wrapper, /committed English fallback dataset/);
+  assert.match(wrapper, /committed English skill dataset/);
 
   for (const locale of ['en-US', 'zh-CN', 'th-TH', 'id-ID']) {
     assert.match(importer, new RegExp(locale));
