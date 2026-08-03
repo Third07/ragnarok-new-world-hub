@@ -9,24 +9,29 @@
       key: "91fde19eac5358fcbb0ccc7f92fcf7e8",
       width: 728,
       height: 90,
-      frame: "/shared/ads/leaderboard.html?v=20260802-ads2"
+      frame: "/shared/ads/leaderboard.html?v=20260804-ads3"
     },
     mobileBanner: {
       key: "4281407f118f027b278a4d1dbbd94232",
       width: 320,
       height: 50,
-      frame: "/shared/ads/mobile-banner.html?v=20260802-ads2"
+      frame: "/shared/ads/mobile-banner.html?v=20260804-ads3"
     },
     rectangle: {
       key: "0e2fb144411b70df25b2a26a11d69c2b",
       width: 300,
       height: 250,
-      frame: "/shared/ads/rectangle.html?v=20260802-ads2"
+      frame: "/shared/ads/rectangle.html?v=20260804-ads3"
     }
   };
 
   const PREVIEW_HOSTS = new Set(["terminal.local", "localhost", "127.0.0.1"]);
   const previewMode = PREVIEW_HOSTS.has(window.location.hostname);
+
+  function normalizedPathname() {
+    const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+    return pathname === "/guides" ? "/guides/" : pathname;
+  }
 
   function responsiveUnit() {
     return window.matchMedia("(min-width: 760px)").matches
@@ -111,8 +116,44 @@
     return slot;
   }
 
+  function addApplicationPlacements() {
+    const pathname = normalizedPathname();
+    if (pathname.startsWith("/sea") || pathname === "/seo-status/") return;
+
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    // The homepage already declares two intentional slots in its React markup.
+    if (pathname === "/") return;
+
+    if (pathname === "/guides/" || pathname.startsWith("/guides/")) {
+      if (!document.querySelector('[data-ad-placement="guide-inline"]')) {
+        const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
+        banner.dataset.adPlacement = "guide-inline";
+        const firstSection = main.querySelector(":scope > section") || main.firstElementChild;
+        if (firstSection) firstSection.insertAdjacentElement("afterend", banner);
+        else main.prepend(banner);
+      }
+
+      if (!document.querySelector('[data-ad-placement="guide-end"]')) {
+        const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
+        rectangle.dataset.adPlacement = "guide-end";
+        main.appendChild(rectangle);
+      }
+      return;
+    }
+
+    if (["/about", "/contact", "/privacy", "/terms", "/disclaimer"].includes(pathname)) {
+      if (!document.querySelector('[data-ad-placement="info-end"]')) {
+        const banner = newSlot("responsive", "rtnw-ad-slot--content-end");
+        banner.dataset.adPlacement = "info-end";
+        main.appendChild(banner);
+      }
+    }
+  }
+
   function addLegacyPlacements() {
-    const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+    const pathname = normalizedPathname();
     if (!pathname.startsWith("/sea")) return;
 
     if (pathname === "/sea") {
@@ -142,6 +183,7 @@
   }
 
   function init() {
+    addApplicationPlacements();
     addLegacyPlacements();
     document.querySelectorAll("[data-ad-slot]").forEach(prepareSlot);
   }
@@ -162,13 +204,15 @@
     if (!document.body || document.body.dataset.rtnwAdsObserved === "true") return;
     document.body.dataset.rtnwAdsObserved = "true";
     new MutationObserver(mutations => {
-      const adChanged = mutations.some(mutation => {
+      const relevantChange = mutations.some(mutation => {
         if (mutation.target instanceof Element && mutation.target.closest("[data-ad-slot]")) return true;
-        return Array.from(mutation.addedNodes).some(node =>
-          node instanceof Element && (node.matches("[data-ad-slot]") || node.querySelector("[data-ad-slot]"))
-        );
+        return Array.from(mutation.addedNodes).some(node => {
+          if (!(node instanceof Element)) return false;
+          return node.matches("main, .app, .site-shell, [data-ad-slot]") ||
+            Boolean(node.querySelector("main, .app, .site-shell, [data-ad-slot]"));
+        });
       });
-      if (adChanged) scheduleInit();
+      if (relevantChange) scheduleInit();
     }).observe(document.body, { childList: true, subtree: true });
   }
 
