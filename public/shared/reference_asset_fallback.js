@@ -2,6 +2,27 @@
   "use strict";
   const REFERENCE_ORIGIN = "https://www.roworlddb.com";
   const LOCAL_PREFIXES = ["/media/", "/sea/"];
+  const MAP_CLEAN_VERSION = "20260803-mapclean1";
+
+  function loadMapCleanup() {
+    if (!/^\/sea\/maps(?:\/|$)/.test(window.location.pathname)) return;
+
+    if (!document.querySelector('link[data-rtnw-map-clean]')) {
+      const stylesheet = document.createElement("link");
+      stylesheet.rel = "stylesheet";
+      stylesheet.href = `/sea/shared/map_clean_mobile.css?v=${MAP_CLEAN_VERSION}`;
+      stylesheet.dataset.rtnwMapClean = "true";
+      document.head.appendChild(stylesheet);
+    }
+
+    if (!document.querySelector('script[data-rtnw-map-clean]')) {
+      const script = document.createElement("script");
+      script.src = `/sea/shared/map_clean_mobile.js?v=${MAP_CLEAN_VERSION}`;
+      script.defer = true;
+      script.dataset.rtnwMapClean = "true";
+      document.body.appendChild(script);
+    }
+  }
 
   function localPath(value) {
     try {
@@ -14,6 +35,8 @@
       return null;
     }
   }
+
+  loadMapCleanup();
 
   document.addEventListener("error", event => {
     const el = event.target;
