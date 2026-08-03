@@ -74,3 +74,11 @@
     showToast(ok ? text.ok : text.fail);
   });
 })();
+
+// Execute locale routing before simulator.js requests its index and job files.
+(function loadSkillLocaleBootstrap() {
+  const path = window.location.pathname.replace(/\/index\.html$/, "/");
+  if (path !== "/sea/skill_planner/" && path !== "/sea/skill-simulator/") return;
+  if (document.querySelector('script[data-rtnw-skill-locale]')) return;
+  document.write('<script data-rtnw-skill-locale src="/sea/skill-simulator/skill_locale_bootstrap.js?v=20260804-i18n1"><\/script>');
+})();
