@@ -127,6 +127,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
+        <script
+          src="/shared/responsive_ads.js?v=20260804-ads3"
+          defer
+          data-rtnw-ads="true"
+        />
         <GuideNavigation />
         {children}
       </body>
