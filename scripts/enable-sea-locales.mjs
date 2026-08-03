@@ -32,6 +32,11 @@ await patch('public/shared/asset_version.js', [
     'const activeLocale = normalizedQueryLocale || normalizedStoredLocale || normalizeLocale(navigator.language) || (Array.isArray(navigator.languages) ? navigator.languages.map(normalizeLocale).find(Boolean) : null) || DEFAULT_LOCALE;\n\n    if (!rawQueryLocale || normalizedQueryLocale !== activeLocale) {\n        const url = new URL(window.location.href);\n        url.searchParams.set("lang", activeLocale);\n        window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);\n    }',
     'active locale selection',
   ],
+  [
+    'localStorage.setItem("ro_lang", normalizedStoredLocale || activeLocale);',
+    'localStorage.setItem("ro_lang", activeLocale);',
+    'active locale persistence',
+  ],
 ]);
 
 await patch('public/sea/skill-simulator/skill_locale_bootstrap.js', [
