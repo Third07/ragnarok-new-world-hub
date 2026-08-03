@@ -26,7 +26,6 @@
 /public/seo-audit.json
 /.skill-data-import/
 /.tool-data-import/
-/.roworlddb-mirror/
 
 # Miscellaneous
 .DS_Store
