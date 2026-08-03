@@ -24,6 +24,7 @@
 
 # Generated reports
 /public/seo-audit.json
+/.skill-data-import/
 
 # Miscellaneous
 .DS_Store
