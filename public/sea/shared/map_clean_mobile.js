@@ -40,16 +40,6 @@
     slider.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
-  function addCompactZoomButton(controls, label, delta, className) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `map-clean-zoom-button ${className}`;
-    button.textContent = label;
-    button.setAttribute("aria-label", delta > 0 ? "Zoom in" : "Zoom out");
-    button.addEventListener("click", () => adjustZoom(delta));
-    controls.appendChild(button);
-  }
-
   function initializeCleanMapUi() {
     const toggle = document.getElementById("show-monster-portrait-labels");
     const toggleLabel = document.querySelector("[data-map-monster-portrait-labels-label]");
@@ -59,6 +49,9 @@
       toggle.checked = labelsEnabled;
       syncLabelState(toggle);
       toggle.addEventListener("change", () => syncLabelState(toggle));
+      requestAnimationFrame(() => {
+        toggle.dispatchEvent(new Event("change", { bubbles: true }));
+      });
     } else {
       document.body.classList.remove("map-labels-enabled");
     }
