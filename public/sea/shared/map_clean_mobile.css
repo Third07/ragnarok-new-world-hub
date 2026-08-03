@@ -2,7 +2,8 @@
 
 .map-action-controls,
 .map-search-wrapper,
-.map-filter-backdrop {
+.map-filter-backdrop,
+.map-filter-toggle:not(.map-toolbar-filter-toggle) {
   display: none !important;
 }
 
