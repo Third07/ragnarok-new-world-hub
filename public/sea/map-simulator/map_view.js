@@ -347,8 +347,20 @@ const MAP_I18N = {
     mapImg: document.getElementById("map-img"),
     subregionsSvg: document.getElementById("subregions-svg"),
     markersLayer: document.getElementById("markers-layer"),
-    zoomIn: document.getElementById("zoom-in"),
-    zoomOut: document.getElementById("zoom-out"),
+    mapPanel: document.getElementById("map-panel"),
+    mapSearch: document.getElementById("map-search"),
+    mapSearchResults: document.getElementById("map-search-results"),
+    exploreToggle: document.getElementById("map-explore-toggle"),
+    landscapeToggle: document.getElementById("map-landscape-toggle"),
+    filterToggle: document.getElementById("map-filter-toggle"),
+    filterClose: document.getElementById("map-filter-close"),
+    filterBackdrop: document.getElementById("map-filter-backdrop"),
+    filterStack: document.getElementById("map-filter-stack"),
+    filterBadge: document.getElementById("map-filter-badge"),
+    filterSummary: document.getElementById("map-filter-summary"),
+    zoomSlider: document.getElementById("map-zoom-slider"),
+    zoomValue: document.getElementById("map-zoom-value"),
+    touchHint: document.getElementById("map-touch-hint"),
     zoomReset: document.getElementById("zoom-reset"),
     markTypeRow: document.getElementById("mark-type-row"),
     count: document.getElementById("map-count"),
@@ -413,7 +425,7 @@ function getMonsterFamilyLabel(e) {
     return MAP_TEXT.monsterFamilyLabels?.[e] || "";
 }
 
-let stageBaseScale = 1, stageZoomScale = 1, stageTx = 0, stageTy = 0, initialUrlState = null, panPointerId = null, panStartClientX = 0, panStartClientY = 0, panStartTx = 0, panStartTy = 0, panMoved = !1, suppressNextMapClick = !1, touchPointers = new Map, pinchActive = !1, pinchStartDistance = 0, pinchStartZoom = 1, pinchStartNaturalX = 0, pinchStartNaturalY = 0, pinchStartCenterClientX = 0, pinchStartCenterClientY = 0;
+let stageBaseScale = 1, stageZoomScale = 1, stageTx = 0, stageTy = 0, initialUrlState = null, panPointerId = null, panStartClientX = 0, panStartClientY = 0, panStartTx = 0, panStartTy = 0, panMoved = !1, suppressNextMapClick = !1, touchPointers = new Map, pinchActive = !1, pinchStartDistance = 0, pinchStartZoom = 1, pinchStartNaturalX = 0, pinchStartNaturalY = 0, pinchStartCenterClientX = 0, pinchStartCenterClientY = 0, searchHighlight = null, markerRenderFrame = 0;
 let questModalReturnFocus = null;
 
 function applyHeaderIcons() {
@@ -438,10 +450,16 @@ async function loadJson(e) {
 }
 
 function setStageTransform(e, t, n) {
+    const previousClusterMode = stageZoomScale < 2.2;
     const a = clampStageTransform(e, t, n);
     stageTx = a.tx, stageTy = a.ty, stageZoomScale = a.zoom;
     const r = stageBaseScale * stageZoomScale;
     el.mapStage.style.transform = `translate(${stageTx}px, ${stageTy}px) scale(${r})`;
+    syncZoomUi();
+    if (previousClusterMode !== (stageZoomScale < 2.2) && state.currentMarkers.length) {
+        cancelAnimationFrame(markerRenderFrame);
+        markerRenderFrame = requestAnimationFrame(() => renderMarkers());
+    }
 }
 
 function clampStageTransform(e, t, n) {
@@ -467,8 +485,8 @@ function zoomToBBox(e, t, n, a) {
 }
 
 function computeStageBaseScale() {
-    const e = el.mapImg.naturalWidth || 2048, t = el.mapImg.naturalHeight || 2048, n = el.mapShell.clientWidth || 900;
-    stageBaseScale = n / e, el.mapShell.style.height = `${Math.round(t * stageBaseScale)}px`, 
+    const e = el.mapImg.naturalWidth || 2048, t = el.mapImg.naturalHeight || 2048, n = el.mapShell.clientWidth || 900, a = el.mapShell.clientHeight || 900, r = el.mapPanel?.classList.contains("map-explore-active") || document.fullscreenElement === el.mapPanel;
+    r ? (el.mapShell.style.height = "100%", stageBaseScale = Math.min(n / e, a / t)) : (stageBaseScale = n / e, el.mapShell.style.height = `${Math.round(t * stageBaseScale)}px`),
     el.mapStage.style.width = `${e}px`, el.mapStage.style.height = `${t}px`, setStageTransform(stageTx, stageTy, stageZoomScale);
 }
 
@@ -500,10 +518,24 @@ function zoomAtClientPoint(e, t, n) {
     setStageTransform(r - o * u, s - l * u, c), zoomResetEnabled(1 !== c), updateUrlState();
 }
 
+function syncZoomUi() {
+    el.zoomSlider && (el.zoomSlider.value = stageZoomScale.toFixed(1));
+    el.zoomValue && (el.zoomValue.textContent = `${stageZoomScale.toFixed(stageZoomScale % 1 ? 1 : 0)}×`);
+    el.mapShell?.classList.toggle("is-zoomed", stageZoomScale >= 1.8);
+    el.mapShell?.classList.toggle("is-deep-zoom", stageZoomScale >= 3);
+}
+
+function zoomFromSlider(value) {
+    const zoom = clampZoom(Number(value));
+    if (!Number.isFinite(zoom) || zoom === stageZoomScale) return;
+    const box = el.mapShell.getBoundingClientRect(), centerX = box.width / 2, centerY = box.height / 2, oldScale = stageBaseScale * stageZoomScale, naturalX = (centerX - stageTx) / oldScale, naturalY = (centerY - stageTy) / oldScale, nextScale = stageBaseScale * zoom;
+    setStageTransform(centerX - naturalX * nextScale, centerY - naturalY * nextScale, zoom), zoomResetEnabled(zoom !== 1);
+}
+
 function canStartMapPan(e) {
     // Don't initiate pan/pointer-capture on clickable quest/chest markers:
     // doing so redirects the pointer stream to mapShell before their click.
-    return !(!e || e.target?.closest?.(".map-touch-controls") || e.target?.closest?.(".map-marker-quest, .map-marker-chest") || null != e.button && 0 !== e.button && "touch" !== e.pointerType);
+    return !(!e || e.target?.closest?.(".map-touch-controls, .map-overlay-button, .map-toolbar, .map-marker-cluster") || e.target?.closest?.(".map-marker-quest, .map-marker-chest") || null != e.button && 0 !== e.button && "touch" !== e.pointerType);
 }
 
 function rememberTouchPointer(e) {
@@ -702,11 +734,6 @@ function zoomResetEnabled(e) {
     el.zoomReset.setAttribute("aria-disabled", e ? "false" : "true");
 }
 
-function zoomFromControl(e) {
-    const t = el.mapShell.getBoundingClientRect();
-    zoomAtClientPoint(t.left + t.width / 2, t.top + t.height / 2, e);
-}
-
 function zoomToSubregion(e) {
     const t = el.mapImg.naturalWidth || 2048, n = el.mapImg.naturalHeight || 2048, a = state.subregions.find(t => t.map_id === e);
     if (a?.polygons?.length) {
@@ -743,8 +770,64 @@ function zoomToMarkerBox(e, t, n) {
 }
 
 function resetZoom() {
-    state.selectedSubregionId = null, setStageTransform(0, 0, 1), refreshSubregionSelection(), 
+    state.selectedSubregionId = null, setStageTransform(0, 0, 1), refreshSubregionSelection(),
     zoomResetEnabled(!1), updateUrlState();
+}
+
+function dismissTouchHint() {
+    if (!el.touchHint || el.touchHint.classList.contains("is-dismissed")) return;
+    el.touchHint.classList.add("is-dismissed");
+    try {
+        sessionStorage.setItem("rtnw-map-hint-seen", "1");
+    } catch (e) {}
+}
+
+function updateFilterButton() {
+    const active = state.enabledFiles.size;
+    el.filterBadge && (el.filterBadge.textContent = String(active));
+    el.filterSummary && (el.filterSummary.textContent = active ? `${active} marker ${1 === active ? "type" : "types"} visible` : "All marker types hidden");
+}
+
+function setFiltersOpen(open) {
+    const sheetMode = window.matchMedia("(max-width: 760px)").matches || el.mapPanel?.classList.contains("map-explore-active");
+    document.body.classList.toggle("map-filters-open", open);
+    el.filterToggle?.setAttribute("aria-expanded", open ? "true" : "false");
+    if (el.filterBackdrop) el.filterBackdrop.hidden = !open;
+    if (el.filterStack) el.filterStack.inert = sheetMode && !open;
+    open ? requestAnimationFrame(() => el.filterClose?.focus()) : document.activeElement === el.filterClose && el.filterToggle?.focus();
+}
+
+function syncExploreButton(active) {
+    el.exploreToggle?.setAttribute("aria-pressed", active ? "true" : "false");
+    el.exploreToggle?.setAttribute("aria-label", active ? "Exit fullscreen map" : "Open fullscreen map");
+    const label = el.exploreToggle?.querySelector(".map-control-label");
+    label && (label.textContent = active ? "Exit" : "Fullscreen");
+}
+
+async function setExploreMode(active, landscape = !1, skipFullscreenExit = !1) {
+    if (!el.mapPanel) return;
+    el.mapPanel.classList.toggle("map-explore-active", active), document.body.classList.toggle("map-explore-active", active), syncExploreButton(active);
+    if (active) {
+        setFiltersOpen(!1);
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) try {
+            await document.documentElement.requestFullscreen({navigationUI: "hide"});
+        } catch (e) {}
+        if (landscape && screen.orientation?.lock) try {
+            await screen.orientation.lock("landscape");
+        } catch (e) {}
+    } else {
+        setFiltersOpen(!1);
+        if (!skipFullscreenExit && document.fullscreenElement && document.exitFullscreen) try {
+            await document.exitFullscreen();
+        } catch (e) {}
+        if (screen.orientation?.unlock) try {
+            screen.orientation.unlock();
+        } catch (e) {}
+    }
+    requestAnimationFrame(() => {
+        computeStageBaseScale();
+        setStageTransform(stageTx, stageTy, stageZoomScale);
+    });
 }
 
 function isOpenWorldMap(e) {
@@ -957,9 +1040,9 @@ function buildFilterChip({file: e, icon: t, label: n, count: a}) {
     return r.type = "button", r.className = "map-filter-chip", r.dataset.file = e, r.setAttribute("aria-pressed", "true"), 
     r.innerHTML = `\n        <span class="map-filter-chip-icon">\n            <img loading="lazy" decoding="async" src="${CONFIG.markImageBase}${t}.webp" alt="">\n        </span>\n        <span class="map-filter-chip-text">\n            <span class="map-filter-chip-label">${escapeHtml(n)}</span>\n            <span class="map-filter-chip-count">${escapeHtml(String(a))}</span>\n        </span>\n    `, 
     r.addEventListener("click", () => {
-        state.enabledFiles.has(e) ? (state.enabledFiles.delete(e), r.classList.remove("selected"), 
-        r.setAttribute("aria-pressed", "false")) : (state.enabledFiles.add(e), r.classList.add("selected"), 
-        r.setAttribute("aria-pressed", "true")), renderMarkers();
+        state.enabledFiles.has(e) ? (state.enabledFiles.delete(e), r.classList.remove("selected"),
+        r.setAttribute("aria-pressed", "false")) : (state.enabledFiles.add(e), r.classList.add("selected"),
+        r.setAttribute("aria-pressed", "true")), updateFilterButton(), renderMarkers();
     }), r.classList.add("selected"), r;
 }
 
@@ -1440,6 +1523,30 @@ function refreshCheckedVisibility() {
     }).catch(e => console.error("Failed to refresh chest visibility:", e));
 }
 
+function getMarkerClusters(markers) {
+    if (stageZoomScale >= 2.2 || markers.length < 3) return [];
+    const threshold = 38 / Math.max(.001, stageBaseScale * stageZoomScale), buckets = new Map;
+    for (const marker of markers) {
+        const key = `${Math.floor(marker.x / threshold)}:${Math.floor(marker.y / threshold)}`, group = buckets.get(key);
+        group ? group.items.push(marker) : buckets.set(key, {items: [ marker ]});
+    }
+    return Array.from(buckets.values()).filter(group => group.items.length >= 3).map(group => ({...group, x: group.items.reduce((sum, item) => sum + item.x, 0) / group.items.length, y: group.items.reduce((sum, item) => sum + item.y, 0) / group.items.length}));
+}
+
+function appendMarkerClusters(fragment, clusters) {
+    for (const cluster of clusters) {
+        const button = document.createElement("button"), xs = cluster.items.map(item => item.x), ys = cluster.items.map(item => item.y);
+        button.type = "button", button.className = "map-marker-cluster", button.style.left = `${cluster.x}px`, button.style.top = `${cluster.y}px`, button.textContent = String(cluster.items.length), button.title = `Zoom in to view ${cluster.items.length} nearby markers`, button.setAttribute("aria-label", button.title);
+        button.addEventListener("click", event => {
+            event.preventDefault(), event.stopPropagation(), zoomToMarkerBox({minX: Math.min(...xs), minY: Math.min(...ys), maxX: Math.max(...xs), maxY: Math.max(...ys)}, el.mapImg.naturalWidth || 2048, el.mapImg.naturalHeight || 2048), updateUrlState();
+        }), fragment.appendChild(button);
+    }
+}
+
+function isHighlightedMarker(marker) {
+    return searchHighlight && Math.abs(marker.x - searchHighlight.x) < .5 && Math.abs(marker.y - searchHighlight.y) < .5 && normalizeText(marker.infoType) === searchHighlight.label;
+}
+
 function renderMarkers() {
     clearNode(el.markersLayer);
     const e = getMapCfg(state.currentCenterSceneId), t = e?.pic_res;
@@ -1481,12 +1588,14 @@ function renderMarkers() {
             });
         }
     }
-    state.currentMarkers = r, el.mapShell.dataset.subregionMode = "none", renderRewardFilterChips([]), 
-    el.count.textContent = MAP_TEXT.marksCount(r.length || 0);
-    const o = getJdChainColors(r), i = document.createDocumentFragment();
+    state.currentMarkers = r, el.mapShell.dataset.subregionMode = "none", renderRewardFilterChips([]),
+    el.count.textContent = MAP_TEXT.marksCount(r.length || 0), updateFilterButton();
+    const o = getJdChainColors(r), i = document.createDocumentFragment(), clusters = getMarkerClusters(r), clusteredMarkers = new Set(clusters.flatMap(cluster => cluster.items));
+    appendMarkerClusters(i, clusters);
     for (const e of r) {
+        if (clusteredMarkers.has(e)) continue;
         const t = document.createElement("div");
-        t.className = "map-marker-wrap", t.style.left = `${e.x}px`, t.style.top = `${e.y}px`;
+        t.className = "map-marker-wrap", isHighlightedMarker(e) && t.classList.add("is-search-highlight"), t.style.left = `${e.x}px`, t.style.top = `${e.y}px`;
         const n = document.createElement("img");
         const a = state.useMonsterPortraits && e.portraitImage;
         n.className = "map-marker", isCompactMarkerIcon(e.icon) && n.classList.add("map-marker-compact"), a && n.classList.add("map-marker-portrait");
@@ -1510,6 +1619,10 @@ function renderMarkers() {
                 r.className = "map-marker-type", r.textContent = a, t.appendChild(r);
             }
         }
+        if (e.infoType) {
+            const label = document.createElement("span");
+            label.className = "map-marker-label", label.textContent = e.infoType, label.setAttribute("aria-hidden", "true"), t.appendChild(label);
+        }
         if (e.quest || isJdMarker(e) || isCookingMarker(e) || isChestMarker(e)) {
             const r = !!e.quest || isJdMarker(e) || isCookingMarker(e);
             const a = document.createElement("button");
@@ -1525,6 +1638,7 @@ function renderMarkers() {
         i.appendChild(t);
     }
     el.markersLayer.appendChild(i);
+    el.mapSearch?.value && onSearchChanged();
 }
 
 function pickDefaultCenterSceneId(e) {
@@ -1666,7 +1780,8 @@ async function renderCurrentMapContent(e) {
 
 async function setCurrentMap(e) {
     const t = ++state.mapRenderToken, n = Number(e), a = resolveAllowedMapId(n);
-    state.currentCenterSceneId = a ?? n, state.selectedSubregionId = null, resetZoom(), 
+    searchHighlight = null, el.mapSearch && (el.mapSearch.value = ""), el.mapSearchResults && (el.mapSearchResults.hidden = !0, clearNode(el.mapSearchResults));
+    state.currentCenterSceneId = a ?? n, state.selectedSubregionId = null, resetZoom(),
     clearMapOverlays(), clearQuestDetails(), state.currentMarkers = [];
     const r = getMapCfg(state.currentCenterSceneId);
     if (!r?.pic_res) return delete el.mapShell.dataset.loading, el.mapImg.removeAttribute("src"), el.mapImg.alt = "", 
@@ -1682,16 +1797,43 @@ async function setCurrentMap(e) {
     }));
 }
 
-function onSearchChanged() {}
+function openMarkerSearchResult(marker) {
+    searchHighlight = {x: marker.x, y: marker.y, label: normalizeText(marker.infoType)}, el.mapSearchResults.hidden = !0;
+    zoomToMarkerBox({minX: marker.x, minY: marker.y, maxX: marker.x, maxY: marker.y}, el.mapImg.naturalWidth || 2048, el.mapImg.naturalHeight || 2048), renderMarkers(), updateUrlState();
+}
+
+function onSearchChanged() {
+    if (!el.mapSearch || !el.mapSearchResults) return;
+    const query = normalizeText(el.mapSearch.value).trim();
+    clearNode(el.mapSearchResults);
+    if (!query) return void (el.mapSearchResults.hidden = !0);
+    const matches = state.currentMarkers.filter(marker => normalizeText([ marker.infoType, marker.mapRegionName, marker.rewardText ].filter(Boolean).join(" ")).includes(query)).slice(0, 20);
+    if (!matches.length) {
+        const empty = document.createElement("div");
+        empty.className = "map-search-empty", empty.textContent = "No matching markers on this map", el.mapSearchResults.appendChild(empty);
+    } else for (const marker of matches) {
+        const button = document.createElement("button");
+        button.type = "button", button.className = "map-search-result", button.setAttribute("role", "option"), button.innerHTML = `<strong>${escapeHtml(marker.infoType || "Map marker")}</strong><span>${escapeHtml([ marker.mapRegionName, marker.rewardText ].filter(Boolean).join(" · ") || "Tap to locate")}</span>`, button.addEventListener("click", () => openMarkerSearchResult(marker)), el.mapSearchResults.appendChild(button);
+    }
+    el.mapSearchResults.hidden = !1;
+}
 
 async function main() {
     applyHeaderIcons(), applyStaticText(), bindHideCheckedToggle(), bindMonsterPortraitsToggle(), bindMonsterPortraitLabelsToggle(), bindQuestModal(), zoomResetEnabled(!1), initialUrlState = parseUrlState(),
     el.mapImg.draggable = !1, el.mapImg.decoding = "async";
     try {
+        "1" === sessionStorage.getItem("rtnw-map-hint-seen") && el.touchHint?.classList.add("is-dismissed");
+    } catch (e) {}
+    try {
         el.mapImg.fetchPriority = "high";
     } catch {}
-    el.mapImg.addEventListener("dragstart", e => e.preventDefault()), el.zoomReset.addEventListener("click", () => resetZoom()),
-    el.zoomIn?.addEventListener("click", () => zoomFromControl(-1)), el.zoomOut?.addEventListener("click", () => zoomFromControl(1)),
+    setFiltersOpen(!1), el.mapImg.addEventListener("dragstart", e => e.preventDefault()), el.zoomReset.addEventListener("click", () => resetZoom()),
+    el.zoomSlider?.addEventListener("input", e => (dismissTouchHint(), zoomFromSlider(e.currentTarget.value))), el.zoomSlider?.addEventListener("change", () => updateUrlState()),
+    el.mapSearch?.addEventListener("input", onSearchChanged), el.mapSearch?.addEventListener("keydown", e => {
+        "Escape" === e.key && (el.mapSearch.value = "", onSearchChanged(), el.mapSearch.blur());
+    }),
+    el.filterToggle?.addEventListener("click", () => setFiltersOpen(!document.body.classList.contains("map-filters-open"))), el.filterClose?.addEventListener("click", () => setFiltersOpen(!1)), el.filterBackdrop?.addEventListener("click", () => setFiltersOpen(!1)),
+    el.exploreToggle?.addEventListener("click", () => setExploreMode(!el.mapPanel.classList.contains("map-explore-active"))), el.landscapeToggle?.addEventListener("click", () => setExploreMode(!0, !0)),
     el.mapSelect.addEventListener("change", async () => {
         const e = el.mapSelect.value;
         e && await setCurrentMap(Number(e));
@@ -1700,6 +1842,7 @@ async function main() {
     }, {
         passive: !1
     }), el.mapShell.addEventListener("pointerdown", e => {
+        dismissTouchHint();
         beginMapPan(e);
     }), el.mapShell.addEventListener("pointermove", e => {
         updateMapPan(e);
@@ -1711,8 +1854,14 @@ async function main() {
         endMapPan(e);
     }), el.mapShell.addEventListener("click", e => {
         suppressNextMapClick && (suppressNextMapClick = !1, e.preventDefault(), e.stopPropagation());
-    }, !0), window.addEventListener("resize", () => {
-        computeStageBaseScale();
+    }, !0), document.addEventListener("fullscreenchange", () => {
+        !document.fullscreenElement && el.mapPanel?.classList.contains("map-explore-active") && setExploreMode(!1, !1, !0);
+    }), document.addEventListener("keydown", e => {
+        "Escape" === e.key && document.body.classList.contains("map-filters-open") && (e.stopPropagation(), setFiltersOpen(!1));
+    }), document.addEventListener("pointerdown", e => {
+        el.mapSearchResults && !el.mapSearchResults.hidden && !e.target.closest?.(".map-search-wrapper") && (el.mapSearchResults.hidden = !0);
+    }), window.addEventListener("resize", () => {
+        computeStageBaseScale(), document.body.classList.contains("map-filters-open") || setFiltersOpen(!1);
     }), window.addEventListener("hashchange", async () => {
         const e = parseUrlState();
         if (Number.isFinite(e.mapId) && e.mapId !== state.currentCenterSceneId) return el.mapSelect.querySelector(`option[value="${e.mapId}"]`) && (el.mapSelect.value = String(e.mapId)), 
