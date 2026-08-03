@@ -63,7 +63,13 @@
 
     if (toolbar && filterToggle) {
       filterToggle.className = "map-toolbar-filter-toggle";
-      filterToggle.innerHTML = '<span aria-hidden="true">☷</span><span>Filters</span><span id="map-filter-badge" class="map-filter-badge">0</span><span class="map-filter-caret" aria-hidden="true">⌄</span>';
+      if (!filterToggle.querySelector(".map-filter-caret")) {
+        const caret = document.createElement("span");
+        caret.className = "map-filter-caret";
+        caret.setAttribute("aria-hidden", "true");
+        caret.textContent = "⌄";
+        filterToggle.appendChild(caret);
+      }
       toolbar.appendChild(filterToggle);
     }
 
