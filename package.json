@@ -17,6 +17,7 @@
     "indexnow:dry-run": "node scripts/indexnow-submit.mjs --all --dry-run",
     "skills:sync:preview": "node scripts/sync-roworlddb-skills.mjs",
     "skills:sync:apply": "node scripts/sync-roworlddb-skills.mjs --apply",
+    "skills:compare:hmt": "node scripts/compare-roworlddb-hmt-skills.mjs",
     "tools:data:sync:preview": "node scripts/sync-roworlddb-tools.mjs",
     "tools:data:sync:apply": "node scripts/sync-roworlddb-tools.mjs --apply",
     "data:sync:build": "node scripts/build-data-sync.mjs",
