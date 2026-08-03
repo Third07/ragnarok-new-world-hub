@@ -6,13 +6,13 @@ const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('build runs guarded tool data synchronization', async () => {
   const packageJson = JSON.parse(await read('package.json'));
-  const wrapper = await read('scripts/build-tool-data.mjs');
+  const wrapper = await read('scripts/build-data-sync.mjs');
 
   assert.equal(packageJson.scripts['tools:data:sync:preview'], 'node scripts/sync-roworlddb-tools.mjs');
   assert.equal(packageJson.scripts['tools:data:sync:apply'], 'node scripts/sync-roworlddb-tools.mjs --apply');
-  assert.equal(packageJson.scripts['tools:data:sync:build'], 'node scripts/build-tool-data.mjs');
+  assert.equal(packageJson.scripts['data:sync:build'], 'node scripts/build-data-sync.mjs');
   assert.match(packageJson.scripts.prebuild, /tools:locales:enable/);
-  assert.match(packageJson.scripts.prebuild, /tools:data:sync:build/);
+  assert.match(packageJson.scripts.prebuild, /data:sync:build/);
   assert.match(wrapper, /sync-roworlddb-tools\.mjs/);
   assert.match(wrapper, /Continuing with committed tool data/);
 });
