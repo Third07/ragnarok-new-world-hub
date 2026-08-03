@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="asset-version" content="20260803-mapexplorer2">
+    <meta name="asset-version" content="20260803-mapclean1">
     <title>Ragnarok: The New World Interactive Map | RTNW Hub</title>
     <meta name="description" content="Explore Ragnarok: The New World maps and find monsters, quests, chests, landmarks, NPC services, recipes, and other map markers.">
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/media/fonts/noto-sans-tc.css?v=20260802-performance2">
     <link rel="stylesheet" href="/sea/shared/polish-fixes.css?v=20260802-ux8">
     <link rel="stylesheet" href="/sea/shared/seo.css?v=20260802-seo1">
+    <link rel="stylesheet" href="/sea/shared/map_clean_mobile.css?v=20260803-mapclean1" data-rtnw-map-clean="true">
 </head>
 
 <body>
@@ -70,7 +71,6 @@
                     <img width="40" height="40" data-icon-name="icon_zhujiemian_huodong" alt="Events" src="/media/images/zhujiemian/icon_zhujiemian_huodong.webp">
                     <span class="site-nav-label">Events</span>
                 </a>
-
                 <a class="site-nav-item" href="/sea/study/" title="Study" aria-label="Study">
                     <img width="40" height="40" data-icon-name="icon_zhujiemian_shitu" alt="Study" src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp">
                     <span class="site-nav-label">Study</span>
@@ -79,7 +79,7 @@
                     <img width="40" height="40" data-icon-name="icon_zhujiemian_pet" alt="Pet" src="/media/images/zhujiemian/icon_zhujiemian_pet.webp">
                     <span class="site-nav-label">Pet</span>
                 </a>
-<a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
+                <a class="site-nav-item" href="/sea/refine/" title="Refine" aria-label="Refine">
                     <img width="40" height="40" data-icon-name="icon_zhujiemian_qianghua" alt="Refine" src="/media/images/zhujiemian/icon_zhujiemian_qianghua.webp">
                     <span class="site-nav-label">Refine</span>
                 </a>
@@ -111,7 +111,7 @@
                                     xmlns="http://www.w3.org/2000/svg"></svg>
                                 <div id="markers-layer" class="map-markers"></div>
                             </div>
-                            <div id="map-touch-hint" class="map-touch-hint" aria-hidden="true">Drag to move · Pinch or use the slider to zoom</div>
+                            <div id="map-touch-hint" class="map-touch-hint" aria-hidden="true">Drag to move · Pinch or use the controls to zoom</div>
                             <div class="map-action-controls" aria-label="Map view controls">
                                 <button id="map-explore-toggle" class="map-overlay-button" type="button" aria-label="Open fullscreen map" aria-pressed="false">
                                     <span aria-hidden="true">⛶</span><span class="map-control-label">Fullscreen</span>
@@ -148,7 +148,7 @@
                             </label>
                             <label class="map-hide-checked-toggle">
                                 <input id="show-monster-portrait-labels" type="checkbox" aria-controls="markers-layer">
-                                <span data-map-monster-portrait-labels-label>Show portrait label</span>
+                                <span data-map-monster-portrait-labels-label>Show marker labels</span>
                             </label>
                             <label class="map-hide-checked-toggle">
                                 <input id="hide-checked-chests" type="checkbox" aria-controls="markers-layer">
@@ -168,7 +168,7 @@
         </main>
         <section class="seo-guide" aria-labelledby="maps-guide-title">
             <h2 id="maps-guide-title">How to use the Ragnarok: The New World interactive map</h2>
-            <p>Select a Rune-Midgard map, then toggle marker categories for monsters, quests, chests, landmarks, recipes, and NPC services. Tap a marker to open its details, use the large zoom controls on mobile, and reset the view whenever you need to recenter. Monster and card links help turn a map discovery into a practical farming route.</p>
+            <p>Select a Rune-Midgard map, then toggle marker categories for monsters, quests, chests, landmarks, recipes, and NPC services. Tap a marker to open its details, use pinch or the compact zoom controls on mobile, and enable marker labels only when you need them. Monster and card links help turn a map discovery into a practical farming route.</p>
             <nav class="seo-related" aria-label="Related map resources"><a href="/sea/monster_album/">Monster Database</a><a href="/sea/cards/">Card Database</a><a href="/sea/events/">Event Schedule</a></nav>
         </section>
     </div>
@@ -188,7 +188,8 @@
     <script src="/shared/client_switcher.js?v=20260802-performance2"></script>
     <script src="/shared/sticky_header.js?v=20260802-performance2"></script>
     <script src="/sea/map-simulator/map_view.js?v=20260803-mapexplorer2"></script>
-    <script src="/shared/reference_asset_fallback.js"></script>
+    <script src="/sea/shared/map_clean_mobile.js?v=20260803-mapclean1" data-rtnw-map-clean="true"></script>
+    <script src="/shared/reference_asset_fallback.js?v=20260803-mapclean1"></script>
 </body>
 
 </html>
