@@ -89,7 +89,16 @@ function injectFooterLink(footerMeta: Element, href: string, label: string) {
   else footerMeta.appendChild(link);
 }
 
+function setRouteMarker() {
+  const route = window.location.pathname
+    .replace(/^\/+|\/+$/g, "")
+    .replace(/[^a-z0-9]+/gi, "-")
+    .toLowerCase() || "home";
+  document.body.dataset.rtnwRoute = route;
+}
+
 function injectGuideNavigation() {
+  setRouteMarker();
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
     injectFooterLink(footerMeta, SEARCH_HREF, "Search");
     injectFooterLink(footerMeta, UPDATE_HREF, "Updates");
@@ -105,7 +114,11 @@ export default function GuideNavigation() {
     injectGuideNavigation();
     const observer = new MutationObserver(injectGuideNavigation);
     observer.observe(document.body, { childList: true, subtree: true });
-    return () => observer.disconnect();
+    window.addEventListener("popstate", injectGuideNavigation);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("popstate", injectGuideNavigation);
+    };
   }, []);
 
   return null;
