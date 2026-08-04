@@ -9,19 +9,19 @@
       key: "91fde19eac5358fcbb0ccc7f92fcf7e8",
       width: 728,
       height: 90,
-      frame: "/shared/ads/leaderboard.html?v=20260804-ads3"
+      frame: "/shared/ads/leaderboard.html?v=20260804-ads4"
     },
     mobileBanner: {
       key: "4281407f118f027b278a4d1dbbd94232",
       width: 320,
       height: 50,
-      frame: "/shared/ads/mobile-banner.html?v=20260804-ads3"
+      frame: "/shared/ads/mobile-banner.html?v=20260804-ads4"
     },
     rectangle: {
       key: "0e2fb144411b70df25b2a26a11d69c2b",
       width: 300,
       height: 250,
-      frame: "/shared/ads/rectangle.html?v=20260804-ads3"
+      frame: "/shared/ads/rectangle.html?v=20260804-ads4"
     }
   };
 
@@ -116,6 +116,61 @@
     return slot;
   }
 
+  function addGuidePlacements(main) {
+    const article = main.querySelector("article, .article");
+
+    if (!document.querySelector('[data-ad-placement="guide-inline"]')) {
+      const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
+      banner.dataset.adPlacement = "guide-inline";
+
+      if (article) {
+        const headings = article.querySelectorAll(":scope > h2");
+        const sectionBreak = headings[2] || headings[1] || null;
+        if (sectionBreak) sectionBreak.insertAdjacentElement("beforebegin", banner);
+        else {
+          const lead = article.querySelector(":scope > p, :scope > .lead");
+          if (lead) lead.insertAdjacentElement("afterend", banner);
+          else article.prepend(banner);
+        }
+      } else {
+        const firstSection = main.querySelector(":scope > section") || main.firstElementChild;
+        if (firstSection) firstSection.insertAdjacentElement("afterend", banner);
+        else main.prepend(banner);
+      }
+    }
+
+    if (!document.querySelector('[data-ad-placement="guide-end"]')) {
+      const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
+      rectangle.dataset.adPlacement = "guide-end";
+
+      if (article) {
+        const layout = article.closest(".layout");
+        if (layout) layout.insertAdjacentElement("afterend", rectangle);
+        else article.insertAdjacentElement("afterend", rectangle);
+      } else {
+        main.appendChild(rectangle);
+      }
+    }
+  }
+
+  function addToolPlacements(main) {
+    const tool = main.querySelector(".toolShell");
+    const article = main.querySelector("article, .article");
+
+    if (tool && !document.querySelector('[data-ad-placement="tool-inline"]')) {
+      const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
+      banner.dataset.adPlacement = "tool-inline";
+      tool.insertAdjacentElement("afterend", banner);
+    }
+
+    if (!document.querySelector('[data-ad-placement="tool-end"]')) {
+      const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
+      rectangle.dataset.adPlacement = "tool-end";
+      if (article) article.insertAdjacentElement("afterend", rectangle);
+      else main.appendChild(rectangle);
+    }
+  }
+
   function addApplicationPlacements() {
     const pathname = normalizedPathname();
     if (pathname.startsWith("/sea") || pathname === "/seo-status/") return;
@@ -127,23 +182,16 @@
     if (pathname === "/") return;
 
     if (pathname === "/guides/" || pathname.startsWith("/guides/")) {
-      if (!document.querySelector('[data-ad-placement="guide-inline"]')) {
-        const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
-        banner.dataset.adPlacement = "guide-inline";
-        const firstSection = main.querySelector(":scope > section") || main.firstElementChild;
-        if (firstSection) firstSection.insertAdjacentElement("afterend", banner);
-        else main.prepend(banner);
-      }
-
-      if (!document.querySelector('[data-ad-placement="guide-end"]')) {
-        const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
-        rectangle.dataset.adPlacement = "guide-end";
-        main.appendChild(rectangle);
-      }
+      addGuidePlacements(main);
       return;
     }
 
-    if (["/about", "/contact", "/privacy", "/terms", "/disclaimer"].includes(pathname)) {
+    if (pathname.startsWith("/tools/")) {
+      addToolPlacements(main);
+      return;
+    }
+
+    if (["/about", "/contact", "/privacy", "/terms", "/disclaimer", "/updates", "/search"].includes(pathname)) {
       if (!document.querySelector('[data-ad-placement="info-end"]')) {
         const banner = newSlot("responsive", "rtnw-ad-slot--content-end");
         banner.dataset.adPlacement = "info-end";
