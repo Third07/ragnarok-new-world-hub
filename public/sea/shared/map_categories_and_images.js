@@ -70,6 +70,7 @@
       const active = classifyGroup(group, index) === kind;
       group.hidden = !active;
       group.disabled = !active;
+      group.style.display = active ? "" : "none";
     });
 
     switcher.querySelectorAll("[data-map-category]").forEach((button) => {
@@ -142,7 +143,7 @@
   }
 
   function mapImageCandidates(image) {
-    const source = image.currentSrc || image.src || "";
+    const source = image.getAttribute("src") || image.currentSrc || image.src || "";
     let url;
     try {
       url = new URL(source, window.location.href);
@@ -183,14 +184,19 @@
     if (!(image instanceof HTMLImageElement)) return;
 
     const resetCandidates = () => {
+      const source = image.getAttribute("src");
+      if (!source) return;
+      delete image.dataset.mapImageExhausted;
       const candidates = mapImageCandidates(image);
       image.__rtnwMapCandidates = candidates;
-      image.__rtnwMapCandidateIndex = Math.max(0, candidates.indexOf(image.getAttribute("src") || ""));
+      image.__rtnwMapCandidateIndex = Math.max(0, candidates.indexOf(source));
       image.classList.remove("map-image-missing");
       clearMissingMessage(image);
     };
 
-    new MutationObserver(resetCandidates).observe(image, {
+    new MutationObserver(() => {
+      if (image.getAttribute("src")) resetCandidates();
+    }).observe(image, {
       attributes: true,
       attributeFilter: ["src"],
     });
@@ -212,6 +218,7 @@
         return;
       }
 
+      image.dataset.mapImageExhausted = "true";
       image.removeAttribute("src");
       image.classList.add("map-image-missing");
       ensureMissingMessage(image);
@@ -221,7 +228,7 @@
     }, true);
 
     window.addEventListener("load", (event) => {
-      if (event.target !== image || image.__rtnwSyntheticMissing) return;
+      if (event.target !== image || image.__rtnwSyntheticMissing || image.dataset.mapImageExhausted === "true") return;
       image.classList.remove("map-image-missing");
       clearMissingMessage(image);
       window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
