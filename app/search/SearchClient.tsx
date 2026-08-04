@@ -176,20 +176,30 @@ const STATIC_PAGES: SearchResult[] = [
 ];
 
 function record(value: unknown): UnknownRecord {
-  return value && typeof value === "object" && !Array.isArray(value) ? value as UnknownRecord : {};
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as UnknownRecord)
+    : {};
 }
 
 function arrayPayload(value: unknown, keys: string[]) {
-  if (Array.isArray(value)) return value.filter((item): item is UnknownRecord => Boolean(item && typeof item === "object"));
+  if (Array.isArray(value)) {
+    return value.filter(
+      (item): item is UnknownRecord => Boolean(item && typeof item === "object"),
+    );
+  }
   const source = record(value);
   for (const key of keys) {
     const items = source[key];
-    if (Array.isArray(items)) return items.filter((item): item is UnknownRecord => Boolean(item && typeof item === "object"));
+    if (Array.isArray(items)) {
+      return items.filter(
+        (item): item is UnknownRecord => Boolean(item && typeof item === "object"),
+      );
+    }
   }
   return [];
 }
 
-function text(value: unknown) {
+function text(value: unknown): string {
   if (typeof value === "string" || typeof value === "number") return String(value);
   const source = record(value);
   return text(source.name || source.label || source.title || "");
@@ -201,17 +211,22 @@ function compact(value: string, length = 150) {
 }
 
 function searchable(values: unknown[]) {
-  return values.flatMap((value) => {
-    if (Array.isArray(value)) return value.map(text);
-    if (value && typeof value === "object") return Object.values(record(value)).map(text);
-    return [text(value)];
-  }).join(" ").toLowerCase();
+  return values
+    .flatMap((value) => {
+      if (Array.isArray(value)) return value.map(text);
+      if (value && typeof value === "object") return Object.values(record(value)).map(text);
+      return [text(value)];
+    })
+    .join(" ")
+    .toLowerCase();
 }
 
 function imagePath(value: unknown, fallback: string) {
   const path = text(value).trim();
   if (!path) return fallback;
-  if (path.startsWith("/") || path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("/") || path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
   if (path.includes("/")) return `/${path.replace(/^\/+/, "")}`;
   return fallback;
 }
@@ -222,14 +237,24 @@ export default function SearchClient() {
   const [cards, setCards] = useState<UnknownRecord[]>([]);
   const [equipment, setEquipment] = useState<UnknownRecord[]>([]);
   const [equipmentTypes, setEquipmentTypes] = useState<UnknownRecord>({});
-  const [loading, setLoading] = useState(true);
+  const [dataRequested, setDataRequested] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setQuery(params.get("q") || "");
+  }, []);
+
+  useEffect(() => {
+    const normalized = query.trim();
+    if (normalized.length < 2 || dataRequested) return;
 
     let cancelled = false;
+    setDataRequested(true);
+    setLoading(true);
+    setLoadError("");
+
     Promise.allSettled([
       fetch("/sea/monster-album/data/monster_index_en-US.json").then((response) => {
         if (!response.ok) throw new Error("monster database");
@@ -249,25 +274,33 @@ export default function SearchClient() {
 
       if (monsterResult.status === "fulfilled") {
         setMonsters(arrayPayload(monsterResult.value, ["monsters", "items", "data"]));
-      } else failures.push("monsters");
+      } else {
+        failures.push("monsters");
+      }
 
       if (cardResult.status === "fulfilled") {
         setCards(arrayPayload(cardResult.value, ["cards", "items", "data"]));
-      } else failures.push("cards");
+      } else {
+        failures.push("cards");
+      }
 
       if (equipmentResult.status === "fulfilled") {
         setEquipment(arrayPayload(equipmentResult.value, ["items", "equipment", "data"]));
         setEquipmentTypes(record(record(equipmentResult.value).itemTypes));
-      } else failures.push("equipment");
+      } else {
+        failures.push("equipment");
+      }
 
-      if (failures.length) setLoadError(`Some live database groups could not load: ${failures.join(", ")}.`);
+      if (failures.length) {
+        setLoadError(`Some database groups could not load: ${failures.join(", ")}.`);
+      }
       setLoading(false);
     });
 
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [dataRequested, query]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -278,18 +311,27 @@ export default function SearchClient() {
 
   const groups = useMemo<SearchGroup[]>(() => {
     const normalized = query.trim().toLowerCase();
+    const searchDatabases = normalized.length >= 2;
     const match = (value: string) => !normalized || value.toLowerCase().includes(normalized);
 
-    const pageMatches = STATIC_PAGES.filter((item) => match(`${item.title} ${item.description}`));
+    const pageMatches = STATIC_PAGES.filter((item) =>
+      match(`${item.title} ${item.description}`),
+    );
 
-    const monsterMatches = monsters.filter((item) => match(searchable([
-      item.name,
-      item.level,
-      item.type,
-      item.race,
-      item.element,
-      item.size,
-    ])));
+    const monsterMatches = searchDatabases
+      ? monsters.filter((item) =>
+          match(
+            searchable([
+              item.name,
+              item.level,
+              item.type,
+              item.race,
+              item.element,
+              item.size,
+            ]),
+          ),
+        )
+      : [];
     const monsterResults = monsterMatches.slice(0, 8).map((item, index): SearchResult => {
       const id = text(item.id || index);
       const name = text(item.name) || `Monster ${id}`;
@@ -299,7 +341,9 @@ export default function SearchClient() {
         text(item.race),
         text(item.element),
         text(item.size),
-      ].filter(Boolean).join(" · ");
+      ]
+        .filter(Boolean)
+        .join(" · ");
       return {
         id: `monster-${id}`,
         title: name,
@@ -310,14 +354,20 @@ export default function SearchClient() {
       };
     });
 
-    const cardMatches = cards.filter((item) => match(searchable([
-      item.name,
-      item.effect,
-      item.effect_extra,
-      item.effect_lines,
-      item.card_type_name,
-      item.obtain_source_tables,
-    ])));
+    const cardMatches = searchDatabases
+      ? cards.filter((item) =>
+          match(
+            searchable([
+              item.name,
+              item.effect,
+              item.effect_extra,
+              item.effect_lines,
+              item.card_type_name,
+              item.obtain_source_tables,
+            ]),
+          ),
+        )
+      : [];
     const cardResults = cardMatches.slice(0, 8).map((item, index): SearchResult => {
       const id = text(item.id || index);
       const name = text(item.name) || `Card ${id}`;
@@ -327,41 +377,60 @@ export default function SearchClient() {
       return {
         id: `card-${id}`,
         title: name,
-        description: compact([text(item.card_type_name), effects].filter(Boolean).join(" · ")) || "Card database entry",
+        description:
+          compact([text(item.card_type_name), effects].filter(Boolean).join(" · ")) ||
+          "Card database entry",
         href: `/sea/cards/?card=${encodeURIComponent(id)}`,
         icon: "/media/images/zhujiemian/icon_zhujiemian_tujian.webp",
         fallback: "C",
       };
     });
 
-    const equipmentMatches = equipment.filter((item) => match(searchable([
-      item.name,
-      item.desc,
-      item.openLevel,
-      equipmentTypes[text(item.itemType)],
-      item.stats,
-      item.suits,
-    ])));
-    const equipmentResults = equipmentMatches.slice(0, 8).map((item, index): SearchResult => {
-      const id = text(item.id || index);
-      const name = text(item.name) || `Equipment ${id}`;
-      const typeName = text(equipmentTypes[text(item.itemType)]);
-      return {
-        id: `equipment-${id}`,
-        title: name,
-        description: compact([
-          item.openLevel ? `Lv.${text(item.openLevel)}` : "",
-          typeName,
-          text(item.desc),
-        ].filter(Boolean).join(" · ")) || "Equipment database entry",
-        href: `/sea/equipment/?q=${encodeURIComponent(name)}`,
-        icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
-        fallback: "E",
-      };
-    });
+    const equipmentMatches = searchDatabases
+      ? equipment.filter((item) =>
+          match(
+            searchable([
+              item.name,
+              item.desc,
+              item.openLevel,
+              equipmentTypes[text(item.itemType)],
+              item.stats,
+              item.suits,
+            ]),
+          ),
+        )
+      : [];
+    const equipmentResults = equipmentMatches
+      .slice(0, 8)
+      .map((item, index): SearchResult => {
+        const id = text(item.id || index);
+        const name = text(item.name) || `Equipment ${id}`;
+        const typeName = text(equipmentTypes[text(item.itemType)]);
+        return {
+          id: `equipment-${id}`,
+          title: name,
+          description:
+            compact(
+              [
+                item.openLevel ? `Lv.${text(item.openLevel)}` : "",
+                typeName,
+                text(item.desc),
+              ]
+                .filter(Boolean)
+                .join(" · "),
+            ) || "Equipment database entry",
+          href: `/sea/equipment/?q=${encodeURIComponent(name)}`,
+          icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
+          fallback: "E",
+        };
+      });
 
     return [
-      { name: "Guides and tools", results: pageMatches.slice(0, 10), total: pageMatches.length },
+      {
+        name: "Guides and tools",
+        results: pageMatches.slice(0, 10),
+        total: pageMatches.length,
+      },
       { name: "Monsters", results: monsterResults, total: monsterMatches.length },
       { name: "Cards", results: cardResults, total: cardMatches.length },
       { name: "Equipment", results: equipmentResults, total: equipmentMatches.length },
@@ -369,10 +438,15 @@ export default function SearchClient() {
   }, [cards, equipment, equipmentTypes, monsters, query]);
 
   const total = groups.reduce((sum, group) => sum + group.total, 0);
+  const normalizedLength = query.trim().length;
 
   return (
     <div>
-      <form className={browserStyles.searchBox} role="search" onSubmit={(event) => event.preventDefault()}>
+      <form
+        className={browserStyles.searchBox}
+        role="search"
+        onSubmit={(event) => event.preventDefault()}
+      >
         <label className="sr-only" htmlFor="site-search">Search RTNW Hub</label>
         <input
           id="site-search"
@@ -387,9 +461,13 @@ export default function SearchClient() {
       </form>
 
       <p className={browserStyles.summary} aria-live="polite">
-        {query.trim()
-          ? `${total.toLocaleString()} matching result${total === 1 ? "" : "s"} for “${query.trim()}”.`
-          : "Search the guide library and the committed English monster, card, and equipment datasets."}
+        {normalizedLength === 0
+          ? "Browse popular pages below or enter at least two characters to search the monster, card, and equipment indexes."
+          : normalizedLength === 1
+            ? "Enter one more character to search the database indexes. Guide and tool titles are already filtered."
+            : loading
+              ? `Loading database matches for “${query.trim()}”…`
+              : `${total.toLocaleString()} matching result${total === 1 ? "" : "s"} for “${query.trim()}”.`}
       </p>
 
       {loadError && <div className={browserStyles.error}>{loadError}</div>}
@@ -397,32 +475,40 @@ export default function SearchClient() {
 
       {!loading && groups.length === 0 ? (
         <div className={browserStyles.empty}>
-          No matching page or database entry was found. Try a shorter name, class, element, item effect, or equipment type.
+          No matching page or database entry was found. Try a shorter name, class, element,
+          item effect, or equipment type.
         </div>
       ) : (
         <div className={browserStyles.groups}>
-          {groups.map((group) => (
-            <section className={browserStyles.group} key={group.name} aria-labelledby={`group-${group.name.replace(/\W+/g, "-").toLowerCase()}`}>
-              <div className={browserStyles.groupHeader}>
-                <h2 id={`group-${group.name.replace(/\W+/g, "-").toLowerCase()}`}>{group.name}</h2>
-                <span>{group.total.toLocaleString()} found</span>
-              </div>
-              <div className={browserStyles.resultGrid}>
-                {group.results.map((result) => (
-                  <a className={browserStyles.resultCard} href={result.href} key={result.id}>
-                    <span className={browserStyles.resultIcon} aria-hidden="true">
-                      {result.icon ? <img src={result.icon} alt="" loading="lazy" /> : result.fallback}
-                    </span>
-                    <span className={browserStyles.resultCopy}>
-                      <strong>{result.title}</strong>
-                      <span>{result.description}</span>
-                    </span>
-                    <span className={browserStyles.arrow} aria-hidden="true">→</span>
-                  </a>
-                ))}
-              </div>
-            </section>
-          ))}
+          {groups.map((group) => {
+            const groupId = `group-${group.name.replace(/\W+/g, "-").toLowerCase()}`;
+            return (
+              <section className={browserStyles.group} key={group.name} aria-labelledby={groupId}>
+                <div className={browserStyles.groupHeader}>
+                  <h2 id={groupId}>{group.name}</h2>
+                  <span>{group.total.toLocaleString()} found</span>
+                </div>
+                <div className={browserStyles.resultGrid}>
+                  {group.results.map((result) => (
+                    <a className={browserStyles.resultCard} href={result.href} key={result.id}>
+                      <span className={browserStyles.resultIcon} aria-hidden="true">
+                        {result.icon ? (
+                          <img src={result.icon} alt="" loading="lazy" />
+                        ) : (
+                          result.fallback
+                        )}
+                      </span>
+                      <span className={browserStyles.resultCopy}>
+                        <strong>{result.title}</strong>
+                        <span>{result.description}</span>
+                      </span>
+                      <span className={browserStyles.arrow} aria-hidden="true">→</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
       )}
     </div>
