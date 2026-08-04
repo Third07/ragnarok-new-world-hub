@@ -3,6 +3,7 @@ Allow: /
 Disallow: /sea/cache/
 Disallow: /sea/logs/
 Disallow: /seo-audit.json
+Disallow: /map-image-audit.json
 
 Sitemap: https://rtnw.online/sitemap.xml
 Sitemap: https://rtnw.online/content-sitemap.xml
