@@ -4,14 +4,21 @@ import styles from "./guides.module.css";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Guides",
   description:
-    "Browse RTNW Hub guides for classes, builds, beginner progression, equipment, refining, monsters, cards, farming, and connected game tools.",
+    "Browse RTNW guides for classes, builds, beginner progression, equipment, farming, PC installation, emulator settings, cloud gaming, safe top-ups, and connected tools.",
   alternates: { canonical: "/guides/" },
+  keywords: [
+    "Ragnarok The New World guides",
+    "Ragnarok The New World PC",
+    "Ragnarok The New World emulator",
+    "Ragnarok The New World top up",
+    "Ragnarok The New World builds",
+  ],
   openGraph: {
     type: "website",
     url: "/guides/",
     title: "Ragnarok: The New World Guides",
     description:
-      "Practical Ragnarok: The New World guides connected to RTNW Hub planners, indexes, simulators, and the World Map.",
+      "Practical RTNW class, progression, farming, PC, emulator, cloud gaming, and account-safety guides connected to useful tools.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -24,7 +31,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ragnarok: The New World Guides",
-    description: "RTNW class, beginner, equipment, refining, monster, card, and farming guides.",
+    description:
+      "RTNW class, beginner, equipment, farming, PC, emulator, cloud gaming, and safe top-up guides.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
 };
@@ -34,8 +42,8 @@ const guideCategories = [
     number: "01",
     title: "Classes and builds",
     description:
-      "Compare F2P, PvE, and PvP class rankings, then study the separate Werewolf, Wereraptor, and Human Arcanist Druid builds before investing resources.",
-    status: "2 guides published",
+      "Compare F2P, PvE, and PvP class rankings, then study focused class and Druid build paths before investing skill points or equipment resources.",
+    status: "Class guides published",
     href: "/guides/classes-builds/",
     link: "Browse class guides →",
   },
@@ -43,8 +51,8 @@ const guideCategories = [
     number: "02",
     title: "Beginner guides",
     description:
-      "Follow a first-hours and first-week route with daily routines, F2P resource priorities, tool workflows, and common progression mistakes.",
-    status: "2 connected guides",
+      "Follow a first-hours and first-week route with daily routines, F2P priorities, redeem-code checks, tool workflows, and common progression mistakes.",
+    status: "Beginner guides published",
     href: "/guides/beginner-guides/",
     link: "Browse beginner guides →",
   },
@@ -52,8 +60,8 @@ const guideCategories = [
     number: "03",
     title: "Progression and equipment",
     description:
-      "Choose better base equipment, prioritize the correct slot, and plan around the +6, +9, +12, and +15 refine checkpoints before spending materials.",
-    status: "2 connected guides",
+      "Choose better base equipment, prioritize the correct slot, and plan around refine checkpoints before committing scarce or paid resources.",
+    status: "Progression guides published",
     href: "/guides/progression-equipment/",
     link: "Browse progression guides →",
   },
@@ -61,26 +69,41 @@ const guideCategories = [
     number: "04",
     title: "Monsters, cards and farming",
     description:
-      "Choose cards by build fit, compare every obtain source, inspect the monster, plan a World Map route, and measure whether the farm is worth repeating.",
-    status: "2 connected guides",
+      "Choose cards by build fit, inspect monster sources, plan World Map routes, and measure whether a farming target is worth repeating.",
+    status: "Farming guides published",
     href: "/guides/monsters-cards-farming/",
     link: "Browse farming guides →",
   },
-];
+  {
+    number: "05",
+    title: "PC, emulator and account setup",
+    description:
+      "Install the official PC version, tune an Android emulator, evaluate cloud play, compare payment fees, and protect your account while topping up.",
+    status: "4 guides and 2 tools published",
+    href: "/guides/technical/",
+    link: "Browse setup guides →",
+  },
+] as const;
 
 const roadmap = [
-  ["01", "Class Tier List: F2P, PvE & PvP", "Published", "/guides/class-tier-list/"],
-  ["02", "Beginner Progression Guide", "Published", "/guides/beginner-progression/"],
-  ["03", "Druid Builds: Werewolf, Wereraptor & Arcanist", "Published", "/guides/druid-builds/"],
-  ["04", "Refining and Equipment Upgrade Guide", "Published", "/guides/refining-equipment/"],
-  ["05", "Farming and Card Progression Guide", "Published", "/guides/farming-card-progression/"],
+  ["01", "Class Tier List: F2P, PvE & PvP", "/guides/class-tier-list/"],
+  ["02", "Beginner Progression Guide", "/guides/beginner-progression/"],
+  ["03", "Druid Builds: Werewolf, Wereraptor & Arcanist", "/guides/druid-builds/"],
+  ["04", "Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
+  ["05", "Farming and Card Progression Guide", "/guides/farming-card-progression/"],
+  ["06", "How to Download and Play on PC", "/guides/play-on-pc/"],
+  ["07", "Best Emulator Settings and Troubleshooting", "/guides/emulator-settings/"],
+  ["08", "Safe Top-Up and Account Protection Guide", "/guides/top-up-safely/"],
+  ["09", "Cloud Gaming Guide", "/guides/cloud-gaming/"],
 ] as const;
 
 const tools = [
+  ["Skill Planner", "/sea/skill_planner/"],
+  ["World Map", "/sea/maps/?lang=en-US#map=101"],
   ["Card Index", "/sea/cards/"],
   ["Monster Index", "/sea/monster_album/"],
-  ["World Map", "/sea/maps/?lang=en-US#map=101"],
-  ["Skill Planner", "/sea/skill_planner/"],
+  ["PC Setup Checker", "/tools/pc-setup-checker/"],
+  ["Top-Up Cost Calculator", "/tools/top-up-calculator/"],
 ] as const;
 
 export default function GuidesPage() {
@@ -93,9 +116,18 @@ export default function GuidesPage() {
         url: "https://rtnw.online/guides/",
         name: "Ragnarok: The New World Guides",
         description:
-          "Guide categories for classes, builds, beginner progression, equipment, refining, monsters, cards, farming, and connected RTNW tools.",
+          "Guide categories for classes, beginner progression, equipment, farming, PC installation, emulators, cloud gaming, top-ups, and connected RTNW tools.",
         isPartOf: { "@id": "https://rtnw.online/#website" },
         inLanguage: "en",
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: roadmap.map(([number, title, href]) => ({
+            "@type": "ListItem",
+            position: Number(number),
+            name: title,
+            url: `https://rtnw.online${href}`,
+          })),
+        },
       },
       {
         "@type": "BreadcrumbList",
@@ -141,8 +173,8 @@ export default function GuidesPage() {
           <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
         </nav>
 
-        <a className={styles.homeAction} href="/#tools">
-          Browse tools <span aria-hidden="true">→</span>
+        <a className={styles.homeAction} href="/guides/technical/">
+          PC and setup guides <span aria-hidden="true">→</span>
         </a>
 
         <details className={styles.mobileNav}>
@@ -150,9 +182,9 @@ export default function GuidesPage() {
           <nav aria-label="Mobile navigation">
             <a href="/">Home</a>
             <a href="/guides/" aria-current="page">Guides</a>
-            <a href="/#tools">All tools</a>
-            <a href="/sea/cards/">Card Index</a>
-            <a href="/sea/monster_album/">Monster Index</a>
+            <a href="/guides/technical/">PC and setup</a>
+            <a href="/tools/pc-setup-checker/">PC Setup Checker</a>
+            <a href="/tools/top-up-calculator/">Top-Up Calculator</a>
           </nav>
         </details>
       </header>
@@ -167,11 +199,11 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Five cornerstone guides now cover class rankings, beginner progression, all three Druid builds, equipment refining, and card-farming routes. Every article connects its recommendations to working planners, indexes, and simulators.
+              Build advice, progression routes, farming references, PC installation, emulator troubleshooting, cloud-play decisions, and safer top-ups—connected to the database tools needed to act on each guide.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primary} href="/guides/farming-card-progression/">Read the farming guide <span aria-hidden="true">→</span></a>
-              <a className={styles.secondary} href="/guides/refining-equipment/">Read the refining guide <span aria-hidden="true">→</span></a>
+              <a className={styles.primary} href="/guides/play-on-pc/">Play on PC <span aria-hidden="true">→</span></a>
+              <a className={styles.secondary} href="/guides/top-up-safely/">Read the safe top-up guide <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -180,10 +212,10 @@ export default function GuidesPage() {
           <div className={styles.sectionHeading}>
             <div>
               <p className={styles.kicker}>Guide library</p>
-              <h2 id="library-title">Four clear paths for every adventurer.</h2>
+              <h2 id="library-title">Five practical paths for every adventurer.</h2>
             </div>
             <p>
-              Every category now has a dedicated landing page that combines its published articles with the relevant planners and searchable game-data tools.
+              Each category combines focused articles with the planners, calculators, indexes, or maps that support the recommendation.
             </p>
           </div>
 
@@ -203,17 +235,17 @@ export default function GuidesPage() {
         </section>
 
         <section className={styles.roadmap} aria-labelledby="roadmap-title">
-          <p className={styles.kicker}>Foundation series</p>
-          <h2 id="roadmap-title">The first five guide releases are complete.</h2>
+          <p className={styles.kicker}>Published cornerstone guides</p>
+          <h2 id="roadmap-title">From first login to reliable PC play.</h2>
           <p className={styles.roadmapIntro}>
-            Each recommendation is reviewed against available game data and clearly separated from editorial strategy before publication.
+            The newer technical articles use official platform information where available, state uncertain or changing details clearly, and avoid paid placement in payment-provider comparisons.
           </p>
           <ol className={styles.roadmapList}>
-            {roadmap.map(([number, title, status, href]) => (
+            {roadmap.map(([number, title, href]) => (
               <li key={title}>
                 <span className={styles.categoryNumber}>{number}</span>
-                <strong>{href ? <a href={href}>{title}</a> : title}</strong>
-                <span className={status === "Published" ? styles.statusPublished : status === "Next" ? styles.statusNext : styles.statusPlanned}>{status}</span>
+                <strong><a href={href}>{title}</a></strong>
+                <span className={styles.statusPublished}>Published</span>
               </li>
             ))}
           </ol>
@@ -221,9 +253,9 @@ export default function GuidesPage() {
 
         <section className={styles.toolLinks} aria-labelledby="tool-links-title">
           <p className={styles.kicker}>Available now</p>
-          <h2 id="tool-links-title">Move from build need to farming route.</h2>
+          <h2 id="tool-links-title">Read the guide, then use the matching tool.</h2>
           <p>
-            Search card effects, inspect monster sources, locate habitats, and validate the character build with connected tools.
+            Plan a build, locate a target, check a PC setup, or calculate the real payment total without leaving the RTNW guide library.
           </p>
           <div className={styles.toolGrid}>
             {tools.map(([name, href]) => (
@@ -241,7 +273,7 @@ export default function GuidesPage() {
         <div className="footer-meta">
           <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
           <div className={styles.footerLinks}>
-            <a href="/guides/">Guides</a>
+            <a href="/guides/technical/">PC and setup</a>
             <a href="/#tools">Tools</a>
             <a href="/sitemap.xml">Sitemap</a>
           </div>
