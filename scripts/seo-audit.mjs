@@ -9,6 +9,8 @@ const indexNowKey = "4cc78cf9b31d099f4de23a0874b08a5e";
 
 const expectedRoutes = [
   "/",
+  "/search/",
+  "/updates/",
   "/guides/",
   "/guides/classes-builds/",
   "/guides/beginner-guides/",
@@ -32,6 +34,7 @@ const expectedRoutes = [
   "/guides/emulator-settings/",
   "/guides/top-up-safely/",
   "/guides/cloud-gaming/",
+  "/tools/farming-target-finder/",
   "/tools/pc-setup-checker/",
   "/tools/top-up-calculator/",
   "/about/",
@@ -56,6 +59,8 @@ const expectedRoutes = [
 
 const routeSources = {
   "/": "app/page.tsx",
+  "/search/": "app/search/page.tsx",
+  "/updates/": "app/updates/page.tsx",
   "/guides/": "app/guides/page.tsx",
   "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
   "/guides/beginner-guides/": "app/guides/beginner-guides/page.tsx",
@@ -79,6 +84,7 @@ const routeSources = {
   "/guides/emulator-settings/": "app/guides/emulator-settings/page.tsx",
   "/guides/top-up-safely/": "app/guides/top-up-safely/page.tsx",
   "/guides/cloud-gaming/": "app/guides/cloud-gaming/page.tsx",
+  "/tools/farming-target-finder/": "app/tools/farming-target-finder/page.tsx",
   "/tools/pc-setup-checker/": "app/tools/pc-setup-checker/page.tsx",
   "/tools/top-up-calculator/": "app/tools/top-up-calculator/page.tsx",
   "/about/": "app/(info)/about/page.tsx",
@@ -102,11 +108,14 @@ const routeSources = {
 };
 
 const modernRoutes = [
+  "/search/",
+  "/updates/",
   "/guides/technical/",
   "/guides/play-on-pc/",
   "/guides/emulator-settings/",
   "/guides/top-up-safely/",
   "/guides/cloud-gaming/",
+  "/tools/farming-target-finder/",
   "/tools/pc-setup-checker/",
   "/tools/top-up-calculator/",
 ];
@@ -263,25 +272,24 @@ add(
   modernProblems.length ? "error" : "pass",
   "new-content-metadata",
   modernProblems.length
-    ? "Some new guide or tool pages are missing essential metadata or structured data."
-    : "All new setup guides and tools expose canonical metadata, structured data, and an H1.",
+    ? "Some modern guide, search, update, or tool pages are missing essential metadata or structured data."
+    : "All modern content pages expose canonical metadata, structured data, and an H1.",
   modernProblems,
 );
 
-const internalLinkFiles = ["app/guides/page.tsx", "app/GuideNavigation.tsx"];
-const missingInternalLinks = [];
-for (const file of internalLinkFiles) {
-  const text = await read(file);
-  for (const route of modernRoutes) {
-    if (!text.includes(route)) missingInternalLinks.push({ file, route });
-  }
-}
+const internalLinkFiles = ["app/page.tsx", "app/guides/page.tsx", "app/GuideNavigation.tsx"];
+const internalLinkText = Object.fromEntries(
+  await Promise.all(internalLinkFiles.map(async (file) => [file, await read(file)])),
+);
+const missingInternalLinks = modernRoutes
+  .filter((route) => !Object.values(internalLinkText).some((text) => text.includes(route)))
+  .map((route) => ({ route, checked: internalLinkFiles }));
 add(
   missingInternalLinks.length ? "warn" : "pass",
   "new-content-internal-links",
   missingInternalLinks.length
-    ? "Some new pages are not linked from both the guide library and shared navigation."
-    : "The guide library and shared navigation link to every new guide and tool.",
+    ? "Some modern pages are not linked from the homepage, guide library, or shared navigation."
+    : "Every modern page is linked from at least one primary discovery surface.",
   missingInternalLinks,
 );
 
