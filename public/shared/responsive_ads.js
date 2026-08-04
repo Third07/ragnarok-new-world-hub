@@ -63,11 +63,8 @@
     frame.addEventListener("load", () => {
       slot.dataset.adState = "loaded";
     }, { once: true });
-    if (previewMode) {
-      frame.srcdoc = previewDocument(unit, name);
-    } else {
-      frame.src = unit.frame;
-    }
+    if (previewMode) frame.srcdoc = previewDocument(unit, name);
+    else frame.src = unit.frame;
     slot.appendChild(frame);
   }
 
@@ -116,12 +113,8 @@
     return slot;
   }
 
-  function findArticle(main) {
-    return main.querySelector("article") || main.querySelector(":scope > section");
-  }
-
   function addGuidePlacements(main) {
-    const article = findArticle(main);
+    const article = main.querySelector("article");
 
     if (!document.querySelector('[data-ad-placement="guide-inline"]')) {
       const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
@@ -189,8 +182,6 @@
 
     const main = document.querySelector("main");
     if (!main) return;
-
-    // The homepage already declares two intentional slots in its React markup.
     if (pathname === "/") return;
 
     if (pathname === "/guides/" || pathname.startsWith("/guides/")) {
@@ -281,10 +272,7 @@
     observePlacements();
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
-  } else {
-    bootstrap();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
+  else bootstrap();
   window.addEventListener("load", scheduleInit, { once: true });
 })();
