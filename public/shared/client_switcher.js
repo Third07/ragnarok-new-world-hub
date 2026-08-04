@@ -122,8 +122,8 @@
 })();
 
 (() => {
-    const styleHref = "/shared/responsive_ads.css?v=20260804-ads3";
-    const scriptSrc = "/shared/responsive_ads.js?v=20260804-ads3";
+    const styleHref = "/shared/responsive_ads.css?v=20260805-ads1";
+    const scriptSrc = "/shared/responsive_ads.js?v=20260805-ads1";
 
     function loadResponsiveAds() {
         if (!document.querySelector("link[data-rtnw-ads-style]")) {
@@ -148,4 +148,20 @@
     } else {
         loadResponsiveAds();
     }
+})();
+
+(() => {
+    const styleHref = "/sea/shared/dark-ragnarok.css?v=20260805-dark1";
+
+    function loadDarkRagnarokTheme() {
+        if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
+        if (document.querySelector("link[data-rtnw-dark-theme]")) return;
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = styleHref;
+        style.dataset.rtnwDarkTheme = "true";
+        (document.head || document.documentElement).appendChild(style);
+    }
+
+    loadDarkRagnarokTheme();
 })();
