@@ -1,0 +1,510 @@
+/* Shared RTNW panel theme for every /sea/ database and planner page.
+   Interface colors: blue, white, gray, black, and a restrained yellow accent.
+   Game icons, monster art, equipment art, maps, and card illustrations keep their source colors. */
+
+:root {
+  --panel-blue: #5b6ee8;
+  --panel-blue-light: #7485f3;
+  --panel-blue-dark: #4658c9;
+  --panel-yellow: #f4bc3f;
+  --panel-yellow-soft: #ffe08a;
+  --panel-sky: #dce5ff;
+  --panel-sky-deep: #b9c8fa;
+  --panel-white: #ffffff;
+  --panel-surface: #f7f7f5;
+  --panel-surface-soft: #eef0f3;
+  --panel-ink: #181b20;
+  --panel-text: #59616b;
+  --panel-muted: #9298a1;
+  --panel-line: #d4d8df;
+  --panel-shadow: rgba(48, 61, 135, .18);
+
+  --sky-top: #edf2ff !important;
+  --sky-mid: var(--panel-sky) !important;
+  --sky-bottom: var(--panel-sky-deep) !important;
+  --bg-primary: var(--panel-sky) !important;
+  --bg-secondary: var(--panel-white) !important;
+  --bg-tertiary: var(--panel-surface-soft) !important;
+  --bg-card: var(--panel-white) !important;
+  --bg-card-soft: var(--panel-surface) !important;
+  --text-primary: var(--panel-ink) !important;
+  --text-secondary: var(--panel-text) !important;
+  --text-muted: var(--panel-muted) !important;
+  --text-on-accent: #ffffff !important;
+  --accent: var(--panel-blue) !important;
+  --accent-dark: var(--panel-blue-dark) !important;
+  --accent-light: var(--panel-blue-light) !important;
+  --accent-glow: rgba(91, 110, 232, .26) !important;
+  --gold: var(--panel-yellow) !important;
+  --gold-dark: #d99a1d !important;
+  --gold-glow: rgba(244, 188, 63, .30) !important;
+  --success: var(--panel-blue) !important;
+  --warning: var(--panel-yellow) !important;
+  --danger: #c9ced6 !important;
+  --border-color: var(--panel-line) !important;
+  --border-strong: rgba(91, 110, 232, .38) !important;
+  --skill-unlocked: var(--panel-blue) !important;
+  --skill-available: var(--panel-blue-light) !important;
+  --skill-locked: #c9ced6 !important;
+  --rtnw-forest: var(--panel-blue) !important;
+  --rtnw-gold: var(--panel-yellow) !important;
+  color-scheme: light !important;
+}
+
+html,
+body {
+  background: var(--panel-sky) !important;
+  color: var(--panel-ink) !important;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(255,255,255,.75), transparent 24rem),
+    radial-gradient(circle at 84% 22%, rgba(255,255,255,.38), transparent 28rem),
+    linear-gradient(180deg, #eef3ff 0%, var(--panel-sky) 48%, var(--panel-sky-deep) 100%) !important;
+  background-attachment: fixed !important;
+}
+
+.app,
+.main-content,
+.simulator-layout,
+.hub-page,
+.hub-shell {
+  color: var(--panel-ink) !important;
+  background: transparent !important;
+}
+
+/* Shared blue header and tool navigation. */
+.header {
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue) 58%, var(--panel-blue-dark)) !important;
+  border-bottom: 3px solid var(--panel-yellow) !important;
+  box-shadow: 0 10px 26px rgba(48,61,135,.24) !important;
+}
+
+.header-title {
+  color: #ffffff !important;
+  text-shadow: 0 3px 8px rgba(48,61,135,.30) !important;
+}
+
+.header .site-nav {
+  background: rgba(255,255,255,.10) !important;
+  border-radius: 16px !important;
+}
+
+.header .site-nav-item {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.07)) !important;
+  border-color: rgba(255,255,255,.28) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.12), 0 6px 14px rgba(48,61,135,.18) !important;
+}
+
+.header .site-nav-item:hover,
+.header .site-nav-item.active {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, #8392f6, #6476e9 58%, #5063d8) !important;
+  border-color: var(--panel-yellow) !important;
+}
+
+.header .site-nav-item img,
+.header .site-nav-item.active img {
+  background: rgba(255,255,255,.12) !important;
+  border-color: rgba(255,255,255,.28) !important;
+  filter: brightness(1.13) contrast(1.08) drop-shadow(0 3px 5px rgba(48,61,135,.24)) !important;
+}
+
+.header .site-nav-label,
+.header .site-nav-item.active .site-nav-label {
+  color: #ffffff !important;
+}
+
+.rtnw-hub-mark {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-yellow) !important;
+}
+
+/* White panel surfaces used across database pages and planners. */
+.details-panel,
+.panel,
+.card,
+.tool-card,
+.skill-panel,
+.tree-panel,
+.sidebar-panel,
+.content-panel,
+.simulator-card,
+.hub-card,
+.map-filter-panel,
+.map-filter-stack,
+.seo-guide,
+.refine-modal-card,
+.modal-content,
+.dialog-card,
+.study-panel,
+.events-panel,
+.monster-panel,
+.card-panel,
+.shop-panel,
+.affix-panel,
+.rune-builder,
+.rune-slot-grid,
+.rune-totals,
+.rune-resonance-card,
+.pet-panel,
+.pet-list-panel,
+.pet-detail,
+.job-section,
+.traits-section,
+.job-selection-container {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 12px 28px var(--panel-shadow), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+strong,
+b,
+dt,
+label,
+summary,
+.details-panel h1,
+.details-panel h2,
+.details-panel h3,
+.modal-content h1,
+.modal-content h2,
+.modal-content h3 {
+  color: var(--panel-ink) !important;
+}
+
+p,
+li,
+dd,
+.description,
+.text-muted,
+.muted,
+.details-placeholder,
+.subtext,
+.help-text {
+  color: var(--panel-text) !important;
+}
+
+a {
+  color: var(--panel-blue-dark) !important;
+}
+
+a:hover {
+  color: #7e5b0f !important;
+}
+
+/* Inputs and browser-replacement select menus. */
+input,
+select,
+textarea,
+.form-input,
+.form-select,
+.search-input,
+.filter-input,
+.rtnw-select-trigger,
+.rtnw-select-menu,
+.job-select-button,
+.job-select-popover {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.86), 0 4px 10px rgba(48,61,135,.08) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--panel-muted) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.form-input:focus,
+.form-select:focus,
+.search-input:focus,
+.rtnw-select-trigger:focus-visible,
+.job-select-button:focus-visible {
+  border-color: var(--panel-blue) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(91,110,232,.16) !important;
+}
+
+option,
+optgroup,
+.rtnw-select-option,
+.job-select-option {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+}
+
+.rtnw-select-option:hover,
+.rtnw-select-option:focus-visible,
+.job-select-option:hover,
+.job-select-option:focus {
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.rtnw-select-option.selected,
+.job-select-option[aria-selected="true"] {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+.rtnw-select-backdrop,
+.modal-backdrop,
+.refine-modal-backdrop {
+  background: rgba(48,61,135,.46) !important;
+  backdrop-filter: blur(5px) !important;
+}
+
+/* Buttons stay inside the approved palette. */
+button,
+.btn,
+.action-button,
+.primary-button,
+.toolbar-button,
+.filter-button {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+  box-shadow: 0 6px 14px rgba(48,61,135,.18) !important;
+}
+
+button:hover,
+.btn:hover,
+.action-button:hover,
+.primary-button:hover,
+.toolbar-button:hover,
+.filter-button:hover {
+  background: linear-gradient(180deg, #8291f6, var(--panel-blue)) !important;
+}
+
+button.secondary,
+.secondary-button,
+.btn-secondary {
+  color: var(--panel-ink) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+button:disabled,
+.btn:disabled,
+[aria-disabled="true"] {
+  color: var(--panel-muted) !important;
+  background: #e2e5ea !important;
+  border-color: var(--panel-line) !important;
+  opacity: .65 !important;
+}
+
+/* Tabs, chips, labels, and filters. */
+.tab,
+.tab-button,
+.category-tab,
+.filter-chip,
+.map-filter-chip,
+.card-view-tab,
+.card-rarity-btn,
+.card-filter-chip,
+.events-mode-btn,
+.map-category-tab,
+.badge,
+.tag,
+.pill,
+.status-badge,
+.monster-tag,
+.card-badge {
+  color: var(--panel-text) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.tab.active,
+.tab-button.active,
+.category-tab.active,
+.filter-chip.selected,
+.map-filter-chip.selected,
+.card-view-tab.selected,
+.card-rarity-btn.selected,
+.card-filter-chip.selected,
+.events-mode-btn.active,
+.map-category-tab.is-active,
+[aria-selected="true"] {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+/* Lists and result cards. */
+.qa-card,
+.events-event-tile,
+.events-calendar-card,
+.monster-card,
+.card-entry,
+.shop-item,
+.pet-item,
+.equipment-item,
+.event-item,
+.skill-node,
+.unique-skill-card,
+.map-filter-chip,
+.map-filter-row,
+.rune-slot,
+.affix-card {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 6px 16px rgba(48,61,135,.10) !important;
+}
+
+.qa-question,
+.qa-answer-text,
+.events-event-name,
+.events-calendar-name,
+.monster-card-name,
+.card-name,
+.shop-item-name,
+.pet-item-name,
+.equipment-item-name {
+  color: var(--panel-ink) !important;
+}
+
+.qa-id,
+.qa-answer-label,
+.events-event-time,
+.events-calendar-range,
+.monster-card-metric-label,
+.card-body,
+.shop-item-meta,
+.pet-item-meta {
+  color: var(--panel-text) !important;
+}
+
+.qa-answer-value,
+.qa-option.is-correct {
+  color: var(--panel-ink) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: rgba(91,110,232,.26) !important;
+}
+
+/* Tables */
+table,
+.table,
+.skill-coeff-table {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+thead,
+th,
+.element-corner,
+.element-header {
+  color: #ffffff !important;
+  background: var(--panel-blue) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+td,
+.element-cell {
+  color: var(--panel-text) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+tr:hover td {
+  background: #f0f2fa !important;
+}
+
+/* Planner-specific controls use blue, gray, and yellow only. */
+.skill-btn.remove,
+.unique-skill-btn.remove {
+  color: var(--panel-text) !important;
+  background: #dfe2e7 !important;
+  border-color: #c9ced6 !important;
+}
+
+.skill-btn.add,
+.unique-skill-btn.add {
+  color: #ffffff !important;
+  background: var(--panel-blue) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+.skill-btn.add-max,
+.unique-skill-btn.add-max,
+.header-share-btn {
+  color: var(--panel-ink) !important;
+  background: linear-gradient(180deg, #ffd765, var(--panel-yellow)) !important;
+  border-color: #d99a1d !important;
+}
+
+/* Maps keep their artwork while the surrounding controls use the shared theme. */
+.map-shell {
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.map-toolbar,
+.map-filter-stack,
+.map-category-switcher {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.map-image-missing-message {
+  color: var(--panel-text) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+/* Advertisement presentation */
+.rtnw-ad-label {
+  color: var(--panel-text) !important;
+}
+
+.rtnw-ad-slot::before {
+  background: rgba(255,255,255,.48) !important;
+  border-color: rgba(91,110,232,.16) !important;
+}
+
+.rtnw-ad-frame {
+  background: var(--panel-surface-soft) !important;
+  box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14) !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #dce5ff !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8d9be7 !important;
+  border-color: #dce5ff !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--panel-blue) !important;
+}
+
+@media (max-width: 760px) {
+  .header {
+    padding-inline: 8px !important;
+  }
+
+  .header .site-nav {
+    background: transparent !important;
+  }
+
+  .main-content {
+    padding-inline: 10px !important;
+  }
+}
