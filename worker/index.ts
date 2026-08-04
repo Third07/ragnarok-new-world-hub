@@ -22,14 +22,35 @@ const guideFallbacks: Record<
   string,
   { title: string; description: string; links: Array<[string, string]> }
 > = {
+  "/search/": {
+    title: "Search RTNW Guides and Game Data",
+    description: "Search guides, tools, monsters, cards, and equipment from one RTNW Hub page.",
+    links: [
+      ["Open Guide Library", "/guides/"],
+      ["Open Monster Database", "/sea/monster_album/"],
+      ["Open Card Database", "/sea/cards/"],
+      ["Open Equipment Database", "/sea/equipment/"],
+    ],
+  },
+  "/updates/": {
+    title: "RTNW Hub Updates",
+    description: "Review newly published guides, tools, database features, and recently updated site resources.",
+    links: [
+      ["Browse All Guides", "/guides/"],
+      ["Open Unified Search", "/search/"],
+      ["Open Events Reference", "/sea/events/"],
+      ["Open Redeem Codes", "/guides/redeem-codes/"],
+    ],
+  },
   "/guides/": {
     title: "Ragnarok: The New World Guides",
-    description: "Browse RTNW class, build, beginner, equipment, refining, farming, monster, and card guides.",
+    description: "Browse RTNW class, build, beginner, equipment, refining, farming, monster, card, PC, emulator, cloud, and top-up guides.",
     links: [
       ["Classes and Builds", "/guides/classes-builds/"],
       ["Beginner Guides", "/guides/beginner-guides/"],
       ["Progression and Equipment", "/guides/progression-equipment/"],
       ["Monsters, Cards and Farming", "/guides/monsters-cards-farming/"],
+      ["PC and Setup Guides", "/guides/technical/"],
       ["Class Tier List", "/guides/class-tier-list/"],
       ["Beginner Progression", "/guides/beginner-progression/"],
       ["Druid Builds", "/guides/druid-builds/"],
@@ -69,6 +90,7 @@ const guideFallbacks: Record<
     description: "Choose useful card targets, verify monster sources, and build efficient World Map farming routes.",
     links: [
       ["Farming and Card Progression Guide", "/guides/farming-card-progression/"],
+      ["Open Farming Target Finder", "/tools/farming-target-finder/"],
       ["Open Card Index", "/sea/cards/"],
       ["Open Monster Index", "/sea/monster_album/"],
       ["Open World Map", "/sea/maps/?lang=en-US#map=101"],
@@ -109,11 +131,86 @@ const guideFallbacks: Record<
   },
   "/guides/farming-card-progression/": {
     title: "Farming and Card Progression Guide",
-    description: "Use the Card Index, Monster Index, and World Map to choose targets and measure farming efficiency.",
+    description: "Use the Card Index, Monster Index, World Map, and Farming Target Finder to choose targets and build a repeatable route.",
     links: [
       ["Browse Monsters, Cards and Farming", "/guides/monsters-cards-farming/"],
+      ["Open Farming Target Finder", "/tools/farming-target-finder/"],
       ["Open Card Index", "/sea/cards/"],
       ["Open Monster Index", "/sea/monster_album/"],
+    ],
+  },
+  "/guides/technical/": {
+    title: "PC, Emulator, Cloud Gaming and Top-Up Guides",
+    description: "Install RTNW on PC, tune an emulator, compare cloud play, and protect your account while topping up.",
+    links: [
+      ["Play on PC", "/guides/play-on-pc/"],
+      ["Emulator Settings", "/guides/emulator-settings/"],
+      ["Safe Top-Up Guide", "/guides/top-up-safely/"],
+      ["Cloud Gaming Guide", "/guides/cloud-gaming/"],
+    ],
+  },
+  "/guides/play-on-pc/": {
+    title: "How to Play Ragnarok: The New World on PC",
+    description: "Compare the official PC route, Android emulators, and cloud alternatives with installation and account guidance.",
+    links: [
+      ["PC Setup Checker", "/tools/pc-setup-checker/"],
+      ["Emulator Settings", "/guides/emulator-settings/"],
+      ["Cloud Gaming Guide", "/guides/cloud-gaming/"],
+    ],
+  },
+  "/guides/emulator-settings/": {
+    title: "Best Emulator Settings for Ragnarok: The New World",
+    description: "Configure virtualization, CPU, RAM, renderer, FPS, controls, and common crash fixes.",
+    links: [
+      ["PC Setup Checker", "/tools/pc-setup-checker/"],
+      ["PC Installation Guide", "/guides/play-on-pc/"],
+      ["Cloud Gaming Alternative", "/guides/cloud-gaming/"],
+    ],
+  },
+  "/guides/top-up-safely/": {
+    title: "How to Top Up Ragnarok: The New World Safely",
+    description: "Check payment routes, account details, final fees, receipts, and scam warning signs before paying.",
+    links: [
+      ["Top-Up Cost Calculator", "/tools/top-up-calculator/"],
+      ["Shop Catalogue", "/sea/shop/"],
+      ["Beginner Progression", "/guides/beginner-progression/"],
+    ],
+  },
+  "/guides/cloud-gaming/": {
+    title: "Ragnarok: The New World Cloud Gaming Guide",
+    description: "Compare cloud Android, catalogue streaming, and remote access to your own PC with account-safety guidance.",
+    links: [
+      ["PC Setup Checker", "/tools/pc-setup-checker/"],
+      ["PC Installation Guide", "/guides/play-on-pc/"],
+      ["Emulator Settings", "/guides/emulator-settings/"],
+    ],
+  },
+  "/tools/farming-target-finder/": {
+    title: "Ragnarok: The New World Farming Target Finder",
+    description: "Filter the committed monster index by level, type, race, element, size, and map availability.",
+    links: [
+      ["Monster Database", "/sea/monster_album/"],
+      ["Card Database", "/sea/cards/"],
+      ["World Map", "/sea/maps/?lang=en-US#map=101"],
+      ["Farming Guide", "/guides/farming-card-progression/"],
+    ],
+  },
+  "/tools/pc-setup-checker/": {
+    title: "Ragnarok: The New World PC Setup Checker",
+    description: "Compare Steam, Android emulator, and cloud routes using RAM, storage, virtualization, graphics, and play style.",
+    links: [
+      ["PC Installation Guide", "/guides/play-on-pc/"],
+      ["Emulator Settings", "/guides/emulator-settings/"],
+      ["Cloud Gaming Guide", "/guides/cloud-gaming/"],
+    ],
+  },
+  "/tools/top-up-calculator/": {
+    title: "Ragnarok: The New World Top-Up Cost Calculator",
+    description: "Calculate quantity, discounts, service fees, fixed charges, total checkout cost, and cost per package.",
+    links: [
+      ["Safe Top-Up Guide", "/guides/top-up-safely/"],
+      ["Shop Catalogue", "/sea/shop/"],
+      ["Refining Guide", "/guides/refining-equipment/"],
     ],
   },
 };
@@ -156,9 +253,9 @@ function withPerformanceHeaders(request: Request, response: Response): Response 
 }
 
 function normalizedPagePath(pathname: string): string {
-  if (pathname === "/guides") return "/guides/";
-  if (pathname.startsWith("/guides/") && !pathname.endsWith("/")) return `${pathname}/`;
-  if (pathname === "/seo-status") return "/seo-status/";
+  if (pathname !== "/" && !pathname.endsWith("/") && trailingSlashPages.has(`${pathname}/`)) {
+    return `${pathname}/`;
+  }
   return pathname;
 }
 
@@ -205,7 +302,7 @@ ${robots}
 </style>
 </head>
 <body>
-<header><a class="brand" href="/">✦ RTNW Hub</a><nav><a href="/">Home</a> · <a href="/guides/">Guides</a></nav></header>
+<header><a class="brand" href="/">✦ RTNW Hub</a><nav><a href="/">Home</a> · <a href="/search/">Search</a> · <a href="/guides/">Guides</a></nav></header>
 <main>
 <p class="kicker">Ragnarok: The New World</p>
 <h1>${escapeHtml(options.title)}</h1>
@@ -231,6 +328,7 @@ function seoStatusFallback(request: Request): Response {
     noindex: true,
     links: [
       ["Sitemap", "/sitemap.xml"],
+      ["Content sitemap", "/content-sitemap.xml"],
       ["Robots policy", "/robots.txt"],
       ["Raw SEO audit", "/seo-audit.json"],
       ["IndexNow verification key", "/4cc78cf9b31d099f4de23a0874b08a5e.txt"],
@@ -250,7 +348,11 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    if (url.protocol !== "https:" || url.hostname === "www.rtnw.online") {
+    if (
+      url.protocol !== "https:" ||
+      url.hostname === "www.rtnw.online" ||
+      url.hostname.endsWith(".workers.dev")
+    ) {
       const canonicalUrl = new URL(`${url.pathname}${url.search}`, "https://rtnw.online");
       return Response.redirect(canonicalUrl, 308);
     }
@@ -291,6 +393,7 @@ const worker = {
     if (
       url.pathname === "/robots.txt" ||
       url.pathname === "/sitemap.xml" ||
+      url.pathname === "/content-sitemap.xml" ||
       url.pathname === "/seo-audit.json" ||
       url.pathname === "/4cc78cf9b31d099f4de23a0874b08a5e.txt"
     ) {
