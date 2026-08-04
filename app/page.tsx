@@ -74,6 +74,14 @@ const tools: HubTool[] = [
     category: "Database",
   },
   {
+    title: "Farming Target Finder",
+    description: "Filter monsters by level, type, race, element, size, and map data.",
+    href: "/tools/farming-target-finder/",
+    icon: "/media/images/zhujiemian/icon_zhujiemian_fuben.webp",
+    category: "Database",
+    badge: "New",
+  },
+  {
     title: "Shop Catalogue",
     description: "Browse the in-game shop catalogue in English.",
     href: "/sea/shop/",
@@ -149,7 +157,7 @@ export default function Home() {
 
     if (!document.querySelector('script[data-rtnw-ads]')) {
       const script = document.createElement("script");
-      script.src = "/shared/responsive_ads.js?v=20260802-ads2";
+      script.src = "/shared/responsive_ads.js?v=20260804-ads4";
       script.async = true;
       script.dataset.rtnwAds = "true";
       document.body.appendChild(script);
@@ -192,9 +200,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(toolListSchema) }}
       />
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
+      <a className="skip-link" href="#main-content">Skip to content</a>
 
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Ragnarok The New World Hub home">
@@ -207,17 +213,18 @@ export default function Home() {
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           <a href="#tools">Tools</a>
-          <a href="#tools" onClick={() => setCategory("Planners")}>Planners</a>
-          <a href="#tools" onClick={() => setCategory("Database")}>Database</a>
+          <a href="/search/">Search</a>
+          <a href="/guides/">Guides</a>
+          <a href="/updates/">Updates</a>
           <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
         </nav>
 
         <div className="header-actions">
-          <button className="search-shortcut" type="button" onClick={() => searchRef.current?.focus()}>
+          <a className="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content">
             <span aria-hidden="true">⌕</span>
             <span>Search</span>
-            <kbd>/</kbd>
-          </button>
+            <kbd>All</kbd>
+          </a>
           <button
             className="menu-toggle"
             type="button"
@@ -232,11 +239,13 @@ export default function Home() {
         </div>
 
         <nav id="mobile-menu" className={`mobile-menu ${menuOpen ? "is-open" : ""}`} aria-label="Mobile navigation">
+          <a href="/search/">Search everything</a>
+          <a href="/guides/">Guides</a>
+          <a href="/updates/">Updates</a>
           <a href="#tools" onClick={() => setMenuOpen(false)}>All tools</a>
+          <a href="/tools/farming-target-finder/">Farming Target Finder</a>
           <a href="/sea/skill_planner/">Skill Planner</a>
-          <a href="/sea/rune_planner/">Rune Planner</a>
           <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
-          <a href="/sea/monster_album/">Monster Index</a>
         </nav>
       </header>
 
@@ -269,13 +278,13 @@ export default function Home() {
               <button className="primary-button" type="button" onClick={jumpToTools}>
                 Explore all tools <span aria-hidden="true">→</span>
               </button>
-              <a className="secondary-button" href="/sea/maps/?lang=en-US#map=101">
-                Open world map <span aria-hidden="true">↗</span>
+              <a className="secondary-button" href="/search/">
+                Search all data <span aria-hidden="true">↗</span>
               </a>
             </div>
             <div className="hero-meta" aria-label="Hub highlights">
-              <span><strong>15</strong> working tools</span>
-              <span><strong>English</strong> game data</span>
+              <span><strong>16</strong> working tools</span>
+              <span><strong>Unified</strong> database search</span>
               <span><strong>Mobile</strong> ready</span>
             </div>
           </div>
@@ -311,7 +320,9 @@ export default function Home() {
               <p className="eyebrow dark"><span /> Adventure library</p>
               <h2 id="tools-heading">Everything you need,<br />in one place.</h2>
             </div>
-            <p>Search the full collection or choose a category to find the right tool for your next build, hunt, purchase, or setup.</p>
+            <p>
+              Filter this collection to find a tool, or use <a href="/search/">unified search</a> to search guides, monsters, cards, and equipment together.
+            </p>
           </div>
 
           <div className="tool-controls">
@@ -323,7 +334,7 @@ export default function Home() {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search skills, monsters, maps, setup…"
+                placeholder="Filter tools by name or purpose…"
               />
               {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search">×</button>}
             </label>
@@ -374,7 +385,7 @@ export default function Home() {
             <p className="eyebrow dark"><span /> Guides, builds and game data</p>
             <h2 id="guide-overview-heading">Ragnarok: The New World guides built around useful tools.</h2>
             <p>
-              RTNW Hub helps SEA players turn game data into practical decisions. Every guide path below connects to a working planner, map, searchable database, or setup utility, so you can research a decision and apply it in the same place.
+              RTNW Hub helps SEA players turn game data into practical decisions. Every guide path below connects to a working planner, map, searchable database, or setup utility.
             </p>
           </div>
           <div className="guide-paths">
@@ -387,24 +398,24 @@ export default function Home() {
             <article>
               <span>02</span>
               <h3>Find monsters and drops</h3>
-              <p>Use the <a href="/sea/maps/?lang=en-US#map=101">World Map</a> with the Monster Index and Card Index to locate targets, inspect stats, and see where important cards can be obtained.</p>
-              <a className="guide-path-link" href="/sea/monster_album/">Search monsters →</a>
+              <p>Use the <a href="/tools/farming-target-finder/">Farming Target Finder</a>, Monster Index, Card Index, and World Map to narrow targets and inspect their connected data.</p>
+              <a className="guide-path-link" href="/tools/farming-target-finder/">Find farming targets →</a>
             </article>
             <article>
               <span>03</span>
-              <h3>Improve progression</h3>
-              <p>Check refine rates, pet skills, event schedules, shop items, and quiz answers. These references are designed for quick use on both desktop and mobile while you play.</p>
-              <a className="guide-path-link" href="/sea/refine/">Open refine simulator →</a>
+              <h3>Follow current site changes</h3>
+              <p>Use the updates center to find newly published guides, tools, database features, redeem-code references, and event shortcuts.</p>
+              <a className="guide-path-link" href="/updates/">Open updates center →</a>
             </article>
           </div>
         </section>
 
-        <section className="journey-banner" aria-label="Explore Rune-Midgard">
+        <section className="journey-banner" aria-label="Search RTNW Hub">
           <div>
-            <p className="eyebrow"><span /> Ready for the next quest?</p>
-            <h2>See the whole world<br />before you set out.</h2>
+            <p className="eyebrow"><span /> Need one specific answer?</p>
+            <h2>Search the whole hub<br />from one page.</h2>
           </div>
-          <a href="/sea/maps/?lang=en-US#map=101">Explore the World Map <span aria-hidden="true">→</span></a>
+          <a href="/search/">Search guides and database <span aria-hidden="true">→</span></a>
         </section>
       </main>
 
@@ -415,6 +426,8 @@ export default function Home() {
         </a>
         <div className="footer-meta">
           <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
+          <a href="/search/">Search</a>
+          <a href="/updates/">Updates</a>
           <a href="/sitemap.xml">Sitemap</a>
         </div>
         <a href="#top">Back to top ↑</a>
@@ -422,9 +435,9 @@ export default function Home() {
 
       <nav className="mobile-dock" aria-label="Quick mobile navigation">
         <a href="#top"><span aria-hidden="true">⌂</span>Home</a>
+        <a href="/search/"><span aria-hidden="true">⌕</span>Search</a>
         <a href="#tools"><span aria-hidden="true">◇</span>Tools</a>
-        <a href="/sea/maps/?lang=en-US#map=101"><span aria-hidden="true">⌖</span>World Map</a>
-        <a href="/sea/skill_planner/"><span aria-hidden="true">✦</span>Builds</a>
+        <a href="/updates/"><span aria-hidden="true">✦</span>Updates</a>
       </nav>
     </div>
   );
