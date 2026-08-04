@@ -118,6 +118,16 @@ const guideFallbacks: Record<
   },
 };
 
+const trailingSlashPages = new Set([
+  ...Object.keys(guideFallbacks),
+  "/about/",
+  "/contact/",
+  "/privacy/",
+  "/terms/",
+  "/disclaimer/",
+  "/seo-status/",
+]);
+
 function withPerformanceHeaders(request: Request, response: Response): Response {
   if (request.method !== "GET" && request.method !== "HEAD") return response;
   const url = new URL(request.url);
@@ -239,6 +249,21 @@ async function assetResponse(request: Request, env: Env, path: string): Promise<
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.protocol !== "https:" || url.hostname === "www.rtnw.online") {
+      const canonicalUrl = new URL(`${url.pathname}${url.search}`, "https://rtnw.online");
+      return Response.redirect(canonicalUrl, 308);
+    }
+
+    if (
+      url.pathname !== "/" &&
+      !url.pathname.endsWith("/") &&
+      trailingSlashPages.has(`${url.pathname}/`)
+    ) {
+      const slashUrl = new URL(request.url);
+      slashUrl.pathname = `${url.pathname}/`;
+      return Response.redirect(slashUrl, 308);
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
