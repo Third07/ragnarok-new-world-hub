@@ -88,8 +88,8 @@ const tools: HubTool[] = [
     category: "Adventure",
   },
   {
-    title: "Adventure Study",
-    description: "Practice in-game questions and answers.",
+    title: "Quiz Answers",
+    description: "Search Lucky Rabbit, Guild Banquet, Scholar Exam, and element answers.",
     href: "/sea/study/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_shitu.webp",
     category: "Adventure",
@@ -244,8 +244,8 @@ export default function Home() {
           </picture>
           <div className="hero-sky-wash" />
           <div className="hero-content">
-            <p className="eyebrow"><span /> Ragnarok: The New World Guide Hub</p>
-            <h1 id="hero-title">Ragnarok: The New World<br /><em>guides &amp; tools.</em></h1>
+            <p className="eyebrow"><span /> Ragnarok: The New World Database & Guide Hub</p>
+            <h1 id="hero-title">Ragnarok: The New World<br /><em>database, guides &amp; tools.</em></h1>
             <p className="hero-copy">
               Plan stronger class builds, find monsters and card drops, and explore Rune-Midgard with English planners, databases, tutorials, and interactive guides.
             </p>
