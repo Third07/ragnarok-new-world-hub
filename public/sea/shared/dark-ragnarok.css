@@ -90,6 +90,18 @@ body {
 }
 
 /* Keep planner geometry and native skill-tree flow intact. */
+body:has(.skill-tree),
+body:has(.skill-grid),
+body:has(.skill-panel) {
+  --accent: #1f6f78;
+  --accent-dark: #174b5b;
+  --accent-light: #3ba6aa;
+  --accent-glow: rgba(59, 166, 170, .28);
+  --border-strong: rgba(217, 164, 65, .48);
+  --skill-unlocked: #1f6f78;
+  --skill-available: #46c98a;
+}
+
 body:has(.skill-tree) .main-content,
 body:has(.skill-grid) .main-content,
 body:has(.skill-panel) .main-content {
