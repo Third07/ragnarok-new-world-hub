@@ -95,16 +95,12 @@
         link.innerHTML = '<span class="rtnw-hub-mark" aria-hidden="true">✦</span><span class="site-nav-label">Hub</span>';
         nav.insertBefore(link, nav.firstChild);
     }
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", addHubShortcut, { once: true });
-    } else {
-        addHubShortcut();
-    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", addHubShortcut, { once: true });
+    else addHubShortcut();
 })();
 
 (() => {
     const src = "/shared/tool_structured_data.js?v=20260803-schema1";
-
     function loadToolStructuredData() {
         if (document.querySelector("script[data-rtnw-tool-schema]")) return;
         const script = document.createElement("script");
@@ -113,46 +109,59 @@
         script.dataset.rtnwToolSchema = "true";
         (document.head || document.documentElement).appendChild(script);
     }
-
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", loadToolStructuredData, { once: true });
-    } else {
-        loadToolStructuredData();
-    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", loadToolStructuredData, { once: true });
+    else loadToolStructuredData();
 })();
 
 (() => {
-    const styleHref = "/shared/responsive_ads.css?v=20260805-ads1";
-    const scriptSrc = "/shared/responsive_ads.js?v=20260805-ads1";
+    const version = "20260805-ads1";
+    const styleHref = `/shared/responsive_ads.css?v=${version}`;
+    const scriptSrc = `/shared/responsive_ads.js?v=${version}`;
+
+    function resetOldAds() {
+        document.querySelectorAll("[data-ad-slot]").forEach(slot => {
+            slot.querySelectorAll("iframe").forEach(frame => frame.remove());
+            slot.querySelectorAll(".rtnw-ad-label").forEach(label => label.remove());
+            delete slot.dataset.adPrepared;
+            delete slot.dataset.adState;
+        });
+        try { delete window.__RTNW_ADS_READY__; } catch { window.__RTNW_ADS_READY__ = false; }
+    }
 
     function loadResponsiveAds() {
-        if (!document.querySelector("link[data-rtnw-ads-style]")) {
-            const style = document.createElement("link");
-            style.rel = "stylesheet";
+        const style = document.querySelector("link[data-rtnw-ads-style], link[data-rtnw-ads]");
+        if (style instanceof HTMLLinkElement) {
             style.href = styleHref;
             style.dataset.rtnwAdsStyle = "true";
-            (document.head || document.documentElement).appendChild(style);
+        } else {
+            const nextStyle = document.createElement("link");
+            nextStyle.rel = "stylesheet";
+            nextStyle.href = styleHref;
+            nextStyle.dataset.rtnwAdsStyle = "true";
+            (document.head || document.documentElement).appendChild(nextStyle);
         }
 
-        if (!document.querySelector("script[data-rtnw-ads]")) {
-            const script = document.createElement("script");
-            script.src = scriptSrc;
-            script.async = true;
-            script.dataset.rtnwAds = "true";
-            (document.head || document.documentElement).appendChild(script);
+        const existingScript = document.querySelector("script[data-rtnw-ads]");
+        if (existingScript instanceof HTMLScriptElement) {
+            const current = existingScript.getAttribute("src") || "";
+            if (current.includes(version)) return;
+            existingScript.remove();
+            resetOldAds();
         }
+
+        const script = document.createElement("script");
+        script.src = scriptSrc;
+        script.async = true;
+        script.dataset.rtnwAds = "true";
+        (document.head || document.documentElement).appendChild(script);
     }
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", loadResponsiveAds, { once: true });
-    } else {
-        loadResponsiveAds();
-    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", loadResponsiveAds, { once: true });
+    else loadResponsiveAds();
 })();
 
 (() => {
     const styleHref = "/sea/shared/dark-ragnarok.css?v=20260805-dark1";
-
     function loadDarkRagnarokTheme() {
         if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
         if (document.querySelector("link[data-rtnw-dark-theme]")) return;
@@ -162,6 +171,5 @@
         style.dataset.rtnwDarkTheme = "true";
         (document.head || document.documentElement).appendChild(style);
     }
-
     loadDarkRagnarokTheme();
 })();
