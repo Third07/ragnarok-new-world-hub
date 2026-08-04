@@ -7,6 +7,7 @@ import "./language-switcher.css";
 import "../public/shared/responsive_ads.css";
 import "./dark-ragnarok.css";
 import "./route-fixes.css";
+import "./panel-site-theme.css";
 
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
@@ -98,7 +99,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#08131f",
+  themeColor: "#5b6ee8",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
