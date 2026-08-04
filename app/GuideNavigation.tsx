@@ -3,7 +3,11 @@
 import { useEffect } from "react";
 
 const GUIDE_HREF = "/guides/";
+const SETUP_HREF = "/guides/technical/";
 const REDEEM_HREF = "/guides/redeem-codes/";
+const PC_CHECKER_HREF = "/tools/pc-setup-checker/";
+const TOPUP_CALCULATOR_HREF = "/tools/top-up-calculator/";
+
 const TRUST_LINKS = [
   ["About", "/about/"],
   ["Contact", "/contact/"],
@@ -35,6 +39,7 @@ function createLink(href: string, label: string, className?: string) {
   link.href = href;
   link.textContent = label;
   if (href === GUIDE_HREF) link.dataset.guideNavigation = "true";
+  if (href === SETUP_HREF) link.dataset.setupNavigation = "true";
   if (href === REDEEM_HREF) link.dataset.redeemNavigation = "true";
   if (className) link.className = className;
   return link;
@@ -123,6 +128,7 @@ function injectGuideNavigation() {
   if (desktopNav) {
     const worldMapLink = desktopNav.querySelector('a[href^="/sea/maps/"]');
     injectPrimaryLink(desktopNav, GUIDE_HREF, "Guides", worldMapLink);
+    injectPrimaryLink(desktopNav, SETUP_HREF, "PC & Setup", worldMapLink);
     injectPrimaryLink(desktopNav, REDEEM_HREF, "Redeem Codes", worldMapLink);
   }
 
@@ -130,6 +136,9 @@ function injectGuideNavigation() {
   if (mobileMenu) {
     const firstTool = mobileMenu.querySelector("a:nth-of-type(2)");
     injectPrimaryLink(mobileMenu, GUIDE_HREF, "Guides", firstTool);
+    injectPrimaryLink(mobileMenu, SETUP_HREF, "PC & Setup Guides", firstTool);
+    injectPrimaryLink(mobileMenu, PC_CHECKER_HREF, "PC Setup Checker", firstTool);
+    injectPrimaryLink(mobileMenu, TOPUP_CALCULATOR_HREF, "Top-Up Calculator", firstTool);
     injectPrimaryLink(mobileMenu, REDEEM_HREF, "Redeem Codes", firstTool);
   }
 
@@ -137,9 +146,15 @@ function injectGuideNavigation() {
   if (guideOverview && !hasLink(guideOverview, GUIDE_HREF)) {
     guideOverview.appendChild(createLink(GUIDE_HREF, "Browse all guides →", "guide-path-link"));
   }
+  if (guideOverview && !hasLink(guideOverview, SETUP_HREF)) {
+    guideOverview.appendChild(createLink(SETUP_HREF, "PC, emulator and top-up guides →", "guide-path-link"));
+  }
 
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
     injectFooterLink(footerMeta, GUIDE_HREF, "Guides");
+    injectFooterLink(footerMeta, SETUP_HREF, "PC & Setup");
+    injectFooterLink(footerMeta, PC_CHECKER_HREF, "PC Checker");
+    injectFooterLink(footerMeta, TOPUP_CALCULATOR_HREF, "Top-Up Calculator");
     injectFooterLink(footerMeta, REDEEM_HREF, "Redeem Codes");
     injectTrustLinks(footerMeta);
     injectSocialLinks(footerMeta);
