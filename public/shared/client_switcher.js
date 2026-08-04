@@ -179,7 +179,25 @@
 })();
 
 (() => {
-    const styleHref = "/sea/skill_planner/panel-theme.css?v=20260805-panel1";
+    const styleHref = "/sea/shared/panel-site-theme.css?v=20260805-panel-site1";
+    function loadPanelSiteTheme() {
+        if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
+        const existing = document.querySelector("link[data-rtnw-panel-site-theme]");
+        if (existing instanceof HTMLLinkElement) {
+            existing.href = styleHref;
+            return;
+        }
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = styleHref;
+        style.dataset.rtnwPanelSiteTheme = "true";
+        (document.head || document.documentElement).appendChild(style);
+    }
+    loadPanelSiteTheme();
+})();
+
+(() => {
+    const styleHref = "/sea/skill_planner/panel-theme.css?v=20260805-panel2";
     function loadSkillPlannerPanelTheme() {
         const pathname = window.location.pathname.replace(/\/index\.html$/, "/");
         if (pathname !== "/sea/skill_planner/" && pathname !== "/sea/skill_planner") return;
