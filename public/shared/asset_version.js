@@ -87,7 +87,7 @@
         },
         study: {
             "zh-TW": "問答",
-            "en-US": "Study",
+            "en-US": "Quiz Answers",
             "zh-CN": "问答",
             "th-TH": "แบบฝึกหัด",
             "id-ID": "Study"
