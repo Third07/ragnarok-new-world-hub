@@ -37,16 +37,21 @@ function LanguageControl({
   language,
   onChange,
   mobileMenu = false,
+  fallback = false,
 }: {
   language: Language;
   onChange: (language: Language) => void;
   mobileMenu?: boolean;
+  fallback?: boolean;
 }) {
+  const className = mobileMenu
+    ? "mobile-language-switcher"
+    : fallback
+      ? "header-language-switcher header-language-switcher--fallback"
+      : "header-language-switcher";
+
   return (
-    <label
-      className={mobileMenu ? "mobile-language-switcher" : "header-language-switcher"}
-      title="Change language"
-    >
+    <label className={className} title="Change language">
       <span className="language-switcher-icon" aria-hidden="true">◎</span>
       <span className="language-switcher-label">Language</span>
       <select
@@ -55,9 +60,7 @@ function LanguageControl({
         onChange={(event) => onChange(event.target.value as Language)}
       >
         {LANGUAGES.map((option) => (
-          <option value={option.value} key={option.value}>
-            {option.label}
-          </option>
+          <option value={option.value} key={option.value}>{option.label}</option>
         ))}
       </select>
       <span className="language-switcher-caret" aria-hidden="true">⌄</span>
@@ -69,6 +72,7 @@ export default function LanguageSwitcher() {
   const [language, setLanguage] = useState<Language>("en-US");
   const [desktopHost, setDesktopHost] = useState<Element | null>(null);
   const [mobileHost, setMobileHost] = useState<Element | null>(null);
+  const [fallbackHost, setFallbackHost] = useState(false);
 
   useEffect(() => {
     const queryLanguage = normalizeLanguage(new URLSearchParams(window.location.search).get("lang"));
@@ -82,10 +86,12 @@ export default function LanguageSwitcher() {
     updateToolLinks(initialLanguage);
 
     const findHosts = () => {
-      setDesktopHost(document.querySelector(".header-actions"));
+      const normalHost = document.querySelector(".header-actions");
+      const fallback = normalHost ? null : document.querySelector("header");
+      setDesktopHost(normalHost || fallback);
+      setFallbackHost(Boolean(fallback));
       setMobileHost(document.querySelector(".mobile-menu"));
-      const currentLanguage =
-        normalizeLanguage(window.localStorage.getItem("ro_lang")) || initialLanguage;
+      const currentLanguage = normalizeLanguage(window.localStorage.getItem("ro_lang")) || initialLanguage;
       updateToolLinks(currentLanguage);
     };
 
@@ -110,16 +116,14 @@ export default function LanguageSwitcher() {
 
   return (
     <>
-      {desktopHost &&
-        createPortal(
-          <LanguageControl language={language} onChange={changeLanguage} />,
-          desktopHost,
-        )}
-      {mobileHost &&
-        createPortal(
-          <LanguageControl language={language} onChange={changeLanguage} mobileMenu />,
-          mobileHost,
-        )}
+      {desktopHost && createPortal(
+        <LanguageControl language={language} onChange={changeLanguage} fallback={fallbackHost} />,
+        desktopHost,
+      )}
+      {mobileHost && createPortal(
+        <LanguageControl language={language} onChange={changeLanguage} mobileMenu />,
+        mobileHost,
+      )}
     </>
   );
 }
