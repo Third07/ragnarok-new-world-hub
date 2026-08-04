@@ -1,9 +1,9 @@
 .rtnw-ad-slot {
-  --rtnw-ad-accent: #d6a94f;
-  --rtnw-ad-ink: #687c72;
+  --rtnw-ad-accent: #d9a441;
+  --rtnw-ad-ink: #91a5b5;
   position: relative;
   isolation: isolate;
-  width: min(100%, 840px);
+  width: min(100%, 860px);
   min-width: 0;
   margin: 28px auto;
   display: grid;
@@ -13,34 +13,44 @@
   box-sizing: border-box;
 }
 
+.rtnw-ad-slot::before {
+  content: "";
+  position: absolute;
+  inset: 16px 0 0;
+  z-index: -1;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(24,54,74,.34), rgba(8,19,31,.24));
+  border: 1px solid rgba(240,217,140,.10);
+}
+
 .rtnw-ad-slot--rectangle {
-  width: min(100%, 360px);
-  min-height: 266px;
+  width: min(100%, 340px);
+  min-height: 278px;
   margin-block: 40px;
 }
 
-.rtnw-ad-slot[data-ad-format="responsive"] {
-  min-height: 107px;
-}
+.rtnw-ad-slot[data-ad-format="responsive"] { min-height: 112px; }
+.rtnw-ad-slot--tool-footer { flex: 0 0 auto; margin-block: 22px 34px; }
+.rtnw-ad-slot--content-break { margin-block: clamp(26px, 5vw, 54px); padding-inline: 16px; }
+.rtnw-ad-slot--content-end { margin-block: clamp(34px, 6vw, 72px) clamp(18px, 3vw, 34px); padding-inline: 16px; }
 
-.rtnw-ad-slot--tool-footer {
-  flex: 0 0 auto;
-  margin-block: 22px 34px;
+.rtnw-ad-slot--desktop-rail {
+  position: fixed;
+  z-index: 24;
+  top: 96px;
+  right: 14px;
+  width: 176px;
+  max-height: calc(100vh - 116px);
+  margin: 0;
+  padding: 0 8px 10px;
+  overflow: hidden;
+  filter: drop-shadow(0 18px 34px rgba(0,0,0,.28));
 }
-
-.rtnw-ad-slot--content-break {
-  margin-block: clamp(26px, 5vw, 54px);
-  padding-inline: 16px;
-}
-
-.rtnw-ad-slot--content-end {
-  margin-block: clamp(34px, 6vw, 72px) clamp(18px, 3vw, 34px);
-  padding-inline: 16px;
-}
+.rtnw-ad-slot--desktop-rail::before { inset: 16px 0 0; }
 
 .rtnw-ad-label {
   color: var(--rtnw-ad-ink);
-  font: 700 9px/1.2 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font: 800 9px/1.2 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: .14em;
   text-transform: uppercase;
   opacity: .82;
@@ -51,48 +61,38 @@
   max-width: 100%;
   border: 0;
   border-radius: 8px;
-  background: rgba(255, 250, 240, .72);
-  box-shadow: 0 0 0 1px rgba(181, 142, 69, .22), 0 7px 20px rgba(42, 62, 55, .08);
+  background: rgba(8,19,31,.82);
+  box-shadow: 0 0 0 1px rgba(240,217,140,.16), 0 10px 24px rgba(0,0,0,.24);
 }
 
 .rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-frame {
   background:
-    linear-gradient(100deg, rgba(255, 250, 240, .72) 24%, rgba(255, 255, 255, .92) 38%, rgba(255, 250, 240, .72) 52%)
+    linear-gradient(100deg, rgba(16,30,46,.86) 24%, rgba(24,54,74,.96) 38%, rgba(16,30,46,.86) 52%)
     0 0 / 220% 100%;
   animation: rtnw-ad-waiting 1.6s ease-in-out infinite;
 }
 
-@keyframes rtnw-ad-waiting {
-  to { background-position: -220% 0; }
+@keyframes rtnw-ad-waiting { to { background-position: -220% 0; } }
+
+@media (max-width: 1479px) {
+  .rtnw-ad-slot--desktop-rail { display: none !important; }
 }
 
-@media (max-width: 759px) {
+@media (max-width: 899px) {
+  .rtnw-ad-slot[data-ad-format="responsive"] { min-height: 82px; }
+}
+
+@media (max-width: 519px) {
   .rtnw-ad-slot {
     width: 100%;
     margin-block: 20px;
   }
-
-  .rtnw-ad-slot[data-ad-format="responsive"] {
-    min-height: 67px;
-  }
-
-  .rtnw-ad-slot--rectangle {
-    width: min(100%, 320px);
-    margin-block: 30px;
-  }
-
-  .rtnw-ad-slot--tool-footer {
-    margin-block: 16px calc(26px + env(safe-area-inset-bottom));
-  }
-
-  .rtnw-ad-slot--content-break,
-  .rtnw-ad-slot--content-end {
-    padding-inline: 10px;
-  }
+  .rtnw-ad-slot[data-ad-format="responsive"] { min-height: 70px; }
+  .rtnw-ad-slot--rectangle { width: min(100%, 320px); margin-block: 30px; }
+  .rtnw-ad-slot--tool-footer { margin-block: 16px calc(26px + env(safe-area-inset-bottom)); }
+  .rtnw-ad-slot--content-break, .rtnw-ad-slot--content-end { padding-inline: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-frame {
-    animation: none;
-  }
+  .rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-frame { animation: none; }
 }
