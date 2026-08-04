@@ -1,0 +1,238 @@
+/* Skill Planner refinements for the unified blue/white/gray panel theme.
+   The simulator grid and point logic are not changed. */
+
+body.skill-planner-page {
+  --accent: #5b6ee8 !important;
+  --accent-dark: #4658c9 !important;
+  --accent-light: #8795f5 !important;
+  --accent-glow: rgba(91,110,232,.28) !important;
+  --gold: #f4bc3f !important;
+  --gold-dark: #d99a1d !important;
+  --success: #5b6ee8 !important;
+  --danger: #dfe2e7 !important;
+  --bg-primary: #dce5ff !important;
+  --bg-secondary: #ffffff !important;
+  --bg-tertiary: #eef0f3 !important;
+  --bg-card: #ffffff !important;
+  --text-primary: #181b20 !important;
+  --text-secondary: #4f5660 !important;
+  --text-muted: #8d949d !important;
+  --border-color: #d4d8df !important;
+  --border-strong: rgba(91,110,232,.42) !important;
+  color-scheme: light !important;
+  color: #181b20 !important;
+  background:
+    radial-gradient(circle at 14% 10%, rgba(255,255,255,.76), transparent 24rem),
+    radial-gradient(circle at 84% 20%, rgba(255,255,255,.38), transparent 28rem),
+    linear-gradient(180deg, #edf2ff 0%, #dce5ff 48%, #b9c8fa 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body.skill-planner-page .app,
+body.skill-planner-page .main-content,
+body.skill-planner-page .simulator-layout {
+  background: transparent !important;
+}
+
+body.skill-planner-page .header {
+  background: linear-gradient(180deg, #7485f3 0%, #5b6ee8 58%, #4658c9 100%) !important;
+  border-bottom: 3px solid #f4bc3f !important;
+  box-shadow: 0 10px 26px rgba(48,61,135,.24) !important;
+}
+
+body.skill-planner-page .header-title,
+body.skill-planner-page .header .site-nav-label {
+  color: #ffffff !important;
+}
+
+body.skill-planner-page .header .site-nav {
+  background: rgba(255,255,255,.10) !important;
+}
+
+body.skill-planner-page .header .site-nav-item {
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.07)) !important;
+  border-color: rgba(255,255,255,.28) !important;
+}
+
+body.skill-planner-page .header .site-nav-item:hover,
+body.skill-planner-page .header .site-nav-item.active {
+  background: linear-gradient(180deg, #8795f5, #6879eb 58%, #5063d8) !important;
+  border-color: #f4bc3f !important;
+}
+
+body.skill-planner-page .header .site-nav-item img,
+body.skill-planner-page .header .site-nav-item.active img {
+  background: rgba(255,255,255,.12) !important;
+  border-color: rgba(255,255,255,.28) !important;
+  filter: brightness(1.13) contrast(1.08) drop-shadow(0 3px 5px rgba(48,61,135,.24)) !important;
+}
+
+body.skill-planner-page .job-section,
+body.skill-planner-page .traits-section,
+body.skill-planner-page .job-selection-container,
+body.skill-planner-page .details-panel,
+body.skill-planner-page .seo-guide {
+  color: #181b20 !important;
+  background: #ffffff !important;
+  border-color: #d4d8df !important;
+  box-shadow: 0 14px 32px rgba(48,61,135,.18), inset 0 0 0 2px rgba(255,255,255,.78) !important;
+}
+
+body.skill-planner-page .job-header-banner {
+  background: linear-gradient(180deg, #7485f3 0%, #5f72e9 52%, #5063d8 100%) !important;
+  border-bottom: 3px solid #f4bc3f !important;
+}
+
+body.skill-planner-page .job-info h2,
+body.skill-planner-page .job-points {
+  color: #ffffff !important;
+}
+
+body.skill-planner-page .job-points .highlight {
+  color: #ffe08a !important;
+}
+
+body.skill-planner-page .job-skills-container,
+body.skill-planner-page .traits-grid {
+  position: relative;
+  background: #ffffff !important;
+}
+
+/* Remove role/damage/element labels from the tree canvas. Full tags remain in details. */
+body.skill-planner-page .skill-tags-mini {
+  display: none !important;
+}
+
+body.skill-planner-page .skill-node {
+  position: relative;
+  z-index: 2;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body.skill-planner-page .skill-group-outline {
+  display: none !important;
+}
+
+body.skill-planner-page .skill-name,
+body.skill-planner-page .job-card-name,
+body.skill-planner-page .traits-section-title,
+body.skill-planner-page .job-selection-container h3 {
+  color: #282d34 !important;
+}
+
+body.skill-planner-page .skill-btn.remove,
+body.skill-planner-page .unique-skill-btn.remove {
+  color: #59616b !important;
+  background: #dfe2e7 !important;
+  border-color: #c9ced6 !important;
+}
+
+body.skill-planner-page .skill-btn.add,
+body.skill-planner-page .unique-skill-btn.add {
+  color: #ffffff !important;
+  background: #5b6ee8 !important;
+  border-color: #4658c9 !important;
+}
+
+body.skill-planner-page .skill-btn.add-max,
+body.skill-planner-page .unique-skill-btn.add-max {
+  color: #181b20 !important;
+  background: #f4bc3f !important;
+  border-color: #d99a1d !important;
+}
+
+body.skill-planner-page .skill-btn:disabled,
+body.skill-planner-page .unique-skill-btn:disabled {
+  color: #a0a6ae !important;
+  background: #eceef1 !important;
+  border-color: #d8dce2 !important;
+  opacity: .72 !important;
+}
+
+body.skill-planner-page .skill-icon-wrapper.available,
+body.skill-planner-page .skill-icon-wrapper.active {
+  border-color: #5b6ee8 !important;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,.76), 0 0 0 3px rgba(91,110,232,.22), 0 4px 10px rgba(48,61,135,.14) !important;
+}
+
+body.skill-planner-page .skill-icon-wrapper.maxed {
+  border-color: #f4bc3f !important;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,.78), 0 0 0 3px rgba(244,188,63,.24), 0 4px 12px rgba(48,61,135,.16) !important;
+}
+
+body.skill-planner-page .skill-level {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, #5b6ee8, #4658c9) !important;
+}
+
+body.skill-planner-page .skill-icon-wrapper.maxed .skill-level {
+  color: #181b20 !important;
+  background: linear-gradient(180deg, #ffd765, #f4bc3f) !important;
+}
+
+/* Orthogonal prerequisite paths inserted by skill-flow.js. */
+body.skill-planner-page .skill-flow-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+body.skill-planner-page .skill-flow-line {
+  fill: none;
+  stroke: #c9ced6;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  opacity: .88;
+}
+
+body.skill-planner-page .skill-flow-line[data-flow-state="available"] {
+  stroke: #5b6ee8;
+  opacity: .94;
+}
+
+body.skill-planner-page .skill-flow-line[data-flow-state="complete"] {
+  stroke: #f4bc3f;
+  stroke-width: 3;
+  opacity: 1;
+}
+
+body.skill-planner-page .skill-flow-dot {
+  fill: #ffffff;
+  stroke: #c9ced6;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+body.skill-planner-page .skill-flow-dot[data-flow-state="available"] {
+  stroke: #5b6ee8;
+}
+
+body.skill-planner-page .skill-flow-dot[data-flow-state="complete"] {
+  fill: #f4bc3f;
+  stroke: #d99a1d;
+}
+
+body.skill-planner-page .rtnw-ad-slot--tool-footer {
+  margin-top: 72px !important;
+  margin-bottom: 72px !important;
+}
+
+body.skill-planner-page .rtnw-ad-slot:not(:has(.rtnw-ad-frame))::before {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+@media (max-width: 760px) {
+  body.skill-planner-page .rtnw-ad-slot--tool-footer {
+    margin-top: 64px !important;
+    margin-bottom: 64px !important;
+  }
+}
