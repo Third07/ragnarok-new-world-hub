@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type ToolCategory = "Planners" | "Database" | "Adventure";
+type ToolCategory = "Planners" | "Database" | "Adventure" | "Utilities";
 
 type HubTool = {
   title: string;
@@ -108,9 +108,25 @@ const tools: HubTool[] = [
     icon: "/media/images/zhujiemian/icon_zhujiemian_qianghua.webp",
     category: "Planners",
   },
+  {
+    title: "PC Setup Checker",
+    description: "Compare Steam, emulator, and cloud-play routes for your PC.",
+    href: "/tools/pc-setup-checker/",
+    icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
+    category: "Utilities",
+    badge: "New",
+  },
+  {
+    title: "Top-Up Cost Calculator",
+    description: "Estimate the final cost after discounts and payment fees.",
+    href: "/tools/top-up-calculator/",
+    icon: "/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp",
+    category: "Utilities",
+    badge: "New",
+  },
 ];
 
-const categories = ["All tools", "Planners", "Database", "Adventure"] as const;
+const categories = ["All tools", "Planners", "Database", "Adventure", "Utilities"] as const;
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -258,7 +274,7 @@ export default function Home() {
               </a>
             </div>
             <div className="hero-meta" aria-label="Hub highlights">
-              <span><strong>13</strong> working tools</span>
+              <span><strong>15</strong> working tools</span>
               <span><strong>English</strong> game data</span>
               <span><strong>Mobile</strong> ready</span>
             </div>
@@ -295,7 +311,7 @@ export default function Home() {
               <p className="eyebrow dark"><span /> Adventure library</p>
               <h2 id="tools-heading">Everything you need,<br />in one place.</h2>
             </div>
-            <p>Search the full collection or choose a category to find the right tool for your next build, hunt, or journey.</p>
+            <p>Search the full collection or choose a category to find the right tool for your next build, hunt, purchase, or setup.</p>
           </div>
 
           <div className="tool-controls">
@@ -307,7 +323,7 @@ export default function Home() {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search skills, monsters, maps…"
+                placeholder="Search skills, monsters, maps, setup…"
               />
               {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search">×</button>}
             </label>
@@ -358,7 +374,7 @@ export default function Home() {
             <p className="eyebrow dark"><span /> Guides, builds and game data</p>
             <h2 id="guide-overview-heading">Ragnarok: The New World guides built around useful tools.</h2>
             <p>
-              RTNW Hub helps SEA players turn game data into practical decisions. Every guide path below connects to a working planner, map, or searchable database, so you can research a build and apply it in the same place.
+              RTNW Hub helps SEA players turn game data into practical decisions. Every guide path below connects to a working planner, map, searchable database, or setup utility, so you can research a decision and apply it in the same place.
             </p>
           </div>
           <div className="guide-paths">
