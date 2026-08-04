@@ -11,6 +11,7 @@ type SearchResult = {
   description: string;
   href: string;
   icon?: string;
+  icons?: string[];
   fallback: string;
 };
 
@@ -75,12 +76,82 @@ function searchable(values: unknown[]) {
   }).join(" ").toLowerCase();
 }
 
-function imagePath(value: unknown, fallback: string) {
-  const path = text(value).trim();
-  if (!path) return fallback;
-  if (path.startsWith("/") || path.startsWith("http://") || path.startsWith("https://")) return path;
-  if (path.includes("/")) return `/${path.replace(/^\/+/, "")}`;
-  return fallback;
+function uniqueBy<T>(items: T[], keyFor: (item: T) => string) {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    const key = keyFor(item);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function monsterIdentity(item: UnknownRecord) {
+  return [
+    text(item.name).trim().toLowerCase(),
+    text(item.level),
+    text(item.type).trim().toLowerCase(),
+    text(item.race).trim().toLowerCase(),
+    text(item.element).trim().toLowerCase(),
+    text(item.body ?? item.size).trim().toLowerCase(),
+  ].join("|");
+}
+
+function normalizeAssetPath(value: string) {
+  const path = value.replace(/\\/g, "/").replace(/^\/+/, "");
+  if (!path) return "";
+  if (path.startsWith("media/") || path.startsWith("sea/") || path.startsWith("assets/")) return `/${path}`;
+  return `/media/images/${path}`;
+}
+
+function monsterIconCandidates(item: UnknownRecord, iconPaths: UnknownRecord) {
+  const raw = text(item.thumbnail || item.image).trim();
+  if (!raw) return [];
+
+  const candidates: string[] = [];
+  if (/^https?:\/\//i.test(raw) || raw.startsWith("/")) {
+    candidates.push(raw);
+  } else if (raw.includes("/")) {
+    candidates.push(normalizeAssetPath(raw));
+  }
+
+  const mapped = text(iconPaths[raw] || iconPaths[raw.toLowerCase()]).trim();
+  if (mapped) {
+    const original = normalizeAssetPath(mapped);
+    const webp = original.replace(/\.png$/i, ".webp");
+    candidates.push(webp, original);
+  }
+
+  if (raw.startsWith("icon_summon")) candidates.push(`/media/images/summon/${raw}.webp`);
+  else if (raw.startsWith("icon_boss_")) candidates.push(`/media/images/boss/${raw}.webp`);
+  else if (raw.startsWith("icon_pet_head")) candidates.push(`/media/images/pet/${raw}.webp`);
+  else if (raw.startsWith("icon_monster")) candidates.push(`/media/images/monster/${raw}.webp`);
+
+  return Array.from(new Set(candidates.filter(Boolean)));
+}
+
+function ResultIcon({ result }: { result: SearchResult }) {
+  const candidates = Array.from(new Set([result.icon, ...(result.icons || [])].filter((value): value is string => Boolean(value))));
+  const candidateKey = candidates.join("|");
+  const [candidateIndex, setCandidateIndex] = useState(0);
+
+  useEffect(() => {
+    setCandidateIndex(0);
+  }, [candidateKey, result.id]);
+
+  const source = candidates[candidateIndex];
+  return (
+    <span className={browserStyles.resultIcon} aria-hidden="true">
+      {source ? (
+        <img
+          src={source}
+          alt=""
+          loading="lazy"
+          onError={() => setCandidateIndex((value) => value + 1)}
+        />
+      ) : result.fallback}
+    </span>
+  );
 }
 
 export default function SearchClient() {
@@ -89,6 +160,7 @@ export default function SearchClient() {
   const [cards, setCards] = useState<UnknownRecord[]>([]);
   const [equipment, setEquipment] = useState<UnknownRecord[]>([]);
   const [equipmentTypes, setEquipmentTypes] = useState<UnknownRecord>({});
+  const [iconPaths, setIconPaths] = useState<UnknownRecord>({});
   const [dataRequested, setDataRequested] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
@@ -118,7 +190,11 @@ export default function SearchClient() {
         if (!response.ok) throw new Error("equipment database");
         return response.json();
       }),
-    ]).then(([monsterResult, cardResult, equipmentResult]) => {
+      fetch("/sea/skill-simulator/data/icon_paths.json").then((response) => {
+        if (!response.ok) throw new Error("icon index");
+        return response.json();
+      }),
+    ]).then(([monsterResult, cardResult, equipmentResult, iconResult]) => {
       const failures: string[] = [];
 
       if (monsterResult.status === "fulfilled") setMonsters(arrayPayload(monsterResult.value, ["monsters", "items", "data"]));
@@ -131,6 +207,8 @@ export default function SearchClient() {
         setEquipment(arrayPayload(equipmentResult.value, ["items", "equipment", "data"]));
         setEquipmentTypes(record(record(equipmentResult.value).itemTypes));
       } else failures.push("equipment");
+
+      if (iconResult.status === "fulfilled") setIconPaths(record(iconResult.value));
 
       if (failures.length) setLoadError(`Some database groups could not load: ${failures.join(", ")}.`);
       setLoading(false);
@@ -150,17 +228,42 @@ export default function SearchClient() {
     const match = (value: string) => !normalized || value.toLowerCase().includes(normalized);
     const pageMatches = STATIC_PAGES.filter((item) => match(`${item.title} ${item.description}`));
 
-    const monsterMatches = searchDatabases ? monsters.filter((item) => match(searchable([item.name, item.level, item.type, item.race, item.element, item.size]))) : [];
+    const monsterMatches = searchDatabases
+      ? uniqueBy(
+          monsters.filter((item) => Boolean(item.is_handbook) && match(searchable([
+            item.name,
+            item.level,
+            item.type,
+            item.race,
+            item.element,
+            item.body ?? item.size,
+          ]))),
+          monsterIdentity,
+        ).sort((left, right) => {
+          const leftName = text(left.name).toLowerCase();
+          const rightName = text(right.name).toLowerCase();
+          const rank = (name: string) => name === normalized ? 0 : name.startsWith(normalized) ? 1 : name.includes(normalized) ? 2 : 3;
+          return rank(leftName) - rank(rightName)
+            || Number(left.level || Number.MAX_SAFE_INTEGER) - Number(right.level || Number.MAX_SAFE_INTEGER)
+            || leftName.localeCompare(rightName);
+        })
+      : [];
     const monsterResults = monsterMatches.slice(0, 8).map((item, index): SearchResult => {
       const id = text(item.id || index);
       const name = text(item.name) || `Monster ${id}`;
-      const details = [item.level ? `Lv.${text(item.level)}` : "", text(item.type), text(item.race), text(item.element), text(item.size)].filter(Boolean).join(" · ");
+      const details = [
+        item.level ? `Lv.${text(item.level)}` : "",
+        text(item.type),
+        text(item.race),
+        text(item.element),
+        text(item.body ?? item.size),
+      ].filter(Boolean).join(" · ");
       return {
         id: `monster-${id}`,
         title: name,
         description: details || "Monster database entry",
-        href: `/sea/monster_album/#showAll=1&monsterId=${encodeURIComponent(id)}`,
-        icon: imagePath(item.thumbnail || item.image, `/media/images/monster/${id}.webp`),
+        href: `/sea/monster_album/#showAll=0&monsterId=${encodeURIComponent(id)}`,
+        icons: monsterIconCandidates(item, iconPaths),
         fallback: "M",
       };
     });
@@ -201,7 +304,7 @@ export default function SearchClient() {
       { name: "Cards", results: cardResults, total: cardMatches.length },
       { name: "Equipment", results: equipmentResults, total: equipmentMatches.length },
     ].filter((group) => group.results.length > 0);
-  }, [cards, equipment, equipmentTypes, monsters, query]);
+  }, [cards, equipment, equipmentTypes, iconPaths, monsters, query]);
 
   const total = groups.reduce((sum, group) => sum + group.total, 0);
   const normalizedLength = query.trim().length;
@@ -252,9 +355,7 @@ export default function SearchClient() {
                 <div className={browserStyles.resultGrid}>
                   {group.results.map((result) => (
                     <a className={browserStyles.resultCard} href={result.href} key={result.id}>
-                      <span className={browserStyles.resultIcon} aria-hidden="true">
-                        {result.icon ? <img src={result.icon} alt="" loading="lazy" /> : result.fallback}
-                      </span>
+                      <ResultIcon result={result} />
                       <span className={browserStyles.resultCopy}>
                         <strong>{result.title}</strong>
                         <span>{result.description}</span>
