@@ -84,7 +84,9 @@ export default function LanguageSwitcher() {
     const findHosts = () => {
       setDesktopHost(document.querySelector(".header-actions"));
       setMobileHost(document.querySelector(".mobile-menu"));
-      updateToolLinks(initialLanguage);
+      const currentLanguage =
+        normalizeLanguage(window.localStorage.getItem("ro_lang")) || initialLanguage;
+      updateToolLinks(currentLanguage);
     };
 
     findHosts();
