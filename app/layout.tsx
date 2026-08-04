@@ -22,11 +22,11 @@ const siteVerification: Metadata["verification"] =
 export const metadata: Metadata = {
   metadataBase: new URL("https://rtnw.online"),
   title: {
-    default: "Ragnarok: The New World Guides, Builds & Tools | RTNW Hub",
+    default: "Ragnarok: The New World Database, Guides & Tools | RTNW Hub",
     template: "%s | RTNW Hub",
   },
   description:
-    "Explore Ragnarok: The New World guides, class builds, skill and rune planners, interactive maps, monsters, cards, equipment, pets, events, and more.",
+    "Search the Ragnarok: The New World database for monsters, cards, equipment, and pets. Use the skill simulator, interactive map, quiz answers, builds, and guides.",
   applicationName: "RTNW Hub",
   alternates: { canonical: "/" },
   openGraph: {
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: "RTNW Hub",
-    title: "Ragnarok: The New World Guides, Builds & Tools",
+    title: "Ragnarok: The New World Database, Guides & Tools",
     description:
-      "English Ragnarok: The New World guides, builds, planners, interactive maps, and game databases.",
+      "English Ragnarok: The New World database, skill simulator, interactive map, quiz answers, class builds, and guides.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -48,8 +48,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ragnarok: The New World Guides, Builds & Tools",
-    description: "English RTNW planners, maps, monsters, cards, equipment, pets, events, and guides.",
+    title: "Ragnarok: The New World Database, Guides & Tools",
+    description: "Search RTNW monsters, cards, equipment, pets, quiz answers, builds, maps, and skill tools.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
   robots: {
@@ -115,7 +115,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         name: "RTNW Hub",
         alternateName: "Ragnarok: The New World Hub",
         description:
-          "English Ragnarok: The New World guides, builds, planners, maps, and game databases.",
+          "English Ragnarok: The New World database, interactive tools, class builds, and practical guides.",
         publisher: { "@id": "https://rtnw.online/#organization" },
         inLanguage: "en",
       },
