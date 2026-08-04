@@ -24,6 +24,26 @@
     }
   }
 
+  function applyEquipmentSearchQuery() {
+    if (!/^\/sea\/equipment(?:\/|$)/.test(window.location.pathname)) return;
+    const query = new URLSearchParams(window.location.search).get("q")?.trim();
+    if (!query) return;
+
+    let attempts = 0;
+    const timer = window.setInterval(() => {
+      attempts += 1;
+      const input = document.getElementById("equipment-filter-keyword");
+      if (input instanceof HTMLInputElement) {
+        if (input.value !== query) input.value = query;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+
+      const count = document.getElementById("equipment-count");
+      const finishedLoading = count && !/loading/i.test(String(count.textContent || ""));
+      if (finishedLoading || attempts >= 40) window.clearInterval(timer);
+    }, 250);
+  }
+
   function localPath(value) {
     try {
       const url = new URL(value, window.location.href);
@@ -37,6 +57,7 @@
   }
 
   loadMapCleanup();
+  applyEquipmentSearchQuery();
 
   document.addEventListener("error", event => {
     const el = event.target;
