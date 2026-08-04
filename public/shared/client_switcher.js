@@ -114,7 +114,7 @@
 })();
 
 (() => {
-    const version = "20260805-ads1";
+    const version = "20260805-ads2";
     const styleHref = `/shared/responsive_ads.css?v=${version}`;
     const scriptSrc = `/shared/responsive_ads.js?v=${version}`;
 
@@ -161,10 +161,14 @@
 })();
 
 (() => {
-    const styleHref = "/sea/shared/dark-ragnarok.css?v=20260805-dark1";
+    const styleHref = "/sea/shared/dark-ragnarok.css?v=20260805-dark2";
     function loadDarkRagnarokTheme() {
         if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
-        if (document.querySelector("link[data-rtnw-dark-theme]")) return;
+        const existing = document.querySelector("link[data-rtnw-dark-theme]");
+        if (existing instanceof HTMLLinkElement) {
+            existing.href = styleHref;
+            return;
+        }
         const style = document.createElement("link");
         style.rel = "stylesheet";
         style.href = styleHref;
