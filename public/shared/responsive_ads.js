@@ -4,47 +4,49 @@
   if (window.__RTNW_ADS_READY__) return;
   window.__RTNW_ADS_READY__ = true;
 
+  const VERSION = "20260805-ads2";
   const AD_UNITS = {
     leaderboard: {
       key: "3a45272816c2d16fa93a679c03e183cf",
       width: 728,
       height: 90,
-      frame: "/shared/ads/leaderboard.html?v=20260805-ads1"
+      frame: `/shared/ads/leaderboard.html?v=${VERSION}`
     },
     tabletBanner: {
       key: "7b4253e26d5b14e096014f7bb1c2ac5b",
       width: 468,
       height: 60,
-      frame: "/shared/ads/tablet-banner.html?v=20260805-ads1"
+      frame: `/shared/ads/tablet-banner.html?v=${VERSION}`
     },
     mobileBanner: {
       key: "4ac48f926626c7e677d10446bfb6319a",
       width: 320,
       height: 50,
-      frame: "/shared/ads/mobile-banner.html?v=20260805-ads1"
+      frame: `/shared/ads/mobile-banner.html?v=${VERSION}`
     },
     rectangle: {
       key: "ba9a2456823c4edef223cb0c9106837c",
       width: 300,
       height: 250,
-      frame: "/shared/ads/rectangle.html?v=20260805-ads1"
+      frame: `/shared/ads/rectangle.html?v=${VERSION}`
     },
     skyscraper: {
       key: "958b269e20f0bcfc3708dc1b1069a4d6",
       width: 160,
       height: 600,
-      frame: "/shared/ads/skyscraper.html?v=20260805-ads1"
+      frame: `/shared/ads/skyscraper.html?v=${VERSION}`
     },
     halfSkyscraper: {
       key: "24e9b91c2aece2552123ef7d013f6250",
       width: 160,
       height: 300,
-      frame: "/shared/ads/half-skyscraper.html?v=20260805-ads1"
+      frame: `/shared/ads/half-skyscraper.html?v=${VERSION}`
     }
   };
 
   const PREVIEW_HOSTS = new Set(["terminal.local", "localhost", "127.0.0.1"]);
   const previewMode = PREVIEW_HOSTS.has(window.location.hostname);
+  const compactMobile = () => window.matchMedia("(max-width: 519px)").matches;
 
   function normalizedPathname() {
     const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -79,7 +81,7 @@
     frame.title = "Advertisement";
     frame.width = String(unit.width);
     frame.height = String(unit.height);
-    frame.loading = "eager";
+    frame.loading = "lazy";
     frame.scrolling = "no";
     frame.referrerPolicy = "strict-origin-when-cross-origin";
     frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
@@ -138,7 +140,7 @@
       if (!entries.some(entry => entry.isIntersecting)) return;
       observer.disconnect();
       load();
-    }, { rootMargin: "550px 0px" });
+    }, { rootMargin: "420px 0px" });
     observer.observe(slot);
   }
 
@@ -150,6 +152,29 @@
     return slot;
   }
 
+  function insertGuideBanner(article, banner) {
+    const directHeadings = Array.from(article.querySelectorAll(":scope > h2"));
+    const laterHeading = directHeadings[3] || directHeadings[2] || null;
+    if (laterHeading) {
+      laterHeading.insertAdjacentElement("beforebegin", banner);
+      return;
+    }
+
+    const blocks = Array.from(article.children).filter((node) =>
+      !node.matches("script, style, [data-ad-slot]")
+    );
+    if (blocks.length) {
+      const targetIndex = Math.min(
+        blocks.length - 1,
+        Math.max(4, Math.floor(blocks.length * .42))
+      );
+      blocks[targetIndex].insertAdjacentElement("beforebegin", banner);
+      return;
+    }
+
+    article.appendChild(banner);
+  }
+
   function addGuidePlacements(main) {
     const article = main.querySelector("article");
 
@@ -157,23 +182,17 @@
       const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
       banner.dataset.adPlacement = "guide-inline";
 
-      if (article) {
-        const headings = article.querySelectorAll(":scope > h2");
-        const sectionBreak = headings[2] || headings[1] || null;
-        if (sectionBreak) sectionBreak.insertAdjacentElement("beforebegin", banner);
-        else {
-          const lead = article.querySelector(":scope > p");
-          if (lead) lead.insertAdjacentElement("afterend", banner);
-          else article.prepend(banner);
-        }
-      } else {
-        const firstSection = main.querySelector(":scope > section") || main.firstElementChild;
-        if (firstSection) firstSection.insertAdjacentElement("afterend", banner);
-        else main.prepend(banner);
+      if (article) insertGuideBanner(article, banner);
+      else {
+        const sections = Array.from(main.querySelectorAll(":scope > section"));
+        const anchor = sections[1] || sections[0] || main.firstElementChild;
+        if (anchor) anchor.insertAdjacentElement("afterend", banner);
+        else main.appendChild(banner);
       }
     }
 
-    if (!document.querySelector('[data-ad-placement="guide-end"]')) {
+    /* One mobile guide ad is enough. Keep the rectangle for larger screens. */
+    if (!compactMobile() && !document.querySelector('[data-ad-placement="guide-end"]')) {
       const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
       rectangle.dataset.adPlacement = "guide-end";
 
@@ -203,7 +222,7 @@
       tool.insertAdjacentElement("afterend", banner);
     }
 
-    if (!document.querySelector('[data-ad-placement="tool-end"]')) {
+    if (!compactMobile() && !document.querySelector('[data-ad-placement="tool-end"]')) {
       const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
       rectangle.dataset.adPlacement = "tool-end";
       if (article) article.insertAdjacentElement("afterend", rectangle);
@@ -260,7 +279,7 @@
         banner.dataset.adPlacement = "hub-inline";
         hero.insertAdjacentElement("afterend", banner);
       }
-      if (grid && !document.querySelector('[data-ad-placement="hub-end"]')) {
+      if (!compactMobile() && grid && !document.querySelector('[data-ad-placement="hub-end"]')) {
         const rectangle = newSlot("rectangle");
         rectangle.dataset.adPlacement = "hub-end";
         grid.insertAdjacentElement("afterend", rectangle);
@@ -278,10 +297,15 @@
     main.insertAdjacentElement("afterend", banner);
   }
 
+  function pruneAdjacentSlots() {
+    document.querySelectorAll("[data-ad-slot] + [data-ad-slot]").forEach((slot) => slot.remove());
+  }
+
   function init() {
     addApplicationPlacements();
     addLegacyPlacements();
     addDesktopRail();
+    pruneAdjacentSlots();
     document.querySelectorAll("[data-ad-slot]").forEach(prepareSlot);
   }
 
