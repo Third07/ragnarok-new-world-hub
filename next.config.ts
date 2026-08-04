@@ -1,38 +1,35 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The Cloudflare Worker owns canonical slash handling. Disabling the
-  // framework redirect prevents /guides/ <-> /guides redirect conflicts.
+  // The Cloudflare Worker owns general canonical slash handling. Disabling the
+  // framework default prevents /guides/ <-> /guides redirect conflicts.
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
 
   async redirects() {
     return [
-      {
-        source: "/index.html",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/home",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/home/",
-        destination: "/",
-        permanent: true,
-      },
-      {
-        source: "/guides/index.html",
-        destination: "/guides/",
-        permanent: true,
-      },
-      {
-        source: "/robot.txt",
-        destination: "/robots.txt",
-        permanent: true,
-      },
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/home", destination: "/", permanent: true },
+      { source: "/home/", destination: "/", permanent: true },
+      { source: "/guides/index.html", destination: "/guides/", permanent: true },
+      { source: "/robot.txt", destination: "/robots.txt", permanent: true },
+
+      { source: "/guides/technical", destination: "/guides/technical/", permanent: true },
+      { source: "/guides/play-on-pc", destination: "/guides/play-on-pc/", permanent: true },
+      { source: "/guides/emulator-settings", destination: "/guides/emulator-settings/", permanent: true },
+      { source: "/guides/top-up-safely", destination: "/guides/top-up-safely/", permanent: true },
+      { source: "/guides/cloud-gaming", destination: "/guides/cloud-gaming/", permanent: true },
+      { source: "/tools/pc-setup-checker", destination: "/tools/pc-setup-checker/", permanent: true },
+      { source: "/tools/top-up-calculator", destination: "/tools/top-up-calculator/", permanent: true },
+
+      { source: "/pc", destination: "/guides/play-on-pc/", permanent: true },
+      { source: "/play-on-pc", destination: "/guides/play-on-pc/", permanent: true },
+      { source: "/emulator", destination: "/guides/emulator-settings/", permanent: true },
+      { source: "/top-up", destination: "/guides/top-up-safely/", permanent: true },
+      { source: "/topup", destination: "/guides/top-up-safely/", permanent: true },
+      { source: "/cloud-gaming", destination: "/guides/cloud-gaming/", permanent: true },
+      { source: "/tools/pc-checker", destination: "/tools/pc-setup-checker/", permanent: true },
+      { source: "/tools/topup-calculator", destination: "/tools/top-up-calculator/", permanent: true },
     ];
   },
 };
