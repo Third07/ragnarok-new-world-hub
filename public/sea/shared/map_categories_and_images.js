@@ -215,10 +215,13 @@
       image.removeAttribute("src");
       image.classList.add("map-image-missing");
       ensureMissingMessage(image);
+      image.__rtnwSyntheticMissing = true;
+      image.dispatchEvent(new Event("load"));
+      image.__rtnwSyntheticMissing = false;
     }, true);
 
     window.addEventListener("load", (event) => {
-      if (event.target !== image) return;
+      if (event.target !== image || image.__rtnwSyntheticMissing) return;
       image.classList.remove("map-image-missing");
       clearMissingMessage(image);
       window.requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
