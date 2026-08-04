@@ -177,3 +177,24 @@
     }
     loadDarkRagnarokTheme();
 })();
+
+(() => {
+    const styleHref = "/sea/skill_planner/panel-theme.css?v=20260805-panel1";
+    function loadSkillPlannerPanelTheme() {
+        const pathname = window.location.pathname.replace(/\/index\.html$/, "/");
+        if (pathname !== "/sea/skill_planner/" && pathname !== "/sea/skill_planner") return;
+
+        const existing = document.querySelector("link[data-rtnw-skill-planner-theme]");
+        if (existing instanceof HTMLLinkElement) {
+            existing.href = styleHref;
+            return;
+        }
+
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = styleHref;
+        style.dataset.rtnwSkillPlannerTheme = "true";
+        (document.head || document.documentElement).appendChild(style);
+    }
+    loadSkillPlannerPanelTheme();
+})();
