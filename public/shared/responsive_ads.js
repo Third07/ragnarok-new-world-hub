@@ -4,7 +4,7 @@
   if (window.__RTNW_ADS_READY__) return;
   window.__RTNW_ADS_READY__ = true;
 
-  const VERSION = "20260805-ads2";
+  const VERSION = "20260805-ads3";
   const AD_UNITS = {
     leaderboard: {
       key: "3a45272816c2d16fa93a679c03e183cf",
@@ -68,9 +68,47 @@
   function previewDocument(unit, name) {
     return `<!doctype html><html><head><meta charset="utf-8"><style>
       *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0}
-      body{display:grid;place-items:center;background:linear-gradient(145deg,#18364a,#08131f);color:#91a5b5;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed rgba(240,217,140,.28)}
-      span{padding:8px}strong{display:block;color:#f0d98c;font-size:12px}
+      body{display:grid;place-items:center;background:#eef0f3;color:#59616b;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed #d4d8df}
+      span{padding:8px}strong{display:block;color:#4658c9;font-size:12px}
     </style></head><body><span><strong>Advertisement preview</strong>${name} · ${unit.width}×${unit.height}</span></body></html>`;
+  }
+
+  function adDocumentHasVisualContent(frame) {
+    if (previewMode) return true;
+    try {
+      const doc = frame.contentDocument;
+      const body = doc?.body;
+      if (!body) return false;
+
+      const visualNodes = Array.from(body.querySelectorAll("iframe, img, video, object, embed, canvas, ins, [data-ad-status], [id*='container']"));
+      if (visualNodes.some(node => {
+        const rect = node.getBoundingClientRect();
+        return rect.width > 4 && rect.height > 4;
+      })) return true;
+
+      return Array.from(body.children).some(node => {
+        if (node.tagName === "SCRIPT" || node.tagName === "STYLE" || node.tagName === "LINK") return false;
+        const rect = node.getBoundingClientRect();
+        return rect.width > 4 && rect.height > 4 && getComputedStyle(node).visibility !== "hidden";
+      });
+    } catch {
+      /* A cross-origin document means an advertisement navigated successfully. */
+      return true;
+    }
+  }
+
+  function collapseEmptySlot(slot, frame) {
+    if (!slot.isConnected || !frame.isConnected) return;
+    if (adDocumentHasVisualContent(frame)) {
+      slot.dataset.adState = "loaded";
+      return;
+    }
+
+    slot.dataset.adState = "empty";
+    frame.remove();
+    slot.querySelectorAll(".rtnw-ad-label").forEach(label => label.remove());
+    slot.setAttribute("aria-hidden", "true");
+    slot.removeAttribute("role");
   }
 
   function createFrame(slot, unit, name) {
@@ -88,10 +126,14 @@
     frame.setAttribute("aria-label", `Advertisement, ${unit.width} by ${unit.height}`);
     frame.addEventListener("load", () => {
       slot.dataset.adState = "loaded";
+      window.setTimeout(() => collapseEmptySlot(slot, frame), 9000);
     }, { once: true });
     if (previewMode) frame.srcdoc = previewDocument(unit, name);
     else frame.src = unit.frame;
     slot.appendChild(frame);
+
+    /* Also catch wrappers that never finish loading their third-party creative. */
+    window.setTimeout(() => collapseEmptySlot(slot, frame), 16000);
   }
 
   function prepareSlot(slot) {
@@ -160,14 +202,11 @@
       return;
     }
 
-    const blocks = Array.from(article.children).filter((node) =>
+    const blocks = Array.from(article.children).filter(node =>
       !node.matches("script, style, [data-ad-slot]")
     );
     if (blocks.length) {
-      const targetIndex = Math.min(
-        blocks.length - 1,
-        Math.max(4, Math.floor(blocks.length * .42))
-      );
+      const targetIndex = Math.min(blocks.length - 1, Math.max(4, Math.floor(blocks.length * .42)));
       blocks[targetIndex].insertAdjacentElement("beforebegin", banner);
       return;
     }
@@ -181,7 +220,6 @@
     if (!document.querySelector('[data-ad-placement="guide-inline"]')) {
       const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
       banner.dataset.adPlacement = "guide-inline";
-
       if (article) insertGuideBanner(article, banner);
       else {
         const sections = Array.from(main.querySelectorAll(":scope > section"));
@@ -191,11 +229,9 @@
       }
     }
 
-    /* One mobile guide ad is enough. Keep the rectangle for larger screens. */
     if (!compactMobile() && !document.querySelector('[data-ad-placement="guide-end"]')) {
       const rectangle = newSlot("rectangle", "rtnw-ad-slot--content-end");
       rectangle.dataset.adPlacement = "guide-end";
-
       if (article) {
         const parent = article.parentElement;
         const articleHasSidebar = Boolean(parent?.querySelector(":scope > aside"));
@@ -298,7 +334,7 @@
   }
 
   function pruneAdjacentSlots() {
-    document.querySelectorAll("[data-ad-slot] + [data-ad-slot]").forEach((slot) => slot.remove());
+    document.querySelectorAll("[data-ad-slot] + [data-ad-slot]").forEach(slot => slot.remove());
   }
 
   function init() {
