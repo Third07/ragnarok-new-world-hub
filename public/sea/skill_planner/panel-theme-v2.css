@@ -8,8 +8,8 @@ body.skill-planner-page {
   --accent-glow: rgba(91,110,232,.28) !important;
   --gold: #f4bc3f !important;
   --gold-dark: #d99a1d !important;
-  --success: #5b6ee8 !important;
-  --danger: #dfe2e7 !important;
+  --success: #2fbf83 !important;
+  --danger: #ef6b78 !important;
   --bg-primary: #dce5ff !important;
   --bg-secondary: #ffffff !important;
   --bg-tertiary: #eef0f3 !important;
@@ -98,7 +98,7 @@ body.skill-planner-page .traits-grid {
   background: #ffffff !important;
 }
 
-/* Remove role/damage/element labels from the tree canvas. Full tags remain in details. */
+/* Compact role/damage/element labels stay out of the tree canvas. */
 body.skill-planner-page .skill-tags-mini {
   display: none !important;
 }
@@ -122,24 +122,25 @@ body.skill-planner-page .job-selection-container h3 {
   color: #282d34 !important;
 }
 
+/* Semantic point controls: remove, add one, and add maximum. */
 body.skill-planner-page .skill-btn.remove,
 body.skill-planner-page .unique-skill-btn.remove {
-  color: #59616b !important;
-  background: #dfe2e7 !important;
-  border-color: #c9ced6 !important;
+  color: #ffffff !important;
+  background: linear-gradient(180deg, #f58b96, #ef6b78) !important;
+  border-color: #d75161 !important;
 }
 
 body.skill-planner-page .skill-btn.add,
 body.skill-planner-page .unique-skill-btn.add {
   color: #ffffff !important;
-  background: #5b6ee8 !important;
-  border-color: #4658c9 !important;
+  background: linear-gradient(180deg, #4fd39b, #2fbf83) !important;
+  border-color: #229d6c !important;
 }
 
 body.skill-planner-page .skill-btn.add-max,
 body.skill-planner-page .unique-skill-btn.add-max {
   color: #181b20 !important;
-  background: #f4bc3f !important;
+  background: linear-gradient(180deg, #ffd765, #f4bc3f) !important;
   border-color: #d99a1d !important;
 }
 
@@ -148,6 +149,7 @@ body.skill-planner-page .unique-skill-btn:disabled {
   color: #a0a6ae !important;
   background: #eceef1 !important;
   border-color: #d8dce2 !important;
+  box-shadow: none !important;
   opacity: .72 !important;
 }
 
@@ -170,6 +172,14 @@ body.skill-planner-page .skill-level {
 body.skill-planner-page .skill-icon-wrapper.maxed .skill-level {
   color: #181b20 !important;
   background: linear-gradient(180deg, #ffd765, #f4bc3f) !important;
+}
+
+body.skill-planner-page .skill-tag,
+body.skill-planner-page .skill-detail-tag,
+body.skill-planner-page .skill-details .tag {
+  color: #59616b !important;
+  background: #ffffff !important;
+  border-color: #bfc5ce !important;
 }
 
 /* Orthogonal prerequisite paths inserted by skill-flow.js. */
