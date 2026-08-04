@@ -114,7 +114,7 @@
 })();
 
 (() => {
-    const version = "20260805-ads2";
+    const version = "20260805-ads3";
     const styleHref = `/shared/responsive_ads.css?v=${version}`;
     const scriptSrc = `/shared/responsive_ads.js?v=${version}`;
 
@@ -179,7 +179,7 @@
 })();
 
 (() => {
-    const styleHref = "/sea/shared/panel-site-theme.css?v=20260805-panel-site1";
+    const styleHref = "/sea/shared/panel-site-theme.css?v=20260805-panel-site2";
     function loadPanelSiteTheme() {
         if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
         const existing = document.querySelector("link[data-rtnw-panel-site-theme]");
@@ -197,7 +197,7 @@
 })();
 
 (() => {
-    const styleHref = "/sea/skill_planner/panel-theme.css?v=20260805-panel2";
+    const styleHref = "/sea/skill_planner/panel-theme.css?v=20260805-panel3";
     function loadSkillPlannerPanelTheme() {
         const pathname = window.location.pathname.replace(/\/index\.html$/, "/");
         if (pathname !== "/sea/skill_planner/" && pathname !== "/sea/skill_planner") return;

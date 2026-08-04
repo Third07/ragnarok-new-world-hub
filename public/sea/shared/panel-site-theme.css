@@ -1,13 +1,19 @@
-/* Shared RTNW panel theme for every /sea/ database and planner page.
-   Interface colors: blue, white, gray, black, and a restrained yellow accent.
-   Game icons, monster art, equipment art, maps, and card illustrations keep their source colors. */
+/* Shared RTNW panel theme for /sea/ database and planner pages.
+   Blue communicates navigation, selection, and primary actions. Neutral controls
+   remain white or gray so selected, disabled, expanded, and destructive states
+   stay visually distinct. Original game artwork keeps its source colors. */
 
 :root {
   --panel-blue: #5b6ee8;
   --panel-blue-light: #7485f3;
   --panel-blue-dark: #4658c9;
+  --panel-blue-soft: #e7ebff;
   --panel-yellow: #f4bc3f;
   --panel-yellow-soft: #ffe08a;
+  --panel-red: #ef6b78;
+  --panel-red-soft: #ffdce1;
+  --panel-green: #2fbf83;
+  --panel-green-soft: #d9f6ea;
   --panel-sky: #dce5ff;
   --panel-sky-deep: #b9c8fa;
   --panel-white: #ffffff;
@@ -38,13 +44,13 @@
   --gold: var(--panel-yellow) !important;
   --gold-dark: #d99a1d !important;
   --gold-glow: rgba(244, 188, 63, .30) !important;
-  --success: var(--panel-blue) !important;
+  --success: var(--panel-green) !important;
   --warning: var(--panel-yellow) !important;
-  --danger: #c9ced6 !important;
+  --danger: var(--panel-red) !important;
   --border-color: var(--panel-line) !important;
   --border-strong: rgba(91, 110, 232, .38) !important;
   --skill-unlocked: var(--panel-blue) !important;
-  --skill-available: var(--panel-blue-light) !important;
+  --skill-available: var(--panel-green) !important;
   --skill-locked: #c9ced6 !important;
   --rtnw-forest: var(--panel-blue) !important;
   --rtnw-gold: var(--panel-yellow) !important;
@@ -123,7 +129,7 @@ body {
   border-color: var(--panel-yellow) !important;
 }
 
-/* White panel surfaces used across database pages and planners. */
+/* Shared white surfaces. */
 .details-panel,
 .panel,
 .card,
@@ -149,7 +155,6 @@ body {
 .rune-builder,
 .rune-slot-grid,
 .rune-totals,
-.rune-resonance-card,
 .pet-panel,
 .pet-list-panel,
 .pet-detail,
@@ -192,15 +197,10 @@ dd,
   color: var(--panel-text) !important;
 }
 
-a {
-  color: var(--panel-blue-dark) !important;
-}
+a { color: var(--panel-blue-dark) !important; }
+a:hover { color: #7e5b0f !important; }
 
-a:hover {
-  color: #7e5b0f !important;
-}
-
-/* Inputs and browser-replacement select menus. */
+/* Inputs and custom select menus. */
 input,
 select,
 textarea,
@@ -219,9 +219,7 @@ textarea,
 }
 
 input::placeholder,
-textarea::placeholder {
-  color: var(--panel-muted) !important;
-}
+textarea::placeholder { color: var(--panel-muted) !important; }
 
 input:focus,
 select:focus,
@@ -266,33 +264,42 @@ optgroup,
   backdrop-filter: blur(5px) !important;
 }
 
-/* Buttons stay inside the approved palette. */
+/* Neutral is the default control state. */
 button,
-.btn,
-.action-button,
+.btn {
+  color: var(--panel-ink);
+}
+
 .primary-button,
+.action-button,
 .toolbar-button,
-.filter-button {
+.filter-button,
+.map-filter-toggle,
+.map-overlay-button,
+.fusion-simulate-btn,
+.refine-modal-close {
   color: #ffffff !important;
   background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
   border-color: var(--panel-blue-dark) !important;
   box-shadow: 0 6px 14px rgba(48,61,135,.18) !important;
 }
 
-button:hover,
-.btn:hover,
-.action-button:hover,
 .primary-button:hover,
+.action-button:hover,
 .toolbar-button:hover,
-.filter-button:hover {
+.filter-button:hover,
+.map-filter-toggle:hover,
+.map-overlay-button:hover,
+.fusion-simulate-btn:hover,
+.refine-modal-close:hover {
   background: linear-gradient(180deg, #8291f6, var(--panel-blue)) !important;
 }
 
-button.secondary,
 .secondary-button,
-.btn-secondary {
+.btn-secondary,
+button.secondary {
   color: var(--panel-ink) !important;
-  background: var(--panel-surface-soft) !important;
+  background: var(--panel-white) !important;
   border-color: var(--panel-line) !important;
 }
 
@@ -302,20 +309,23 @@ button:disabled,
   color: var(--panel-muted) !important;
   background: #e2e5ea !important;
   border-color: var(--panel-line) !important;
-  opacity: .65 !important;
+  box-shadow: none !important;
+  opacity: .62 !important;
 }
 
-/* Tabs, chips, labels, and filters. */
+/* Neutral tabs, filters, chips, and labels. */
 .tab,
 .tab-button,
 .category-tab,
 .filter-chip,
-.map-filter-chip,
 .card-view-tab,
 .card-rarity-btn,
 .card-filter-chip,
 .events-mode-btn,
 .map-category-tab,
+.affix-quality-btn,
+.affix-rarity-btn,
+.fusion-info-tab,
 .badge,
 .tag,
 .pill,
@@ -323,27 +333,60 @@ button:disabled,
 .monster-tag,
 .card-badge {
   color: var(--panel-text) !important;
-  background: var(--panel-surface-soft) !important;
+  background: var(--panel-white) !important;
   border-color: var(--panel-line) !important;
+  box-shadow: 0 4px 12px rgba(48,61,135,.08) !important;
 }
 
 .tab.active,
 .tab-button.active,
 .category-tab.active,
 .filter-chip.selected,
-.map-filter-chip.selected,
 .card-view-tab.selected,
 .card-rarity-btn.selected,
 .card-filter-chip.selected,
 .events-mode-btn.active,
 .map-category-tab.is-active,
-[aria-selected="true"] {
+.affix-quality-btn.selected,
+.affix-rarity-btn.selected,
+.fusion-info-tab.active {
   color: #ffffff !important;
   background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
   border-color: var(--panel-blue-dark) !important;
+  box-shadow: 0 7px 16px rgba(70,88,201,.20) !important;
 }
 
-/* Lists and result cards. */
+/* Map filters use a lighter selected treatment because many can be active at once. */
+.map-filter-chip,
+.map-filter-row {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 5px 14px rgba(48,61,135,.08) !important;
+}
+
+.map-filter-chip.selected,
+.map-filter-chip[aria-pressed="true"] {
+  color: var(--panel-ink) !important;
+  background: var(--panel-blue-soft) !important;
+  border-color: var(--panel-blue) !important;
+  box-shadow: inset 4px 0 0 var(--panel-blue), 0 6px 15px rgba(48,61,135,.12) !important;
+}
+
+.map-filter-chip-label,
+.map-filter-chip-count {
+  color: inherit !important;
+}
+
+.map-filter-chip.selected::after,
+.map-filter-chip[aria-pressed="true"]::after {
+  content: "✓";
+  margin-left: auto;
+  color: var(--panel-blue-dark);
+  font-weight: 900;
+}
+
+/* Common list and result cards. */
 .qa-card,
 .events-event-tile,
 .events-calendar-card,
@@ -355,9 +398,6 @@ button:disabled,
 .event-item,
 .skill-node,
 .unique-skill-card,
-.map-filter-chip,
-.map-filter-row,
-.rune-slot,
 .affix-card {
   color: var(--panel-ink) !important;
   background: var(--panel-white) !important;
@@ -395,7 +435,35 @@ button:disabled,
   border-color: rgba(91,110,232,.26) !important;
 }
 
-/* Tables */
+/* Card library. */
+.card-source-hint {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  width: auto !important;
+  max-width: 100%;
+  padding: 9px 14px !important;
+  color: var(--panel-blue-dark) !important;
+  background: var(--panel-white) !important;
+  border: 1px solid rgba(91,110,232,.42) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  white-space: normal;
+  text-align: center;
+}
+
+.card-source-hint[aria-expanded="true"] {
+  color: #ffffff !important;
+  background: var(--panel-blue) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+.card-entry.is-expanded {
+  border-color: rgba(91,110,232,.50) !important;
+}
+
+/* Tables. */
 table,
 .table,
 .skill-coeff-table {
@@ -420,23 +488,21 @@ td,
   border-color: var(--panel-line) !important;
 }
 
-tr:hover td {
-  background: #f0f2fa !important;
-}
+tr:hover td { background: #f0f2fa !important; }
 
-/* Planner-specific controls use blue, gray, and yellow only. */
+/* Skill controls preserve their semantic red, green, and yellow meanings. */
 .skill-btn.remove,
 .unique-skill-btn.remove {
-  color: var(--panel-text) !important;
-  background: #dfe2e7 !important;
-  border-color: #c9ced6 !important;
+  color: #ffffff !important;
+  background: linear-gradient(180deg, #f58b96, var(--panel-red)) !important;
+  border-color: #d75161 !important;
 }
 
 .skill-btn.add,
 .unique-skill-btn.add {
   color: #ffffff !important;
-  background: var(--panel-blue) !important;
-  border-color: var(--panel-blue-dark) !important;
+  background: linear-gradient(180deg, #4fd39b, var(--panel-green)) !important;
+  border-color: #229d6c !important;
 }
 
 .skill-btn.add-max,
@@ -447,7 +513,164 @@ tr:hover td {
   border-color: #d99a1d !important;
 }
 
-/* Maps keep their artwork while the surrounding controls use the shared theme. */
+.skill-btn:disabled,
+.unique-skill-btn:disabled {
+  color: #a5abb3 !important;
+  background: #eceef1 !important;
+  border-color: #d8dce2 !important;
+  opacity: .72 !important;
+}
+
+.skill-tag,
+.skill-detail-tag,
+.skill-tags .tag,
+.skill-details .tag {
+  color: var(--panel-text) !important;
+  background: var(--panel-white) !important;
+  border-color: #bfc5ce !important;
+}
+
+/* Affix planner: only the current selection uses blue. */
+.affix-equipment-tile,
+.affix-selected-card,
+.affix-type-btn,
+.affix-card {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 5px 14px rgba(48,61,135,.08) !important;
+}
+
+.affix-selected-empty {
+  color: var(--panel-muted) !important;
+  background: var(--panel-surface-soft) !important;
+  border-style: dashed !important;
+}
+
+.affix-type-btn.selected,
+.affix-card.selected,
+.affix-card.is-selected {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+.affix-type-btn.selected .affix-type-name,
+.affix-card.selected,
+.affix-card.is-selected {
+  color: #ffffff !important;
+}
+
+.affix-equipment-tile:hover,
+.affix-equipment-tile:focus-visible,
+.affix-type-btn:hover,
+.affix-type-btn:focus-visible {
+  border-color: var(--panel-blue) !important;
+  background: var(--panel-blue-soft) !important;
+}
+
+/* Rune planner: white configuration surfaces, blue only for active choices. */
+.rune-loadout-section,
+.rune-affix-section,
+.rune-totals,
+.rune-resonance-list {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.rune-loadout-row,
+.rune-loadout-slot,
+.rune-loadout-card,
+.rune-selector-trigger,
+.rune-option,
+.rune-resonance-card {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 5px 14px rgba(48,61,135,.08) !important;
+}
+
+.rune-loadout-row.selected .rune-loadout-slot,
+.rune-loadout-row.selected .rune-loadout-card {
+  background: var(--panel-blue-soft) !important;
+  border-color: var(--panel-blue) !important;
+  box-shadow: inset 4px 0 0 var(--panel-blue), 0 6px 16px rgba(48,61,135,.12) !important;
+}
+
+.rune-loadout-card-name,
+.rune-selector-trigger-title,
+.rune-option-title,
+.rune-loadout-slot-label {
+  color: var(--panel-ink) !important;
+}
+
+.rune-loadout-card-desc,
+.rune-selector-trigger-desc,
+.rune-option-desc,
+.rune-weight-meta,
+.rune-loadout-card-level,
+.rune-loadout-element {
+  color: var(--panel-text) !important;
+}
+
+.rune-option.selected,
+.rune-selector[data-open="true"] > .rune-selector-trigger,
+.rune-selector-trigger[aria-expanded="true"] {
+  color: var(--panel-ink) !important;
+  background: var(--panel-blue-soft) !important;
+  border-color: var(--panel-blue) !important;
+  box-shadow: inset 4px 0 0 var(--panel-blue) !important;
+}
+
+.rune-option:disabled {
+  color: var(--panel-muted) !important;
+  background: #eceef1 !important;
+  border-color: var(--panel-line) !important;
+}
+
+.rune-resonance-card {
+  overflow: hidden;
+}
+
+.resonance-toggle {
+  color: #ffffff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+  box-shadow: none !important;
+}
+
+.resonance-toggle-title,
+.resonance-toggle-count,
+.resonance-toggle-caret,
+.resonance-toggle-status,
+.resonance-toggle-label {
+  color: #ffffff !important;
+}
+
+.resonance-toggle-count {
+  color: var(--panel-yellow-soft) !important;
+}
+
+.rune-resonance-tier {
+  color: var(--panel-text) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.rune-resonance-tier.active {
+  color: var(--panel-ink) !important;
+  background: var(--panel-blue-soft) !important;
+  border-color: rgba(91,110,232,.40) !important;
+}
+
+.rune-slot-clear {
+  color: #ffffff !important;
+  background: var(--panel-blue) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+/* Maps keep the artwork while surrounding controls use semantic states. */
 .map-shell {
   background: var(--panel-surface-soft) !important;
   border-color: var(--panel-line) !important;
@@ -467,13 +690,17 @@ tr:hover td {
   border-color: var(--panel-line) !important;
 }
 
-/* Advertisement presentation */
-.rtnw-ad-label {
-  color: var(--panel-text) !important;
+.map-filter-badge {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: rgba(255,255,255,.75) !important;
 }
 
+/* Advertisement presentation. */
+.rtnw-ad-label { color: var(--panel-text) !important; }
+
 .rtnw-ad-slot::before {
-  background: rgba(255,255,255,.48) !important;
+  background: rgba(255,255,255,.46) !important;
   border-color: rgba(91,110,232,.16) !important;
 }
 
@@ -482,29 +709,17 @@ tr:hover td {
   box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14) !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #dce5ff !important;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #8d9be7 !important;
-  border-color: #dce5ff !important;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--panel-blue) !important;
-}
+::-webkit-scrollbar-track { background: #dce5ff !important; }
+::-webkit-scrollbar-thumb { background: #8d9be7 !important; border-color: #dce5ff !important; }
+::-webkit-scrollbar-thumb:hover { background: var(--panel-blue) !important; }
 
 @media (max-width: 760px) {
-  .header {
-    padding-inline: 8px !important;
-  }
+  .header { padding-inline: 8px !important; }
+  .header .site-nav { background: transparent !important; }
+  .main-content { padding-inline: 10px !important; }
 
-  .header .site-nav {
-    background: transparent !important;
-  }
-
-  .main-content {
-    padding-inline: 10px !important;
+  .card-source-hint {
+    width: 100% !important;
+    justify-self: stretch;
   }
 }
