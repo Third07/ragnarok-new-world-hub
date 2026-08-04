@@ -1,0 +1,99 @@
+/* Route-specific compatibility fixes for older page modules. */
+
+body[data-rtnw-route="guides-class-tier-list"] {
+  --parchment: #08131f;
+  --paper: #122638;
+  --forest: #8de1dd;
+  --forest-deep: #f4f8fb;
+  --sage: #b4c3cf;
+  --ink: #eaf2f7;
+  background: #08131f;
+  color: #eaf2f7;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] header {
+  background: rgba(8, 19, 31, .94) !important;
+  border-bottom-color: rgba(240, 217, 140, .20) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .30) !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] header a,
+body[data-rtnw-route="guides-class-tier-list"] header strong {
+  color: #eaf2f7 !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] header small {
+  color: #f0d98c !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(31, 111, 120, .16), transparent 26rem),
+    radial-gradient(circle at 88% 44%, rgba(201, 78, 104, .08), transparent 22rem),
+    #08131f !important;
+  color: #eaf2f7;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main h2,
+body[data-rtnw-route="guides-class-tier-list"] main h3,
+body[data-rtnw-route="guides-class-tier-list"] main h4,
+body[data-rtnw-route="guides-class-tier-list"] main summary,
+body[data-rtnw-route="guides-class-tier-list"] main strong {
+  color: #f4f8fb !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main p,
+body[data-rtnw-route="guides-class-tier-list"] main li,
+body[data-rtnw-route="guides-class-tier-list"] main small {
+  color: #b4c3cf !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main a {
+  color: #8de1dd;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main a:hover {
+  color: #f0d98c;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main [class*="contents"],
+body[data-rtnw-route="guides-class-tier-list"] main [class*="answerGrid"] article,
+body[data-rtnw-route="guides-class-tier-list"] main [class*="tierRow"],
+body[data-rtnw-route="guides-class-tier-list"] main [class*="classChip"],
+body[data-rtnw-route="guides-class-tier-list"] main [class*="profileCard"],
+body[data-rtnw-route="guides-class-tier-list"] main [class*="notice"],
+body[data-rtnw-route="guides-class-tier-list"] main [class*="bestPick"],
+body[data-rtnw-route="guides-class-tier-list"] main details {
+  background: linear-gradient(155deg, rgba(24, 54, 74, .88), rgba(13, 31, 47, .97)) !important;
+  border-color: rgba(145, 165, 181, .18) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .20), inset 0 1px rgba(255, 255, 255, .035) !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main [class*="answerGrid"] article span,
+body[data-rtnw-route="guides-class-tier-list"] main [class*="sectionKicker"],
+body[data-rtnw-route="guides-class-tier-list"] main [class*="profileCard"] > strong {
+  color: #f08ba3 !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main [class*="classChip"] img,
+body[data-rtnw-route="guides-class-tier-list"] main [class*="profileHeader"] img {
+  background: rgba(8, 19, 31, .58) !important;
+  border-color: rgba(240, 217, 140, .20) !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] main [class*="tierLabel"] strong,
+body[data-rtnw-route="guides-class-tier-list"] main [class*="tierLabel"] span {
+  color: inherit !important;
+}
+
+body[data-rtnw-route="guides-class-tier-list"] footer {
+  background: #050d15 !important;
+  border-top-color: rgba(240, 217, 140, .16) !important;
+}
+
+@media (max-width: 760px) {
+  body[data-rtnw-route="guides-class-tier-list"] main [class*="answerGrid"] article,
+  body[data-rtnw-route="guides-class-tier-list"] main [class*="profileCard"] {
+    min-height: auto !important;
+  }
+}
