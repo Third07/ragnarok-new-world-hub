@@ -1,0 +1,455 @@
+/* Unified RTNW interface theme based on the bright blue Novice skill panel.
+   Interface colors are limited to blue, white, gray, black, and a small yellow accent.
+   Original game artwork and icon colors are intentionally preserved. */
+
+:root {
+  --panel-blue: #5b6ee8;
+  --panel-blue-light: #7485f3;
+  --panel-blue-dark: #4658c9;
+  --panel-yellow: #f4bc3f;
+  --panel-yellow-soft: #ffe08a;
+  --panel-sky: #dce5ff;
+  --panel-sky-deep: #bac9fb;
+  --panel-white: #ffffff;
+  --panel-surface: #f7f7f5;
+  --panel-surface-soft: #eef0f3;
+  --panel-ink: #181b20;
+  --panel-text: #59616b;
+  --panel-muted: #9298a1;
+  --panel-line: #d4d8df;
+  --panel-shadow: rgba(48, 61, 135, .18);
+
+  --night: var(--panel-sky);
+  --night-soft: var(--panel-surface-soft);
+  --panel: var(--panel-white);
+  --panel-raised: var(--panel-surface);
+  --panel-glass: rgba(255, 255, 255, .92);
+  --teal: var(--panel-blue);
+  --teal-bright: var(--panel-blue-light);
+  --gold: var(--panel-yellow);
+  --gold-soft: var(--panel-yellow-soft);
+  --ruby: var(--panel-blue);
+  --ruby-dark: var(--panel-blue-dark);
+  --text: var(--panel-ink);
+  --text-soft: var(--panel-text);
+  --muted: var(--panel-muted);
+  --line: rgba(70, 88, 201, .18);
+  --line-strong: rgba(70, 88, 201, .34);
+  --focus: var(--panel-blue);
+  --parchment: var(--panel-sky);
+  --paper: var(--panel-white);
+  --forest: var(--panel-blue);
+  --forest-deep: var(--panel-ink);
+  --sage: var(--panel-text);
+  --ink: var(--panel-ink);
+  color-scheme: light;
+}
+
+html,
+body {
+  background: var(--panel-sky) !important;
+  color: var(--panel-ink) !important;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 14% 12%, rgba(255,255,255,.72), transparent 24rem),
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,.38), transparent 28rem),
+    linear-gradient(180deg, #edf2ff 0%, var(--panel-sky) 46%, var(--panel-sky-deep) 100%) !important;
+  background-attachment: fixed !important;
+}
+
+::selection {
+  background: rgba(91, 110, 232, .24);
+  color: var(--panel-ink);
+}
+
+.site-shell,
+.page,
+[class*="shell"],
+[class*="Shell"] {
+  background-color: transparent !important;
+}
+
+.site-shell {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(255,255,255,.72), transparent 26rem),
+    radial-gradient(circle at 88% 30%, rgba(255,255,255,.34), transparent 30rem),
+    linear-gradient(180deg, #e9efff 0%, var(--panel-sky) 58%, #c8d5ff 100%) !important;
+}
+
+/* Shared top navigation */
+.site-header,
+body[data-rtnw-route^="guides"] header,
+body[data-rtnw-route^="tools"] header,
+body[data-rtnw-route="search"] header,
+body[data-rtnw-route="updates"] header {
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue) 58%, var(--panel-blue-dark)) !important;
+  border-bottom: 3px solid var(--panel-yellow) !important;
+  box-shadow: 0 10px 26px rgba(48, 61, 135, .24) !important;
+}
+
+.site-header::after {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent) !important;
+}
+
+.brand-crest {
+  color: #fff !important;
+  background: linear-gradient(145deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-yellow) !important;
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.16), 0 8px 20px rgba(48,61,135,.24) !important;
+}
+
+.brand-copy strong,
+.site-header a,
+.desktop-nav a,
+body[data-rtnw-route^="guides"] header a,
+body[data-rtnw-route^="tools"] header a {
+  color: #fff !important;
+}
+
+.brand-copy small,
+body[data-rtnw-route^="guides"] header small,
+body[data-rtnw-route^="tools"] header small {
+  color: var(--panel-yellow-soft) !important;
+}
+
+.desktop-nav a::after {
+  background: var(--panel-yellow) !important;
+}
+
+.search-shortcut,
+.menu-toggle,
+.language-switcher-button {
+  color: var(--panel-ink) !important;
+  background: rgba(255,255,255,.94) !important;
+  border-color: rgba(255,255,255,.78) !important;
+  box-shadow: 0 5px 14px rgba(48,61,135,.16) !important;
+}
+
+.search-shortcut > span:first-child,
+.menu-toggle span {
+  color: var(--panel-blue-dark) !important;
+  background: var(--panel-blue-dark) !important;
+}
+
+.search-shortcut kbd {
+  color: var(--panel-text) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.mobile-menu,
+.language-switcher-menu {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 22px 52px rgba(48,61,135,.22) !important;
+}
+
+.mobile-menu a,
+.language-switcher-menu a,
+.language-switcher-menu button {
+  color: var(--panel-ink) !important;
+  border-color: var(--panel-line) !important;
+}
+
+/* Hero and prominent blue sections */
+.hero {
+  background: linear-gradient(180deg, #94a6f7, #6577e9) !important;
+  border-bottom-color: var(--panel-yellow) !important;
+}
+
+.hero::before {
+  background:
+    linear-gradient(90deg, rgba(70,88,201,.90), rgba(91,110,232,.66) 48%, rgba(91,110,232,.16)),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(70,88,201,.76)) !important;
+}
+
+.hero::after {
+  background: linear-gradient(180deg, transparent, var(--panel-sky)) !important;
+}
+
+.hero-art {
+  filter: saturate(.96) contrast(1.02) brightness(.92) !important;
+}
+
+.hero h1,
+.hero-copy,
+.hero-meta,
+.hero-meta strong {
+  color: #fff !important;
+}
+
+.hero h1 em,
+.eyebrow,
+.eyebrow.dark,
+.section-kicker,
+[class*="Kicker"],
+[class*="kicker"] {
+  color: var(--panel-yellow-soft) !important;
+}
+
+.eyebrow span,
+.section-kicker .rule {
+  background: var(--panel-yellow) !important;
+}
+
+/* Buttons and form controls */
+.primary-button,
+button[class*="primary"],
+a[class*="primary"],
+button[class*="Primary"],
+a[class*="Primary"] {
+  color: #fff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+  box-shadow: 0 8px 18px rgba(70,88,201,.24) !important;
+}
+
+.secondary-button,
+button[class*="secondary"],
+a[class*="secondary"],
+button[class*="Secondary"],
+a[class*="Secondary"] {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  color: var(--panel-muted) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+input,
+select,
+textarea,
+[class*="input"],
+[class*="Input"],
+[class*="select"],
+[class*="Select"] {
+  color: var(--panel-ink) !important;
+  background-color: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--panel-muted) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--panel-blue) !important;
+  box-shadow: 0 0 0 3px rgba(91,110,232,.16) !important;
+}
+
+/* Homepage cards and common modern-page surfaces */
+.quick-card,
+.tool-card,
+.guide-paths article,
+.journey-banner,
+.tool-controls,
+.empty-state,
+main article,
+main details,
+body[data-rtnw-route^="guides"] main [class*="Card"],
+body[data-rtnw-route^="guides"] main [class*="card"],
+body[data-rtnw-route^="guides"] main [class*="Panel"],
+body[data-rtnw-route^="guides"] main [class*="panel"],
+body[data-rtnw-route^="tools"] main [class*="Card"],
+body[data-rtnw-route^="tools"] main [class*="card"],
+body[data-rtnw-route^="tools"] main [class*="Panel"],
+body[data-rtnw-route^="tools"] main [class*="panel"],
+body[data-rtnw-route="search"] main [class*="Card"],
+body[data-rtnw-route="search"] main [class*="card"],
+body[data-rtnw-route="updates"] main [class*="Card"],
+body[data-rtnw-route="updates"] main [class*="card"] {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+  box-shadow: 0 12px 28px var(--panel-shadow), inset 0 1px rgba(255,255,255,.8) !important;
+}
+
+.quick-card::before,
+.quick-card::after {
+  opacity: .10 !important;
+}
+
+.icon-medallion,
+.tool-icon,
+[class*="iconWrap"],
+[class*="IconWrap"] {
+  background: var(--panel-surface-soft) !important;
+  border-color: rgba(91,110,232,.28) !important;
+}
+
+.quick-card-copy small,
+.tool-card > small,
+.card-number,
+.guide-paths article > span:first-child,
+[class*="badge"],
+[class*="Badge"] {
+  color: var(--panel-blue-dark) !important;
+}
+
+.quick-card-copy strong,
+.tool-card h3,
+.library-heading h2,
+.guide-overview-heading h2,
+.guide-paths h3,
+.journey-banner h2,
+main h1,
+main h2,
+main h3,
+main h4,
+main strong,
+main summary,
+main label {
+  color: var(--panel-ink) !important;
+}
+
+.quick-card-copy > span,
+.tool-card p,
+.library-heading > p,
+.guide-overview-heading > p:last-of-type,
+.guide-paths p,
+main p,
+main li,
+main dd,
+main small {
+  color: var(--panel-text) !important;
+}
+
+.card-arrow,
+.tool-link,
+.guide-paths p a,
+.guide-path-link,
+main a {
+  color: var(--panel-blue-dark) !important;
+}
+
+main a:hover,
+.tool-card:hover .tool-link,
+.guide-path-link:hover {
+  color: #7e5b0f !important;
+}
+
+.tool-card:hover,
+.quick-card:hover,
+.guide-paths article:hover {
+  border-color: rgba(91,110,232,.48) !important;
+  box-shadow: 0 18px 38px rgba(48,61,135,.22) !important;
+}
+
+.tool-search,
+.category-tabs button,
+[class*="chip"],
+[class*="Chip"],
+[class*="tab"],
+[class*="Tab"] {
+  color: var(--panel-text) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+.category-tabs button.is-active,
+[class*="active"][class*="tab"],
+[class*="active"][class*="Tab"],
+[aria-selected="true"] {
+  color: #fff !important;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+[class*="tierLabel"],
+[class*="TierLabel"] {
+  color: var(--panel-ink) !important;
+}
+
+/* Tables, notices, FAQs, and result blocks */
+table,
+[class*="table"],
+[class*="Table"] {
+  color: var(--panel-ink) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+thead,
+th {
+  color: #fff !important;
+  background: var(--panel-blue) !important;
+  border-color: var(--panel-blue-dark) !important;
+}
+
+td {
+  color: var(--panel-text) !important;
+  background: var(--panel-white) !important;
+  border-color: var(--panel-line) !important;
+}
+
+[class*="notice"],
+[class*="Notice"],
+[class*="result"],
+[class*="Result"] {
+  color: var(--panel-ink) !important;
+  background: var(--panel-surface-soft) !important;
+  border-color: var(--panel-line) !important;
+}
+
+[class*="notice"]::before,
+[class*="Notice"]::before {
+  background: var(--panel-yellow) !important;
+}
+
+/* Ads follow the same restrained interface palette. */
+.rtnw-ad-label {
+  color: var(--panel-text) !important;
+}
+
+.rtnw-ad-slot::before {
+  background: rgba(255,255,255,.46) !important;
+  border-color: rgba(91,110,232,.16) !important;
+}
+
+.rtnw-ad-frame {
+  background: var(--panel-surface-soft) !important;
+  box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14) !important;
+}
+
+/* Footer */
+footer,
+.mobile-dock {
+  color: #fff !important;
+  background: linear-gradient(180deg, var(--panel-blue), var(--panel-blue-dark)) !important;
+  border-color: var(--panel-yellow) !important;
+}
+
+footer a,
+footer p,
+.footer-meta a,
+.footer-meta p,
+.mobile-dock a,
+.mobile-dock a span {
+  color: #fff !important;
+}
+
+footer small,
+.footer-brand .brand-copy small {
+  color: var(--panel-yellow-soft) !important;
+}
+
+@media (max-width: 680px) {
+  .hero::before {
+    background: linear-gradient(180deg, rgba(91,110,232,.12) 8%, rgba(91,110,232,.52) 44%, rgba(70,88,201,.92) 76%) !important;
+  }
+
+  .mobile-dock {
+    box-shadow: 0 -8px 24px rgba(48,61,135,.20) !important;
+  }
+}
