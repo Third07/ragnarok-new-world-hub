@@ -38,6 +38,21 @@ function remoteCandidates(name) {
   })));
 }
 
+function detectImageExtension(bytes) {
+  if (bytes.length >= 12) {
+    const riff = String.fromCharCode(...bytes.slice(0, 4));
+    const webp = String.fromCharCode(...bytes.slice(8, 12));
+    if (riff === "RIFF" && webp === "WEBP") return "webp";
+  }
+  if (
+    bytes.length >= 8 &&
+    bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47 &&
+    bytes[4] === 0x0d && bytes[5] === 0x0a && bytes[6] === 0x1a && bytes[7] === 0x0a
+  ) return "png";
+  if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return "jpg";
+  return null;
+}
+
 async function fetchImage(candidate) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 20000);
@@ -52,10 +67,16 @@ async function fetchImage(candidate) {
     });
     if (!response.ok) return null;
     const contentType = String(response.headers.get("content-type") || "").toLowerCase();
-    if (!contentType.startsWith("image/")) return null;
     const bytes = new Uint8Array(await response.arrayBuffer());
     if (bytes.byteLength < 64) return null;
-    return { bytes, contentType, finalUrl: response.url || candidate.url };
+    const detectedExtension = detectImageExtension(bytes);
+    if (!contentType.startsWith("image/") && !detectedExtension) return null;
+    return {
+      bytes,
+      contentType,
+      extension: detectedExtension || candidate.extension,
+      finalUrl: response.url || candidate.url,
+    };
   } catch {
     return null;
   } finally {
@@ -64,7 +85,7 @@ async function fetchImage(candidate) {
 }
 
 async function findLocal(name) {
-  for (const extension of extensions) {
+  for (const extension of ["webp", "png", "jpg", "jpeg"]) {
     const file = path.join(outputDir, `${name}.${extension}`);
     if (await exists(file)) return { extension, file };
   }
@@ -85,7 +106,7 @@ async function processPicture(name) {
     const image = await fetchImage(candidate);
     if (!image) continue;
 
-    const destination = path.join(outputDir, `${name}.${candidate.extension}`);
+    const destination = path.join(outputDir, `${name}.${image.extension}`);
     if (apply) {
       await mkdir(outputDir, { recursive: true });
       await writeFile(destination, image.bytes);
