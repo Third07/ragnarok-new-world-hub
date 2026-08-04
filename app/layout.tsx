@@ -6,6 +6,7 @@ import "./trust-navigation.css";
 import "./language-switcher.css";
 import "../public/shared/responsive_ads.css";
 import "./dark-ragnarok.css";
+import "./route-fixes.css";
 
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
@@ -151,7 +152,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <script
-          src="/shared/responsive_ads.js?v=20260805-ads1"
+          src="/shared/responsive_ads.js?v=20260805-ads2"
           defer
           data-rtnw-ads="true"
         />
