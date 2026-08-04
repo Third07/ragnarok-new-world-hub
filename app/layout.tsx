@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import GuideNavigation from "./GuideNavigation";
+import LanguageSwitcher from "./LanguageSwitcher";
 import "./globals.css";
 import "./trust-navigation.css";
+import "./language-switcher.css";
 import "../public/shared/responsive_ads.css";
 
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
@@ -133,6 +135,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           data-rtnw-ads="true"
         />
         <GuideNavigation />
+        <LanguageSwitcher />
         {children}
       </body>
     </html>
