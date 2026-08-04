@@ -4,6 +4,10 @@ import { useEffect } from "react";
 
 const GUIDE_HREF = "/guides/";
 const SETUP_HREF = "/guides/technical/";
+const PLAY_PC_HREF = "/guides/play-on-pc/";
+const EMULATOR_HREF = "/guides/emulator-settings/";
+const TOPUP_GUIDE_HREF = "/guides/top-up-safely/";
+const CLOUD_HREF = "/guides/cloud-gaming/";
 const REDEEM_HREF = "/guides/redeem-codes/";
 const PC_CHECKER_HREF = "/tools/pc-setup-checker/";
 const TOPUP_CALCULATOR_HREF = "/tools/top-up-calculator/";
@@ -137,6 +141,10 @@ function injectGuideNavigation() {
     const firstTool = mobileMenu.querySelector("a:nth-of-type(2)");
     injectPrimaryLink(mobileMenu, GUIDE_HREF, "Guides", firstTool);
     injectPrimaryLink(mobileMenu, SETUP_HREF, "PC & Setup Guides", firstTool);
+    injectPrimaryLink(mobileMenu, PLAY_PC_HREF, "Download & Play on PC", firstTool);
+    injectPrimaryLink(mobileMenu, EMULATOR_HREF, "Emulator Settings", firstTool);
+    injectPrimaryLink(mobileMenu, TOPUP_GUIDE_HREF, "Safe Top-Up Guide", firstTool);
+    injectPrimaryLink(mobileMenu, CLOUD_HREF, "Cloud Gaming Guide", firstTool);
     injectPrimaryLink(mobileMenu, PC_CHECKER_HREF, "PC Setup Checker", firstTool);
     injectPrimaryLink(mobileMenu, TOPUP_CALCULATOR_HREF, "Top-Up Calculator", firstTool);
     injectPrimaryLink(mobileMenu, REDEEM_HREF, "Redeem Codes", firstTool);
