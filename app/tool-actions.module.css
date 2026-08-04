@@ -4,156 +4,43 @@
   gap: 10px;
   margin-top: 22px;
   padding-top: 18px;
-  border-top: 1px solid #cbded8;
+  border-top: 1px solid rgba(145,165,181,.14);
 }
-
 .button {
   min-height: 42px;
   padding: 10px 15px;
-  border: 1px solid #b6c9c3;
+  border: 1px solid rgba(145,165,181,.24);
   border-radius: 10px;
-  background: #fff;
-  color: #164e45;
+  background: rgba(24,54,74,.62);
+  color: #eaf2f7;
   font-family: inherit;
   font-size: 13px;
   font-weight: 800;
   line-height: 1.2;
   cursor: pointer;
 }
-
-.button:hover {
-  border-color: #c79a37;
-  background: #fffaf0;
-}
-
-.primary {
-  border-color: #17665b;
-  background: #17665b;
-  color: #fff;
-}
-
-.primary:hover {
-  border-color: #0d4b43;
-  background: #0d4b43;
-}
-
-.status {
-  flex-basis: 100%;
-  min-height: 20px;
-  margin: 2px 0 0;
-  color: #405d56;
-  font-size: 13px;
-}
-
-.saved {
-  margin-top: 26px;
-  padding-top: 20px;
-  border-top: 1px solid #d8e4e0;
-}
-
-.saved h2 {
-  margin: 0 0 12px;
-  color: #0b342f;
-  font: 750 22px/1.2 Georgia, serif;
-}
-
-.savedList {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.savedItem {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  padding: 13px 14px;
-  border: 1px solid #d6dfdc;
-  border-radius: 11px;
-  background: #fbfaf6;
-}
-
-.savedCopy {
-  min-width: 0;
-}
-
-.savedCopy strong,
-.savedCopy span {
-  display: block;
-}
-
-.savedCopy strong {
-  overflow: hidden;
-  color: #123f39;
-  font-size: 14px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.savedCopy span {
-  margin-top: 3px;
-  color: #6b7e78;
-  font-size: 11px;
-}
-
-.savedButtons {
-  display: flex;
-  gap: 7px;
-}
-
-.savedButtons button {
-  min-height: 34px;
-  padding: 7px 10px;
-  border: 1px solid #c4d1cd;
-  border-radius: 8px;
-  background: #fff;
-  color: #17665b;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.savedButtons button:last-child {
-  color: #98432f;
-}
-
-.empty {
-  margin: 0;
-  color: #6b7e78;
-  font-size: 13px;
-}
-
+.button:hover { border-color: rgba(217,164,65,.5); background: rgba(31,111,120,.18); color: #f0d98c; }
+.primary { border-color: rgba(240,217,140,.28); background: linear-gradient(180deg, #1f6f78, #174b5b); color: #fff; }
+.primary:hover { border-color: rgba(240,217,140,.52); background: linear-gradient(180deg, #2b8790, #1f6f78); color: #fff; }
+.status { flex-basis: 100%; min-height: 20px; margin: 2px 0 0; color: #91a5b5; font-size: 13px; }
+.saved { margin-top: 26px; padding-top: 20px; border-top: 1px solid rgba(145,165,181,.14); }
+.saved h2 { margin: 0 0 12px; color: #fff; font: 750 22px/1.2 Georgia, serif; }
+.savedList { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.savedItem { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 13px 14px; border: 1px solid rgba(145,165,181,.15); border-radius: 11px; background: rgba(8,19,31,.46); }
+.savedCopy { min-width: 0; }
+.savedCopy strong, .savedCopy span { display: block; }
+.savedCopy strong { overflow: hidden; color: #eaf2f7; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+.savedCopy span { margin-top: 3px; color: #91a5b5; font-size: 11px; }
+.savedButtons { display: flex; gap: 7px; }
+.savedButtons button { min-height: 34px; padding: 7px 10px; border: 1px solid rgba(145,165,181,.22); border-radius: 8px; background: rgba(24,54,74,.58); color: #8de1dd; font-family: inherit; font-size: 11px; font-weight: 800; line-height: 1; cursor: pointer; }
+.savedButtons button:hover { border-color: rgba(217,164,65,.46); color: #f0d98c; }
+.savedButtons button:last-child { color: #ff9bb0; }
+.empty { margin: 0; color: #91a5b5; font-size: 13px; }
 @media (max-width: 620px) {
-  .actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .button {
-    width: 100%;
-  }
-
-  .status {
-    grid-column: 1 / -1;
-  }
-
-  .savedItem {
-    grid-template-columns: 1fr;
-  }
-
-  .savedButtons button {
-    flex: 1;
-  }
+  .actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .button { width: 100%; }
+  .status { grid-column: 1 / -1; }
+  .savedItem { grid-template-columns: 1fr; }
+  .savedButtons button { flex: 1; }
 }
-
-@media print {
-  .actions,
-  .saved {
-    display: none !important;
-  }
-}
+@media print { .actions, .saved { display: none !important; } }
