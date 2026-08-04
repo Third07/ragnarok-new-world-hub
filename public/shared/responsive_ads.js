@@ -116,8 +116,12 @@
     return slot;
   }
 
+  function findArticle(main) {
+    return main.querySelector("article") || main.querySelector(":scope > section");
+  }
+
   function addGuidePlacements(main) {
-    const article = main.querySelector("article, .article");
+    const article = findArticle(main);
 
     if (!document.querySelector('[data-ad-placement="guide-inline"]')) {
       const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
@@ -128,7 +132,7 @@
         const sectionBreak = headings[2] || headings[1] || null;
         if (sectionBreak) sectionBreak.insertAdjacentElement("beforebegin", banner);
         else {
-          const lead = article.querySelector(":scope > p, :scope > .lead");
+          const lead = article.querySelector(":scope > p");
           if (lead) lead.insertAdjacentElement("afterend", banner);
           else article.prepend(banner);
         }
@@ -144,8 +148,9 @@
       rectangle.dataset.adPlacement = "guide-end";
 
       if (article) {
-        const layout = article.closest(".layout");
-        if (layout) layout.insertAdjacentElement("afterend", rectangle);
+        const parent = article.parentElement;
+        const articleHasSidebar = Boolean(parent?.querySelector(":scope > aside"));
+        if (parent && articleHasSidebar) parent.insertAdjacentElement("afterend", rectangle);
         else article.insertAdjacentElement("afterend", rectangle);
       } else {
         main.appendChild(rectangle);
@@ -153,9 +158,16 @@
     }
   }
 
+  function findToolShell(main) {
+    return main.querySelector('[data-tool-shell="true"]') ||
+      main.querySelector(":scope > div:not([data-ad-slot])") ||
+      main.querySelector(":scope > section > div:not([data-ad-slot])") ||
+      main.querySelector(":scope > article > div:not([data-ad-slot])");
+  }
+
   function addToolPlacements(main) {
-    const tool = main.querySelector(".toolShell");
-    const article = main.querySelector("article, .article");
+    const tool = findToolShell(main);
+    const article = main.querySelector("article");
 
     if (tool && !document.querySelector('[data-ad-placement="tool-inline"]')) {
       const banner = newSlot("responsive", "rtnw-ad-slot--content-break");
