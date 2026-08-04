@@ -22,21 +22,37 @@ const siteVerification: Metadata["verification"] =
 export const metadata: Metadata = {
   metadataBase: new URL("https://rtnw.online"),
   title: {
-    default: "Ragnarok: The New World Database, Guides & Tools | RTNW Hub",
+    default: "Ragnarok: The New World Database & Skill Simulator | RTNW Hub",
     template: "%s | RTNW Hub",
   },
   description:
-    "Search the Ragnarok: The New World database for monsters, cards, equipment, and pets. Use the skill simulator, interactive map, quiz answers, builds, and guides.",
+    "Search the Ragnarok: The New World database for monsters, cards, equipment, and pets. Use the skill simulator, interactive map, quiz answers, class builds, and guides.",
   applicationName: "RTNW Hub",
-  alternates: { canonical: "/" },
+  authors: [{ name: "RTNW Hub", url: "https://rtnw.online/" }],
+  creator: "RTNW Hub",
+  publisher: "RTNW Hub",
+  keywords: [
+    "Ragnarok The New World database",
+    "Ragnarok The New World skill simulator",
+    "Ragnarok New World database",
+    "Ragnarok New World quiz answers",
+    "RTNW",
+    "RTNW database",
+    "Ragnarok The New World maps",
+    "Ragnarok The New World builds",
+  ],
+  alternates: {
+    canonical: "/",
+    languages: { "en": "/" },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "/",
     siteName: "RTNW Hub",
-    title: "Ragnarok: The New World Database, Guides & Tools",
+    title: "Ragnarok: The New World Database & Skill Simulator",
     description:
-      "English Ragnarok: The New World database, skill simulator, interactive map, quiz answers, class builds, and guides.",
+      "Search monsters, cards, equipment, and pets, then use the RTNW skill simulator, interactive map, quiz answers, class builds, and guides.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -48,8 +64,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ragnarok: The New World Database, Guides & Tools",
-    description: "Search RTNW monsters, cards, equipment, pets, quiz answers, builds, maps, and skill tools.",
+    title: "Ragnarok: The New World Database & Skill Simulator",
+    description:
+      "Search RTNW monsters, cards, equipment, pets, quiz answers, builds, maps, and skill tools.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
   robots: {
@@ -73,7 +90,6 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   category: "games",
-  other: { "codex-preview": "development" },
 };
 
 export const viewport: Viewport = {
@@ -113,9 +129,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         "@id": "https://rtnw.online/#website",
         url: "https://rtnw.online/",
         name: "RTNW Hub",
-        alternateName: "Ragnarok: The New World Hub",
+        alternateName: [
+          "Ragnarok: The New World Hub",
+          "Ragnarok The New World Database",
+          "RTNW Database",
+        ],
         description:
-          "English Ragnarok: The New World database, interactive tools, class builds, and practical guides.",
+          "English Ragnarok: The New World database, skill simulator, interactive map, quiz answers, class builds, and practical guides.",
         publisher: { "@id": "https://rtnw.online/#organization" },
         inLanguage: "en",
       },
