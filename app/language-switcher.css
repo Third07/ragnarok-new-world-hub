@@ -3,20 +3,20 @@
   position: relative;
   display: flex;
   align-items: center;
-  color: #dce7ee;
+  color: var(--panel-ink, #181b20);
   font-weight: 800;
 }
 
 .header-language-switcher {
   order: -1;
   min-width: 154px;
-  height: 40px;
-  gap: 7px;
-  padding: 0 10px 0 12px;
-  border: 1px solid rgba(59, 166, 170, .24);
-  border-radius: 10px;
-  background: rgba(24, 54, 74, .66);
-  box-shadow: inset 0 1px rgba(255,255,255,.04);
+  height: 42px;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid rgba(70, 88, 201, .24);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 6px 16px rgba(48, 61, 135, .16);
 }
 
 .header-language-switcher--fallback {
@@ -26,19 +26,19 @@
   right: 16px;
   order: initial;
   min-width: 142px;
-  background: rgba(8,19,31,.82);
   backdrop-filter: blur(12px);
 }
 
 .language-switcher-icon {
   display: grid;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   flex: 0 0 auto;
   place-items: center;
-  border: 1px solid rgba(217, 164, 65, .72);
+  border: 1px solid rgba(91, 110, 232, .46);
   border-radius: 50%;
-  color: #f0d98c;
+  background: #e7ebff;
+  color: #4658c9;
   font-size: 12px;
   line-height: 1;
 }
@@ -60,29 +60,95 @@
   outline: 0;
   appearance: none;
   background: transparent;
-  color: #dce7ee;
+  color: #181b20;
   font: inherit;
   cursor: pointer;
 }
-.header-language-switcher select { flex: 1; padding: 0 18px 0 0; font-size: 11px; }
+
+.header-language-switcher select {
+  flex: 1;
+  padding: 0 18px 0 0;
+  font-size: 11px;
+}
+
 .header-language-switcher option,
-.mobile-language-switcher option { background: #101e2e; color: #eaf2f7; }
-.language-switcher-caret { position: absolute; right: 10px; top: 50%; pointer-events: none; color: #d9a441; font-size: 13px; transform: translateY(-58%); }
+.mobile-language-switcher option {
+  background: #ffffff;
+  color: #181b20;
+}
+
+.language-switcher-caret {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  pointer-events: none;
+  color: #4658c9;
+  font-size: 13px;
+  transform: translateY(-58%);
+}
+
 .header-language-switcher:hover,
 .header-language-switcher:focus-within {
-  border-color: rgba(217, 164, 65, .66);
-  background: rgba(24,54,74,.88);
-  box-shadow: 0 10px 22px rgba(0,0,0,.24);
+  border-color: #f4bc3f;
+  background: #f7f8ff;
+  box-shadow: 0 8px 20px rgba(48, 61, 135, .20);
 }
-.mobile-language-switcher { min-height: 52px; gap: 10px; margin-top: 4px; padding: 10px 13px; border-top: 1px solid rgba(145,165,181,.12); color: #dce7ee; }
-.mobile-language-switcher .language-switcher-label { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; font-size: 13px; }
-.mobile-language-switcher select { flex: 1; padding: 5px 24px 5px 8px; text-align: right; font-size: 13px; }
+
+.mobile-language-switcher {
+  min-height: 52px;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 10px 13px;
+  border-top: 1px solid #d4d8df;
+  color: #181b20;
+}
+
+.mobile-language-switcher .language-switcher-label {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  font-size: 13px;
+}
+
+.mobile-language-switcher select {
+  flex: 1;
+  padding: 5px 24px 5px 8px;
+  text-align: right;
+  font-size: 13px;
+}
+
 .mobile-language-switcher .language-switcher-caret { right: 13px; }
 
 @media (max-width: 760px) {
-  .header-language-switcher { width: 42px; min-width: 42px; padding: 0; justify-content: center; }
-  .header-language-switcher--fallback { top: 12px; right: 12px; }
-  .header-language-switcher .language-switcher-icon { width: 22px; height: 22px; }
-  .header-language-switcher select { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; opacity: 0; }
+  .header-language-switcher {
+    width: 42px;
+    min-width: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .header-language-switcher--fallback {
+    top: 12px;
+    right: 12px;
+  }
+
+  .header-language-switcher .language-switcher-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-language-switcher select {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    opacity: 0;
+  }
+
   .header-language-switcher .language-switcher-caret { display: none; }
 }
