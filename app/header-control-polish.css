@@ -1,0 +1,84 @@
+/* Final shared polish for the homepage header controls.
+   These selectors are intentionally narrow so tool artwork is not recolored. */
+
+.site-header .header-actions {
+  gap: 10px;
+}
+
+.site-header .header-language-switcher,
+.site-header .search-shortcut,
+.site-header .menu-toggle {
+  height: 42px;
+  color: var(--panel-blue-dark) !important;
+  background: rgba(255, 255, 255, .96) !important;
+  border: 1px solid rgba(70, 88, 201, .24) !important;
+  box-shadow: 0 6px 16px rgba(48, 61, 135, .16) !important;
+}
+
+.site-header .header-language-switcher:hover,
+.site-header .header-language-switcher:focus-within,
+.site-header .search-shortcut:hover,
+.site-header .search-shortcut:focus-visible,
+.site-header .menu-toggle:hover,
+.site-header .menu-toggle:focus-visible {
+  background: #f7f8ff !important;
+  border-color: var(--panel-yellow) !important;
+}
+
+.site-header .search-shortcut > span:first-child {
+  color: var(--panel-blue-dark) !important;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+
+.site-header .search-shortcut > span:nth-child(2) {
+  color: var(--panel-text) !important;
+}
+
+.site-header .search-shortcut kbd {
+  color: var(--panel-blue-dark) !important;
+  background: var(--panel-blue-soft) !important;
+  border-color: rgba(70, 88, 201, .20) !important;
+}
+
+.site-header .menu-toggle span {
+  background: var(--panel-blue-dark) !important;
+}
+
+.site-header .language-switcher-icon {
+  color: var(--panel-blue-dark) !important;
+  background: var(--panel-blue-soft) !important;
+  border-color: rgba(70, 88, 201, .38) !important;
+}
+
+.site-header .language-switcher-caret {
+  color: var(--panel-blue-dark) !important;
+}
+
+.site-header .header-language-switcher select {
+  color: var(--panel-ink) !important;
+}
+
+.icon-medallion,
+.tool-icon {
+  background: var(--panel-blue-soft) !important;
+  border-color: rgba(70, 88, 201, .30) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .86), 0 6px 14px rgba(48, 61, 135, .10) !important;
+}
+
+.icon-medallion img,
+.tool-icon img {
+  filter: none !important;
+  opacity: .94;
+}
+
+@media (max-width: 760px) {
+  .site-header .header-language-switcher,
+  .site-header .search-shortcut,
+  .site-header .menu-toggle {
+    width: 42px;
+    min-width: 42px;
+    padding: 0 !important;
+    justify-content: center;
+  }
+}
