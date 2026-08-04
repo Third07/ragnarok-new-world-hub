@@ -6,22 +6,40 @@
 
   const AD_UNITS = {
     leaderboard: {
-      key: "91fde19eac5358fcbb0ccc7f92fcf7e8",
+      key: "3a45272816c2d16fa93a679c03e183cf",
       width: 728,
       height: 90,
-      frame: "/shared/ads/leaderboard.html?v=20260804-ads4"
+      frame: "/shared/ads/leaderboard.html?v=20260805-ads1"
+    },
+    tabletBanner: {
+      key: "7b4253e26d5b14e096014f7bb1c2ac5b",
+      width: 468,
+      height: 60,
+      frame: "/shared/ads/tablet-banner.html?v=20260805-ads1"
     },
     mobileBanner: {
-      key: "4281407f118f027b278a4d1dbbd94232",
+      key: "4ac48f926626c7e677d10446bfb6319a",
       width: 320,
       height: 50,
-      frame: "/shared/ads/mobile-banner.html?v=20260804-ads4"
+      frame: "/shared/ads/mobile-banner.html?v=20260805-ads1"
     },
     rectangle: {
-      key: "0e2fb144411b70df25b2a26a11d69c2b",
+      key: "ba9a2456823c4edef223cb0c9106837c",
       width: 300,
       height: 250,
-      frame: "/shared/ads/rectangle.html?v=20260804-ads4"
+      frame: "/shared/ads/rectangle.html?v=20260805-ads1"
+    },
+    skyscraper: {
+      key: "958b269e20f0bcfc3708dc1b1069a4d6",
+      width: 160,
+      height: 600,
+      frame: "/shared/ads/skyscraper.html?v=20260805-ads1"
+    },
+    halfSkyscraper: {
+      key: "24e9b91c2aece2552123ef7d013f6250",
+      width: 160,
+      height: 300,
+      frame: "/shared/ads/half-skyscraper.html?v=20260805-ads1"
     }
   };
 
@@ -34,16 +52,22 @@
   }
 
   function responsiveUnit() {
-    return window.matchMedia("(min-width: 760px)").matches
-      ? AD_UNITS.leaderboard
-      : AD_UNITS.mobileBanner;
+    if (window.matchMedia("(min-width: 900px)").matches) return AD_UNITS.leaderboard;
+    if (window.matchMedia("(min-width: 520px)").matches) return AD_UNITS.tabletBanner;
+    return AD_UNITS.mobileBanner;
+  }
+
+  function railUnit() {
+    return window.matchMedia("(min-height: 760px)").matches
+      ? AD_UNITS.skyscraper
+      : AD_UNITS.halfSkyscraper;
   }
 
   function previewDocument(unit, name) {
     return `<!doctype html><html><head><meta charset="utf-8"><style>
       *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0}
-      body{display:grid;place-items:center;background:linear-gradient(135deg,#fffaf0,#f8f0df);color:#687c72;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed rgba(22,78,69,.26)}
-      span{padding:8px}strong{display:block;color:#164e45;font-size:12px}
+      body{display:grid;place-items:center;background:linear-gradient(145deg,#18364a,#08131f);color:#91a5b5;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed rgba(240,217,140,.28)}
+      span{padding:8px}strong{display:block;color:#f0d98c;font-size:12px}
     </style></head><body><span><strong>Advertisement preview</strong>${name} · ${unit.width}×${unit.height}</span></body></html>`;
   }
 
@@ -71,14 +95,18 @@
   function prepareSlot(slot) {
     if (!(slot instanceof HTMLElement)) return;
     if (slot.dataset.adPrepared === "true" && slot.querySelector(".rtnw-ad-label")) return;
+
     slot.dataset.adPrepared = "true";
     slot.dataset.adState = "waiting";
     slot.classList.add("rtnw-ad-slot");
     slot.setAttribute("role", "complementary");
     slot.setAttribute("aria-label", "Advertisement");
 
-    const format = slot.dataset.adFormat === "rectangle" ? "rectangle" : "responsive";
+    const format = ["rectangle", "rail"].includes(slot.dataset.adFormat || "")
+      ? slot.dataset.adFormat
+      : "responsive";
     if (format === "rectangle") slot.classList.add("rtnw-ad-slot--rectangle");
+    if (format === "rail") slot.classList.add("rtnw-ad-slot--rail");
 
     if (!slot.querySelector(".rtnw-ad-label")) {
       const label = document.createElement("span");
@@ -88,8 +116,17 @@
     }
 
     const load = () => {
-      const unit = format === "rectangle" ? AD_UNITS.rectangle : responsiveUnit();
-      createFrame(slot, unit, format === "rectangle" ? "Medium rectangle" : "Responsive banner");
+      const unit = format === "rectangle"
+        ? AD_UNITS.rectangle
+        : format === "rail"
+          ? railUnit()
+          : responsiveUnit();
+      const label = format === "rectangle"
+        ? "Medium rectangle"
+        : format === "rail"
+          ? "Desktop side rail"
+          : "Responsive banner";
+      createFrame(slot, unit, label);
     };
 
     if (!("IntersectionObserver" in window)) {
@@ -101,7 +138,7 @@
       if (!entries.some(entry => entry.isIntersecting)) return;
       observer.disconnect();
       load();
-    }, { rootMargin: "500px 0px" });
+    }, { rootMargin: "550px 0px" });
     observer.observe(slot);
   }
 
@@ -145,9 +182,7 @@
         const articleHasSidebar = Boolean(parent?.querySelector(":scope > aside"));
         if (parent && articleHasSidebar) parent.insertAdjacentElement("afterend", rectangle);
         else article.insertAdjacentElement("afterend", rectangle);
-      } else {
-        main.appendChild(rectangle);
-      }
+      } else main.appendChild(rectangle);
     }
   }
 
@@ -176,13 +211,23 @@
     }
   }
 
+  function addDesktopRail() {
+    const pathname = normalizedPathname();
+    if (!window.matchMedia("(min-width: 1480px) and (min-height: 560px)").matches) return;
+    if (pathname === "/" || pathname === "/sea/maps" || pathname === "/sea/maps/") return;
+    if (document.querySelector('[data-ad-placement="desktop-rail"]')) return;
+
+    const rail = newSlot("rail", "rtnw-ad-slot--desktop-rail");
+    rail.dataset.adPlacement = "desktop-rail";
+    document.body.appendChild(rail);
+  }
+
   function addApplicationPlacements() {
     const pathname = normalizedPathname();
     if (pathname.startsWith("/sea") || pathname === "/seo-status/") return;
 
     const main = document.querySelector("main");
-    if (!main) return;
-    if (pathname === "/") return;
+    if (!main || pathname === "/") return;
 
     if (pathname === "/guides/" || pathname.startsWith("/guides/")) {
       addGuidePlacements(main);
@@ -236,6 +281,7 @@
   function init() {
     addApplicationPlacements();
     addLegacyPlacements();
+    addDesktopRail();
     document.querySelectorAll("[data-ad-slot]").forEach(prepareSlot);
   }
 
@@ -275,4 +321,5 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
   else bootstrap();
   window.addEventListener("load", scheduleInit, { once: true });
+  window.addEventListener("resize", scheduleInit);
 })();
