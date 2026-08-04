@@ -5,3 +5,4 @@ Disallow: /sea/logs/
 Disallow: /seo-audit.json
 
 Sitemap: https://rtnw.online/sitemap.xml
+Sitemap: https://rtnw.online/content-sitemap.xml
