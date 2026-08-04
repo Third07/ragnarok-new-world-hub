@@ -1,0 +1,153 @@
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #cbded8;
+}
+
+.button {
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid #b6c9c3;
+  border-radius: 10px;
+  background: #fff;
+  color: #164e45;
+  font: 800 13px/1.2 inherit;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: #c79a37;
+  background: #fffaf0;
+}
+
+.primary {
+  border-color: #17665b;
+  background: #17665b;
+  color: #fff;
+}
+
+.primary:hover {
+  border-color: #0d4b43;
+  background: #0d4b43;
+}
+
+.status {
+  flex-basis: 100%;
+  min-height: 20px;
+  margin: 2px 0 0;
+  color: #405d56;
+  font-size: 13px;
+}
+
+.saved {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid #d8e4e0;
+}
+
+.saved h2 {
+  margin: 0 0 12px;
+  color: #0b342f;
+  font: 750 22px/1.2 Georgia, serif;
+}
+
+.savedList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.savedItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 13px 14px;
+  border: 1px solid #d6dfdc;
+  border-radius: 11px;
+  background: #fbfaf6;
+}
+
+.savedCopy {
+  min-width: 0;
+}
+
+.savedCopy strong,
+.savedCopy span {
+  display: block;
+}
+
+.savedCopy strong {
+  overflow: hidden;
+  color: #123f39;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.savedCopy span {
+  margin-top: 3px;
+  color: #6b7e78;
+  font-size: 11px;
+}
+
+.savedButtons {
+  display: flex;
+  gap: 7px;
+}
+
+.savedButtons button {
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid #c4d1cd;
+  border-radius: 8px;
+  background: #fff;
+  color: #17665b;
+  font: 800 11px/1 inherit;
+  cursor: pointer;
+}
+
+.savedButtons button:last-child {
+  color: #98432f;
+}
+
+.empty {
+  margin: 0;
+  color: #6b7e78;
+  font-size: 13px;
+}
+
+@media (max-width: 620px) {
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .status {
+    grid-column: 1 / -1;
+  }
+
+  .savedItem {
+    grid-template-columns: 1fr;
+  }
+
+  .savedButtons button {
+    flex: 1;
+  }
+}
+
+@media print {
+  .actions,
+  .saved {
+    display: none !important;
+  }
+}
