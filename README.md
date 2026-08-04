@@ -80,16 +80,34 @@ After deployment, verify:
 
 ```text
 /
+/search/
+/updates/
 /guides/
+/tools/farming-target-finder/
+/tools/pc-setup-checker/
+/tools/top-up-calculator/
 /sea/skill_planner/
 /sea/maps/
 /seo-status/
 /robots.txt
 /sitemap.xml
+/content-sitemap.xml
 /4cc78cf9b31d099f4de23a0874b08a5e.txt
 ```
 
-The retired `/updates/` and `/feed.xml` routes should return 404.
+The retired `/feed.xml` route should return 404.
+
+## Search and database-driven tools
+
+The unified `/search/` route loads the committed English monster, card, and equipment indexes in the browser and combines them with the guide and tool catalogue. Search results link back to the detailed static database pages.
+
+The Farming Target Finder at `/tools/farming-target-finder/` uses the committed monster index and filters by level, monster type, race, element, size, and map availability. It intentionally avoids estimating drop chance, kills per hour, experience efficiency, or market value when those live values are unavailable.
+
+The PC Setup Checker and Top-Up Cost Calculator keep shareable state in URL parameters. Saved results use browser local storage only and are not uploaded to the server.
+
+## Advertising
+
+Modern guide and tool pages load `/shared/responsive_ads.js`. Guide banners are inserted between article sections, while calculator banners appear below the interactive result area. Advertisement slots are kept outside form labels, inputs, calculated output, and mobile navigation controls.
 
 ## Data refresh
 
