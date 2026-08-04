@@ -5,15 +5,7 @@ import { useEffect } from "react";
 const SEARCH_HREF = "/search/";
 const UPDATE_HREF = "/updates/";
 const GUIDE_HREF = "/guides/";
-const SETUP_HREF = "/guides/technical/";
-const PLAY_PC_HREF = "/guides/play-on-pc/";
-const EMULATOR_HREF = "/guides/emulator-settings/";
-const TOPUP_GUIDE_HREF = "/guides/top-up-safely/";
-const CLOUD_HREF = "/guides/cloud-gaming/";
 const REDEEM_HREF = "/guides/redeem-codes/";
-const FARMING_FINDER_HREF = "/tools/farming-target-finder/";
-const PC_CHECKER_HREF = "/tools/pc-setup-checker/";
-const TOPUP_CALCULATOR_HREF = "/tools/top-up-calculator/";
 
 const TRUST_LINKS = [
   ["About", "/about/"],
@@ -33,11 +25,6 @@ function createLink(href: string, label: string, className?: string) {
   const link = document.createElement("a");
   link.href = href;
   link.textContent = label;
-  if (href === SEARCH_HREF) link.dataset.searchNavigation = "true";
-  if (href === UPDATE_HREF) link.dataset.updateNavigation = "true";
-  if (href === GUIDE_HREF) link.dataset.guideNavigation = "true";
-  if (href === SETUP_HREF) link.dataset.setupNavigation = "true";
-  if (href === REDEEM_HREF) link.dataset.redeemNavigation = "true";
   if (className) link.className = className;
   return link;
 }
@@ -66,7 +53,7 @@ function hasLink(root: Element, href: string) {
 }
 
 function injectTrustLinks(footerMeta: Element) {
-  if (TRUST_LINKS.some(([, href]) => footerMeta.querySelector(`a[href="${href}"]`))) return;
+  if (footerMeta.querySelector('[data-trust-navigation="true"]')) return;
 
   const nav = document.createElement("nav");
   nav.className = "trust-footer-links";
@@ -102,58 +89,11 @@ function injectFooterLink(footerMeta: Element, href: string, label: string) {
   else footerMeta.appendChild(link);
 }
 
-function injectPrimaryLink(root: Element, href: string, label: string, before: Element | null) {
-  if (hasLink(root, href)) return;
-  root.insertBefore(createLink(href, label), before);
-}
-
 function injectGuideNavigation() {
-  const desktopNav = document.querySelector(".desktop-nav");
-  if (desktopNav) {
-    const worldMapLink = desktopNav.querySelector('a[href^="/sea/maps/"]');
-    injectPrimaryLink(desktopNav, SEARCH_HREF, "Search", worldMapLink);
-    injectPrimaryLink(desktopNav, GUIDE_HREF, "Guides", worldMapLink);
-    injectPrimaryLink(desktopNav, UPDATE_HREF, "Updates", worldMapLink);
-    injectPrimaryLink(desktopNav, SETUP_HREF, "PC & Setup", worldMapLink);
-    injectPrimaryLink(desktopNav, REDEEM_HREF, "Redeem Codes", worldMapLink);
-  }
-
-  const mobileMenu = document.querySelector(".mobile-menu");
-  if (mobileMenu) {
-    const firstTool = mobileMenu.querySelector("a:nth-of-type(2)");
-    injectPrimaryLink(mobileMenu, SEARCH_HREF, "Search Everything", firstTool);
-    injectPrimaryLink(mobileMenu, GUIDE_HREF, "Guides", firstTool);
-    injectPrimaryLink(mobileMenu, UPDATE_HREF, "Updates", firstTool);
-    injectPrimaryLink(mobileMenu, SETUP_HREF, "PC & Setup Guides", firstTool);
-    injectPrimaryLink(mobileMenu, PLAY_PC_HREF, "Download & Play on PC", firstTool);
-    injectPrimaryLink(mobileMenu, EMULATOR_HREF, "Emulator Settings", firstTool);
-    injectPrimaryLink(mobileMenu, TOPUP_GUIDE_HREF, "Safe Top-Up Guide", firstTool);
-    injectPrimaryLink(mobileMenu, CLOUD_HREF, "Cloud Gaming Guide", firstTool);
-    injectPrimaryLink(mobileMenu, FARMING_FINDER_HREF, "Farming Target Finder", firstTool);
-    injectPrimaryLink(mobileMenu, PC_CHECKER_HREF, "PC Setup Checker", firstTool);
-    injectPrimaryLink(mobileMenu, TOPUP_CALCULATOR_HREF, "Top-Up Calculator", firstTool);
-    injectPrimaryLink(mobileMenu, REDEEM_HREF, "Redeem Codes", firstTool);
-  }
-
-  const guideOverview = document.querySelector(".guide-overview-heading");
-  if (guideOverview && !hasLink(guideOverview, GUIDE_HREF)) {
-    guideOverview.appendChild(createLink(GUIDE_HREF, "Browse all guides →", "guide-path-link"));
-  }
-  if (guideOverview && !hasLink(guideOverview, SETUP_HREF)) {
-    guideOverview.appendChild(createLink(SETUP_HREF, "PC, emulator and top-up guides →", "guide-path-link"));
-  }
-  if (guideOverview && !hasLink(guideOverview, SEARCH_HREF)) {
-    guideOverview.appendChild(createLink(SEARCH_HREF, "Search all game data →", "guide-path-link"));
-  }
-
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
     injectFooterLink(footerMeta, SEARCH_HREF, "Search");
     injectFooterLink(footerMeta, UPDATE_HREF, "Updates");
     injectFooterLink(footerMeta, GUIDE_HREF, "Guides");
-    injectFooterLink(footerMeta, SETUP_HREF, "PC & Setup");
-    injectFooterLink(footerMeta, FARMING_FINDER_HREF, "Farming Finder");
-    injectFooterLink(footerMeta, PC_CHECKER_HREF, "PC Checker");
-    injectFooterLink(footerMeta, TOPUP_CALCULATOR_HREF, "Top-Up Calculator");
     injectFooterLink(footerMeta, REDEEM_HREF, "Redeem Codes");
     injectTrustLinks(footerMeta);
     injectSocialLinks(footerMeta);
