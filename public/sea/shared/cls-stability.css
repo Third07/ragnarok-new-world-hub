@@ -1,0 +1,141 @@
+/* RTNW layout-stability safeguards.
+   These rules reserve space for interfaces that are populated after JavaScript loads. */
+
+/* Keep the main planner canvas and side panels from changing the page geometry
+   when API data, selected skills, resonance details, or filters arrive. */
+body.skill-planner-page .skill-planner-layout {
+  min-height: 620px;
+  align-items: start;
+}
+
+body.skill-planner-page #simulator-container {
+  min-width: 0;
+  min-height: 560px;
+}
+
+body.skill-planner-page .skill-detail-panel,
+body.skill-planner-page .details-pane {
+  min-width: 0;
+  min-height: 460px;
+}
+
+body.rune-planner-page .rune-simulator-layout,
+.rune-simulator-layout {
+  min-height: 620px;
+  align-items: start;
+}
+
+#rune-simulator-container {
+  min-width: 0;
+  min-height: 520px;
+}
+
+.rune-detail-panel,
+#rune-resonance-panel {
+  min-height: 360px;
+}
+
+/* Affix and equipment controls are rendered from data. Reserve their normal
+   first-render footprint so the content below does not jump. */
+#affix-type-sections {
+  min-height: 132px;
+  contain: layout style;
+}
+
+.affix-grid {
+  min-height: 460px;
+}
+
+.equipment-filters {
+  min-height: 230px;
+  align-content: start;
+}
+
+#equipment-grid,
+.equipment-grid {
+  min-height: 560px;
+}
+
+/* The maps are square source images. Establish the canvas ratio before the
+   selected map image reports its natural dimensions. */
+.map-canvas-wrap,
+.map-shell {
+  min-width: 0;
+}
+
+.map-shell {
+  aspect-ratio: 1 / 1;
+  min-height: 320px;
+}
+
+#map-stage,
+.map-stage {
+  width: 2048px;
+  height: 2048px;
+  transform-origin: 0 0;
+}
+
+.map-toolbar .quick-select-wrapper,
+.map-toolbar .rtnw-select,
+.map-toolbar .rtnw-select-trigger {
+  min-height: 44px;
+}
+
+/* Skill icons reported as shifted elements in field data. Give both wrapper
+   and image a deterministic box before image decoding completes. */
+.skill-icon-wrapper {
+  contain: layout paint;
+}
+
+.skill-icon-wrapper > img,
+img.skill-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+/* The SEO panel is below dynamically populated tools and the reserved ad slot.
+   Isolate its layout so changes inside it cannot trigger wider reflow. */
+.seo-guide {
+  contain: layout style paint;
+}
+
+@media (max-width: 760px) {
+  body.skill-planner-page .skill-planner-layout,
+  body.rune-planner-page .rune-simulator-layout,
+  .rune-simulator-layout {
+    min-height: 520px;
+  }
+
+  body.skill-planner-page #simulator-container,
+  #rune-simulator-container {
+    min-height: 430px;
+  }
+
+  body.skill-planner-page .skill-detail-panel,
+  body.skill-planner-page .details-pane,
+  .rune-detail-panel,
+  #rune-resonance-panel {
+    min-height: 260px;
+  }
+
+  #affix-type-sections {
+    min-height: 108px;
+  }
+
+  .affix-grid,
+  #equipment-grid,
+  .equipment-grid {
+    min-height: 380px;
+  }
+
+  .equipment-filters {
+    min-height: 300px;
+  }
+
+  .map-shell {
+    min-height: min(100vw, 520px);
+  }
+}
