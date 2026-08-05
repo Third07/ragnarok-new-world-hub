@@ -154,7 +154,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <script
-          src="/shared/responsive_ads.js?v=20260805-ads3"
+          src="/shared/responsive_ads.js?v=20260806-ads4"
           defer
           data-rtnw-ads="true"
         />
