@@ -1,0 +1,253 @@
+/* Shared visual system for every modern /guides/ route.
+   Page modules may control unique grids, but site chrome, hero contrast, article
+   typography, FAQs, tables, and common surfaces are maintained here. */
+
+.guide-section-shell {
+  --guide-blue: #5b6ee8;
+  --guide-blue-light: #7485f3;
+  --guide-blue-dark: #4658c9;
+  --guide-blue-soft: #e7ebff;
+  --guide-yellow: #f4bc3f;
+  --guide-yellow-soft: #ffe08a;
+  --guide-sky: #dce5ff;
+  --guide-white: #fff;
+  --guide-surface: #f7f7f5;
+  --guide-surface-soft: #eef0f3;
+  --guide-ink: #181b20;
+  --guide-text: #59616b;
+  --guide-muted: #9298a1;
+  --guide-line: #d4d8df;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 255, 255, .76), transparent 27rem),
+    radial-gradient(circle at 88% 25%, rgba(255, 255, 255, .38), transparent 30rem),
+    linear-gradient(180deg, #eef3ff 0%, var(--guide-sky) 52%, #bac9fb 100%);
+}
+
+/* Old guide pages included their own site header and footer. The route layout now
+   owns those elements, so hide only legacy chrome while leaving article heroes intact. */
+.guide-route-content > div > header:has(> .brand),
+.guide-route-content > div > footer {
+  display: none !important;
+}
+
+/* Guide category pages previously used a sticky header that occupied normal flow.
+   Restore that space now that the shared header is fixed. */
+.guide-route-content > div:has(> header > nav[class*="primaryNav"]) > main {
+  padding-top: 84px;
+}
+
+/* Source-based articles use their hero as the root header. Keep it below the shared chrome. */
+.guide-route-content > div > header:not(:has(> .brand)) {
+  margin-top: 84px;
+}
+
+/* Shared hero contrast. This also wins over old route-wide main text overrides. */
+.guide-route-content main > section:first-child h1,
+.guide-route-content main > section:first-child h1 *,
+.guide-route-content > div > header:not(:has(> .brand)) h1,
+.guide-route-content > div > header:not(:has(> .brand)) h1 * {
+  color: #fff !important;
+}
+
+.guide-route-content main > section:first-child h1 em,
+.guide-route-content > div > header:not(:has(> .brand)) h1 em {
+  color: var(--guide-yellow-soft) !important;
+}
+
+.guide-route-content main > section:first-child > p,
+.guide-route-content main > section:first-child [class*="lead"],
+.guide-route-content main > section:first-child [class*="summary"],
+.guide-route-content main > section:first-child [class*="dek"],
+.guide-route-content > div > header:not(:has(> .brand)) [class*="dek"] {
+  color: rgba(255, 255, 255, .88) !important;
+}
+
+.guide-route-content main > section:first-child [class*="kicker"],
+.guide-route-content main > section:first-child [class*="eyebrow"],
+.guide-route-content > div > header:not(:has(> .brand)) [class*="kicker"],
+.guide-route-content main > section:first-child [class*="breadcrumbs"] a,
+.guide-route-content > div > header:not(:has(> .brand)) [class*="crumbs"] a {
+  color: var(--guide-yellow-soft) !important;
+}
+
+.guide-route-content main > section:first-child [class*="breadcrumbs"],
+.guide-route-content > div > header:not(:has(> .brand)) [class*="crumbs"],
+.guide-route-content main > section:first-child [class*="heroMeta"],
+.guide-route-content > div > header:not(:has(> .brand)) [class*="meta"] {
+  color: rgba(255, 255, 255, .78) !important;
+}
+
+.guide-route-content [class*="heroOverlay"] {
+  background:
+    linear-gradient(90deg, rgba(70, 88, 201, .96) 0%, rgba(91, 110, 232, .88) 48%, rgba(70, 88, 201, .42) 76%, rgba(70, 88, 201, .20)),
+    linear-gradient(180deg, rgba(70, 88, 201, .12), rgba(70, 88, 201, .86)) !important;
+}
+
+.guide-route-content main > section:first-child [class*="heroActions"] a,
+.guide-route-content > div > header:not(:has(> .brand)) a {
+  color: #fff !important;
+}
+
+.guide-route-content main > section:first-child [class*="heroActions"] a:first-child {
+  color: #fff !important;
+  background: linear-gradient(180deg, var(--guide-blue-light), var(--guide-blue-dark)) !important;
+  border-color: var(--guide-yellow) !important;
+  box-shadow: 0 9px 22px rgba(48, 61, 135, .28) !important;
+}
+
+.guide-route-content main > section:first-child [class*="heroActions"] a + a {
+  color: #fff !important;
+  background: rgba(70, 88, 201, .32) !important;
+  border-color: rgba(255, 255, 255, .58) !important;
+}
+
+/* Shared article readability. */
+.guide-route-content article h2,
+.guide-route-content article h3,
+.guide-route-content article h4 {
+  color: var(--guide-ink) !important;
+}
+
+.guide-route-content article p,
+.guide-route-content article li,
+.guide-route-content article dd {
+  color: var(--guide-text) !important;
+}
+
+.guide-route-content article a {
+  color: var(--guide-blue-dark) !important;
+}
+
+.guide-route-content article a:hover {
+  color: #7e5b0f !important;
+}
+
+/* Reusable FAQ accordion for every guide template. */
+.guide-route-content details {
+  max-width: 100%;
+  overflow: hidden;
+  margin: 12px 0 0;
+  color: var(--guide-ink) !important;
+  background: var(--guide-white) !important;
+  border: 1px solid var(--guide-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 22px rgba(48, 61, 135, .10) !important;
+}
+
+.guide-route-content details:first-of-type {
+  margin-top: 28px;
+}
+
+.guide-route-content details summary {
+  position: relative;
+  display: block;
+  padding: 18px 54px 18px 20px !important;
+  color: var(--guide-ink) !important;
+  background: var(--guide-white) !important;
+  cursor: pointer;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 850 !important;
+  line-height: 1.45 !important;
+  list-style: none;
+}
+
+.guide-route-content details summary::-webkit-details-marker {
+  display: none;
+}
+
+.guide-route-content details summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  color: #fff;
+  background: linear-gradient(180deg, var(--guide-blue-light), var(--guide-blue-dark));
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 500;
+  transition: transform .16s ease;
+}
+
+.guide-route-content details[open] summary {
+  color: var(--guide-blue-dark) !important;
+  background: var(--guide-blue-soft) !important;
+  border-bottom: 1px solid var(--guide-line);
+}
+
+.guide-route-content details[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.guide-route-content details > p {
+  margin: 0 !important;
+  padding: 18px 20px 22px !important;
+  color: var(--guide-text) !important;
+  background: #fff !important;
+  font-size: 15px !important;
+  line-height: 1.75 !important;
+}
+
+/* Shared tables and notices. */
+.guide-route-content table {
+  width: 100%;
+  color: var(--guide-ink) !important;
+  background: #fff !important;
+  border-color: var(--guide-line) !important;
+}
+
+.guide-route-content th {
+  color: #fff !important;
+  background: var(--guide-blue) !important;
+  border-color: var(--guide-blue-dark) !important;
+}
+
+.guide-route-content tbody th {
+  color: var(--guide-ink) !important;
+  background: var(--guide-surface-soft) !important;
+  border-color: var(--guide-line) !important;
+}
+
+.guide-route-content td {
+  color: var(--guide-text) !important;
+  background: #fff !important;
+  border-color: var(--guide-line) !important;
+}
+
+.guide-route-content [class*="notice"],
+.guide-route-content [class*="warning"],
+.guide-route-content [class*="note"] {
+  color: var(--guide-ink) !important;
+  background: var(--guide-surface-soft) !important;
+  border-color: var(--guide-line) !important;
+}
+
+@media (max-width: 760px) {
+  .guide-route-content > div:has(> header > nav[class*="primaryNav"]) > main {
+    padding-top: 68px;
+  }
+
+  .guide-route-content > div > header:not(:has(> .brand)) {
+    margin-top: 68px;
+  }
+
+  .guide-route-content details summary {
+    padding: 16px 50px 16px 16px !important;
+    font-size: 15px !important;
+  }
+
+  .guide-route-content details summary::after {
+    right: 14px;
+  }
+
+  .guide-route-content details > p {
+    padding: 16px !important;
+    font-size: 14px !important;
+  }
+}
