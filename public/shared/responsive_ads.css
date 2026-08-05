@@ -23,17 +23,10 @@
   border: 1px solid rgba(91,110,232,.14);
 }
 
-.rtnw-ad-slot[data-ad-state="empty"] {
-  display: none !important;
-  min-height: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-}
-
-.rtnw-ad-slot[data-ad-state="empty"]::before {
-  display: none !important;
+/* Never collapse a slot after the page has painted. An unfilled placement keeps
+   its reserved space, preventing everything below it from jumping upward. */
+.rtnw-ad-slot[data-ad-state="error"] {
+  opacity: .72;
 }
 
 .rtnw-ad-slot--rectangle {
@@ -90,20 +83,52 @@
   opacity: .82;
 }
 
-.rtnw-ad-frame {
-  display: block;
+/* Adsterra's own invoke.js is mounted directly in this element. We no longer
+   place the network code inside our own iframe or apply a sandbox attribute. */
+.rtnw-ad-mount {
+  display: grid;
+  place-items: center;
+  width: var(--rtnw-ad-width, 100%);
   max-width: 100%;
-  border: 0;
+  min-height: var(--rtnw-ad-height, 50px);
+  overflow: hidden;
   border-radius: 8px;
   background: #eef0f3;
   box-shadow: 0 0 0 1px rgba(91,110,232,.16), 0 10px 24px rgba(48,61,135,.14);
 }
 
-.rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-frame {
+.rtnw-ad-mount iframe,
+.rtnw-ad-mount img,
+.rtnw-ad-mount object,
+.rtnw-ad-mount embed {
+  display: block;
+  max-width: 100%;
+  border: 0;
+}
+
+.rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-mount {
   background:
     linear-gradient(100deg, #eef0f3 24%, #f8f9fc 38%, #eef0f3 52%)
     0 0 / 220% 100%;
   animation: rtnw-ad-waiting 1.6s ease-in-out infinite;
+}
+
+.rtnw-ad-slot[data-ad-state="loaded"] .rtnw-ad-mount,
+.rtnw-ad-slot[data-ad-state="error"] .rtnw-ad-mount {
+  animation: none;
+}
+
+.rtnw-ad-preview {
+  padding: 8px;
+  color: #59616b;
+  font: 700 11px/1.4 system-ui, sans-serif;
+  text-align: center;
+}
+
+.rtnw-ad-preview strong {
+  display: block;
+  color: #4658c9;
+  font-size: 12px;
 }
 
 @keyframes rtnw-ad-waiting {
@@ -149,7 +174,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-frame {
+  .rtnw-ad-slot[data-ad-state="waiting"] .rtnw-ad-mount {
     animation: none;
   }
 }
