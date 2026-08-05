@@ -114,21 +114,69 @@
 })();
 
 (() => {
-    const version = "20260805-ads3";
+    const version = "20260806-ads4";
     const styleHref = `/shared/responsive_ads.css?v=${version}`;
     const scriptSrc = `/shared/responsive_ads.js?v=${version}`;
+    const clsHref = "/sea/shared/cls-stability.css?v=20260806-cls1";
+
+    function reservedBannerHeight() {
+        if (window.matchMedia("(min-width: 900px)").matches) return 112;
+        if (window.matchMedia("(min-width: 520px)").matches) return 82;
+        return 70;
+    }
+
+    function ensureLegacyAdPlaceholder() {
+        if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
+        if (window.location.pathname === "/sea" || window.location.pathname === "/sea/") return;
+        if (document.querySelector('[data-ad-placement="tool-footer"]')) return;
+
+        const app = document.querySelector(".app");
+        const main = app?.querySelector(":scope > main.main-content");
+        if (!app || !main) return;
+
+        const slot = document.createElement("aside");
+        slot.dataset.adSlot = "true";
+        slot.dataset.adFormat = "responsive";
+        slot.dataset.adPlacement = "tool-footer";
+        slot.className = "rtnw-ad-slot rtnw-ad-slot--tool-footer";
+        slot.setAttribute("role", "complementary");
+        slot.setAttribute("aria-label", "Advertisement");
+        slot.style.width = "min(100%, 860px)";
+        slot.style.minHeight = `${reservedBannerHeight()}px`;
+        slot.style.margin = "56px auto 48px";
+        main.insertAdjacentElement("afterend", slot);
+    }
+
+    function loadClsStability() {
+        if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
+        const existing = document.querySelector("link[data-rtnw-cls-stability]");
+        if (existing instanceof HTMLLinkElement) {
+            existing.href = clsHref;
+            return;
+        }
+        const style = document.createElement("link");
+        style.rel = "stylesheet";
+        style.href = clsHref;
+        style.dataset.rtnwClsStability = "true";
+        (document.head || document.documentElement).appendChild(style);
+    }
 
     function resetOldAds() {
         document.querySelectorAll("[data-ad-slot]").forEach(slot => {
-            slot.querySelectorAll("iframe").forEach(frame => frame.remove());
-            slot.querySelectorAll(".rtnw-ad-label").forEach(label => label.remove());
+            slot.querySelectorAll(".rtnw-ad-mount, .rtnw-ad-label, script[data-rtnw-ad-invoke]").forEach(node => node.remove());
             delete slot.dataset.adPrepared;
+            delete slot.dataset.adInjected;
             delete slot.dataset.adState;
         });
         try { delete window.__RTNW_ADS_READY__; } catch { window.__RTNW_ADS_READY__ = false; }
     }
 
     function loadResponsiveAds() {
+        /* This parser-blocking client script runs before the first normal paint on
+           legacy pages. Reserve the footer-ad geometry before loading ad code. */
+        ensureLegacyAdPlaceholder();
+        loadClsStability();
+
         const style = document.querySelector("link[data-rtnw-ads-style], link[data-rtnw-ads]");
         if (style instanceof HTMLLinkElement) {
             style.href = styleHref;
