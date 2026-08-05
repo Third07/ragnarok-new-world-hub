@@ -4,14 +4,14 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Classes and Builds",
   description:
-    "Browse RTNW class tier lists and detailed build guides for Swordman, Mage, Archer, Acolyte, Thief, Merchant, Gunslinger, and Druid.",
+    "Browse source-based RTNW build guides for Swordman, Mage, Archer, Acolyte, Thief, Merchant, Gunslinger, and Druid, with stats, traits, cards, rotations, and progression advice.",
   alternates: { canonical: "/guides/classes-builds/" },
   openGraph: {
     type: "website",
     url: "/guides/classes-builds/",
     title: "Ragnarok: The New World Classes and Builds",
     description:
-      "Compare all eight class families, their supported advancement paths, investment requirements, and focused PvE, PvP, and F2P build directions.",
+      "Compare current class builds, stat priorities, second-job traits, equipment routes, cards, PvE rotations, and F2P investment requirements.",
   },
 };
 
@@ -25,60 +25,60 @@ const guides = [
     meta: "8 class families · 3 tier lists",
   },
   {
-    title: "Swordman Builds: Knight and Crusader",
+    title: "Swordman Builds: VIT Tank, AGI Sword and Spear",
     description:
-      "Choose sustained Knight damage or a shield-focused Crusader frontline, with separate stats, equipment priorities, rotations, and low-budget progression plans.",
+      "Plan an early VIT Knight tank, a high-ASPD AGI Sword route, or a durable Spear setup with traits, cards, aggro management, and boss rotations.",
     href: "/guides/swordman-builds/",
-    label: "Swordman build guide",
-    meta: "Knight DPS · Crusader tank",
+    label: "Source-based Swordman guide",
+    meta: "VIT Tank · AGI Sword · Spear",
   },
   {
-    title: "Mage Builds: Wizard AoE and Control",
+    title: "Mage Builds: Fire–Earth and Ice–Lightning",
     description:
-      "Build an efficient elemental farming rotation or a coordinated battlefield-control setup, with an explicit note about currently unavailable Sage skill data.",
+      "Compare Wizard element pairs, INT and DEX targets, Instant Cast, core traits, card choices, cast-time planning, and PvE spell cycles.",
     href: "/guides/mage-builds/",
-    label: "Mage build guide",
-    meta: "AoE farming · PvP control",
+    label: "Source-based Mage guide",
+    meta: "Fire–Earth · Ice–Lightning",
   },
   {
-    title: "Archer Builds: Hunter, Bard and Dancer",
+    title: "Archer Builds: ADL, Pet and Trap Hunter",
     description:
-      "Compare ranged Hunter damage with Bard and Dancer support routes, including solo progression, party utility, PvP positioning, and equipment direction.",
+      "Build around ranged sustained damage, falcon attacks, or traps with ASPD planning, elemental arrows, traits, cards, and safe boss positioning.",
     href: "/guides/archer-builds/",
-    label: "Archer build guide",
-    meta: "Hunter · Bard · Dancer",
+    label: "Source-based Archer guide",
+    meta: "ADL · Pet · Trap",
   },
   {
-    title: "Acolyte Builds: Priest and Monk",
+    title: "Acolyte Builds: Support, Exorcist and AGI-Crit",
     description:
-      "Separate Priest healing and support from Monk melee burst, with different stat priorities, rotations, party roles, and F2P investment expectations.",
+      "Complete the essential Support Priest setup first, then compare Holy magic and physical solo alternatives with separate stats and traits.",
     href: "/guides/acolyte-builds/",
-    label: "Acolyte build guide",
-    meta: "Priest support · Monk burst",
+    label: "Source-based Acolyte guide",
+    meta: "Support · Exorcist · AGI-Crit",
   },
   {
-    title: "Thief Builds: Assassin CRIT and Burst",
+    title: "Thief Builds: Dual Dagger, Katar and Venom",
     description:
-      "Plan sustained Assassin CRIT pressure or a short PvP elimination window, while avoiding unsupported recommendations for the current Rogue branch data.",
+      "Compare sustained dual-dagger damage, stealth Katar burst, and poison-focused Venom with ASPD, weapon-cost, and boss-resistance tradeoffs.",
     href: "/guides/thief-builds/",
-    label: "Thief build guide",
-    meta: "Assassin CRIT · Assassin burst",
+    label: "Source-based Thief guide",
+    meta: "Dual Dagger · Katar · Venom",
   },
   {
-    title: "Merchant Builds: Blacksmith and Alchemist",
+    title: "Merchant Builds: Cart, Axe and Turret",
     description:
-      "Compare Blacksmith melee and weapon enhancement with Alchemist preparation and utility, including economy-aware progression and resource management.",
+      "Use Cart weight for AoE farming, build rapid Axe attacks, or develop summoned Turrets while preserving Merchant's Weapon Perfection team value.",
     href: "/guides/merchant-builds/",
-    label: "Merchant build guide",
-    meta: "Blacksmith · Alchemist",
+    label: "Source-based Merchant guide",
+    meta: "Cart · Axe · Turret",
   },
   {
-    title: "Gunslinger Builds: Rebel and Night Watch",
+    title: "Gunslinger Builds: Pistol, Gatling, Rifle and Shotgun",
     description:
-      "Choose handgun mobility, rifle burst, or a heavier AoE weapon route without spreading limited refinement and skill resources across every firearm.",
+      "Choose the correct firearm for mobile AoE, rapid PVE normal attacks, long-range burst, or PVP control without mixing incompatible traits.",
     href: "/guides/gunslinger-builds/",
-    label: "Gunslinger build guide",
-    meta: "Handgun · Rifle · Heavy AoE",
+    label: "Source-based Gunslinger guide",
+    meta: "4 firearm builds",
   },
   {
     title: "Druid Builds: Werewolf, Wereraptor and Arcanist",
@@ -91,10 +91,10 @@ const guides = [
 ];
 
 const steps = [
-  "Start with the class tier list and choose the game mode that matters most to you: F2P progression, PvE, or PvP.",
-  "Open the detailed guide for your class family and choose one supported branch or weapon identity.",
-  "Use the Skill Planner to confirm the current English skill tree, prerequisites, and any branches that are not yet available.",
-  "Build one primary equipment, affix, rune, and card direction instead of funding several incompatible setups at the same time.",
+  "Start with the class tier list and choose the game mode that matters most: F2P progression, PvE, or PvP.",
+  "Open the current guide for your class and choose one weapon, element, or role as the primary build.",
+  "Use the Skill Planner to confirm the live English skill tree and prerequisites before assigning points.",
+  "Use the Equipment, Card, Rune, and Affix tools to translate the guide into a build your account can afford.",
 ];
 
 const tools = [
@@ -124,10 +124,10 @@ export default function ClassesBuildsCategoryPage() {
   return (
     <GuideCategoryPage
       currentPath="/guides/classes-builds/"
-      eyebrow="Class selection, roles and complete build paths"
+      eyebrow="Class selection, second-job builds and practical progression"
       title="Classes and Builds"
-      summary="Compare all eight current class families, then convert one role into a focused skill, equipment, affix, rune, and card plan."
-      introduction="The library now covers every current class family. Each guide separates supported advancement paths, practical build identities, PvE and PvP use, low-budget priorities, and unavailable English skill data so unfinished branches are not presented as confirmed builds."
+      summary="Compare source-based second-job routes, then convert one role into a focused skill, equipment, trait, rune, affix, and card plan."
+      introduction="The refreshed guides preserve the supplied official GNJOY recommendations while reorganizing them for search, mobile reading, and direct use with RTNW Hub tools. Balance details can change, so each guide also points players back to the live database and client."
       guides={guides}
       steps={steps}
       tools={tools}
