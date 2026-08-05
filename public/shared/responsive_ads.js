@@ -4,49 +4,21 @@
   if (window.__RTNW_ADS_READY__) return;
   window.__RTNW_ADS_READY__ = true;
 
-  const VERSION = "20260805-ads3";
+  const VERSION = "20260806-ads4";
   const AD_UNITS = {
-    leaderboard: {
-      key: "3a45272816c2d16fa93a679c03e183cf",
-      width: 728,
-      height: 90,
-      frame: `/shared/ads/leaderboard.html?v=${VERSION}`
-    },
-    tabletBanner: {
-      key: "7b4253e26d5b14e096014f7bb1c2ac5b",
-      width: 468,
-      height: 60,
-      frame: `/shared/ads/tablet-banner.html?v=${VERSION}`
-    },
-    mobileBanner: {
-      key: "4ac48f926626c7e677d10446bfb6319a",
-      width: 320,
-      height: 50,
-      frame: `/shared/ads/mobile-banner.html?v=${VERSION}`
-    },
-    rectangle: {
-      key: "ba9a2456823c4edef223cb0c9106837c",
-      width: 300,
-      height: 250,
-      frame: `/shared/ads/rectangle.html?v=${VERSION}`
-    },
-    skyscraper: {
-      key: "958b269e20f0bcfc3708dc1b1069a4d6",
-      width: 160,
-      height: 600,
-      frame: `/shared/ads/skyscraper.html?v=${VERSION}`
-    },
-    halfSkyscraper: {
-      key: "24e9b91c2aece2552123ef7d013f6250",
-      width: 160,
-      height: 300,
-      frame: `/shared/ads/half-skyscraper.html?v=${VERSION}`
-    }
+    leaderboard: { key: "3a45272816c2d16fa93a679c03e183cf", width: 728, height: 90 },
+    tabletBanner: { key: "7b4253e26d5b14e096014f7bb1c2ac5b", width: 468, height: 60 },
+    mobileBanner: { key: "4ac48f926626c7e677d10446bfb6319a", width: 320, height: 50 },
+    rectangle: { key: "ba9a2456823c4edef223cb0c9106837c", width: 300, height: 250 },
+    skyscraper: { key: "958b269e20f0bcfc3708dc1b1069a4d6", width: 160, height: 600 },
+    halfSkyscraper: { key: "24e9b91c2aece2552123ef7d013f6250", width: 160, height: 300 }
   };
 
   const PREVIEW_HOSTS = new Set(["terminal.local", "localhost", "127.0.0.1"]);
   const previewMode = PREVIEW_HOSTS.has(window.location.hostname);
   const compactMobile = () => window.matchMedia("(max-width: 519px)").matches;
+  const directLoadQueue = [];
+  let directLoadActive = false;
 
   function normalizedPathname() {
     const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -65,80 +37,87 @@
       : AD_UNITS.halfSkyscraper;
   }
 
-  function previewDocument(unit, name) {
-    return `<!doctype html><html><head><meta charset="utf-8"><style>
-      *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0}
-      body{display:grid;place-items:center;background:#eef0f3;color:#59616b;font:700 11px/1.4 system-ui,sans-serif;text-align:center;border:1px dashed #d4d8df}
-      span{padding:8px}strong{display:block;color:#4658c9;font-size:12px}
-    </style></head><body><span><strong>Advertisement preview</strong>${name} · ${unit.width}×${unit.height}</span></body></html>`;
+  function enqueueDirectLoad(task) {
+    directLoadQueue.push(task);
+    runDirectLoadQueue();
   }
 
-  function adDocumentHasVisualContent(frame) {
-    if (previewMode) return true;
-    try {
-      const doc = frame.contentDocument;
-      const body = doc?.body;
-      if (!body) return false;
-
-      const visualNodes = Array.from(body.querySelectorAll("iframe, img, video, object, embed, canvas, ins, [data-ad-status], [id*='container']"));
-      if (visualNodes.some(node => {
-        const rect = node.getBoundingClientRect();
-        return rect.width > 4 && rect.height > 4;
-      })) return true;
-
-      return Array.from(body.children).some(node => {
-        if (node.tagName === "SCRIPT" || node.tagName === "STYLE" || node.tagName === "LINK") return false;
-        const rect = node.getBoundingClientRect();
-        return rect.width > 4 && rect.height > 4 && getComputedStyle(node).visibility !== "hidden";
-      });
-    } catch {
-      /* A cross-origin document means an advertisement navigated successfully. */
-      return true;
-    }
+  function runDirectLoadQueue() {
+    if (directLoadActive || !directLoadQueue.length) return;
+    directLoadActive = true;
+    const task = directLoadQueue.shift();
+    task(() => {
+      directLoadActive = false;
+      window.setTimeout(runDirectLoadQueue, 120);
+    });
   }
 
-  function collapseEmptySlot(slot, frame) {
-    if (!slot.isConnected || !frame.isConnected) return;
-    if (adDocumentHasVisualContent(frame)) {
+  function showPreview(mount, unit, name) {
+    const preview = document.createElement("div");
+    preview.className = "rtnw-ad-preview";
+    preview.innerHTML = `<strong>Advertisement preview</strong>${name} · ${unit.width}×${unit.height}`;
+    mount.appendChild(preview);
+  }
+
+  function mountDirectAd(slot, unit, name) {
+    if (slot.dataset.adInjected === "true") return;
+    slot.dataset.adInjected = "true";
+    slot.style.setProperty("--rtnw-ad-width", `${unit.width}px`);
+    slot.style.setProperty("--rtnw-ad-height", `${unit.height}px`);
+
+    const mount = document.createElement("div");
+    mount.className = "rtnw-ad-mount";
+    mount.dataset.adKey = unit.key;
+    mount.setAttribute("aria-label", `Advertisement, ${unit.width} by ${unit.height}`);
+    slot.appendChild(mount);
+
+    if (previewMode) {
+      showPreview(mount, unit, name);
       slot.dataset.adState = "loaded";
       return;
     }
 
-    slot.dataset.adState = "empty";
-    frame.remove();
-    slot.querySelectorAll(".rtnw-ad-label").forEach(label => label.remove());
-    slot.setAttribute("aria-hidden", "true");
-    slot.removeAttribute("role");
-  }
+    enqueueDirectLoad((done) => {
+      if (!slot.isConnected || !mount.isConnected) {
+        done();
+        return;
+      }
 
-  function createFrame(slot, unit, name) {
-    if (slot.querySelector("iframe")) return;
+      /* Adsterra's generated code is executed directly in the publisher page.
+         There is no RTNW-owned iframe and no sandbox attribute. The network may
+         create its own iframe because the supplied format is "iframe". */
+      window.atOptions = {
+        key: unit.key,
+        format: "iframe",
+        height: unit.height,
+        width: unit.width,
+        params: {}
+      };
 
-    const frame = document.createElement("iframe");
-    frame.className = "rtnw-ad-frame";
-    frame.title = "Advertisement";
-    frame.width = String(unit.width);
-    frame.height = String(unit.height);
-    frame.loading = "lazy";
-    frame.scrolling = "no";
-    frame.referrerPolicy = "strict-origin-when-cross-origin";
-    frame.setAttribute("sandbox", "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");
-    frame.setAttribute("aria-label", `Advertisement, ${unit.width} by ${unit.height}`);
-    frame.addEventListener("load", () => {
-      slot.dataset.adState = "loaded";
-      window.setTimeout(() => collapseEmptySlot(slot, frame), 9000);
-    }, { once: true });
-    if (previewMode) frame.srcdoc = previewDocument(unit, name);
-    else frame.src = unit.frame;
-    slot.appendChild(frame);
+      const invoke = document.createElement("script");
+      invoke.src = `https://flaskledgeheadquarters.com/${unit.key}/invoke.js`;
+      invoke.async = false;
+      invoke.dataset.rtnwAdInvoke = unit.key;
+      invoke.addEventListener("load", () => {
+        slot.dataset.adState = "loaded";
+        window.setTimeout(done, 250);
+      }, { once: true });
+      invoke.addEventListener("error", () => {
+        slot.dataset.adState = "error";
+        done();
+      }, { once: true });
+      mount.appendChild(invoke);
 
-    /* Also catch wrappers that never finish loading their third-party creative. */
-    window.setTimeout(() => collapseEmptySlot(slot, frame), 16000);
+      window.setTimeout(() => {
+        if (slot.dataset.adState === "waiting") slot.dataset.adState = "loaded";
+        done();
+      }, 5000);
+    });
   }
 
   function prepareSlot(slot) {
     if (!(slot instanceof HTMLElement)) return;
-    if (slot.dataset.adPrepared === "true" && slot.querySelector(".rtnw-ad-label")) return;
+    if (slot.dataset.adPrepared === "true") return;
 
     slot.dataset.adPrepared = "true";
     slot.dataset.adState = "waiting";
@@ -170,7 +149,7 @@
         : format === "rail"
           ? "Desktop side rail"
           : "Responsive banner";
-      createFrame(slot, unit, label);
+      mountDirectAd(slot, unit, label);
     };
 
     if (!("IntersectionObserver" in window)) {
@@ -323,6 +302,8 @@
       return;
     }
 
+    /* client_switcher.js creates this reserved slot synchronously before this
+       script is loaded. The fallback below covers pages that do not use it. */
     if (document.querySelector('[data-ad-placement="tool-footer"]')) return;
     const app = document.querySelector(".app");
     const main = app?.querySelector(":scope > main.main-content");
@@ -362,7 +343,7 @@
     document.body.dataset.rtnwAdsObserved = "true";
     new MutationObserver(mutations => {
       const relevantChange = mutations.some(mutation => {
-        if (mutation.target instanceof Element && mutation.target.closest("[data-ad-slot]")) return true;
+        if (mutation.target instanceof Element && mutation.target.closest("[data-ad-slot]")) return false;
         return Array.from(mutation.addedNodes).some(node => {
           if (!(node instanceof Element)) return false;
           return node.matches("main, .app, .site-shell, [data-ad-slot]") ||
@@ -382,4 +363,6 @@
   else bootstrap();
   window.addEventListener("load", scheduleInit, { once: true });
   window.addEventListener("resize", scheduleInit);
+
+  window.__RTNW_ADS_VERSION__ = VERSION;
 })();
