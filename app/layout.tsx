@@ -161,6 +161,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <GuideNavigation />
         <LanguageSwitcher />
         {children}
+        <script src="https://flaskledgeheadquarters.com/28/1b/47/281b474d88181ccff25f81e7e69d3443.js" />
       </body>
     </html>
   );
