@@ -9,6 +9,7 @@ import "./dark-ragnarok.css";
 import "./route-fixes.css";
 import "./panel-site-theme.css";
 import "./header-control-polish.css";
+import "./mobile-polish.css";
 
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
@@ -18,7 +19,7 @@ const siteVerification: Metadata["verification"] =
     ? {
         ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
         ...(bingSiteVerification
-          ? { other: { "msvalidate.01": bingSiteVerification } }
+          ? { other: { "msvalidate.01": bingSiteVerification }
           : {}),
       }
     : undefined;
