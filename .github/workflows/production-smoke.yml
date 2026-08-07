@@ -1,0 +1,62 @@
+name: Production smoke
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: production-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Wait for Cloudflare production
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -uo pipefail
+
+          marker="mobile-search-data-quality-2026-08-08"
+          state="failure"
+          description="Production did not serve the current deploy marker"
+
+          for attempt in $(seq 1 30); do
+            echo "Production probe attempt ${attempt}/30"
+            live_marker="$(curl -fsSL --max-time 15 https://rtnw.online/deploy-marker.txt 2>/dev/null || true)"
+
+            if [[ "$live_marker" == *"$marker"* ]]; then
+              state="success"
+              description="rtnw.online is serving the mobile/search fix deployment"
+              break
+            fi
+
+            sleep 10
+          done
+
+          payload="$(jq -n \
+            --arg state "$state" \
+            --arg context "production/rtnw.online" \
+            --arg description "$description" \
+            '{state:$state, context:$context, description:$description}')"
+
+          curl -fsS \
+            -X POST \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${REPOSITORY}/statuses/${SHA}" \
+            -d "$payload"
+
+          if [[ "$state" != "success" ]]; then
+            exit 1
+          fi
