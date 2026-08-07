@@ -19,7 +19,7 @@ const siteVerification: Metadata["verification"] =
     ? {
         ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
         ...(bingSiteVerification
-          ? { other: { "msvalidate.01": bingSiteVerification }
+          ? { other: { "msvalidate.01": bingSiteVerification } }
           : {}),
       }
     : undefined;
