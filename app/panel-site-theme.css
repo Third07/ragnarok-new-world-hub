@@ -1,6 +1,6 @@
-/* Unified RTNW theme for modern Next.js pages.
-   Blue is reserved for headers, selected states, and primary actions. Neutral
-   cards and controls stay white or gray, preventing accidental blue blocks. */
+/* Shared RTNW color tokens plus homepage/site-chrome styling.
+   Route content owns its own CSS. Keep selectors narrow here so CSS modules and
+   legacy tools are not recolored by broad `main`, form, table, or footer rules. */
 
 :root {
   --panel-blue: #5b6ee8;
@@ -48,16 +48,16 @@
 
 html,
 body {
-  background: var(--panel-sky) !important;
-  color: var(--panel-ink) !important;
+  background-color: var(--panel-sky);
+  color: var(--panel-ink);
 }
 
 body {
   background-image:
     radial-gradient(circle at 14% 12%, rgba(255,255,255,.72), transparent 24rem),
     radial-gradient(circle at 82% 18%, rgba(255,255,255,.38), transparent 28rem),
-    linear-gradient(180deg, #edf2ff 0%, var(--panel-sky) 46%, var(--panel-sky-deep) 100%) !important;
-  background-attachment: fixed !important;
+    linear-gradient(180deg, #edf2ff 0%, var(--panel-sky) 46%, var(--panel-sky-deep) 100%);
+  background-attachment: fixed;
 }
 
 ::selection {
@@ -65,293 +65,244 @@ body {
   color: var(--panel-ink);
 }
 
-.site-shell,
-.page {
-  background-color: transparent !important;
-}
-
+/* Homepage shell. */
 .site-shell {
   background:
     radial-gradient(circle at 12% 12%, rgba(255,255,255,.72), transparent 26rem),
     radial-gradient(circle at 88% 30%, rgba(255,255,255,.34), transparent 30rem),
-    linear-gradient(180deg, #e9efff 0%, var(--panel-sky) 58%, #c8d5ff 100%) !important;
+    linear-gradient(180deg, #e9efff 0%, var(--panel-sky) 58%, #c8d5ff 100%);
 }
 
-/* Shared site navigation. */
-.site-header,
-body[data-rtnw-route^="guides"] > header,
-body[data-rtnw-route^="tools"] > header,
-body[data-rtnw-route="updates"] > header {
-  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue) 58%, var(--panel-blue-dark)) !important;
-  border-bottom: 3px solid var(--panel-yellow) !important;
-  box-shadow: 0 10px 26px rgba(48,61,135,.24) !important;
+/* Homepage navigation only. Other routes keep their local header styles. */
+.site-header {
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue) 58%, var(--panel-blue-dark));
+  border-bottom: 3px solid var(--panel-yellow);
+  box-shadow: 0 10px 26px rgba(48,61,135,.24);
 }
 
 .site-header::after {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent) !important;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent);
 }
 
-.brand-crest {
-  color: #ffffff !important;
-  background: linear-gradient(145deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
-  border-color: var(--panel-yellow) !important;
-  box-shadow: inset 0 0 0 3px rgba(255,255,255,.16), 0 8px 20px rgba(48,61,135,.24) !important;
+.site-header .brand-crest {
+  color: #ffffff;
+  background: linear-gradient(145deg, var(--panel-blue-light), var(--panel-blue-dark));
+  border-color: var(--panel-yellow);
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,.16), 0 8px 20px rgba(48,61,135,.24);
 }
 
-.brand-copy strong,
-.site-header a,
-.desktop-nav a {
-  color: #ffffff !important;
+.site-header .brand-copy strong,
+.site-header .desktop-nav a {
+  color: #ffffff;
 }
 
-.brand-copy small { color: var(--panel-yellow-soft) !important; }
-.desktop-nav a::after { background: var(--panel-yellow) !important; }
+.site-header .brand-copy small { color: var(--panel-yellow-soft); }
+.site-header .desktop-nav a::after { background: var(--panel-yellow); }
 
-.search-shortcut,
-.menu-toggle,
-.language-switcher-button {
-  color: var(--panel-ink) !important;
-  background: rgba(255,255,255,.95) !important;
-  border-color: rgba(255,255,255,.78) !important;
-  box-shadow: 0 5px 14px rgba(48,61,135,.16) !important;
+.site-header .search-shortcut,
+.site-header .menu-toggle,
+.site-header .language-switcher-button,
+.site-header .header-language-switcher {
+  color: var(--panel-ink);
+  background: rgba(255,255,255,.95);
+  border-color: rgba(255,255,255,.78);
+  box-shadow: 0 5px 14px rgba(48,61,135,.16);
 }
 
-.search-shortcut kbd {
-  color: var(--panel-text) !important;
-  background: var(--panel-surface-soft) !important;
-  border-color: var(--panel-line) !important;
+.site-header .search-shortcut kbd {
+  color: var(--panel-text);
+  background: var(--panel-surface-soft);
+  border-color: var(--panel-line);
 }
 
-.mobile-menu,
-.language-switcher-menu {
-  color: var(--panel-ink) !important;
-  background: var(--panel-white) !important;
-  border-color: var(--panel-line) !important;
-  box-shadow: 0 22px 52px rgba(48,61,135,.22) !important;
+.site-header .mobile-menu,
+.site-header .language-switcher-menu {
+  color: var(--panel-ink);
+  background: var(--panel-white);
+  border-color: var(--panel-line);
+  box-shadow: 0 22px 52px rgba(48,61,135,.22);
 }
 
-.mobile-menu a,
-.language-switcher-menu a,
-.language-switcher-menu button {
-  color: var(--panel-ink) !important;
-  border-color: var(--panel-line) !important;
+.site-header .mobile-menu a,
+.site-header .language-switcher-menu a,
+.site-header .language-switcher-menu button {
+  color: var(--panel-ink);
+  border-color: var(--panel-line);
 }
 
-/* Homepage hero and major blue sections. */
-.hero {
-  background: linear-gradient(180deg, #94a6f7, #6577e9) !important;
-  border-bottom-color: var(--panel-yellow) !important;
+/* Homepage hero. Replace the old pale sky wash so white hero text stays legible. */
+.site-shell .hero {
+  background: linear-gradient(180deg, #94a6f7, #6577e9);
+  border-bottom-color: var(--panel-yellow);
 }
 
-.hero::before {
+.site-shell .hero-sky-wash {
   background:
-    linear-gradient(90deg, rgba(70,88,201,.90), rgba(91,110,232,.66) 48%, rgba(91,110,232,.16)),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(70,88,201,.76)) !important;
+    linear-gradient(90deg, rgba(70,88,201,.94) 0%, rgba(91,110,232,.82) 25%, rgba(91,110,232,.48) 48%, rgba(91,110,232,.10) 72%, transparent 86%),
+    linear-gradient(180deg, rgba(70,88,201,.06) 48%, rgba(70,88,201,.50) 100%);
 }
 
-.hero::after { background: linear-gradient(180deg, transparent, var(--panel-sky)) !important; }
-.hero-art { filter: saturate(.96) contrast(1.02) brightness(.92) !important; }
-.hero h1,
-.hero-copy,
-.hero-meta,
-.hero-meta strong { color: #ffffff !important; }
-.hero h1 em,
-.eyebrow,
-.eyebrow.dark,
-.section-kicker { color: var(--panel-yellow-soft) !important; }
-.eyebrow span,
-.section-kicker .rule { background: var(--panel-yellow) !important; }
-
-/* Explicit button states. */
-.primary-button,
-.tool-primary-button,
-.calculator-primary-button {
-  color: #ffffff !important;
-  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
-  border-color: var(--panel-blue-dark) !important;
-  box-shadow: 0 8px 18px rgba(70,88,201,.24) !important;
+.site-shell .hero::after {
+  background: linear-gradient(180deg, transparent, var(--panel-sky));
 }
 
-.secondary-button,
-.tool-secondary-button,
-.calculator-secondary-button {
-  color: var(--panel-ink) !important;
-  background: var(--panel-white) !important;
-  border-color: var(--panel-line) !important;
+.site-shell .hero-art {
+  filter: saturate(.96) contrast(1.02) brightness(.92);
 }
 
-button:disabled,
-[aria-disabled="true"] {
-  color: var(--panel-muted) !important;
-  background: var(--panel-surface-soft) !important;
-  border-color: var(--panel-line) !important;
-  box-shadow: none !important;
-  opacity: .65 !important;
+.site-shell .hero h1,
+.site-shell .hero-copy,
+.site-shell .hero-meta,
+.site-shell .hero-meta strong {
+  color: #ffffff;
 }
 
-input,
-select,
-textarea {
-  color: var(--panel-ink) !important;
-  background-color: var(--panel-white) !important;
-  border-color: var(--panel-line) !important;
+.site-shell .hero h1 em,
+.site-shell .hero .eyebrow,
+.site-shell .journey-banner .eyebrow {
+  color: var(--panel-yellow-soft);
 }
 
-input::placeholder,
-textarea::placeholder { color: var(--panel-muted) !important; }
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--panel-blue) !important;
-  box-shadow: 0 0 0 3px rgba(91,110,232,.16) !important;
+.site-shell .hero .eyebrow span,
+.site-shell .journey-banner .eyebrow span {
+  background: var(--panel-yellow);
 }
 
-/* Known homepage and guide-library surfaces. */
-.quick-card,
-.tool-card,
-.guide-paths article,
-.journey-banner,
-.tool-controls,
-.empty-state,
-main details {
-  color: var(--panel-ink) !important;
-  background: var(--panel-white) !important;
-  border-color: var(--panel-line) !important;
-  box-shadow: 0 12px 28px var(--panel-shadow), inset 0 1px rgba(255,255,255,.8) !important;
+/* Dark text is intentionally retained on light homepage sections. */
+.site-shell .eyebrow.dark,
+.site-shell .section-kicker {
+  color: var(--panel-blue-dark);
 }
 
-.quick-card::before,
-.quick-card::after { opacity: .10 !important; }
-
-.icon-medallion,
-.tool-icon {
-  background: var(--panel-surface-soft) !important;
-  border-color: rgba(91,110,232,.28) !important;
+.site-shell .section-kicker .rule {
+  background: linear-gradient(90deg, var(--panel-blue), transparent);
 }
 
-.quick-card-copy small,
-.tool-card > small,
-.card-number,
-.guide-paths article > span:first-child { color: var(--panel-blue-dark) !important; }
-
-.quick-card-copy strong,
-.tool-card h3,
-.library-heading h2,
-.guide-overview-heading h2,
-.guide-paths h3,
-.journey-banner h2,
-main h1,
-main h2,
-main h3,
-main h4,
-main strong,
-main summary,
-main label { color: var(--panel-ink) !important; }
-
-.quick-card-copy > span,
-.tool-card p,
-.library-heading > p,
-.guide-overview-heading > p:last-of-type,
-.guide-paths p,
-main p,
-main li,
-main dd,
-main small { color: var(--panel-text) !important; }
-
-.card-arrow,
-.tool-link,
-.guide-paths p a,
-.guide-path-link,
-main a { color: var(--panel-blue-dark) !important; }
-
-main a:hover,
-.tool-card:hover .tool-link,
-.guide-path-link:hover { color: #7e5b0f !important; }
-
-.tool-card:hover,
-.quick-card:hover,
-.guide-paths article:hover {
-  border-color: rgba(91,110,232,.48) !important;
-  box-shadow: 0 18px 38px rgba(48,61,135,.22) !important;
+/* Homepage buttons. */
+.site-shell .primary-button {
+  color: #ffffff;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark));
+  border-color: var(--panel-blue-dark);
+  box-shadow: 0 8px 18px rgba(70,88,201,.24);
 }
 
-.tool-search,
-.category-tabs button {
-  color: var(--panel-text) !important;
-  background: var(--panel-surface-soft) !important;
-  border-color: var(--panel-line) !important;
+.site-shell .secondary-button {
+  color: var(--panel-ink);
+  background: var(--panel-white);
+  border-color: var(--panel-line);
 }
 
-.category-tabs button.is-active {
-  color: #ffffff !important;
-  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark)) !important;
-  border-color: var(--panel-blue-dark) !important;
+.site-shell .quick-card,
+.site-shell .tool-card,
+.site-shell .guide-paths article,
+.site-shell .journey-banner,
+.site-shell .tool-controls,
+.site-shell .empty-state {
+  color: var(--panel-ink);
+  background-color: var(--panel-white);
+  border-color: var(--panel-line);
+  box-shadow: 0 12px 28px var(--panel-shadow), inset 0 1px rgba(255,255,255,.8);
 }
 
-/* Shared tables and notices without wildcard class matching. */
-table {
-  color: var(--panel-ink) !important;
-  background: var(--panel-white) !important;
-  border-color: var(--panel-line) !important;
+.site-shell .quick-card::before,
+.site-shell .quick-card::after { opacity: .10; }
+
+.site-shell .icon-medallion,
+.site-shell .tool-icon {
+  background: var(--panel-blue-soft);
+  border-color: rgba(91,110,232,.28);
 }
 
-thead,
-th {
-  color: #ffffff !important;
-  background: var(--panel-blue) !important;
-  border-color: var(--panel-blue-dark) !important;
+.site-shell .quick-card-copy small,
+.site-shell .tool-card > small,
+.site-shell .card-number,
+.site-shell .guide-paths article > span:first-child {
+  color: var(--panel-blue-dark);
 }
 
-td {
-  color: var(--panel-text) !important;
-  background: var(--panel-white) !important;
-  border-color: var(--panel-line) !important;
+.site-shell .quick-card-copy strong,
+.site-shell .tool-card h3,
+.site-shell .library-heading h2,
+.site-shell .guide-overview-heading h2,
+.site-shell .guide-paths h3,
+.site-shell .journey-banner h2 {
+  color: var(--panel-ink);
 }
 
-.note,
-.warning,
-.success,
-.result {
-  color: var(--panel-ink) !important;
-  background: var(--panel-surface-soft) !important;
-  border-color: var(--panel-line) !important;
+.site-shell .quick-card-copy > span,
+.site-shell .tool-card p,
+.site-shell .library-heading > p,
+.site-shell .guide-overview-heading > p:last-of-type,
+.site-shell .guide-paths p {
+  color: var(--panel-text);
 }
 
-/* Advertisement styling. */
-.rtnw-ad-label { color: var(--panel-text) !important; }
-.rtnw-ad-slot::before {
-  background: rgba(255,255,255,.46) !important;
-  border-color: rgba(91,110,232,.16) !important;
-}
-.rtnw-ad-frame {
-  background: var(--panel-surface-soft) !important;
-  box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14) !important;
+.site-shell .card-arrow,
+.site-shell .tool-link,
+.site-shell .guide-paths p a,
+.site-shell .guide-path-link {
+  color: var(--panel-blue-dark);
 }
 
-footer,
-.mobile-dock {
-  color: #ffffff !important;
-  background: linear-gradient(180deg, var(--panel-blue), var(--panel-blue-dark)) !important;
-  border-color: var(--panel-yellow) !important;
+.site-shell .tool-card:hover,
+.site-shell .quick-card:hover,
+.site-shell .guide-paths article:hover {
+  border-color: rgba(91,110,232,.48);
+  box-shadow: 0 18px 38px rgba(48,61,135,.22);
 }
 
-footer a,
-footer p,
-.footer-meta a,
-.footer-meta p,
-.mobile-dock a,
-.mobile-dock a span { color: #ffffff !important; }
+.site-shell .tool-search,
+.site-shell .category-tabs button {
+  color: var(--panel-text);
+  background: var(--panel-surface-soft);
+  border-color: var(--panel-line);
+}
 
-footer small,
-.footer-brand .brand-copy small { color: var(--panel-yellow-soft) !important; }
+.site-shell .tool-search input {
+  color: var(--panel-ink);
+  background: transparent;
+}
+
+.site-shell .tool-search input::placeholder { color: var(--panel-muted); }
+
+.site-shell .category-tabs button.is-active {
+  color: #ffffff;
+  background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue-dark));
+  border-color: var(--panel-blue-dark);
+}
+
+/* Homepage advertisement surfaces. */
+.site-shell .rtnw-ad-label { color: var(--panel-text); }
+.site-shell .rtnw-ad-slot::before {
+  background: rgba(255,255,255,.46);
+  border-color: rgba(91,110,232,.16);
+}
+.site-shell .rtnw-ad-frame {
+  background: var(--panel-surface-soft);
+  box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14);
+}
+
+/* Only the homepage footer is part of this theme. Modern guide footers use their module CSS. */
+.site-shell > footer {
+  color: #ffffff;
+  background: linear-gradient(180deg, var(--panel-blue), var(--panel-blue-dark));
+  border-color: var(--panel-yellow);
+}
+
+.site-shell > footer a,
+.site-shell > footer p,
+.site-shell > footer .footer-meta a,
+.site-shell > footer .footer-meta p {
+  color: #ffffff;
+}
+
+.site-shell > footer small,
+.site-shell > footer .footer-brand .brand-copy small {
+  color: var(--panel-yellow-soft);
+}
 
 @media (max-width: 680px) {
-  .hero::before {
-    background: linear-gradient(180deg, rgba(91,110,232,.12) 8%, rgba(91,110,232,.52) 44%, rgba(70,88,201,.92) 76%) !important;
-  }
-
-  .mobile-dock {
-    box-shadow: 0 -8px 24px rgba(48,61,135,.20) !important;
+  .site-shell .hero-sky-wash {
+    background: linear-gradient(180deg, rgba(91,110,232,.16) 8%, rgba(91,110,232,.58) 44%, rgba(70,88,201,.94) 76%);
   }
 }

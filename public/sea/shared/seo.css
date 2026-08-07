@@ -5,31 +5,74 @@
   letter-spacing: inherit;
 }
 
+/* Shared searchable context below the legacy SEA tools.
+   Match the current RTNW blue/white panel system instead of the retired
+   green/parchment theme so these sections feel native to every tool page. */
 .seo-guide {
   width: min(1180px, calc(100% - 32px));
   margin: 28px auto 112px;
   padding: clamp(22px, 4vw, 36px);
-  color: #24464b;
-  background: linear-gradient(145deg, rgba(255, 253, 245, 0.98), rgba(244, 251, 250, 0.96));
-  border: 1px solid rgba(194, 153, 66, 0.45);
-  border-radius: 24px;
-  box-shadow: 0 16px 42px rgba(27, 72, 74, 0.12), inset 0 1px rgba(255, 255, 255, 0.85);
+  color: #181b20;
+  background: #ffffff;
+  border: 1px solid #d4d8df;
+  border-top: 3px solid #f4bc3f;
+  border-radius: 20px;
+  box-shadow: 0 16px 38px rgba(48, 61, 135, 0.16), inset 0 1px rgba(255, 255, 255, 0.9);
 }
 
 .seo-guide h2 {
   margin: 0 0 12px;
-  color: #174f55;
+  color: #181b20;
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   line-height: 1.2;
+}
+
+.seo-guide h3 {
+  margin: 0;
+  color: #30353c;
+  font-size: 1rem;
+  line-height: 1.35;
 }
 
 .seo-guide p {
   max-width: 82ch;
   margin: 0;
-  color: #405f63;
+  color: #59616b;
   font-size: 0.98rem;
   line-height: 1.75;
 }
+
+.seo-faq {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #d4d8df;
+}
+
+.seo-faq h3,
+.seo-faq p {
+  grid-column: auto;
+}
+
+.seo-faq > h3 {
+  align-self: end;
+}
+
+.seo-faq > p {
+  margin-bottom: 8px;
+}
+
+/* Each FAQ pair occupies one column without requiring extra wrapper markup. */
+.seo-faq > h3:nth-of-type(1),
+.seo-faq > p:nth-of-type(1) { grid-column: 1; }
+.seo-faq > h3:nth-of-type(2),
+.seo-faq > p:nth-of-type(2) { grid-column: 2; }
+.seo-faq > h3:nth-of-type(3),
+.seo-faq > p:nth-of-type(3) { grid-column: 3; }
+.seo-faq > h3 { grid-row: 1; }
+.seo-faq > p { grid-row: 2; }
 
 .seo-related {
   display: flex;
@@ -43,19 +86,49 @@
   align-items: center;
   min-height: 42px;
   padding: 9px 15px;
-  color: #176f87;
+  color: #4658c9;
   font-weight: 750;
   text-decoration: none;
-  background: #edfaff;
-  border: 1px solid #abd9e8;
+  background: #e7ebff;
+  border: 1px solid rgba(70, 88, 201, 0.28);
   border-radius: 999px;
+  transition: color 150ms ease, background 150ms ease, border-color 150ms ease, transform 150ms ease;
 }
 
 .seo-related a:hover,
 .seo-related a:focus-visible {
-  color: #fff;
-  background: #197da2;
-  border-color: #197da2;
+  color: #ffffff;
+  background: #5b6ee8;
+  border-color: #4658c9;
+  transform: translateY(-1px);
+}
+
+.seo-related a:focus-visible {
+  outline: 3px solid rgba(244, 188, 63, 0.62);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .seo-faq {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .seo-faq > h3,
+  .seo-faq > p,
+  .seo-faq > h3:nth-of-type(1),
+  .seo-faq > p:nth-of-type(1),
+  .seo-faq > h3:nth-of-type(2),
+  .seo-faq > p:nth-of-type(2),
+  .seo-faq > h3:nth-of-type(3),
+  .seo-faq > p:nth-of-type(3) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .seo-faq > h3:not(:first-child) {
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -63,7 +136,7 @@
     width: calc(100% - 20px);
     margin: 18px auto calc(96px + env(safe-area-inset-bottom));
     padding: 20px 18px;
-    border-radius: 18px;
+    border-radius: 16px;
   }
 
   .seo-related {
