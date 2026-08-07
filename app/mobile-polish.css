@@ -1,0 +1,60 @@
+/* Mobile layout corrections shared by the homepage and modern data-browser routes.
+   Keep these selectors narrow: homepage controls use `.site-shell`, while route
+   content continues to own its CSS-module styling. */
+
+.site-shell .tool-controls {
+  border: 1px solid var(--panel-line);
+  border-radius: 16px;
+  padding: 14px;
+  background: var(--panel-white);
+  box-shadow: 0 10px 24px rgba(48, 61, 135, .12);
+}
+
+.site-shell .tool-search {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.site-shell .tool-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0 !important;
+  outline: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 760px) {
+  /* The fixed bottom dock exists only inside the homepage shell. */
+  body {
+    padding-bottom: 0 !important;
+  }
+
+  .site-shell {
+    padding-bottom: calc(66px + env(safe-area-inset-bottom));
+  }
+
+  .site-shell .tool-controls {
+    gap: 12px;
+    padding: 13px;
+  }
+
+  .site-shell .category-tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .site-shell .category-tabs button {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding-inline: 10px;
+  }
+}

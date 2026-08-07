@@ -279,13 +279,17 @@
 .result dd { margin: 0; font-weight: 850; color: #4658c9; }
 
 .footer {
+  min-height: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 20px;
   padding: 28px 0 45px;
+  background: transparent;
   border-top: 1px solid rgba(70,88,201,.20);
   color: #59616b;
   font-size: 14px;
+  box-shadow: none;
 }
 .footer a { color: #4658c9; font-weight: 800; }
 
@@ -306,5 +310,11 @@
   .cardGrid,
   .formGrid,
   .sidebar { grid-template-columns: 1fr; }
-  .footer { flex-direction: column; }
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 0 28px;
+    text-align: center;
+  }
 }

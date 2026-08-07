@@ -23,8 +23,10 @@ type SearchGroup = {
 
 const STATIC_PAGES: SearchResult[] = [
   { id: "guide-library", title: "All Ragnarok: The New World Guides", description: "Class builds, beginner progression, farming, equipment, PC setup, emulators, cloud gaming, and safe top-ups.", href: "/guides/", icon: "/media/images/zhujiemian/icon_zhujiemian_shitu.webp", fallback: "G" },
+  { id: "database", title: "Ragnarok: The New World Database", description: "Browse the RTNW monster, card, equipment, pet, map, shop, quiz, and build-planning databases from one hub.", href: "/database/", icon: "/media/images/zhujiemian/icon_zhujiemian_tujian.webp", fallback: "D" },
   { id: "updates", title: "RTNW Hub Updates", description: "New guides, tools, database changes, and recently updated site resources.", href: "/updates/", icon: "/media/images/zhujiemian/icon_zhujiemian_huodong.webp", fallback: "U" },
   { id: "class-tier-list", title: "Class Tier List: F2P, PvE and PvP", description: "Compare RTNW class families by activity and budget instead of using one ranking for every player.", href: "/guides/class-tier-list/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "C" },
+  { id: "monk-build", title: "Monk Build & Skill Guide", description: "Review current Monk skill data, Spirit Spheres, Fury, combo skills, and build-planning links.", href: "/guides/monk-build/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "M" },
   { id: "beginner-progression", title: "Beginner Progression Guide", description: "A first-hours and first-week route with F2P priorities and daily progression decisions.", href: "/guides/beginner-progression/", icon: "/media/images/zhujiemian/icon_zhujiemian_shitu.webp", fallback: "B" },
   { id: "druid-builds", title: "Druid Builds", description: "Werewolf, Wereraptor, and Human Arcanist build directions for PvE, PvP, and F2P progression.", href: "/guides/druid-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "D" },
   { id: "refining", title: "Refining and Equipment Guide", description: "Plan equipment choices, refine checkpoints, priority slots, and upgrade spending.", href: "/guides/refining-equipment/", icon: "/media/images/zhujiemian/icon_zhujiemian_qianghua.webp", fallback: "R" },
@@ -93,8 +95,25 @@ function monsterIdentity(item: UnknownRecord) {
     text(item.type).trim().toLowerCase(),
     text(item.race).trim().toLowerCase(),
     text(item.element).trim().toLowerCase(),
-    text(item.body ?? item.size).trim().toLowerCase(),
   ].join("|");
+}
+
+function cardIdentity(item: UnknownRecord) {
+  const id = text(item.id).trim();
+  if (id) return id;
+  return [text(item.name), text(item.card_type_name), text(item.effect)].map((value) => value.trim().toLowerCase()).join("|");
+}
+
+function equipmentIdentity(item: UnknownRecord) {
+  const id = text(item.id).trim();
+  if (id) return id;
+  return [text(item.name), text(item.itemType), text(item.openLevel)].map((value) => value.trim().toLowerCase()).join("|");
+}
+
+function isPublicEquipment(item: UnknownRecord) {
+  const name = text(item.name).trim();
+  if (!name) return false;
+  return !/^(?:royal\s+)?gm(?:[-\s·]|$)/i.test(name);
 }
 
 function normalizeAssetPath(value: string) {
@@ -268,7 +287,12 @@ export default function SearchClient() {
       };
     });
 
-    const cardMatches = searchDatabases ? cards.filter((item) => match(searchable([item.name, item.effect, item.effect_extra, item.effect_lines, item.card_type_name, item.obtain_source_tables]))) : [];
+    const cardMatches = searchDatabases
+      ? uniqueBy(
+          cards.filter((item) => match(searchable([item.name, item.effect, item.effect_extra, item.effect_lines, item.card_type_name, item.obtain_source_tables]))),
+          cardIdentity,
+        )
+      : [];
     const cardResults = cardMatches.slice(0, 8).map((item, index): SearchResult => {
       const id = text(item.id || index);
       const name = text(item.name) || `Card ${id}`;
@@ -283,7 +307,12 @@ export default function SearchClient() {
       };
     });
 
-    const equipmentMatches = searchDatabases ? equipment.filter((item) => match(searchable([item.name, item.desc, item.openLevel, equipmentTypes[text(item.itemType)], item.stats, item.suits]))) : [];
+    const equipmentMatches = searchDatabases
+      ? uniqueBy(
+          equipment.filter((item) => isPublicEquipment(item) && match(searchable([item.name, item.desc, item.openLevel, equipmentTypes[text(item.itemType)], item.stats, item.suits]))),
+          equipmentIdentity,
+        )
+      : [];
     const equipmentResults = equipmentMatches.slice(0, 8).map((item, index): SearchResult => {
       const id = text(item.id || index);
       const name = text(item.name) || `Equipment ${id}`;
@@ -346,11 +375,14 @@ export default function SearchClient() {
         <div className={browserStyles.groups}>
           {groups.map((group) => {
             const groupId = `group-${group.name.replace(/\W+/g, "-").toLowerCase()}`;
+            const countLabel = group.results.length < group.total
+              ? `Showing ${group.results.length.toLocaleString()} of ${group.total.toLocaleString()}`
+              : `${group.total.toLocaleString()} found`;
             return (
               <section className={browserStyles.group} key={group.name} aria-labelledby={groupId}>
                 <div className={browserStyles.groupHeader}>
                   <h2 id={groupId}>{group.name}</h2>
-                  <span>{group.total.toLocaleString()} found</span>
+                  <span>{countLabel}</span>
                 </div>
                 <div className={browserStyles.resultGrid}>
                   {group.results.map((result) => (

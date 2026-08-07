@@ -51,6 +51,41 @@ function unique(values: string[]) {
   return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b));
 }
 
+function monsterIdentity(monster: Monster) {
+  return [
+    monster.name.trim().toLowerCase(),
+    monster.level,
+    monster.type.trim().toLowerCase(),
+    monster.race.trim().toLowerCase(),
+    monster.element.trim().toLowerCase(),
+    monster.size.trim().toLowerCase(),
+  ].join("|");
+}
+
+function dedupeMonsters(monsters: Monster[]) {
+  const merged = new Map<string, Monster>();
+
+  for (const monster of monsters) {
+    const key = monsterIdentity(monster);
+    const current = merged.get(key);
+    if (!current) {
+      merged.set(key, monster);
+      continue;
+    }
+
+    const mapIds = unique([...current.mapIds, ...monster.mapIds]);
+    const currentUsesFallback = current.image.includes(`/monster/${current.id}.webp`);
+    const nextUsesFallback = monster.image.includes(`/monster/${monster.id}.webp`);
+    merged.set(key, {
+      ...current,
+      mapIds,
+      image: currentUsesFallback && !nextUsesFallback ? monster.image : current.image,
+    });
+  }
+
+  return Array.from(merged.values());
+}
+
 async function copyText(value: string) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(value);
@@ -99,25 +134,29 @@ export default function FarmingTargetFinder() {
         return response.json();
       })
       .then((payload) => {
-        const normalized = monstersFromPayload(payload).map((item, index): Monster => {
-          const id = label(item.id) || String(index);
-          const maps = Array.isArray(item.mapIds)
-            ? item.mapIds.map(label).filter(Boolean)
-            : Array.isArray(item.maps)
-              ? item.maps.map((map) => label(record(map).id || map)).filter(Boolean)
-              : [];
-          return {
-            id,
-            name: label(item.name) || `Monster ${id}`,
-            level: Number(item.level) || 0,
-            type: label(item.type),
-            race: label(item.race),
-            element: label(item.element),
-            size: label(item.size),
-            mapIds: maps,
-            image: imagePath(item.thumbnail || item.image, id),
-          };
-        });
+        const normalized = dedupeMonsters(
+          monstersFromPayload(payload)
+            .filter((item) => Boolean(item.is_handbook))
+            .map((item, index): Monster => {
+              const id = label(item.id) || String(index);
+              const maps = Array.isArray(item.mapIds)
+                ? item.mapIds.map(label).filter(Boolean)
+                : Array.isArray(item.maps)
+                  ? item.maps.map((map) => label(record(map).id || map)).filter(Boolean)
+                  : [];
+              return {
+                id,
+                name: label(item.name) || `Monster ${id}`,
+                level: Number(item.level) || 0,
+                type: label(item.type),
+                race: label(item.race),
+                element: label(item.element),
+                size: label(item.body ?? item.size),
+                mapIds: maps,
+                image: imagePath(item.thumbnail || item.image, id),
+              };
+            }),
+        );
         setMonsters(normalized);
         const highest = normalized.reduce((max, monster) => Math.max(max, monster.level), 1);
         if (!params.has("max")) setMaxLevel(Math.max(200, highest));
