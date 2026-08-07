@@ -4,14 +4,14 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Classes and Builds",
   description:
-    "Browse source-based RTNW build guides for Swordman, Mage, Archer, Acolyte, Thief, Merchant, Gunslinger, and Druid, with stats, traits, cards, rotations, and progression advice.",
+    "Browse RTNW build guides for Swordman, Mage, Archer, Acolyte, Monk, Thief, Merchant, Gunslinger, and Druid, with stats, traits, cards, skill mechanics, rotations, and progression advice.",
   alternates: { canonical: "/guides/classes-builds/" },
   openGraph: {
     type: "website",
     url: "/guides/classes-builds/",
     title: "Ragnarok: The New World Classes and Builds",
     description:
-      "Compare current class builds, stat priorities, second-job traits, equipment routes, cards, PvE rotations, and F2P investment requirements.",
+      "Compare current class builds, stat priorities, second-job traits, Monk skill mechanics, equipment routes, cards, PvE rotations, and F2P investment requirements.",
   },
 };
 
@@ -57,6 +57,14 @@ const guides = [
     meta: "Support · Exorcist · AGI-Crit",
   },
   {
+    title: "Monk Build & Skill Guide: Spirit Spheres, Fury and Combos",
+    description:
+      "Use the current English Monk data to understand Spirit Sphere generation, Fury, the Trifecta-to-Quadruple combo, and a safe build-planning route before spending points or gear resources.",
+    href: "/guides/monk-build/",
+    label: "Data-backed Monk guide",
+    meta: "Spirit Spheres · Fury · Combo chain",
+  },
+  {
     title: "Thief Builds: Dual Dagger, Katar and Venom",
     description:
       "Compare sustained dual-dagger damage, stealth Katar burst, and poison-focused Venom with ASPD, weapon-cost, and boss-resistance tradeoffs.",
@@ -92,7 +100,7 @@ const guides = [
 
 const steps = [
   "Start with the class tier list and choose the game mode that matters most: F2P progression, PvE, or PvP.",
-  "Open the current guide for your class and choose one weapon, element, or role as the primary build.",
+  "Open the current guide for your class and choose one weapon, element, role, or verified skill mechanic as the primary build.",
   "Use the Skill Planner to confirm the live English skill tree and prerequisites before assigning points.",
   "Use the Equipment, Card, Rune, and Affix tools to translate the guide into a build your account can afford.",
 ];
@@ -126,8 +134,8 @@ export default function ClassesBuildsCategoryPage() {
       currentPath="/guides/classes-builds/"
       eyebrow="Class selection, second-job builds and practical progression"
       title="Classes and Builds"
-      summary="Compare source-based second-job routes, then convert one role into a focused skill, equipment, trait, rune, affix, and card plan."
-      introduction="The refreshed guides preserve the supplied official GNJOY recommendations while reorganizing them for search, mobile reading, and direct use with RTNW Hub tools. Balance details can change, so each guide also points players back to the live database and client."
+      summary="Compare source-based second-job routes and current data-backed class mechanics, then convert one role into a focused skill, equipment, trait, rune, affix, and card plan."
+      introduction="The refreshed guides preserve supplied official GNJOY recommendations where available, while data-led pages such as Monk use the current English game files already powering RTNW Hub. Balance details can change, so each guide points players back to the live database and client."
       guides={guides}
       steps={steps}
       tools={tools}
