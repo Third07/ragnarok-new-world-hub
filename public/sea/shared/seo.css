@@ -27,6 +27,13 @@
   line-height: 1.2;
 }
 
+.seo-guide h3 {
+  margin: 0;
+  color: #30353c;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
 .seo-guide p {
   max-width: 82ch;
   margin: 0;
@@ -34,6 +41,38 @@
   font-size: 0.98rem;
   line-height: 1.75;
 }
+
+.seo-faq {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #d4d8df;
+}
+
+.seo-faq h3,
+.seo-faq p {
+  grid-column: auto;
+}
+
+.seo-faq > h3 {
+  align-self: end;
+}
+
+.seo-faq > p {
+  margin-bottom: 8px;
+}
+
+/* Each FAQ pair occupies one column without requiring extra wrapper markup. */
+.seo-faq > h3:nth-of-type(1),
+.seo-faq > p:nth-of-type(1) { grid-column: 1; }
+.seo-faq > h3:nth-of-type(2),
+.seo-faq > p:nth-of-type(2) { grid-column: 2; }
+.seo-faq > h3:nth-of-type(3),
+.seo-faq > p:nth-of-type(3) { grid-column: 3; }
+.seo-faq > h3 { grid-row: 1; }
+.seo-faq > p { grid-row: 2; }
 
 .seo-related {
   display: flex;
@@ -67,6 +106,29 @@
 .seo-related a:focus-visible {
   outline: 3px solid rgba(244, 188, 63, 0.62);
   outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .seo-faq {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .seo-faq > h3,
+  .seo-faq > p,
+  .seo-faq > h3:nth-of-type(1),
+  .seo-faq > p:nth-of-type(1),
+  .seo-faq > h3:nth-of-type(2),
+  .seo-faq > p:nth-of-type(2),
+  .seo-faq > h3:nth-of-type(3),
+  .seo-faq > p:nth-of-type(3) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .seo-faq > h3:not(:first-child) {
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 640px) {
