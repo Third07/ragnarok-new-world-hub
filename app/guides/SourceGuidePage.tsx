@@ -29,6 +29,11 @@ export type SourceGuide = {
   heroAlt: string;
   sourceUrl: string;
   sourceTitle: string;
+  sourceKind?: "official-guide" | "internal-data";
+  sourceNote?: string;
+  sourceStatus?: string;
+  warning?: string;
+  metaLabel?: string;
   published: string;
   modified: string;
   readTime: string;
@@ -68,6 +73,16 @@ export function buildGuideMetadata(guide: SourceGuide): Metadata {
       images: [guide.heroImage],
     },
   };
+}
+
+function formatGuideDate(value: string) {
+  const date = new Date(`${value}T00:00:00Z`);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
 }
 
 function GuideSectionContent({ section }: { section: GuideSection }) {
@@ -131,6 +146,17 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
   const imageUrl = guide.heroImage.startsWith("http")
     ? guide.heroImage
     : `https://rtnw.online${guide.heroImage}`;
+  const absoluteSourceUrl = guide.sourceUrl.startsWith("http")
+    ? guide.sourceUrl
+    : `https://rtnw.online${guide.sourceUrl}`;
+  const isInternalData = guide.sourceKind === "internal-data";
+  const warning = guide.warning ??
+    "Event schedules, rewards, traits, and balance values can change after game updates. Confirm the current in-game panel before spending rare materials or organizing a guild roster.";
+  const metaLabel = guide.metaLabel ?? (isInternalData ? "Data-backed RTNW guide" : "Source-based RTNW guide");
+  const sourceStatus = guide.sourceStatus ?? (isInternalData
+    ? "Built from current RTNW Hub game data and the live planner. Recheck skill values after major balance patches."
+    : "Based on an official GNJOY forum guide supplied to RTNW Hub. Always compare event times and balance details with the live game client.");
+
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -155,7 +181,7 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
             height: 180,
           },
         },
-        isBasedOn: guide.sourceUrl,
+        isBasedOn: absoluteSourceUrl,
         inLanguage: "en",
         articleSection: guide.category,
       },
@@ -207,9 +233,9 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
           <h1 className={styles.title}>{guide.title}</h1>
           <p className={styles.dek}>{guide.dek}</p>
           <div className={styles.meta}>
-            <span>Updated August 6, 2026</span>
+            <span>Updated {formatGuideDate(guide.modified)}</span>
             <span>{guide.readTime}</span>
-            <span>Source-based RTNW guide</span>
+            <span>{metaLabel}</span>
           </div>
         </div>
       </header>
@@ -219,10 +245,7 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
           <article className={styles.article}>
             <p className={styles.lead}>{guide.description}</p>
 
-            <div className={styles.warning}>
-              Event schedules, rewards, traits, and balance values can change after game updates.
-              Confirm the current in-game panel before spending rare materials or organizing a guild roster.
-            </div>
+            <div className={styles.warning}>{warning}</div>
 
             <section aria-labelledby="quick-facts-title">
               <h2 id="quick-facts-title">Quick guide summary</h2>
@@ -255,17 +278,24 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
             </section>
 
             <section aria-labelledby="source-title">
-              <h2 id="source-title">Source and editorial note</h2>
-              <p>
-                This RTNW Hub article is an independently rewritten and reorganized guide based on
-                the official GNJOY forum post{" "}
-                <a href={guide.sourceUrl} rel="noopener noreferrer nofollow">
-                  “{guide.sourceTitle}”
-                </a>.
-                The source screenshots are reused as guide artwork where the RTNW database does not
-                contain an equivalent editorial image. The wording, structure, tables, and SEO
-                presentation are original to RTNW Hub.
-              </p>
+              <h2 id="source-title">{isInternalData ? "Data source and build methodology" : "Source and editorial note"}</h2>
+              {isInternalData ? (
+                <p>
+                  {guide.sourceNote ?? "This guide is built from the current English game data bundled with RTNW Hub and cross-checked against the live planner. Build labels, priorities, and rotations are RTNW Hub editorial recommendations organized from those verified mechanics; they are not copied from another Ragnarok title."}{" "}
+                  <a href={guide.sourceUrl}>{guide.sourceTitle}</a>.
+                </p>
+              ) : (
+                <p>
+                  This RTNW Hub article is an independently rewritten and reorganized guide based on
+                  the official GNJOY forum post{" "}
+                  <a href={guide.sourceUrl} rel="noopener noreferrer nofollow">
+                    “{guide.sourceTitle}”
+                  </a>.
+                  The source screenshots are reused as guide artwork where the RTNW database does not
+                  contain an equivalent editorial image. The wording, structure, tables, and SEO
+                  presentation are original to RTNW Hub.
+                </p>
+              )}
             </section>
           </article>
 
@@ -288,10 +318,7 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
 
             <section className={styles.sideCard}>
               <h2>Source status</h2>
-              <p>
-                Based on an official GNJOY forum guide supplied to RTNW Hub. Always compare event
-                times and balance details with the live game client.
-              </p>
+              <p>{sourceStatus}</p>
             </section>
           </aside>
         </div>
