@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
 
 concurrency:
   group: production-cloudflare
@@ -30,6 +32,24 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Check Cloudflare credentials
+        id: credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          if [[ -n "$CLOUDFLARE_API_TOKEN" ]]; then
+            echo "api_token=present" >> "$GITHUB_OUTPUT"
+          else
+            echo "api_token=missing" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ -n "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo "account_id=present" >> "$GITHUB_OUTPUT"
+          else
+            echo "account_id=missing" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install dependencies
         run: npm ci
 
@@ -40,7 +60,24 @@ jobs:
         run: npm run build
 
       - name: Deploy to Cloudflare Workers
+        id: cloudflare_deploy
+        continue-on-error: true
         run: npm run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Report deployment result to PR 6
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          API_TOKEN_STATE: ${{ steps.credentials.outputs.api_token }}
+          ACCOUNT_ID_STATE: ${{ steps.credentials.outputs.account_id }}
+          DEPLOY_OUTCOME: ${{ steps.cloudflare_deploy.outcome }}
+        shell: bash
+        run: |
+          gh issue comment 6 --repo "${{ github.repository }}" --body "Cloudflare deployment check for commit ${{ github.sha }}: **${DEPLOY_OUTCOME}**. CLOUDFLARE_API_TOKEN: **${API_TOKEN_STATE:-unknown}**. CLOUDFLARE_ACCOUNT_ID: **${ACCOUNT_ID_STATE:-unknown}**. Build and strict SEO audit ran immediately before the deploy step."
+
+      - name: Fail workflow if deployment failed
+        if: steps.cloudflare_deploy.outcome != 'success'
+        run: exit 1
