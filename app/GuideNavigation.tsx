@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const SEARCH_HREF = "/search/";
+const DATABASE_HREF = "/database/";
 const UPDATE_HREF = "/updates/";
 const GUIDE_HREF = "/guides/";
 const REDEEM_HREF = "/guides/redeem-codes/";
@@ -101,6 +102,7 @@ function injectGuideNavigation() {
   setRouteMarker();
   document.querySelectorAll(".footer-meta").forEach((footerMeta) => {
     injectFooterLink(footerMeta, SEARCH_HREF, "Search");
+    injectFooterLink(footerMeta, DATABASE_HREF, "Database");
     injectFooterLink(footerMeta, UPDATE_HREF, "Updates");
     injectFooterLink(footerMeta, GUIDE_HREF, "Guides");
     injectFooterLink(footerMeta, REDEEM_HREF, "Redeem Codes");
