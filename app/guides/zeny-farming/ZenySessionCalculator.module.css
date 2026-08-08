@@ -1,0 +1,109 @@
+.calculator {
+  margin: 34px 0 8px;
+  padding: clamp(20px, 4vw, 30px);
+  border: 1px solid #cbd2e9;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(244,188,63,.20), transparent 15rem),
+    linear-gradient(145deg, #f7f8ff, #eef3ff);
+  box-shadow: 0 14px 30px rgba(48,61,135,.12);
+}
+
+.calculator h2 {
+  margin: 0 0 8px;
+  font-size: clamp(25px, 4vw, 34px);
+}
+
+.intro {
+  margin: 0 0 20px;
+  color: #59616b;
+  line-height: 1.65;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+}
+
+.field label {
+  color: #30353c;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.field input {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  border: 1px solid #c8cede;
+  border-radius: 10px;
+  background: #fff;
+  color: #181b20;
+  font: inherit;
+}
+
+.field input:focus {
+  border-color: #5b6ee8;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(91,110,232,.16);
+}
+
+.result {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.metric {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #d4d8df;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.metric span,
+.metric strong { display: block; }
+.metric span { color: #59616b; font-size: 12px; font-weight: 750; }
+.metric strong { margin-top: 5px; color: #4658c9; font-size: clamp(19px, 4vw, 27px); line-height: 1.15; }
+.negative strong { color: #b63a54; }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.footer p { margin: 0; color: #59616b; font-size: 12px !important; line-height: 1.5 !important; }
+
+.reset {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 9px 15px;
+  border: 1px solid #5b6ee8;
+  border-radius: 10px;
+  background: #fff;
+  color: #4658c9;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.reset:hover { background: #e7ebff; }
+
+@media (max-width: 620px) {
+  .fields,
+  .result { grid-template-columns: 1fr; }
+  .footer { align-items: stretch; flex-direction: column; }
+  .reset { width: 100%; }
+}

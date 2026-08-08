@@ -89,6 +89,14 @@ export default function FarmingTargetFinderPage() {
               <img src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp" alt="" />
               <span><strong>Farming Guide</strong><span>Turn database research into a repeatable progression workflow.</span></span>
             </a>
+            <a className={styles.card} href="/guides/mvp-hunting/">
+              <img src="/media/images/activity/icon_activity_mvp.webp" alt="" />
+              <span><strong>MVP Hunting Guide</strong><span>Open mapped MVP locations, compare counters, and prepare a party.</span></span>
+            </a>
+            <a className={styles.card} href="/guides/zeny-farming/">
+              <img src="/media/images/item/icon_item_currency2_zeny_01.webp" alt="" />
+              <span><strong>Zeny Farming Calculator</strong><span>Measure completed income and costs from the route you test.</span></span>
+            </a>
           </div>
         </section>
       </main>

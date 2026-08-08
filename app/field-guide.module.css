@@ -253,6 +253,61 @@
   margin-inline: auto;
 }
 
+.guideCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.guideCard {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid #d4d8df;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #fff, #f7f8ff);
+  color: inherit !important;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(48,61,135,.09);
+}
+
+a.guideCard {
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+a.guideCard:hover {
+  transform: translateY(-2px);
+  border-color: #8795f5;
+  box-shadow: 0 14px 28px rgba(48,61,135,.15);
+}
+
+.guideCard img {
+  width: 72px;
+  height: 72px;
+  padding: 6px;
+  object-fit: contain;
+  border-radius: 13px;
+  background: #e7ebff;
+}
+
+.guideCard strong,
+.guideCard span,
+.guideCard small { display: block; }
+.guideCard strong { color: #181b20; font-size: 17px; line-height: 1.25; }
+.guideCard span span { margin-top: 5px; color: #59616b; font-size: 14px; line-height: 1.5; }
+.guideCard small {
+  margin-bottom: 5px;
+  color: #4658c9;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 .sidebar { position: sticky; top: 108px; display: grid; gap: 16px; }
 .sideCard {
   padding: 20px;
@@ -336,6 +391,7 @@
   .article,
   .toolShell { border-radius: 14px; padding: 22px; }
   .cardGrid,
+  .guideCardGrid,
   .formGrid,
   .sidebar { grid-template-columns: 1fr; }
   .table { min-width: 540px; }

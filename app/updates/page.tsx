@@ -24,6 +24,17 @@ export const metadata: Metadata = {
 const releases = [
   {
     date: "August 8, 2026",
+    title: "MVP hunting directory and Zeny session calculator",
+    summary:
+      "Published an original MVP hunting guide with 20 mapped boss records and direct database links, plus a Zeny farming guide that separates currencies and calculates actual net session income after costs.",
+    links: [
+      ["Open MVP Hunting Guide", "/guides/mvp-hunting/"],
+      ["Use the Zeny Calculator", "/guides/zeny-farming/#zeny-session-calculator"],
+      ["Browse farming guides", "/guides/monsters-cards-farming/"],
+    ],
+  },
+  {
+    date: "August 8, 2026",
     title: "Seven advanced-job guides and released Monk rebuild",
     summary:
       "Published Lord Knight, High Wizard, Sniper, High Priest, Assassin Cross, Whitesmith, and Night Walker guides with local skill images; rebuilt Monk as a released class guide and standardized FAQ styling and mobile reading space.",
@@ -200,7 +211,7 @@ export default function UpdatesPage() {
 
           <h2>What is planned next</h2>
           <ul>
-            <li>Improve search coverage as additional committed database indexes become available.</li>
+            <li>Expand searchable boss, economy, and progression pages when reliable game data is available.</li>
             <li>Add more tools that combine existing monster, card, equipment, map, and planner data without inventing missing values.</li>
             <li>Keep installation and payment guidance current when supported routes materially change.</li>
             <li>Continue improving mobile navigation, accessibility, page speed, and indexability.</li>

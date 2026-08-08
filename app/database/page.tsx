@@ -214,7 +214,7 @@ export default function DatabasePage() {
 
             <h2>Database, guides, and planners serve different questions</h2>
             <p>
-              The database is best when you need a specific fact or game-data entry. <a href="/guides/">Guides</a> are better for progression decisions, class builds, farming routes, and setup advice. Planners help you model a build or upgrade before you spend resources. Linking those three layers is the core purpose of RTNW Hub.
+              The database is best when you need a specific fact or game-data entry. <a href="/guides/">Guides</a> are better for progression decisions, class builds, farming routes, and setup advice. For example, the <a href="/guides/mvp-hunting/">MVP Hunting Guide</a> turns boss and map records into a hunt checklist, while the <a href="/guides/zeny-farming/">Zeny Farming Guide</a> adds a calculator for comparing real sessions. Planners help you model a build or upgrade before spending resources.
             </p>
 
             <h2>Ragnarok: The New World database FAQ</h2>
@@ -236,8 +236,11 @@ export default function DatabasePage() {
             </section>
             <section className={styles.sideCard}>
               <h2>Need a route?</h2>
-              <p>Use the guides library for class, progression, farming, equipment, and technical walkthroughs.</p>
-              <a href="/guides/">Browse RTNW guides →</a>
+              <p>Move from a database record to a practical target, hunt, or farming session.</p>
+              <a href="/guides/mvp-hunting/">Plan an MVP hunt →</a>
+              <a href="/tools/farming-target-finder/">Find a monster target →</a>
+              <a href="/guides/zeny-farming/">Measure a Zeny route →</a>
+              <a href="/guides/">Browse all RTNW guides →</a>
             </section>
           </aside>
         </div>
