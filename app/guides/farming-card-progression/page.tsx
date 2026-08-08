@@ -445,6 +445,8 @@ export default function FarmingCardProgressionGuidePage() {
                 <a href="/sea/monster_album/"><img src="/media/images/zhujiemian/icon_zhujiemian_fuben.webp" alt="" width="58" height="58" /><span><strong>Monster Index</strong><small>Inspect level, element, race, size, habitat, stats, and drops.</small></span></a>
                 <a href="/sea/maps/?lang=en-US#map=101"><img src="/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp" alt="" width="58" height="58" /><span><strong>World Map</strong><small>Locate monsters and build a low-travel farming loop.</small></span></a>
                 <a href="/sea/equipment/"><img src="/media/images/zhujiemian/icon_zhujiemian_jingji.webp" alt="" width="58" height="58" /><span><strong>Equipment Index</strong><small>Confirm the target slot and the equipment package receiving the card.</small></span></a>
+                <a href="/guides/mvp-hunting/"><img src="/media/images/activity/icon_activity_mvp.webp" alt="" width="58" height="58" /><span><strong>MVP Hunting Guide</strong><small>Compare mapped bosses, counters, markers, and party preparation.</small></span></a>
+                <a href="/guides/zeny-farming/"><img src="/media/images/item/icon_item_currency2_zeny_01.webp" alt="" width="58" height="58" /><span><strong>Zeny Farming Guide</strong><small>Measure completed income, costs, and comparable net Zeny per hour.</small></span></a>
               </div>
             </section>
 
@@ -469,6 +471,8 @@ export default function FarmingCardProgressionGuidePage() {
                 <a href="/sea/cards/">Open Card Index →</a>
                 <a href="/sea/monster_album/">Open Monster Index →</a>
                 <a href="/guides/refining-equipment/">Read Equipment Guide →</a>
+                <a href="/guides/mvp-hunting/">Read MVP Hunting Guide →</a>
+                <a href="/guides/zeny-farming/">Use Zeny Calculator →</a>
               </div>
             </section>
           </article>

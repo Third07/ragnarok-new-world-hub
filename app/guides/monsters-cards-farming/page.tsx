@@ -4,17 +4,33 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Monsters, Cards and Farming Guides",
   description:
-    "Plan RTNW card targets and farming routes using the Card Index, Monster Index, World Map, source data, and repeatable session workflows.",
+    "Plan RTNW MVP hunts, Zeny farming, card targets, and monster routes with mapped boss locations, a session calculator, databases, and practical workflows.",
   alternates: { canonical: "/guides/monsters-cards-farming/" },
   openGraph: {
     type: "website",
     url: "/guides/monsters-cards-farming/",
     title: "Ragnarok: The New World Monsters, Cards and Farming Guides",
-    description: "Choose useful card targets, verify their sources, and build efficient farming routes.",
+    description: "Find mapped MVPs, measure Zeny sessions, choose useful card targets, and build efficient farming routes.",
   },
 };
 
 const guides = [
+  {
+    title: "MVP Hunting Guide: Locations, Counters and Party Setup",
+    description:
+      "Compare 20 mapped MVP records by level, element, race, size, map, and marker coverage. Open featured bosses directly, prepare a balanced party, and plan a hunt without treating map markers as live timers.",
+    href: "/guides/mvp-hunting/",
+    label: "MVP guide",
+    meta: "20 mapped bosses · Direct database links",
+  },
+  {
+    title: "Zeny Farming Guide and Session Calculator",
+    description:
+      "Separate spendable Zeny, Bound Zeny, and unsold inventory; compare Life Jobs, monster routes, and MVP sessions; then calculate actual net income after consumables and fees.",
+    href: "/guides/zeny-farming/",
+    label: "Economy guide",
+    meta: "Interactive net Zeny calculator",
+  },
   {
     title: "Farming and Card Progression Guide",
     description:
@@ -34,10 +50,10 @@ const guides = [
 ];
 
 const steps = [
-  "Search the Card Index by the stat or effect your current build actually needs instead of starting from rarity alone.",
-  "Open the linked monster and verify its level, element, race, size, habitat, other drops, and available rate information.",
-  "Use the World Map to compare travel time, nearby targets, route density, and whether the location supports a repeatable loop.",
-  "Record the result of a timed session and keep the route only when its total value justifies the time and consumables spent.",
+  "Define the goal first: a build-relevant card, a mapped MVP, a progression material, or completed Zeny income.",
+  "Open the monster record and check level, element, race, size, habitat, drops, and any available rate information.",
+  "Use the World Map to compare markers, travel time, nearby targets, route density, and a safe regroup point.",
+  "Record a timed session and repeat the route only when completed value justifies the time, waiting, and consumables spent.",
 ];
 
 const tools = [
@@ -61,6 +77,16 @@ const tools = [
     description: "Check whether a target card still fits the planned equipment path.",
     href: "/sea/equipment/",
   },
+  {
+    name: "Farming Target Finder",
+    description: "Filter monsters by level, type, race, element, size, and mapped availability.",
+    href: "/tools/farming-target-finder/",
+  },
+  {
+    name: "Zeny Session Calculator",
+    description: "Compare actual net session results after consumables and route costs.",
+    href: "/guides/zeny-farming/#zeny-session-calculator",
+  },
 ];
 
 export default function MonstersCardsFarmingCategoryPage() {
@@ -69,8 +95,8 @@ export default function MonstersCardsFarmingCategoryPage() {
       currentPath="/guides/monsters-cards-farming/"
       eyebrow="Target selection, source verification and route planning"
       title="Monsters, Cards and Farming"
-      summary="Turn a build requirement into a verified monster source, a mapped route, and a farming session that is worth repeating."
-      introduction="Efficient farming begins with the effect the build needs, not the prestige of the card. The category connects card data to monster data and map locations, then adds practical checks for accessibility, kill speed, route density, side drops, and replacement risk."
+      summary="Find mapped MVPs, turn a build requirement into a practical monster route, and measure whether a Zeny or card-farming session is worth repeating."
+      introduction="Efficient farming begins with a clear account goal, not rarity alone. This category connects MVP, card, monster, and map data with practical checks for access, counters, kill speed, route density, completed sale value, costs, and replacement risk."
       guides={guides}
       steps={steps}
       tools={tools}
