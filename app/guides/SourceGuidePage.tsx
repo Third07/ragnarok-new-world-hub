@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import FaqList from "../FaqList";
 import styles from "../field-guide.module.css";
 
@@ -23,6 +24,14 @@ export type GuideSection = {
     caption?: string;
     compact?: boolean;
   };
+  cards?: {
+    title: string;
+    text: string;
+    meta?: string;
+    href?: string;
+    image?: string;
+    imageAlt?: string;
+  }[];
 };
 
 export type SourceGuide = {
@@ -43,6 +52,10 @@ export type SourceGuide = {
   sections: GuideSection[];
   faqs: { question: string; answer: string }[];
   related: string[][];
+  verification?: string;
+  notice?: string;
+  sidebarTitle?: string;
+  sidebarText?: string;
 };
 
 export function buildGuideMetadata(guide: SourceGuide): Metadata {
@@ -137,12 +150,53 @@ function GuideSectionContent({ section }: { section: GuideSection }) {
         </div>
       ) : null}
 
+      {section.cards ? (
+        <div className={styles.guideCardGrid}>
+          {section.cards.map((card) => {
+            const content = (
+              <>
+                {card.image ? (
+                  <img
+                    src={card.image}
+                    alt={card.imageAlt ?? ""}
+                    width="72"
+                    height="72"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : null}
+                <span>
+                  {card.meta ? <small>{card.meta}</small> : null}
+                  <strong>{card.title}</strong>
+                  <span>{card.text}</span>
+                </span>
+              </>
+            );
+
+            return card.href ? (
+              <a className={styles.guideCard} href={card.href} key={card.title}>{content}</a>
+            ) : (
+              <article className={styles.guideCard} key={card.title}>{content}</article>
+            );
+          })}
+        </div>
+      ) : null}
+
       {section.note ? <div className={styles.note}>{section.note}</div> : null}
     </section>
   );
 }
 
-export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
+function displayDate(value: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
+}
+
+export default function SourceGuidePage({ guide, children }: { guide: SourceGuide; children?: ReactNode }) {
   const canonical = `https://rtnw.online/guides/${guide.slug}/`;
   const imageUrl = guide.heroImage.startsWith("http")
     ? guide.heroImage
@@ -222,9 +276,10 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
           <h1 className={styles.title}>{guide.title}</h1>
           <p className={styles.dek}>{guide.dek}</p>
           <div className={styles.meta}>
-            <span>Reviewed August 8, 2026</span>
+            <span>Reviewed {displayDate(guide.modified)}</span>
             <span>{guide.readTime}</span>
             <span>{guide.category}</span>
+            {guide.verification ? <span>{guide.verification}</span> : null}
           </div>
         </div>
       </header>
@@ -235,8 +290,7 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
             <p className={styles.lead}>{guide.description}</p>
 
             <div className={styles.warning}>
-              Event schedules, rewards, traits, and balance values can change after game updates.
-              Confirm the current in-game panel before spending rare materials or organizing a guild roster.
+              {guide.notice ?? "Game data, balance values, schedules, and rewards can change after updates. Confirm the current in-game panel before spending rare materials or changing a developed build."}
             </div>
 
             <section aria-labelledby="quick-facts-title">
@@ -261,6 +315,8 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
               data-ad-format="responsive"
               data-ad-placement="guide-inline"
             />
+
+            {children}
 
             {guide.sections.map((section) => (
               <GuideSectionContent section={section} key={section.id} />
@@ -297,10 +353,9 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
             </section>
 
             <section className={styles.sideCard}>
-              <h2>Before you invest</h2>
+              <h2>{guide.sidebarTitle ?? "Verify live values"}</h2>
               <p>
-                Check live skill text, event times, and reward panels before spending rare materials
-                or locking a guild roster. Balance and schedules can change between patches.
+                {guide.sidebarText ?? "Check the current game client before spending rare materials or relying on a time-sensitive value. RTNW data and guides are updated when validated changes are available."}
               </p>
             </section>
           </aside>

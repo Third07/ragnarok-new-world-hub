@@ -39,6 +39,26 @@ function monstersFromPayload(value: unknown): UnknownRecord[] {
   return [];
 }
 
+function monsterMapsFromPayload(value: unknown) {
+  const mapsByMonster = new Map<string, string[]>();
+  const views = record(record(value).views);
+
+  for (const viewValue of Object.values(views)) {
+    const view = record(viewValue);
+    const mapId = label(view.map_id);
+    const monsters = Array.isArray(view.monsters) ? view.monsters : [];
+    if (!mapId) continue;
+
+    for (const monsterValue of monsters) {
+      const monsterId = label(record(monsterValue).monster_id);
+      if (!monsterId) continue;
+      mapsByMonster.set(monsterId, unique([...(mapsByMonster.get(monsterId) ?? []), mapId]));
+    }
+  }
+
+  return mapsByMonster;
+}
+
 function imagePath(value: unknown, id: string) {
   const path = label(value);
   if (!path) return `/media/images/monster/${id}.webp`;
@@ -130,22 +150,29 @@ export default function FarmingTargetFinder() {
     setMappedOnly(params.get("mapped") === "1");
     setReady(true);
 
-    fetch("/sea/monster-album/data/monster_index_en-US.json")
-      .then((response) => {
+    Promise.all([
+      fetch("/sea/monster-album/data/monster_index_en-US.json").then((response) => {
         if (!response.ok) throw new Error(`Monster index returned ${response.status}`);
         return response.json();
-      })
-      .then((payload) => {
+      }),
+      fetch("/sea/map-simulator/data/map_monster_spawns_en-US.json").then((response) => {
+        if (!response.ok) throw new Error(`Map index returned ${response.status}`);
+        return response.json();
+      }),
+    ])
+      .then(([payload, mapPayload]) => {
+        const mapsByMonster = monsterMapsFromPayload(mapPayload);
         const normalized = dedupeMonsters(
           monstersFromPayload(payload)
             .filter((item) => Boolean(item.is_handbook))
             .map((item, index): Monster => {
               const id = label(item.id) || String(index);
-              const maps = Array.isArray(item.mapIds)
+              const recordMaps = Array.isArray(item.mapIds)
                 ? item.mapIds.map(label).filter(Boolean)
                 : Array.isArray(item.maps)
                   ? item.maps.map((map) => label(record(map).id || map)).filter(Boolean)
                   : [];
+              const maps = unique([...recordMaps, ...(mapsByMonster.get(id) ?? [])]);
               return {
                 id,
                 name: label(item.name) || `Monster ${id}`,
@@ -165,7 +192,7 @@ export default function FarmingTargetFinder() {
         setLoading(false);
       })
       .catch((reason) => {
-        setError(reason instanceof Error ? reason.message : "The monster index could not be loaded.");
+        setError(reason instanceof Error ? reason.message : "The monster or map index could not be loaded.");
         setLoading(false);
       });
   }, []);
@@ -287,7 +314,7 @@ export default function FarmingTargetFinder() {
         <p aria-live="polite">{status}</p>
       </div>
 
-      {loading && <div className={browserStyles.loading}>Loading the committed English monster index…</div>}
+      {loading && <div className={browserStyles.loading}>Loading monster and map records…</div>}
       {error && <div className={browserStyles.error}>{error}</div>}
       {!loading && !error && (
         <>

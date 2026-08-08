@@ -5,7 +5,7 @@ import styles from "./guides.module.css";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Guides",
   description:
-    "Browse RTNW class builds, guild event guides, beginner progression, equipment, farming, PC installation, emulator settings, cloud gaming, and safe top-up advice.",
+    "Browse RTNW class builds, MVP locations, Zeny farming, guild events, beginner progression, equipment, PC, emulator, cloud gaming, and safe top-up guides.",
   alternates: { canonical: "/guides/" },
   keywords: [
     "Ragnarok The New World guides",
@@ -14,13 +14,15 @@ export const metadata: Metadata = {
     "RTNW Polarity Zone",
     "RTNW Hazy Forest",
     "Ragnarok The New World beginner guide",
+    "Ragnarok The New World MVP locations",
+    "Ragnarok The New World Zeny farming",
   ],
   openGraph: {
     type: "website",
     url: "/guides/",
     title: "Ragnarok: The New World Guides",
     description:
-      "Class builds, guild-event strategy, progression, farming, PC, emulator, cloud gaming, and account-safety guides connected to RTNW tools.",
+      "Class builds, MVP hunting, Zeny farming, guild-event strategy, progression, PC, emulator, cloud gaming, and account-safety guides connected to RTNW tools.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ragnarok: The New World Guides",
     description:
-      "RTNW class builds, guild events, beginner progression, farming, PC, emulator, cloud gaming, and safe top-up guides.",
+      "RTNW class builds, MVP hunting, Zeny farming, guild events, progression, PC, emulator, cloud gaming, and safe top-up guides.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
 };
@@ -80,8 +82,8 @@ const guideCategories = [
     number: "05",
     title: "Monsters, cards and farming",
     description:
-      "Choose cards by build fit, inspect monster sources, plan World Map routes, and measure whether a farming target is worth repeating.",
-    status: "Farming guides published",
+      "Find mapped MVPs, plan party counters, calculate net Zeny, choose cards by build fit, and measure whether a monster route is worth repeating.",
+    status: "MVP and Zeny guides now published",
     href: "/guides/monsters-cards-farming/",
     link: "Browse farming guides →",
   },
@@ -121,6 +123,8 @@ const featuredGuides = [
   ["Beginner Progression Guide", "/guides/beginner-progression/"],
   ["Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
   ["Farming and Card Progression Guide", "/guides/farming-card-progression/"],
+  ["MVP Hunting: Locations, Counters and Party Setup", "/guides/mvp-hunting/"],
+  ["Zeny Farming Guide and Session Calculator", "/guides/zeny-farming/"],
   ["How to Download and Play on PC", "/guides/play-on-pc/"],
   ["Best Emulator Settings and Troubleshooting", "/guides/emulator-settings/"],
   ["Safe Top-Ups, Fees and Account Protection", "/guides/top-up-safely/"],
@@ -146,7 +150,7 @@ export default function GuidesPage() {
         url: "https://rtnw.online/guides/",
         name: "Ragnarok: The New World Guides",
         description:
-          "Guide categories for classes, guild events, beginner progression, equipment, farming, PC installation, emulators, cloud gaming, top-ups, and connected RTNW tools.",
+          "Guide categories for classes, guild events, beginner progression, equipment, MVP hunting, Zeny farming, PC installation, emulators, cloud gaming, top-ups, and connected RTNW tools.",
         isPartOf: { "@id": "https://rtnw.online/#website" },
         inLanguage: "en",
         mainEntity: {
@@ -197,7 +201,7 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Class builds and guild-event playbooks, plus progression, farming,
+              Class builds and guild-event playbooks, plus MVP hunting, Zeny farming, progression,
               equipment, PC, emulator, cloud-play, and account-safety guides connected to the
               database tools needed to act on each recommendation.
             </p>

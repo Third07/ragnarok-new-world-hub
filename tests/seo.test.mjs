@@ -55,6 +55,11 @@ const refreshedGuideRoutes = [
   ...advancedClassGuideRoutes,
 ];
 
+const farmingGuideRoutes = [
+  "/guides/mvp-hunting/",
+  "/guides/zeny-farming/",
+];
+
 const publicPageRoutes = [
   "/",
   "/search/",
@@ -74,6 +79,7 @@ const publicPageRoutes = [
   "/guides/druid-builds/",
   "/guides/refining-equipment/",
   "/guides/farming-card-progression/",
+  ...farmingGuideRoutes,
   "/guides/technical/",
   "/guides/play-on-pc/",
   "/guides/emulator-settings/",
@@ -225,6 +231,57 @@ test("sitemap, robots, manifest, and favicon are current", async () => {
   );
 });
 
+test("MVP guide directory stays aligned with the current monster and map data", async () => {
+  const [source, monsterText, spawnText, mapText] = await Promise.all([
+    readFile("app/guides/source-guide-data/mvp-hunting.ts", "utf8"),
+    readFile("public/sea/monster-album/data/monster_index_en-US.json", "utf8"),
+    readFile("public/sea/map-simulator/data/map_monster_spawns_en-US.json", "utf8"),
+    readFile("public/sea/map-simulator/data/map_index_en-US.json", "utf8"),
+  ]);
+  const directory = matchContent(
+    source,
+    /id: "mapped-directory"([\s\S]*?)id: "featured-targets"/,
+    "mapped MVP directory",
+  );
+  const rows = [...directory.matchAll(
+    /\["([^"]+) · Lv\.(\d+)", "([^"]+)", "([^"]+) · ([^"]+) · ([^"]+)", "(\d+) of (\d+)"\]/g,
+  )];
+  const monsters = JSON.parse(monsterText).monsters;
+  const spawnPayload = JSON.parse(spawnText);
+  const mapConfigs = JSON.parse(mapText).map_configs;
+  const spawns = Object.values(spawnPayload.views)
+    .flatMap((view) => view.monsters.map((monster) => ({ ...monster, mapId: view.map_id })))
+    .filter((spawn) => spawn.family === "mvp");
+
+  assert.equal(rows.length, 20, "The guide should list all 20 mapped MVP records");
+  assert.equal(spawns.length, 20, "The current map data should expose 20 MVP records");
+
+  for (const row of rows) {
+    const [, name, level, mapName, element, race, size, collected, total] = row;
+    const spawn = spawns.find((item) => item.name === name);
+    assert.ok(spawn, `${name} should exist in the map data`);
+    const monster = monsters.find((item) => item.id === spawn.monster_id);
+    assert.ok(monster, `${name} should exist in the monster data`);
+    assert.deepEqual(
+      [
+        mapConfigs[String(spawn.mapId)]?.name,
+        monster.level,
+        monster.element.name,
+        monster.race.name,
+        monster.body.name,
+        spawn.collected_spawn_spots,
+        spawn.total_spawn_spots,
+      ],
+      [mapName, Number(level), element, race, size, Number(collected), Number(total)],
+      `${name} guide row should match the current data`,
+    );
+  }
+
+  const finder = await readFile("app/tools/farming-target-finder/FarmingTargetFinder.tsx", "utf8");
+  assert.match(finder, /map_monster_spawns_en-US\.json/);
+  assert.match(finder, /mapsByMonster\.get\(id\)/);
+});
+
 test("rendered home page exposes canonical metadata, social identity, and WebSite schema", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
@@ -258,6 +315,7 @@ test("application pages render one shared shell without social or provenance UI"
     "/guides/acolyte-builds/",
     "/guides/high-priest-builds/",
     "/guides/monk-build/",
+    ...farmingGuideRoutes,
     "/database/",
   ];
 
@@ -307,6 +365,49 @@ test("advanced-job and Monk guides render complete styled article pages", async 
   }
 });
 
+test("MVP and Zeny guides render complete searchable experiences", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+
+  for (const pathname of farmingGuideRoutes) {
+    const response = await worker.fetch(
+      new Request(`${siteOrigin}${pathname}`, { headers: { accept: "text/html" } }),
+      env,
+      context,
+    );
+    const html = await response.text();
+
+    assert.equal(response.status, 200, `${pathname} should render`);
+    assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
+    assert.match(html, new RegExp(`rel="canonical"[^>]+href="${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}${pathname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "i"));
+    assert.match(html, /class="faq-accordion"/, `${pathname} should use the shared FAQ component`);
+    assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
+    assert.match(html, /src="\/(?:assets|media\/images)\//, `${pathname} should use local imagery`);
+    assert.doesNotMatch(html, /cdnimages\.awselbcombine\.com|social[-_ ]bar|source and editorial note|source status/i);
+  }
+
+  const mvpResponse = await worker.fetch(
+    new Request(`${siteOrigin}/guides/mvp-hunting/`, { headers: { accept: "text/html" } }),
+    env,
+    context,
+  );
+  const mvpHtml = await mvpResponse.text();
+  assert.match(mvpHtml, /20 current SEA map records/);
+  assert.match(mvpHtml, /Golden Thief Bug/);
+  assert.match(mvpHtml, /Kraken/);
+  assert.match(mvpHtml, /Marker data is not a timer/i);
+
+  const zenyResponse = await worker.fetch(
+    new Request(`${siteOrigin}/guides/zeny-farming/`, { headers: { accept: "text/html" } }),
+    env,
+    context,
+  );
+  const zenyHtml = await zenyResponse.text();
+  assert.match(zenyHtml, /id="zeny-session-calculator"/);
+  assert.match(zenyHtml, /Comparable net per hour/);
+  assert.match(zenyHtml, /Unsold items are inventory, not completed income/);
+});
+
 test("Cloudflare build serves guides and active discovery routes", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
@@ -318,6 +419,7 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     ...refreshedGuideRoutes,
     "/guides/druid-builds/",
     "/guides/redeem-codes/",
+    ...farmingGuideRoutes,
     "/search/",
     "/database/",
     "/updates/",
@@ -369,11 +471,11 @@ test("refreshed guides use local images without visible provenance annotations",
 
   const dataFiles = (await readdir("app/guides/source-guide-data"))
     .filter((name) => name.endsWith(".ts"));
-  assert.equal(dataFiles.length, 13);
+  assert.equal(dataFiles.length, 15);
 
   for (const filename of dataFiles) {
     const text = await readFile(path.join("app/guides/source-guide-data", filename), "utf8");
     assert.doesNotMatch(text, /"sourceUrl"|"sourceTitle"|cdnimages\.awselbcombine\.com/);
-    assert.match(text, /["']?heroImage["']?\s*:\s*["']\/assets\//);
+    assert.match(text, /["']?heroImage["']?\s*:\s*["']\/(?:assets|media\/images)\//);
   }
 });
