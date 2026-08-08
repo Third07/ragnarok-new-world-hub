@@ -44,8 +44,8 @@ const guideCategories = [
     number: "01",
     title: "Classes and builds",
     description:
-      "Compare F2P, PvE, and PvP rankings, then use detailed second-job guides for Swordman, Mage, Archer, Acolyte, Thief, Merchant, Gunslinger, and Druid.",
-    status: "9 class guides published",
+      "Compare F2P, PvE, and PvP rankings, released Monk builds, core second jobs, and seven detailed advanced second-job routes.",
+    status: "16 class guides published",
     href: "/guides/classes-builds/",
     link: "Browse class guides →",
   },
@@ -97,26 +97,34 @@ const guideCategories = [
 ] as const;
 
 const featuredGuides = [
-  ["01", "Guild Management: Members, Events and Resources", "/guides/guild-management/"],
-  ["02", "Guild League: Schedule, Tiers and GVG Strategy", "/guides/guild-league/"],
-  ["03", "Polarity Zone: Boss Mechanics and Guild Setup", "/guides/polarity-zone/"],
-  ["04", "Hazy Forest: Timing, Counters and Score Route", "/guides/hazy-forest/"],
-  ["05", "Swordman: VIT Tank, AGI Sword and Spear", "/guides/swordman-builds/"],
-  ["06", "Mage: Fire–Earth and Ice–Lightning Wizard", "/guides/mage-builds/"],
-  ["07", "Archer: ADL, Pet and Trap Hunter", "/guides/archer-builds/"],
-  ["08", "Acolyte: Support, Exorcist and AGI-Crit", "/guides/acolyte-builds/"],
-  ["09", "Thief: Dual Dagger, Katar and Venom", "/guides/thief-builds/"],
-  ["10", "Merchant: Cart, Axe and Turret", "/guides/merchant-builds/"],
-  ["11", "Gunslinger: Pistol, Gatling, Rifle and Shotgun", "/guides/gunslinger-builds/"],
-  ["12", "Druid: Werewolf, Wereraptor and Arcanist", "/guides/druid-builds/"],
-  ["13", "Class Tier List: F2P, PvE and PvP", "/guides/class-tier-list/"],
-  ["14", "Beginner Progression Guide", "/guides/beginner-progression/"],
-  ["15", "Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
-  ["16", "Farming and Card Progression Guide", "/guides/farming-card-progression/"],
-  ["17", "How to Download and Play on PC", "/guides/play-on-pc/"],
-  ["18", "Best Emulator Settings and Troubleshooting", "/guides/emulator-settings/"],
-  ["19", "Safe Top-Ups, Fees and Account Protection", "/guides/top-up-safely/"],
-  ["20", "Cloud Gaming Setup and Connection Guide", "/guides/cloud-gaming/"],
+  ["Guild Management: Members, Events and Resources", "/guides/guild-management/"],
+  ["Guild League: Schedule, Tiers and GVG Strategy", "/guides/guild-league/"],
+  ["Polarity Zone: Boss Mechanics and Guild Setup", "/guides/polarity-zone/"],
+  ["Hazy Forest: Timing, Counters and Score Route", "/guides/hazy-forest/"],
+  ["Swordman: VIT Tank, AGI Sword and Spear", "/guides/swordman-builds/"],
+  ["Lord Knight: Tank, AGI Sword and Spear", "/guides/lord-knight-builds/"],
+  ["Mage: Fire–Earth and Ice–Lightning Wizard", "/guides/mage-builds/"],
+  ["High Wizard: Fire, Ice and Ghost", "/guides/high-wizard-builds/"],
+  ["Archer: ADL, Pet and Trap Hunter", "/guides/archer-builds/"],
+  ["Sniper: ADL, Falcon and Trap", "/guides/sniper-builds/"],
+  ["Acolyte: Support, Exorcist and AGI-Crit", "/guides/acolyte-builds/"],
+  ["High Priest: Support, Battle and Exorcist", "/guides/high-priest-builds/"],
+  ["Monk: Combo, Guillotine Fist and PVP", "/guides/monk-build/"],
+  ["Thief: Dual Dagger, Katar and Venom", "/guides/thief-builds/"],
+  ["Assassin Cross: Dagger, Katar, Poison and Soul Destroyer", "/guides/assassin-cross-builds/"],
+  ["Merchant: Cart, Axe and Turret", "/guides/merchant-builds/"],
+  ["Whitesmith: Axe, Turret and Cart", "/guides/whitesmith-builds/"],
+  ["Gunslinger: Pistol, Gatling, Rifle and Shotgun", "/guides/gunslinger-builds/"],
+  ["Night Walker: Pistol, Machine Gun, Rifle and Shotgun", "/guides/night-walker-builds/"],
+  ["Druid: Werewolf, Wereraptor and Arcanist", "/guides/druid-builds/"],
+  ["Class Tier List: F2P, PvE and PvP", "/guides/class-tier-list/"],
+  ["Beginner Progression Guide", "/guides/beginner-progression/"],
+  ["Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
+  ["Farming and Card Progression Guide", "/guides/farming-card-progression/"],
+  ["How to Download and Play on PC", "/guides/play-on-pc/"],
+  ["Best Emulator Settings and Troubleshooting", "/guides/emulator-settings/"],
+  ["Safe Top-Ups, Fees and Account Protection", "/guides/top-up-safely/"],
+  ["Cloud Gaming Setup and Connection Guide", "/guides/cloud-gaming/"],
 ] as const;
 
 const tools = [
@@ -143,9 +151,9 @@ export default function GuidesPage() {
         inLanguage: "en",
         mainEntity: {
           "@type": "ItemList",
-          itemListElement: featuredGuides.map(([number, title, href]) => ({
+          itemListElement: featuredGuides.map(([title, href], index) => ({
             "@type": "ListItem",
-            position: Number(number),
+            position: index + 1,
             name: title,
             url: `https://rtnw.online${href}`,
           })),
@@ -240,9 +248,9 @@ export default function GuidesPage() {
             databases needed to put each recommendation into practice.
           </p>
           <ol className={styles.roadmapList}>
-            {featuredGuides.map(([number, title, href]) => (
+            {featuredGuides.map(([title, href], index) => (
               <li key={title}>
-                <span className={styles.categoryNumber}>{number}</span>
+                <span className={styles.categoryNumber}>{String(index + 1).padStart(2, "0")}</span>
                 <strong><a href={href}>{title}</a></strong>
                 <span className={styles.statusPublished}>Published</span>
               </li>

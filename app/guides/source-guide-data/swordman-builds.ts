@@ -113,6 +113,7 @@ export const guide = {
     {"question": "How should a Knight tank a boss?", "answer": "Engage with Charge Attack, turn the boss away from teammates, maintain aggro and healing, use Burning Blood for major attacks, and Provoke if aggro is lost."}
   ],
   "related": [
+    ["Lord Knight advanced guide", "/guides/lord-knight-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Equipment database", "/sea/equipment/"],
     ["Card database", "/sea/cards/"],

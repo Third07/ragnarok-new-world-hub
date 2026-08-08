@@ -242,6 +242,17 @@
   line-height: 1.55;
 }
 
+.guideFigureCompact {
+  width: min(100%, 520px);
+  margin-inline: auto;
+}
+
+.guideFigureCompact img {
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
 .sidebar { position: sticky; top: 108px; display: grid; gap: 16px; }
 .sideCard {
   padding: 20px;

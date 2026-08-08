@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FaqList from "../FaqList";
 import styles from "../field-guide.module.css";
 
 export type GuideSection = {
@@ -20,6 +21,7 @@ export type GuideSection = {
     src: string;
     alt: string;
     caption?: string;
+    compact?: boolean;
   };
 };
 
@@ -82,7 +84,7 @@ function GuideSectionContent({ section }: { section: GuideSection }) {
       ))}
 
       {section.image ? (
-        <figure className={styles.guideFigure}>
+        <figure className={`${styles.guideFigure}${section.image.compact ? ` ${styles.guideFigureCompact}` : ""}`}>
           <img
             src={section.image.src}
             alt={section.image.alt}
@@ -266,12 +268,7 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
 
             <section aria-labelledby="faq-title">
               <h2 id="faq-title">Frequently asked questions</h2>
-              {guide.faqs.map((faq) => (
-                <details key={faq.question}>
-                  <summary>{faq.question}</summary>
-                  <p>{faq.answer}</p>
-                </details>
-              ))}
+              <FaqList items={guide.faqs} />
             </section>
 
             <aside

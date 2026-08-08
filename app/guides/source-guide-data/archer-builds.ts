@@ -122,6 +122,7 @@ export const guide = {
     {"question": "How should Hunter fight bosses?", "answer": "Maintain maximum safe range, keep Improve Concentration active, and weave Crescive Bolt or Blitz Beat between normal attacks."}
   ],
   "related": [
+    ["Sniper advanced guide", "/guides/sniper-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Monster database", "/sea/monster_album/"],
     ["Card database", "/sea/cards/"],

@@ -118,6 +118,7 @@ export const guide = {
     {"question": "Do Gunslinger builds share gear?", "answer": "Not completely. Weapon-restricted skills and different PVE/PVP traits mean developed accounts may need separate weapon and accessory sets."}
   ],
   "related": [
+    ["Night Walker advanced guide", "/guides/night-walker-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Equipment database", "/sea/equipment/"],
     ["Card database", "/sea/cards/"],

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FaqList from "../../FaqList";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -160,7 +161,7 @@ export default function PlayOnPcGuide() {
             <div className={styles.warning}><strong>Do not use macros for unattended gameplay unless the game’s current rules clearly permit it.</strong> An emulator offering a macro feature does not mean the publisher allows automated farming, synchronized multi-account play, or scripted inputs.</div>
 
             <h2>Frequently asked questions</h2>
-            {faq.map((item) => <section key={item.q}><h3>{item.q}</h3><p>{item.a}</p></section>)}
+            <FaqList items={faq.map((item) => ({ question: item.q, answer: item.a }))} />
           </article>
 
           <aside className={styles.sidebar}>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FaqList from "../../FaqList";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -149,7 +150,7 @@ export default function TopUpSafelyGuide() {
             <p>Use the store’s support process before opening a card or wallet dispute. Chargebacks can lead to reversed currency, negative balances, purchase restrictions, or account review. Document the failed delivery and follow the official payment and game-support sequence.</p>
 
             <h2>Frequently asked questions</h2>
-            {faq.map((item) => <section key={item.q}><h3>{item.q}</h3><p>{item.a}</p></section>)}
+            <FaqList items={faq.map((item) => ({ question: item.q, answer: item.a }))} />
           </article>
 
           <aside className={styles.sidebar}>
