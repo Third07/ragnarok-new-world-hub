@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FaqList from "../../FaqList";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -145,7 +146,7 @@ export default function EmulatorSettingsGuide() {
             <p>BlueStacks and LDPlayer advertise multi-instance, synchronization, and macro features. Those are emulator capabilities, not permission from the game publisher. Automated farming, synchronized account control, or unattended scripts can violate game rules even when the button exists in the emulator.</p>
 
             <h2>Frequently asked questions</h2>
-            {faq.map((item) => <section key={item.q}><h3>{item.q}</h3><p>{item.a}</p></section>)}
+            <FaqList items={faq.map((item) => ({ question: item.q, answer: item.a }))} />
           </article>
 
           <aside className={styles.sidebar}>

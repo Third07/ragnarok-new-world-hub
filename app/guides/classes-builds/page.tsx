@@ -4,14 +4,14 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Classes and Builds",
   description:
-    "Browse RTNW build guides for Swordman, Mage, Archer, Acolyte, Monk, Thief, Merchant, Gunslinger, and Druid, with stats, traits, cards, skill mechanics, rotations, and progression advice.",
+    "Browse RTNW class and advanced second-job build guides for Monk, Lord Knight, High Wizard, Sniper, High Priest, Assassin Cross, Whitesmith, Night Walker, and more.",
   alternates: { canonical: "/guides/classes-builds/" },
   openGraph: {
     type: "website",
     url: "/guides/classes-builds/",
     title: "Ragnarok: The New World Classes and Builds",
     description:
-      "Compare current class builds, stat priorities, second-job traits, Monk skill mechanics, equipment routes, cards, PvE rotations, and F2P investment requirements.",
+      "Compare released class builds, advanced second-job skills, stat priorities, equipment traits, Rune Engine choices, cards, rotations, and F2P investment requirements.",
   },
 };
 
@@ -35,6 +35,16 @@ const guides = [
     imageAlt: "Knight standing in the open world",
   },
   {
+    title: "Lord Knight Builds: Tank, AGI Sword and Spear",
+    description:
+      "Complete the level-70 Tank, AGI Sword, or Spear route with advanced skills, equipment traits, Rune Engine choices, cards, and combat loops.",
+    href: "/guides/lord-knight-builds/",
+    label: "Advanced Swordman guide",
+    meta: "Tank · AGI Sword · Spear",
+    image: "/assets/guides/lord-knight-builds/lord-knight-hero.webp",
+    imageAlt: "Lord Knight advanced build selection",
+  },
+  {
     title: "Mage Builds: Fire–Earth and Ice–Lightning",
     description:
       "Compare Wizard element pairs, INT and DEX targets, Instant Cast, core traits, card choices, cast-time planning, and PvE spell cycles.",
@@ -43,6 +53,16 @@ const guides = [
     meta: "Fire–Earth · Ice–Lightning",
     image: "/assets/guides/mage-builds/mage-hero.webp",
     imageAlt: "Mage casting a spell in combat",
+  },
+  {
+    title: "High Wizard Builds: Fire, Ice and Ghost",
+    description:
+      "Strengthen Fire–Earth and Ice–Lightning or build the new Ghost route with Napalm Vulcan, Gravitational Field, traits, runes, and cards.",
+    href: "/guides/high-wizard-builds/",
+    label: "Advanced Mage guide",
+    meta: "Fire–Earth · Ice–Lightning · Ghost",
+    image: "/assets/guides/mage-builds/mage-hero.webp",
+    imageAlt: "High Wizard casting advanced magic",
   },
   {
     title: "Archer Builds: ADL, Pet and Trap Hunter",
@@ -55,6 +75,16 @@ const guides = [
     imageAlt: "Archer aiming a bow in the field",
   },
   {
+    title: "Sniper Builds: ADL, Falcon and Trap",
+    description:
+      "Use advanced ranged passives, focused attacks, Falcon upgrades, or defensive traps with the correct stats, traits, resonance, and cards.",
+    href: "/guides/sniper-builds/",
+    label: "Advanced Archer guide",
+    meta: "ADL · Falcon · Trap",
+    image: "/assets/guides/sniper-builds/sniper-hero.webp",
+    imageAlt: "Sniper advanced build selection",
+  },
+  {
     title: "Acolyte Builds: Support, Exorcist and AGI-Crit",
     description:
       "Complete the essential Support Priest setup first, then compare Holy magic and physical solo alternatives with separate stats and traits.",
@@ -65,12 +95,22 @@ const guides = [
     imageAlt: "Priest standing in the field",
   },
   {
-    title: "Monk Build & Skill Guide: Spirit Spheres, Fury and Combos",
+    title: "High Priest Builds: Support, Battle and Exorcist",
     description:
-      "Use the current English Monk data to understand Spirit Sphere generation, Fury, the Trifecta-to-Quadruple combo, and a safe build-planning route before spending points or gear resources.",
+      "Add party healing, protection, Holy magic, or attack-trigger damage with advanced skills, traits, Rune Engine options, and cards.",
+    href: "/guides/high-priest-builds/",
+    label: "Advanced Acolyte guide",
+    meta: "Support · Battle · Exorcist",
+    image: "/assets/guides/high-priest-builds/high-priest-hero.webp",
+    imageAlt: "High Priest advanced build selection",
+  },
+  {
+    title: "Monk Builds: Combo, Guillotine Fist and PVP",
+    description:
+      "Build the released Monk around Spirit Sphere generation, the full combo chain, Guillotine Fist burst, ranged pressure, or defensive control.",
     href: "/guides/monk-build/",
-    label: "Data-backed Monk guide",
-    meta: "Spirit Spheres · Fury · Combo chain",
+    label: "Released Monk guide",
+    meta: "Combo · Guillotine Fist · PVP",
   },
   {
     title: "Thief Builds: Dual Dagger, Katar and Venom",
@@ -83,6 +123,16 @@ const guides = [
     imageAlt: "Assassin character in the desert",
   },
   {
+    title: "Assassin Cross: Dagger, Katar, Poison and Soul Destroyer",
+    description:
+      "Choose sustained Dual Dagger, skill-critical Katar, poison pressure, or ranged Soul Destroyer with complete advanced trait and card plans.",
+    href: "/guides/assassin-cross-builds/",
+    label: "Advanced Thief guide",
+    meta: "Dagger · Katar · Poison · Soul Destroyer",
+    image: "/assets/guides/assassin-cross-builds/assassin-cross-hero.webp",
+    imageAlt: "Assassin Cross advanced build selection",
+  },
+  {
     title: "Merchant Builds: Cart, Axe and Turret",
     description:
       "Use Cart weight for AoE farming, build rapid Axe attacks, or develop summoned Turrets while preserving Merchant's Weapon Perfection team value.",
@@ -93,6 +143,16 @@ const guides = [
     imageAlt: "Merchant character in Prontera",
   },
   {
+    title: "Whitesmith Builds: Axe, Turret and Cart",
+    description:
+      "Complete Merchant's advanced job with Axe Hurricane, stronger Turrets, Cart utility, party ASPD buffs, traits, resonance, and cards.",
+    href: "/guides/whitesmith-builds/",
+    label: "Advanced Merchant guide",
+    meta: "Axe · Turret · Cart",
+    image: "/assets/guides/whitesmith-builds/whitesmith-hero.webp",
+    imageAlt: "Whitesmith advanced build selection",
+  },
+  {
     title: "Gunslinger Builds: Pistol, Gatling, Rifle and Shotgun",
     description:
       "Choose the correct firearm for mobile AoE, rapid PVE normal attacks, long-range burst, or PVP control without mixing incompatible traits.",
@@ -101,6 +161,16 @@ const guides = [
     meta: "4 firearm builds",
     image: "/assets/guides/gunslinger-builds/gunslinger-hero.webp",
     imageAlt: "Gunslinger using firearms in combat",
+  },
+  {
+    title: "Night Walker: Pistol, Machine Gun, Rifle and Shotgun",
+    description:
+      "Build each advanced firearm path around its correct skills, AGI and DEX targets, weapon traits, Rune Engine pair, and PVE or PVP role.",
+    href: "/guides/night-walker-builds/",
+    label: "Advanced Gunslinger guide",
+    meta: "4 firearm builds",
+    image: "/assets/guides/night-walker-builds/night-walker-hero.webp",
+    imageAlt: "Night Walker advanced build selection",
   },
   {
     title: "Druid Builds: Werewolf, Wereraptor and Arcanist",
@@ -146,10 +216,10 @@ export default function ClassesBuildsCategoryPage() {
   return (
     <GuideCategoryPage
       currentPath="/guides/classes-builds/"
-      eyebrow="Class selection, second-job builds and practical progression"
+      eyebrow="Released classes, second jobs, advanced jobs and practical progression"
       title="Classes and Builds"
-      summary="Compare practical second-job routes and current class mechanics, then convert one role into a focused skill, equipment, trait, rune, affix, and card plan."
-      introduction="Choose one class and one primary role before spreading resources across multiple builds. Each guide turns the core stats, skills, traits, cards, and rotations into a focused plan, then links back to the live database and planning tools for verification."
+      summary="Compare practical class and advanced second-job routes, then convert one role into a focused skill, equipment, trait, rune, affix, and card plan."
+      introduction="Choose one released class and one primary role before spreading resources across multiple builds. The advanced-job guides continue the matching earlier route so you can see what changes at level 70 without losing the foundation that already works."
       guides={guides}
       steps={steps}
       tools={tools}

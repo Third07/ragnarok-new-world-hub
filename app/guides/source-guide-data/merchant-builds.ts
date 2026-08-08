@@ -119,6 +119,7 @@ export const guide = {
     {"question": "Why should I fill the Cart early?", "answer": "Cart skill damage scales with Cart weight and can more than double after the carried weight exceeds 5,000."}
   ],
   "related": [
+    ["Whitesmith advanced guide", "/guides/whitesmith-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Equipment database", "/sea/equipment/"],
     ["Card database", "/sea/cards/"],

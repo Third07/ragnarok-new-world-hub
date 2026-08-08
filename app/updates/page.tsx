@@ -24,6 +24,18 @@ export const metadata: Metadata = {
 const releases = [
   {
     date: "August 8, 2026",
+    title: "Seven advanced-job guides and released Monk rebuild",
+    summary:
+      "Published Lord Knight, High Wizard, Sniper, High Priest, Assassin Cross, Whitesmith, and Night Walker guides with local skill images; rebuilt Monk as a released class guide and standardized FAQ styling and mobile reading space.",
+    links: [
+      ["Browse class guides", "/guides/classes-builds/"],
+      ["Read the Monk guide", "/guides/monk-build/"],
+      ["Read Lord Knight", "/guides/lord-knight-builds/"],
+      ["Read High Priest", "/guides/high-priest-builds/"],
+    ],
+  },
+  {
+    date: "August 8, 2026",
     title: "Unified site design and expanded visual guide library",
     summary:
       "Standardized the shared navigation and mobile layout, refreshed ten class and guild guides with local in-game screenshots, and added a complete Guild Management playbook.",

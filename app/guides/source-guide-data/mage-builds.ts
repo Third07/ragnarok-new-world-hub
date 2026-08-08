@@ -120,6 +120,7 @@ export const guide = {
     {"question": "Can F2P players use Mage?", "answer": "Yes. Mage can contribute sustained output and control at low investment, while higher investment mainly raises burst and cast comfort."}
   ],
   "related": [
+    ["High Wizard advanced guide", "/guides/high-wizard-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Card database", "/sea/cards/"],
     ["Equipment database", "/sea/equipment/"],

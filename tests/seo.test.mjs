@@ -36,12 +36,23 @@ const classGuideRoutes = [
   "/guides/gunslinger-builds/",
 ];
 
+const advancedClassGuideRoutes = [
+  "/guides/lord-knight-builds/",
+  "/guides/high-wizard-builds/",
+  "/guides/sniper-builds/",
+  "/guides/high-priest-builds/",
+  "/guides/assassin-cross-builds/",
+  "/guides/whitesmith-builds/",
+  "/guides/night-walker-builds/",
+];
+
 const refreshedGuideRoutes = [
   "/guides/guild-management/",
   "/guides/guild-league/",
   "/guides/polarity-zone/",
   "/guides/hazy-forest/",
   ...classGuideRoutes,
+  ...advancedClassGuideRoutes,
 ];
 
 const publicPageRoutes = [
@@ -245,6 +256,8 @@ test("application pages render one shared shell without social or provenance UI"
     "/guides/",
     "/guides/guild-management/",
     "/guides/acolyte-builds/",
+    "/guides/high-priest-builds/",
+    "/guides/monk-build/",
     "/database/",
   ];
 
@@ -261,10 +274,36 @@ test("application pages render one shared shell without social or provenance UI"
     assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
     assert.doesNotMatch(html, /social[-_ ]bar|source and editorial note|source status/i);
 
-    if (pathname.includes("guild-management") || pathname.includes("acolyte-builds")) {
-      assert.match(html, /src="\/assets\/guides\//, `${pathname} should render local guide imagery`);
+    if (pathname.includes("guild-management") || pathname.includes("acolyte-builds") || pathname.includes("high-priest") || pathname.includes("monk-build")) {
+      assert.match(html, /src="\/assets\//, `${pathname} should render local guide imagery`);
       assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
     }
+
+    if (pathname.includes("high-priest") || pathname.includes("monk-build") || pathname === "/database/") {
+      assert.match(html, /class="faq-accordion"/, `${pathname} should use the shared FAQ accordion`);
+    }
+  }
+});
+
+test("advanced-job and Monk guides render complete styled article pages", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+
+  for (const pathname of [...advancedClassGuideRoutes, "/guides/monk-build/"]) {
+    const response = await worker.fetch(
+      new Request(`${siteOrigin}${pathname}`, { headers: { accept: "text/html" } }),
+      env,
+      context,
+    );
+    const html = await response.text();
+
+    assert.equal(response.status, 200, `${pathname} should render`);
+    assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
+    assert.match(html, new RegExp(`rel="canonical"[^>]+href="${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}${pathname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "i"));
+    assert.match(html, /class="faq-accordion"/, `${pathname} should use the shared FAQ component`);
+    assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
+    assert.match(html, /src="\/assets\//, `${pathname} should use a local image`);
+    assert.doesNotMatch(html, /cdnimages\.awselbcombine\.com|source and editorial note|source status/i);
   }
 });
 
@@ -330,11 +369,11 @@ test("refreshed guides use local images without visible provenance annotations",
 
   const dataFiles = (await readdir("app/guides/source-guide-data"))
     .filter((name) => name.endsWith(".ts"));
-  assert.equal(dataFiles.length, 11);
+  assert.equal(dataFiles.length, 13);
 
   for (const filename of dataFiles) {
     const text = await readFile(path.join("app/guides/source-guide-data", filename), "utf8");
     assert.doesNotMatch(text, /"sourceUrl"|"sourceTitle"|cdnimages\.awselbcombine\.com/);
-    assert.match(text, /"heroImage": "\/assets\/guides\//);
+    assert.match(text, /["']?heroImage["']?\s*:\s*["']\/assets\//);
   }
 });

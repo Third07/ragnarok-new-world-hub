@@ -27,7 +27,7 @@
 
 @media (max-width: 760px) {
   body {
-    padding-bottom: calc(66px + env(safe-area-inset-bottom));
+    padding-bottom: 0;
   }
 
   .site-shell .tool-controls {

@@ -125,6 +125,7 @@ export const guide = {
     {"question": "How should Priest handle boss damage?", "answer": "Keep Heal on the tank, use Kyrie Eleison before large attacks, and time Sanctuary so its sustained healing covers the dangerous period."}
   ],
   "related": [
+    ["High Priest advanced guide", "/guides/high-priest-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Card database", "/sea/cards/"],
     ["Equipment database", "/sea/equipment/"],

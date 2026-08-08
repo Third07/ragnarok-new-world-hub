@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import FaqList from "../FaqList";
 import styles from "../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -217,12 +218,7 @@ export default function DatabasePage() {
             </p>
 
             <h2>Ragnarok: The New World database FAQ</h2>
-            {faqs.map((faq) => (
-              <section key={faq.question} aria-labelledby={`faq-${faq.question.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}>
-                <h3 id={`faq-${faq.question.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}>{faq.question}</h3>
-                <p>{faq.answer}</p>
-              </section>
-            ))}
+            <FaqList items={faqs} />
           </article>
 
           <aside className={styles.sidebar} aria-label="Database shortcuts">

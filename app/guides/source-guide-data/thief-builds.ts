@@ -114,6 +114,7 @@ export const guide = {
     {"question": "What stats should Dual Dagger Assassin use?", "answer": "Use STR > AGI > LUK, with an initial target of 70 STR, 70 AGI, and 30 LUK before completing the 193 ASPD setup."}
   ],
   "related": [
+    ["Assassin Cross advanced guide", "/guides/assassin-cross-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Monster database", "/sea/monster_album/"],
     ["Card database", "/sea/cards/"],

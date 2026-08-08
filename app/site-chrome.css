@@ -118,6 +118,77 @@
   color: #ffe08a !important;
 }
 
+/* Shared FAQ surface for guide, database, and utility articles. */
+.faq-accordion {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.faq-accordion details {
+  max-width: 100%;
+  overflow: hidden;
+  margin: 0;
+  color: #181b20;
+  background: #fff;
+  border: 1px solid #d4d8df;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(48, 61, 135, .10);
+}
+
+.faq-accordion summary {
+  position: relative;
+  display: block;
+  padding: 18px 54px 18px 20px;
+  color: #181b20;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  list-style: none;
+}
+
+.faq-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-accordion summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  color: #fff;
+  background: linear-gradient(180deg, #7485f3, #4658c9);
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 500;
+  transition: transform .16s ease;
+}
+
+.faq-accordion details[open] summary {
+  color: #4658c9;
+  background: #e7ebff;
+  border-bottom: 1px solid #d4d8df;
+}
+
+.faq-accordion details[open] summary::after {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-accordion details > p {
+  margin: 0;
+  padding: 18px 20px 22px;
+  color: #59616b;
+  background: #fff;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
 @media (max-width: 760px) {
   .shared-site-header {
     height: 68px;
@@ -129,7 +200,26 @@
     padding-bottom: 48px;
   }
 
+  /* The fixed dock duplicated the header controls and covered guide cards. */
+  .shared-mobile-dock {
+    display: none !important;
+  }
+
   .shared-footer-links {
     gap: 10px 18px;
+  }
+
+  .faq-accordion summary {
+    padding: 16px 50px 16px 16px;
+    font-size: 15px;
+  }
+
+  .faq-accordion summary::after {
+    right: 14px;
+  }
+
+  .faq-accordion details > p {
+    padding: 16px;
+    font-size: 14px;
   }
 }

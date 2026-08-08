@@ -105,77 +105,6 @@
   color: #7e5b0f !important;
 }
 
-/* Reusable FAQ accordion for every guide template. */
-.guide-route-content details {
-  max-width: 100%;
-  overflow: hidden;
-  margin: 12px 0 0;
-  color: var(--guide-ink) !important;
-  background: var(--guide-white) !important;
-  border: 1px solid var(--guide-line) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 8px 22px rgba(48, 61, 135, .10) !important;
-}
-
-.guide-route-content details:first-of-type {
-  margin-top: 28px;
-}
-
-.guide-route-content details summary {
-  position: relative;
-  display: block;
-  padding: 18px 54px 18px 20px !important;
-  color: var(--guide-ink) !important;
-  background: var(--guide-white) !important;
-  cursor: pointer;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 850 !important;
-  line-height: 1.45 !important;
-  list-style: none;
-}
-
-.guide-route-content details summary::-webkit-details-marker {
-  display: none;
-}
-
-.guide-route-content details summary::after {
-  content: "+";
-  position: absolute;
-  top: 50%;
-  right: 18px;
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  transform: translateY(-50%);
-  color: #fff;
-  background: linear-gradient(180deg, var(--guide-blue-light), var(--guide-blue-dark));
-  border-radius: 50%;
-  font-size: 20px;
-  font-weight: 500;
-  transition: transform .16s ease;
-}
-
-.guide-route-content details[open] summary {
-  color: var(--guide-blue-dark) !important;
-  background: var(--guide-blue-soft) !important;
-  border-bottom: 1px solid var(--guide-line);
-}
-
-.guide-route-content details[open] summary::after {
-  transform: translateY(-50%) rotate(45deg);
-}
-
-.guide-route-content details > p {
-  margin: 0 !important;
-  padding: 18px 20px 22px !important;
-  color: var(--guide-text) !important;
-  background: #fff !important;
-  font-size: 15px !important;
-  line-height: 1.75 !important;
-}
-
 /* Shared tables and notices. */
 .guide-route-content table {
   width: 100%;
@@ -208,20 +137,4 @@
   color: var(--guide-ink) !important;
   background: var(--guide-surface-soft) !important;
   border-color: var(--guide-line) !important;
-}
-
-@media (max-width: 760px) {
-  .guide-route-content details summary {
-    padding: 16px 50px 16px 16px !important;
-    font-size: 15px !important;
-  }
-
-  .guide-route-content details summary::after {
-    right: 14px;
-  }
-
-  .guide-route-content details > p {
-    padding: 16px !important;
-    font-size: 14px !important;
-  }
 }
