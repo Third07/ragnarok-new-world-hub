@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -56,7 +57,7 @@ export default function TopUpSafelyGuide() {
       <header className={styles.hero}>
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
-          <nav className={styles.crumbs} aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Top up safely</span></nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Top up safely</span></nav>
           <p className={styles.kicker}>Payments and account security</p>
           <h1 className={styles.title}>How to top up Ragnarok: The New World safely</h1>
           <p className={styles.dek}>Verify the payment route, character, server, currency, and final fee before paying. A cheap offer is not a bargain when it requires your account login or leaves you without a usable receipt.</p>
@@ -158,7 +159,6 @@ export default function TopUpSafelyGuide() {
           </aside>
         </div>
       </main>
-      <footer className={styles.footer}><span>RTNW Hub · Independent payment-safety guide.</span><a href="/guides/technical/">More setup guides</a></footer>
     </div>
   );
 }

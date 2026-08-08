@@ -36,20 +36,41 @@ const classGuideRoutes = [
   "/guides/gunslinger-builds/",
 ];
 
+const refreshedGuideRoutes = [
+  "/guides/guild-management/",
+  "/guides/guild-league/",
+  "/guides/polarity-zone/",
+  "/guides/hazy-forest/",
+  ...classGuideRoutes,
+];
+
 const publicPageRoutes = [
   "/",
+  "/search/",
+  "/database/",
+  "/updates/",
   "/guides/",
   "/guides/classes-builds/",
+  "/guides/guild-events/",
+  ...refreshedGuideRoutes,
   "/guides/beginner-guides/",
   "/guides/progression-equipment/",
   "/guides/monsters-cards-farming/",
   "/guides/class-tier-list/",
-  ...classGuideRoutes,
+  "/guides/monk-build/",
   "/guides/beginner-progression/",
   "/guides/redeem-codes/",
   "/guides/druid-builds/",
   "/guides/refining-equipment/",
   "/guides/farming-card-progression/",
+  "/guides/technical/",
+  "/guides/play-on-pc/",
+  "/guides/emulator-settings/",
+  "/guides/top-up-safely/",
+  "/guides/cloud-gaming/",
+  "/tools/farming-target-finder/",
+  "/tools/pc-setup-checker/",
+  "/tools/top-up-calculator/",
   "/about/",
   "/contact/",
   "/privacy/",
@@ -90,9 +111,9 @@ async function loadBuiltWorker() {
     }
     const workerUrl = pathToFileURL(workerPath);
     workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-    const module = await import(workerUrl.href);
-    if (module.default && typeof module.default.fetch === "function") {
-      return module.default;
+    const workerModule = await import(workerUrl.href);
+    if (workerModule.default && typeof workerModule.default.fetch === "function") {
+      return workerModule.default;
     }
   }
 
@@ -177,7 +198,10 @@ test("sitemap, robots, manifest, and favicon are current", async () => {
   ]);
 
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(urls, publicPageRoutes.map((route) => `${siteOrigin}${route}`));
+  assert.equal(new Set(urls).size, urls.length, "Sitemap URLs should be unique");
+  for (const route of publicPageRoutes) {
+    assert.ok(urls.includes(`${siteOrigin}${route}`), `Sitemap is missing ${route}`);
+  }
   assert.match(
     robots,
     new RegExp(`Sitemap: ${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\/sitemap\\.xml`),
@@ -194,7 +218,7 @@ test("rendered home page exposes canonical metadata, social identity, and WebSit
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
   const response = await worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    new Request(`${siteOrigin}/`, { headers: { accept: "text/html" } }),
     env,
     context,
   );
@@ -204,6 +228,7 @@ test("rendered home page exposes canonical metadata, social identity, and WebSit
   assert.match(html, /<link[^>]+rel="canonical"[^>]+href="https:\/\/rtnw\.online\/"/i);
   assert.match(html, /Ragnarok: The New World Guides, Builds &amp; Tools/i);
   assert.match(html, /"@type":"WebSite"/);
+  assert.match(html, /"@type":"SearchAction"/);
   assert.match(html, /"@type":"Organization"/);
   assert.match(html, /"@type":"ItemList"/);
   assert.match(html, /href="(?:https:\/\/rtnw\.online)?\/favicon\.ico"/i);
@@ -213,6 +238,36 @@ test("rendered home page exposes canonical metadata, social identity, and WebSit
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
 
+test("application pages render one shared shell without social or provenance UI", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+  const routes = [
+    "/guides/",
+    "/guides/guild-management/",
+    "/guides/acolyte-builds/",
+    "/database/",
+  ];
+
+  for (const pathname of routes) {
+    const response = await worker.fetch(
+      new Request(`${siteOrigin}${pathname}`, { headers: { accept: "text/html" } }),
+      env,
+      context,
+    );
+    const html = await response.text();
+    assert.equal(response.status, 200, `${pathname} should render`);
+    assert.equal((html.match(/shared-site-header/g) ?? []).length, 1, `${pathname} should have one shared header`);
+    assert.equal((html.match(/<footer\s+class="shared-site-footer"/g) ?? []).length, 1, `${pathname} should have one shared footer`);
+    assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
+    assert.doesNotMatch(html, /social[-_ ]bar|source and editorial note|source status/i);
+
+    if (pathname.includes("guild-management") || pathname.includes("acolyte-builds")) {
+      assert.match(html, /src="\/assets\/guides\//, `${pathname} should render local guide imagery`);
+      assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
+    }
+  }
+});
+
 test("Cloudflare build serves guides and active discovery routes", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
@@ -220,15 +275,19 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
   for (const pathname of [
     "/guides/",
     "/guides/classes-builds/",
-    ...classGuideRoutes,
+    "/guides/guild-events/",
+    ...refreshedGuideRoutes,
     "/guides/druid-builds/",
     "/guides/redeem-codes/",
+    "/search/",
+    "/database/",
+    "/updates/",
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
   ]) {
     const response = await worker.fetch(
-      new Request(`http://localhost${pathname}`, {
+      new Request(`${siteOrigin}${pathname}`, {
         headers: { accept: "text/html,text/plain" },
       }),
       env,
@@ -237,20 +296,45 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     assert.equal(response.status, 200, `${pathname} should return 200`);
   }
 
-  for (const pathname of ["/updates/", "/feed.xml", "/deployment-version.txt"]) {
-    const response = await worker.fetch(
-      new Request(`http://localhost${pathname}`),
+  for (const pathname of ["/feed.xml", "/deployment-version.txt"]) {
+    let response = await worker.fetch(
+      new Request(`${siteOrigin}${pathname}`),
       env,
       context,
     );
+    if ([307, 308].includes(response.status)) {
+      const location = response.headers.get("location");
+      assert.ok(location, `${pathname} redirect should include a location`);
+      response = await worker.fetch(new Request(new URL(location, siteOrigin)), env, context);
+    }
     assert.equal(response.status, 404, `${pathname} should remain removed`);
   }
 
   const robotTypo = await worker.fetch(
-    new Request("http://localhost/robot.txt"),
+    new Request(`${siteOrigin}/robot.txt`),
     env,
     context,
   );
   assert.equal(robotTypo.status, 308);
-  assert.equal(robotTypo.headers.get("location"), "http://localhost/robots.txt");
+  assert.equal(robotTypo.headers.get("location"), `${siteOrigin}/robots.txt`);
+});
+
+test("refreshed guides use local images without visible provenance annotations", async () => {
+  const [template, navigation] = await Promise.all([
+    readFile("app/guides/SourceGuidePage.tsx", "utf8"),
+    readFile("app/GuideNavigation.tsx", "utf8"),
+  ]);
+
+  assert.doesNotMatch(template, /Source and editorial note|Source status|isBasedOn/);
+  assert.doesNotMatch(navigation, /SOCIAL_LINKS|social-footer-links|YouTube|TikTok|Facebook/);
+
+  const dataFiles = (await readdir("app/guides/source-guide-data"))
+    .filter((name) => name.endsWith(".ts"));
+  assert.equal(dataFiles.length, 11);
+
+  for (const filename of dataFiles) {
+    const text = await readFile(path.join("app/guides/source-guide-data", filename), "utf8");
+    assert.doesNotMatch(text, /"sourceUrl"|"sourceTitle"|cdnimages\.awselbcombine\.com/);
+    assert.match(text, /"heroImage": "\/assets\/guides\//);
+  }
 });

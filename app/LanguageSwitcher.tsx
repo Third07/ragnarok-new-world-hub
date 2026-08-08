@@ -80,7 +80,7 @@ export default function LanguageSwitcher() {
     const browserLanguage = normalizeLanguage(window.navigator.language);
     const initialLanguage = queryLanguage || storedLanguage || browserLanguage || "en-US";
 
-    setLanguage(initialLanguage);
+    queueMicrotask(() => setLanguage(initialLanguage));
     window.localStorage.setItem("ro_lang", initialLanguage);
     document.documentElement.lang = initialLanguage;
     updateToolLinks(initialLanguage);

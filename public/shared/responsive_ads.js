@@ -4,7 +4,7 @@
   if (window.__RTNW_ADS_READY__) return;
   window.__RTNW_ADS_READY__ = true;
 
-  const VERSION = "20260806-ads4";
+  const VERSION = "20260808-ads5";
   const AD_UNITS = {
     leaderboard: { key: "3a45272816c2d16fa93a679c03e183cf", width: 728, height: 90 },
     tabletBanner: { key: "7b4253e26d5b14e096014f7bb1c2ac5b", width: 468, height: 60 },
@@ -175,7 +175,7 @@
 
   function insertGuideBanner(article, banner) {
     const directHeadings = Array.from(article.querySelectorAll(":scope > h2"));
-    const laterHeading = directHeadings[3] || directHeadings[2] || null;
+    const laterHeading = directHeadings[2] || directHeadings[1] || null;
     if (laterHeading) {
       laterHeading.insertAdjacentElement("beforebegin", banner);
       return;
@@ -185,7 +185,7 @@
       !node.matches("script, style, [data-ad-slot]")
     );
     if (blocks.length) {
-      const targetIndex = Math.min(blocks.length - 1, Math.max(4, Math.floor(blocks.length * .42)));
+      const targetIndex = Math.min(blocks.length - 1, Math.max(3, Math.floor(blocks.length * .32)));
       blocks[targetIndex].insertAdjacentElement("beforebegin", banner);
       return;
     }
@@ -273,7 +273,7 @@
       return;
     }
 
-    if (["/about", "/contact", "/privacy", "/terms", "/disclaimer", "/updates", "/search"].includes(pathname)) {
+    if (["/about", "/contact", "/privacy", "/terms", "/disclaimer", "/updates", "/search", "/database"].includes(pathname)) {
       if (!document.querySelector('[data-ad-placement="info-end"]')) {
         const banner = newSlot("responsive", "rtnw-ad-slot--content-end");
         banner.dataset.adPlacement = "info-end";

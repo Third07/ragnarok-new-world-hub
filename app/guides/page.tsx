@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "./guides.module.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     url: "/guides/",
     title: "Ragnarok: The New World Guides",
     description:
-      "Source-based class builds, guild-event strategy, progression, farming, PC, emulator, cloud gaming, and account-safety guides connected to RTNW tools.",
+      "Class builds, guild-event strategy, progression, farming, PC, emulator, cloud gaming, and account-safety guides connected to RTNW tools.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -43,7 +44,7 @@ const guideCategories = [
     number: "01",
     title: "Classes and builds",
     description:
-      "Compare F2P, PvE, and PvP rankings, then use source-based second-job guides for Swordman, Mage, Archer, Acolyte, Thief, Merchant, Gunslinger, and Druid.",
+      "Compare F2P, PvE, and PvP rankings, then use detailed second-job guides for Swordman, Mage, Archer, Acolyte, Thief, Merchant, Gunslinger, and Druid.",
     status: "9 class guides published",
     href: "/guides/classes-builds/",
     link: "Browse class guides →",
@@ -52,8 +53,8 @@ const guideCategories = [
     number: "02",
     title: "Guild events",
     description:
-      "Prepare Guild League rosters and GVG tactics, organize Polarity Zone boss groups, and maximize Hazy Forest scoring with counter and timing plans.",
-    status: "3 official-source guides published",
+      "Run the guild, prepare Guild League rosters, organize Polarity Zone boss groups, and maximize Hazy Forest scoring with clear counter and timing plans.",
+    status: "4 guild guides published",
     href: "/guides/guild-events/",
     link: "Browse guild event guides →",
   },
@@ -96,22 +97,26 @@ const guideCategories = [
 ] as const;
 
 const featuredGuides = [
-  ["01", "Guild League: Schedule, Tiers and GVG Strategy", "/guides/guild-league/"],
-  ["02", "Polarity Zone: Boss Mechanics and Guild Setup", "/guides/polarity-zone/"],
-  ["03", "Hazy Forest: Timing, Counters and Score Route", "/guides/hazy-forest/"],
-  ["04", "Swordman: VIT Tank, AGI Sword and Spear", "/guides/swordman-builds/"],
-  ["05", "Mage: Fire–Earth and Ice–Lightning Wizard", "/guides/mage-builds/"],
-  ["06", "Archer: ADL, Pet and Trap Hunter", "/guides/archer-builds/"],
-  ["07", "Acolyte: Support, Exorcist and AGI-Crit", "/guides/acolyte-builds/"],
-  ["08", "Thief: Dual Dagger, Katar and Venom", "/guides/thief-builds/"],
-  ["09", "Merchant: Cart, Axe and Turret", "/guides/merchant-builds/"],
-  ["10", "Gunslinger: Pistol, Gatling, Rifle and Shotgun", "/guides/gunslinger-builds/"],
-  ["11", "Druid: Werewolf, Wereraptor and Arcanist", "/guides/druid-builds/"],
-  ["12", "Class Tier List: F2P, PvE and PvP", "/guides/class-tier-list/"],
-  ["13", "Beginner Progression Guide", "/guides/beginner-progression/"],
-  ["14", "Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
-  ["15", "Farming and Card Progression Guide", "/guides/farming-card-progression/"],
-  ["16", "How to Download and Play on PC", "/guides/play-on-pc/"],
+  ["01", "Guild Management: Members, Events and Resources", "/guides/guild-management/"],
+  ["02", "Guild League: Schedule, Tiers and GVG Strategy", "/guides/guild-league/"],
+  ["03", "Polarity Zone: Boss Mechanics and Guild Setup", "/guides/polarity-zone/"],
+  ["04", "Hazy Forest: Timing, Counters and Score Route", "/guides/hazy-forest/"],
+  ["05", "Swordman: VIT Tank, AGI Sword and Spear", "/guides/swordman-builds/"],
+  ["06", "Mage: Fire–Earth and Ice–Lightning Wizard", "/guides/mage-builds/"],
+  ["07", "Archer: ADL, Pet and Trap Hunter", "/guides/archer-builds/"],
+  ["08", "Acolyte: Support, Exorcist and AGI-Crit", "/guides/acolyte-builds/"],
+  ["09", "Thief: Dual Dagger, Katar and Venom", "/guides/thief-builds/"],
+  ["10", "Merchant: Cart, Axe and Turret", "/guides/merchant-builds/"],
+  ["11", "Gunslinger: Pistol, Gatling, Rifle and Shotgun", "/guides/gunslinger-builds/"],
+  ["12", "Druid: Werewolf, Wereraptor and Arcanist", "/guides/druid-builds/"],
+  ["13", "Class Tier List: F2P, PvE and PvP", "/guides/class-tier-list/"],
+  ["14", "Beginner Progression Guide", "/guides/beginner-progression/"],
+  ["15", "Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
+  ["16", "Farming and Card Progression Guide", "/guides/farming-card-progression/"],
+  ["17", "How to Download and Play on PC", "/guides/play-on-pc/"],
+  ["18", "Best Emulator Settings and Troubleshooting", "/guides/emulator-settings/"],
+  ["19", "Safe Top-Ups, Fees and Account Protection", "/guides/top-up-safely/"],
+  ["20", "Cloud Gaming Setup and Connection Guide", "/guides/cloud-gaming/"],
 ] as const;
 
 const tools = [
@@ -174,49 +179,17 @@ export default function GuidesPage() {
       />
       <a className="skip-link" href="#guide-content">Skip to guides</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy">
-            <strong>Ragnarok</strong>
-            <small>The New World Hub</small>
-          </span>
-        </a>
-
-        <nav className={styles.desktopNav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a className={styles.active} href="/guides/" aria-current="page">Guides</a>
-          <a href="/#tools">Tools</a>
-          <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
-        </nav>
-
-        <a className={styles.homeAction} href="/guides/guild-events/">
-          Guild event guides <span aria-hidden="true">→</span>
-        </a>
-
-        <details className={styles.mobileNav}>
-          <summary aria-label="Open navigation">☰</summary>
-          <nav aria-label="Mobile navigation">
-            <a href="/">Home</a>
-            <a href="/guides/" aria-current="page">Guides</a>
-            <a href="/guides/classes-builds/">Class builds</a>
-            <a href="/guides/guild-events/">Guild events</a>
-            <a href="/sea/events/">Event schedule</a>
-          </nav>
-        </details>
-      </header>
-
       <main className={styles.main} id="guide-content">
         <section className={styles.hero} aria-labelledby="guides-title">
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a>
+              <Link href="/">RTNW Hub</Link>
               <span aria-hidden="true">/</span>
               <span>Guides</span>
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Source-based class builds and guild-event playbooks, plus progression, farming,
+              Class builds and guild-event playbooks, plus progression, farming,
               equipment, PC, emulator, cloud-play, and account-safety guides connected to the
               database tools needed to act on each recommendation.
             </p>
@@ -262,10 +235,9 @@ export default function GuidesPage() {
           <p className={styles.kicker}>Featured and refreshed guides</p>
           <h2 id="roadmap-title">From guild strategy to complete class builds.</h2>
           <p className={styles.roadmapIntro}>
-            The newly refreshed guides are independently rewritten from supplied official GNJOY
-            forum posts, retain the supported mechanics and terminology, reuse source screenshots
-            only where no equivalent database artwork exists, and include canonical metadata,
-            Article, Breadcrumb, and FAQ structured data.
+            The refreshed guides use clear quick-reference tables, decision-focused explanations,
+            in-game screenshots, practical checklists, and internal links to the planners and
+            databases needed to put each recommendation into practice.
           </p>
           <ol className={styles.roadmapList}>
             {featuredGuides.map(([number, title, href]) => (
@@ -293,21 +265,6 @@ export default function GuidesPage() {
         </section>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <div className={styles.footerLinks}>
-            <a href="/guides/classes-builds/">Class builds</a>
-            <a href="/guides/guild-events/">Guild events</a>
-            <a href="/sitemap.xml">Sitemap</a>
-          </div>
-        </div>
-        <a href="#guide-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

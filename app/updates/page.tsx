@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,17 @@ export const metadata: Metadata = {
 };
 
 const releases = [
+  {
+    date: "August 8, 2026",
+    title: "Unified site design and expanded visual guide library",
+    summary:
+      "Standardized the shared navigation and mobile layout, refreshed ten class and guild guides with local in-game screenshots, and added a complete Guild Management playbook.",
+    links: [
+      ["Open the guide library", "/guides/"],
+      ["Read Guild Management", "/guides/guild-management/"],
+      ["Browse guild event guides", "/guides/guild-events/"],
+    ],
+  },
   {
     date: "August 4, 2026",
     title: "Unified search and database tools",
@@ -125,7 +137,7 @@ export default function UpdatesPage() {
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <a href="/">Home</a><span>/</span><span>Updates</span>
+            <Link href="/">Home</Link><span>/</span><span>Updates</span>
           </nav>
           <p className={styles.kicker}>RTNW Hub release center</p>
           <h1 className={styles.title}>New guides, tools, and database features</h1>
@@ -188,10 +200,6 @@ export default function UpdatesPage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <span>RTNW Hub · Independent site release history.</span>
-        <a href="/sitemap.xml">View sitemap</a>
-      </footer>
     </div>
   );
 }

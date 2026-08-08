@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import browserStyles from "../data-browser.module.css";
 
 type UnknownRecord = Record<string, unknown>;
@@ -25,6 +25,17 @@ const STATIC_PAGES: SearchResult[] = [
   { id: "guide-library", title: "All Ragnarok: The New World Guides", description: "Class builds, beginner progression, farming, equipment, PC setup, emulators, cloud gaming, and safe top-ups.", href: "/guides/", icon: "/media/images/zhujiemian/icon_zhujiemian_shitu.webp", fallback: "G" },
   { id: "database", title: "Ragnarok: The New World Database", description: "Browse the RTNW monster, card, equipment, pet, map, shop, quiz, and build-planning databases from one hub.", href: "/database/", icon: "/media/images/zhujiemian/icon_zhujiemian_tujian.webp", fallback: "D" },
   { id: "updates", title: "RTNW Hub Updates", description: "New guides, tools, database changes, and recently updated site resources.", href: "/updates/", icon: "/media/images/zhujiemian/icon_zhujiemian_huodong.webp", fallback: "U" },
+  { id: "guild-management", title: "Guild Management Guide", description: "Plan members, fixed teams, weekly events, guild buildings, officer roles, and auction rules.", href: "/guides/guild-management/", icon: "/media/images/zhujiemian/icon_zhujiemian_huodong.webp", fallback: "G" },
+  { id: "guild-league", title: "Guild League Guide", description: "Check the schedule, tiers, battlefield roles, command skills, lineup planning, and GVG strategy.", href: "/guides/guild-league/", icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp", fallback: "G" },
+  { id: "polarity-zone", title: "Polarity Zone Guide", description: "Prepare Zone Elites, Common Dungeons, boss counters, and Goblin Leader, Eddga, and Baphomet mechanics.", href: "/guides/polarity-zone/", icon: "/media/images/zhujiemian/icon_zhujiemian_fuben.webp", fallback: "P" },
+  { id: "hazy-forest", title: "Hazy Forest Guide", description: "Plan the weekly score route, battle cooldowns, treasure phases, and Element, Race, and Size counters.", href: "/guides/hazy-forest/", icon: "/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp", fallback: "H" },
+  { id: "swordman-builds", title: "Swordsman and Knight Build Guide", description: "Compare VIT Tank, AGI Sword, and Spear Knight stats, traits, cards, and rotations.", href: "/guides/swordman-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "S" },
+  { id: "mage-builds", title: "Mage and Wizard Build Guide", description: "Compare Fire–Earth and Ice–Lightning stats, traits, cards, cast targets, and rotations.", href: "/guides/mage-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "M" },
+  { id: "archer-builds", title: "Archer and Hunter Build Guide", description: "Compare ADL, Pet, and Trap Hunter stats, traits, cards, ASPD planning, and boss positioning.", href: "/guides/archer-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "A" },
+  { id: "acolyte-builds", title: "Acolyte and Priest Build Guide", description: "Compare Support, Exorcist, and AGI-Crit Priest stats, healing traits, cards, and rotations.", href: "/guides/acolyte-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "A" },
+  { id: "thief-builds", title: "Thief and Assassin Build Guide", description: "Compare Dual Dagger, Critical Katar, and Venom Assassin stats, traits, cards, and boss matchups.", href: "/guides/thief-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "T" },
+  { id: "merchant-builds", title: "Merchant Build Guide", description: "Compare Cart, Axe Throwing, and Turret builds with stats, traits, cards, and party utility.", href: "/guides/merchant-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "M" },
+  { id: "gunslinger-builds", title: "Gunslinger Build Guide", description: "Compare Pistol, Gatling Gun, Rifle, and Shotgun stats, traits, bullets, cards, and rotations.", href: "/guides/gunslinger-builds/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "G" },
   { id: "class-tier-list", title: "Class Tier List: F2P, PvE and PvP", description: "Compare RTNW class families by activity and budget instead of using one ranking for every player.", href: "/guides/class-tier-list/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "C" },
   { id: "monk-build", title: "Monk Build & Skill Guide", description: "Review current Monk skill data, Spirit Spheres, Fury, combo skills, and build-planning links.", href: "/guides/monk-build/", icon: "/media/images/zhujiemian/icon_zhujiemian_jineng.webp", fallback: "M" },
   { id: "beginner-progression", title: "Beginner Progression Guide", description: "A first-hours and first-week route with F2P priorities and daily progression decisions.", href: "/guides/beginner-progression/", icon: "/media/images/zhujiemian/icon_zhujiemian_shitu.webp", fallback: "B" },
@@ -151,12 +162,7 @@ function monsterIconCandidates(item: UnknownRecord, iconPaths: UnknownRecord) {
 
 function ResultIcon({ result }: { result: SearchResult }) {
   const candidates = Array.from(new Set([result.icon, ...(result.icons || [])].filter((value): value is string => Boolean(value))));
-  const candidateKey = candidates.join("|");
   const [candidateIndex, setCandidateIndex] = useState(0);
-
-  useEffect(() => {
-    setCandidateIndex(0);
-  }, [candidateKey, result.id]);
 
   const source = candidates[candidateIndex];
   return (
@@ -180,59 +186,63 @@ export default function SearchClient() {
   const [equipment, setEquipment] = useState<UnknownRecord[]>([]);
   const [equipmentTypes, setEquipmentTypes] = useState<UnknownRecord>({});
   const [iconPaths, setIconPaths] = useState<UnknownRecord>({});
-  const [dataRequested, setDataRequested] = useState(false);
+  const dataRequested = useRef(false);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setQuery(params.get("q") || "");
+    const frame = window.requestAnimationFrame(() => setQuery(params.get("q") || ""));
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
-    if (query.trim().length < 2 || dataRequested) return;
+    if (query.trim().length < 2 || dataRequested.current) return;
 
-    setDataRequested(true);
-    setLoading(true);
-    setLoadError("");
+    const frame = window.requestAnimationFrame(() => {
+      dataRequested.current = true;
+      setLoading(true);
+      setLoadError("");
 
-    Promise.allSettled([
-      fetch("/sea/monster-album/data/monster_index_en-US.json").then((response) => {
-        if (!response.ok) throw new Error("monster database");
-        return response.json();
-      }),
-      fetch("/sea/card-simulator/data/handbook_cards_en-US.json").then((response) => {
-        if (!response.ok) throw new Error("card database");
-        return response.json();
-      }),
-      fetch("/sea/equipment/data/equipment_index_en-US.json").then((response) => {
-        if (!response.ok) throw new Error("equipment database");
-        return response.json();
-      }),
-      fetch("/sea/skill-simulator/data/icon_paths.json").then((response) => {
-        if (!response.ok) throw new Error("icon index");
-        return response.json();
-      }),
-    ]).then(([monsterResult, cardResult, equipmentResult, iconResult]) => {
-      const failures: string[] = [];
+      Promise.allSettled([
+        fetch("/sea/monster-album/data/monster_index_en-US.json").then((response) => {
+          if (!response.ok) throw new Error("monster database");
+          return response.json();
+        }),
+        fetch("/sea/card-simulator/data/handbook_cards_en-US.json").then((response) => {
+          if (!response.ok) throw new Error("card database");
+          return response.json();
+        }),
+        fetch("/sea/equipment/data/equipment_index_en-US.json").then((response) => {
+          if (!response.ok) throw new Error("equipment database");
+          return response.json();
+        }),
+        fetch("/sea/skill-simulator/data/icon_paths.json").then((response) => {
+          if (!response.ok) throw new Error("icon index");
+          return response.json();
+        }),
+      ]).then(([monsterResult, cardResult, equipmentResult, iconResult]) => {
+        const failures: string[] = [];
 
-      if (monsterResult.status === "fulfilled") setMonsters(arrayPayload(monsterResult.value, ["monsters", "items", "data"]));
-      else failures.push("monsters");
+        if (monsterResult.status === "fulfilled") setMonsters(arrayPayload(monsterResult.value, ["monsters", "items", "data"]));
+        else failures.push("monsters");
 
-      if (cardResult.status === "fulfilled") setCards(arrayPayload(cardResult.value, ["cards", "items", "data"]));
-      else failures.push("cards");
+        if (cardResult.status === "fulfilled") setCards(arrayPayload(cardResult.value, ["cards", "items", "data"]));
+        else failures.push("cards");
 
-      if (equipmentResult.status === "fulfilled") {
-        setEquipment(arrayPayload(equipmentResult.value, ["items", "equipment", "data"]));
-        setEquipmentTypes(record(record(equipmentResult.value).itemTypes));
-      } else failures.push("equipment");
+        if (equipmentResult.status === "fulfilled") {
+          setEquipment(arrayPayload(equipmentResult.value, ["items", "equipment", "data"]));
+          setEquipmentTypes(record(record(equipmentResult.value).itemTypes));
+        } else failures.push("equipment");
 
-      if (iconResult.status === "fulfilled") setIconPaths(record(iconResult.value));
+        if (iconResult.status === "fulfilled") setIconPaths(record(iconResult.value));
 
-      if (failures.length) setLoadError(`Some database groups could not load: ${failures.join(", ")}.`);
-      setLoading(false);
+        if (failures.length) setLoadError(`Some database groups could not load: ${failures.join(", ")}.`);
+        setLoading(false);
+      });
     });
-  }, [dataRequested, query]);
+    return () => window.cancelAnimationFrame(frame);
+  }, [query]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -387,7 +397,10 @@ export default function SearchClient() {
                 <div className={browserStyles.resultGrid}>
                   {group.results.map((result) => (
                     <a className={browserStyles.resultCard} href={result.href} key={result.id}>
-                      <ResultIcon result={result} />
+                      <ResultIcon
+                        key={[result.id, result.icon, ...(result.icons || [])].join("|")}
+                        result={result}
+                      />
                       <span className={browserStyles.resultCopy}>
                         <strong>{result.title}</strong>
                         <span>{result.description}</span>

@@ -5,18 +5,13 @@ import test from "node:test";
 const read = path => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("ad system uses only the approved non-disruptive formats", async () => {
-  const files = await Promise.all([
-    read("public/shared/responsive_ads.js"),
-    read("public/shared/ads/leaderboard.html"),
-    read("public/shared/ads/mobile-banner.html"),
-    read("public/shared/ads/rectangle.html")
-  ]);
-  const source = files.join("\n");
+  const source = await read("public/shared/responsive_ads.js");
 
   for (const key of [
-    "91fde19eac5358fcbb0ccc7f92fcf7e8",
-    "4281407f118f027b278a4d1dbbd94232",
-    "0e2fb144411b70df25b2a26a11d69c2b"
+    "3a45272816c2d16fa93a679c03e183cf",
+    "7b4253e26d5b14e096014f7bb1c2ac5b",
+    "4ac48f926626c7e677d10446bfb6319a",
+    "ba9a2456823c4edef223cb0c9106837c"
   ]) {
     assert.match(source, new RegExp(key));
   }
@@ -31,11 +26,12 @@ test("ad system uses only the approved non-disruptive formats", async () => {
     assert.doesNotMatch(source, new RegExp(excludedKey));
   }
 
-  assert.match(files[0], /frame\.src = unit\.frame/);
-  assert.doesNotMatch(files[0], /flaskledgeheadquarters\.com/);
-  assert.match(files[1], /width:\s*728/);
-  assert.match(files[2], /width:\s*320/);
-  assert.match(files[3], /width:\s*300/);
+  assert.match(source, /width:\s*728,\s*height:\s*90/);
+  assert.match(source, /width:\s*320,\s*height:\s*50/);
+  assert.match(source, /width:\s*300,\s*height:\s*250/);
+  assert.match(source, /IntersectionObserver/);
+  assert.match(source, /rail\.dataset\.adPlacement = "desktop-rail"/);
+  assert.doesNotMatch(source, /popunder|social[- ]bar|push notification/i);
 });
 
 test("homepage and legacy tools receive restrained placements", async () => {
@@ -49,10 +45,12 @@ test("homepage and legacy tools receive restrained placements", async () => {
   assert.equal((page.match(/data-ad-slot/g) || []).length, 2);
   assert.match(page, /data-ad-format="responsive"/);
   assert.match(page, /data-ad-format="rectangle"/);
-  assert.match(page, /responsive_ads\.js/);
+  assert.doesNotMatch(page, /responsive_ads\.js/);
   assert.match(layout, /responsive_ads\.css/);
+  assert.match(layout, /responsive_ads\.js\?v=20260808-ads5/);
   assert.match(legacyBootstrap, /loadResponsiveAds\(\)/);
   assert.match(ads, /banner\.dataset\.adPlacement = "tool-footer"/);
   assert.match(ads, /IntersectionObserver/);
-  assert.match(ads, /sandbox/);
+  assert.match(ads, /guide-inline/);
+  assert.match(ads, /guide-end/);
 });

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PcSetupChecker from "./PcSetupChecker";
 import styles from "../../field-guide.module.css";
 
@@ -40,7 +41,7 @@ export default function PcSetupCheckerPage() {
       <header className={styles.hero}>
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
-          <nav className={styles.crumbs} aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/technical/">Setup guides</a><span>/</span><span>PC Setup Checker</span></nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/technical/">Setup guides</a><span>/</span><span>PC Setup Checker</span></nav>
           <p className={styles.kicker}>Free browser tool</p>
           <h1 className={styles.title}>Ragnarok: The New World PC Setup Checker</h1>
           <p className={styles.dek}>Compare the official Steam client, an Android emulator, and cloud gaming based on the hardware and setup you actually have.</p>
@@ -63,7 +64,6 @@ export default function PcSetupCheckerPage() {
           <div className={styles.note}><strong>Privacy:</strong> The values entered in this checker are calculated in the browser. The tool does not ask for a hardware serial number, game login, or account ID.</div>
         </article>
       </main>
-      <footer className={styles.footer}><span>RTNW Hub · Free fan-made setup tool.</span><a href="/guides/technical/">Setup guide library</a></footer>
     </div>
   );
 }

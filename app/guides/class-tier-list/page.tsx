@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "./tier-list.module.css";
 
 export const metadata: Metadata = {
@@ -316,26 +317,12 @@ export default function ClassTierListPage() {
       />
       <a className="skip-link" href="#article-content">Skip to tier list</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/sea/skill_planner/">Skill Planner</a>
-          <a href="/sea/equipment/">Equipment Index</a>
-        </nav>
-        <a className={styles.headerAction} href="/sea/skill_planner/">Plan a build <span aria-hidden="true">→</span></a>
-      </header>
-
       <main id="article-content">
         <section className={styles.hero}>
           <div className={styles.heroOverlay} />
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a><span aria-hidden="true">/</span>
+              <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Class Tier List</span>
             </nav>
@@ -458,18 +445,6 @@ export default function ClassTierListPage() {
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/guides/">Guides</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <a href="#article-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

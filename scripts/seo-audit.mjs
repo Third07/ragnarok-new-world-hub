@@ -10,9 +10,15 @@ const indexNowKey = "4cc78cf9b31d099f4de23a0874b08a5e";
 const expectedRoutes = [
   "/",
   "/search/",
+  "/database/",
   "/updates/",
   "/guides/",
   "/guides/classes-builds/",
+  "/guides/guild-events/",
+  "/guides/guild-management/",
+  "/guides/guild-league/",
+  "/guides/polarity-zone/",
+  "/guides/hazy-forest/",
   "/guides/beginner-guides/",
   "/guides/progression-equipment/",
   "/guides/monsters-cards-farming/",
@@ -21,6 +27,7 @@ const expectedRoutes = [
   "/guides/mage-builds/",
   "/guides/archer-builds/",
   "/guides/acolyte-builds/",
+  "/guides/monk-build/",
   "/guides/thief-builds/",
   "/guides/merchant-builds/",
   "/guides/gunslinger-builds/",
@@ -60,9 +67,15 @@ const expectedRoutes = [
 const routeSources = {
   "/": "app/page.tsx",
   "/search/": "app/search/page.tsx",
+  "/database/": "app/database/page.tsx",
   "/updates/": "app/updates/page.tsx",
   "/guides/": "app/guides/page.tsx",
   "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
+  "/guides/guild-events/": "app/guides/guild-events/page.tsx",
+  "/guides/guild-management/": "app/guides/guild-management/page.tsx",
+  "/guides/guild-league/": "app/guides/guild-league/page.tsx",
+  "/guides/polarity-zone/": "app/guides/polarity-zone/page.tsx",
+  "/guides/hazy-forest/": "app/guides/hazy-forest/page.tsx",
   "/guides/beginner-guides/": "app/guides/beginner-guides/page.tsx",
   "/guides/progression-equipment/": "app/guides/progression-equipment/page.tsx",
   "/guides/monsters-cards-farming/": "app/guides/monsters-cards-farming/page.tsx",
@@ -71,6 +84,7 @@ const routeSources = {
   "/guides/mage-builds/": "app/guides/mage-builds/page.tsx",
   "/guides/archer-builds/": "app/guides/archer-builds/page.tsx",
   "/guides/acolyte-builds/": "app/guides/acolyte-builds/page.tsx",
+  "/guides/monk-build/": "app/guides/monk-build/page.tsx",
   "/guides/thief-builds/": "app/guides/thief-builds/page.tsx",
   "/guides/merchant-builds/": "app/guides/merchant-builds/page.tsx",
   "/guides/gunslinger-builds/": "app/guides/gunslinger-builds/page.tsx",
@@ -277,7 +291,7 @@ add(
   modernProblems,
 );
 
-const internalLinkFiles = ["app/page.tsx", "app/guides/page.tsx", "app/GuideNavigation.tsx"];
+const internalLinkFiles = ["app/page.tsx", "app/guides/page.tsx", "app/SiteHeader.tsx", "app/SiteFooter.tsx"];
 const internalLinkText = Object.fromEntries(
   await Promise.all(internalLinkFiles.map(async (file) => [file, await read(file)])),
 );

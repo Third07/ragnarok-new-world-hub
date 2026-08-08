@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import GuideNavigation from "./GuideNavigation";
 import LanguageSwitcher from "./LanguageSwitcher";
+import SiteFooter from "./SiteFooter";
+import SiteHeader from "./SiteHeader";
 import "./globals.css";
-import "./trust-navigation.css";
 import "./language-switcher.css";
 import "../public/shared/responsive_ads.css";
-import "./dark-ragnarok.css";
 import "./route-fixes.css";
 import "./panel-site-theme.css";
+import "./site-chrome.css";
 import "./header-control-polish.css";
 import "./mobile-polish.css";
 
@@ -27,7 +28,7 @@ const siteVerification: Metadata["verification"] =
 export const metadata: Metadata = {
   metadataBase: new URL("https://rtnw.online"),
   title: {
-    default: "Ragnarok: The New World Database & Skill Simulator | RTNW Hub",
+    default: "Ragnarok: The New World Guides, Builds & Tools | RTNW Hub",
     template: "%s | RTNW Hub",
   },
   description:
@@ -143,26 +144,35 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           "English Ragnarok: The New World database, skill simulator, interactive map, quiz answers, class builds, and practical guides.",
         publisher: { "@id": "https://rtnw.online/#organization" },
         inLanguage: "en",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: "https://rtnw.online/search/?q={search_term_string}",
+          },
+          "query-input": "required name=search_term_string",
+        },
       },
     ],
   };
 
   return (
     <html lang="en">
-      <body>
+      <body id="page-top">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <script
-          src="/shared/responsive_ads.js?v=20260806-ads4"
+          src="/shared/responsive_ads.js?v=20260808-ads5"
           defer
           data-rtnw-ads="true"
         />
         <GuideNavigation />
+        <SiteHeader />
         <LanguageSwitcher />
-        {children}
-        <script src="https://flaskledgeheadquarters.com/28/1b/47/281b474d88181ccff25f81e7e69d3443.js" />
+        <div className="site-route">{children}</div>
+        <SiteFooter />
       </body>
     </html>
   );

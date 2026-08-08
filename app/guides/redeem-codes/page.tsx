@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import RedeemCodeList, { type RedeemCode } from "./RedeemCodeList";
 import styles from "./redeem-codes.module.css";
 
@@ -207,25 +208,11 @@ export default function RedeemCodesPage() {
       />
       <a className="skip-link" href="#redeem-content">Skip to redeem codes</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/guides/beginner-guides/">Beginner Guides</a>
-          <a href="/sea/events/">Events</a>
-        </nav>
-        <a className={styles.headerAction} href="#codes">Copy current codes</a>
-      </header>
-
       <main className={styles.main} id="redeem-content">
         <section className={styles.hero}>
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a><span aria-hidden="true">/</span>
+              <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Redeem Codes</span>
             </nav>
@@ -358,21 +345,6 @@ export default function RedeemCodesPage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className={`${styles.footerMeta} footer-meta`}>
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <div className={styles.footerLinks}>
-            <a href="/guides/">Guides</a>
-            <a href="/guides/beginner-guides/">Beginner Guides</a>
-            <a href="/sitemap.xml">Sitemap</a>
-          </div>
-        </div>
-        <a href="#redeem-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

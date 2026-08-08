@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -159,7 +160,7 @@ export default function DatabasePage() {
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <a href="/">Home</a><span>/</span><span>Database</span>
+            <Link href="/">Home</Link><span>/</span><span>Database</span>
           </nav>
           <p className={styles.kicker}>RTNW game-data index</p>
           <h1 className={styles.title}>Ragnarok: The New World database</h1>
@@ -246,10 +247,6 @@ export default function DatabasePage() {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <span>RTNW Hub · Independent Ragnarok: The New World database and guide project.</span>
-        <a href="/">Return home</a>
-      </footer>
     </div>
   );
 }

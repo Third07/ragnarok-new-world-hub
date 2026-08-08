@@ -1,18 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navigation = [
   { label: "Home", href: "/" },
   { label: "Guides", href: "/guides/" },
+  { label: "Database", href: "/database/" },
+  { label: "Tools", href: "/#tools" },
   { label: "Search", href: "/search/" },
-  { label: "Updates", href: "/updates/" },
-  { label: "World Map", href: "/sea/maps/?lang=en-US#map=101" },
 ] as const;
 
 function isCurrentPath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
+  if (href.includes("#")) return false;
   const path = href.split("?")[0].split("#")[0];
   return pathname === path || pathname.startsWith(path);
 }
@@ -23,32 +25,32 @@ export default function SiteHeader() {
 
   return (
     <header className="site-header shared-site-header">
-      <a className="brand" href="/" aria-label="Ragnarok: The New World Hub home">
+      <Link className="brand" href="/" aria-label="Ragnarok: The New World Hub home" onClick={() => setMenuOpen(false)}>
         <span className="brand-crest" aria-hidden="true">✦</span>
         <span className="brand-copy">
           <strong>Ragnarok</strong>
           <small>The New World Hub</small>
         </span>
-      </a>
+      </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
         {navigation.map((item) => (
-          <a
+          <Link
             href={item.href}
             key={item.href}
             aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
           >
             {item.label}
-          </a>
+          </Link>
         ))}
       </nav>
 
       <div className="header-actions">
-        <a className="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content">
+        <Link className="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content" onClick={() => setMenuOpen(false)}>
           <span aria-hidden="true">⌕</span>
           <span>Search</span>
           <kbd>All</kbd>
-        </a>
+        </Link>
         <button
           className="menu-toggle"
           type="button"
@@ -68,17 +70,19 @@ export default function SiteHeader() {
         aria-label="Mobile navigation"
       >
         {navigation.map((item) => (
-          <a
+          <Link
             href={item.href}
             key={item.href}
             aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
             onClick={() => setMenuOpen(false)}
           >
             {item.label}
-          </a>
+          </Link>
         ))}
-        <a href="/sea/skill_planner/" onClick={() => setMenuOpen(false)}>Skill Planner</a>
-        <a href="/sea/events/" onClick={() => setMenuOpen(false)}>Event Schedule</a>
+        <Link href="/sea/skill_planner/" onClick={() => setMenuOpen(false)}>Skill Planner</Link>
+        <Link href="/sea/maps/?lang=en-US#map=101" onClick={() => setMenuOpen(false)}>World Map</Link>
+        <Link href="/sea/events/" onClick={() => setMenuOpen(false)}>Event Schedule</Link>
+        <Link href="/updates/" onClick={() => setMenuOpen(false)}>Updates</Link>
       </nav>
     </header>
   );

@@ -4,16 +4,14 @@ export const guide = {
   "slug": "acolyte-builds",
   "title": "Ragnarok: The New World Acolyte Build Guide",
   "seoTitle": "RTNW Acolyte Build Guide: Support, Exorcist & AGI-Crit",
-  "description": "Build a Support Priest, Exorcist, or AGI-Crit Acolyte in Ragnarok: The New World with stats, traits, healing cards, Rune Engine priorities, leveling, buffs, and PVE rotations.",
+  "description": "Build a Support, Exorcist, or AGI-Crit Priest in Ragnarok: The New World with stats, traits, cards, Rune Engine priorities, buffs, and PvE rotations.",
   "kicker": "Second Job Build Guide",
   "dek": "Prioritize the indispensable healing setup for parties, then add a solo physical or magic damage build only when resources allow.",
   "category": "Classes and Builds",
-  "heroImage": "https://cdnimages.awselbcombine.com/public_images/one_image/2026/07/178514128435602744.png",
+  "heroImage": "/assets/guides/acolyte-builds/acolyte-hero.webp",
   "heroAlt": "Ragnarok: The New World Priest character in the field",
-  "sourceUrl": "https://forum.gnjoy.hk/forum/index.html?gameId=456&id=roseaforum#/post/108136",
-  "sourceTitle": "Acolyte 2nd Job Guide: Master Acolyte Builds in 3 Minutes",
   "published": "2026-08-06",
-  "modified": "2026-08-06",
+  "modified": "2026-08-08",
   "readTime": "8 min read",
   "keywords": [
     "Ragnarok The New World Acolyte build",
@@ -43,7 +41,7 @@ export const guide = {
       "id": "builds",
       "title": "Support, Exorcist, and AGI-Crit builds",
       "table": {
-        "headers": ["Build", "Stats from the source", "Damage or role", "Priority"],
+        "headers": ["Build", "Recommended stats", "Damage or role", "Priority"],
         "rows": [
           ["Support Priest", "70 INT / 40 DEX / 40 VIT; DEX can be traded for more VIT", "Healing, buffs, shields, revival", "Primary party build."],
           ["Exorcist", "INT main, DEX support", "Holy magic AoE", "Solo and farming alternative."],
@@ -51,29 +49,43 @@ export const guide = {
         ]
       },
       "paragraphs": [
-        "Because Sanctuary is the key casted group-heal skill, the source suggests keeping its cast time within roughly one second. If your traits and equipment already provide enough cast comfort, additional VIT can be more valuable than DEX."
-      ]
+        "Because Sanctuary is the key casted group-heal skill, aim to keep its cast time near one second. If traits and equipment already make casting comfortable, additional VIT can be more valuable than DEX."
+      ],
+      "image": {
+        "src": "/assets/guides/acolyte-builds/priest-stats.webp",
+        "alt": "Priest stat allocation screen showing an INT, DEX, and VIT support setup",
+        "caption": "Use the stat screen as a starting point, then trade excess DEX for VIT once Sanctuary casts quickly enough."
+      }
     },
     {
       "id": "traits",
       "title": "Core support traits",
       "bullets": [
         "Prioritize Divine Healing, then Radiant Healing and Radiant Cooldown.",
-        "Build Master supplies purple Radiant Healing at stage 3 and weapon Radiant Cooldown at stage 5 in the source; forge Divine Healing on an accessory to complete the three-trait core.",
+        "Build Master can supply purple Radiant Healing at stage 3 and weapon Radiant Cooldown at stage 5; forge Divine Healing on an accessory to complete the three-trait core.",
         "AGI-Crit can use Renovatio Radiance, Renovatio Cooldown, and Holy Incarnation.",
         "Exorcist focuses on Reincarnation Lightning and Holy Exorcism, then Holy Incarnation or Absolute Justice.",
         "Elite Guard is a basic PVE survival trait; Unshakable Guard works with Priest shields; Overhealing later turns excess healing into shields."
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/acolyte-builds/divine-healing.webp",
+        "alt": "Divine Healing trait details for a Priest support build",
+        "caption": "Divine Healing is one part of the three-trait support core."
+      }
     },
     {
       "id": "progression",
       "title": "Leveling and Rune Engine route",
       "steps": [
         {"title": "Lv.1–40", "text": "Take one damage skill for progression and reset it into Angelus for difficult late-game party content. Save Lv.40 molds instead of forging weak early traits."},
-        {"title": "Choose a support pet", "text": "The source recommends Piamette for party ASPD and cast reduction; Baphomet Jr. or Rock Mammoth are solo or defensive alternatives."},
+        {"title": "Choose a support pet", "text": "Use Piamette for party ASPD and cast reduction; Baphomet Jr. or Rock Mammoth are solo or defensive alternatives."},
         {"title": "Lv.40–54", "text": "Complete the three-trait support package before investing heavily in a second damage build."},
         {"title": "Lv.55–69", "text": "Farm boss gear and cards. Prioritize Lv.3 Holy resonance for healing, then Earth resonance for automatic shielding and reduction or Wind resonance for global-cooldown help."}
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/acolyte-builds/radiant-healing.webp",
+        "alt": "Radiant Healing trait displayed in the Priest build interface"
+      }
     },
     {
       "id": "cards",
@@ -81,9 +93,13 @@ export const guide = {
       "bullets": [
         "Stat cards: MATK, INT, VIT, and DEX.",
         "Wormtail reduces variable cast and is useful for Exorcist.",
-        "Orc Skeleton is the source's key Holy damage card for AGI-Crit and Exorcist.",
+        "Orc Skeleton is a key Holy damage card for AGI-Crit and Exorcist.",
         "Vitata and Obeaune provide healing-related effects and are important support acquisitions."
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/acolyte-builds/vitata-card.webp",
+        "alt": "Vitata card details showing a healing-focused support effect"
+      }
     },
     {
       "id": "pve",
@@ -94,13 +110,18 @@ export const guide = {
         {"title": "Pre-shield large attacks", "text": "Cast Kyrie Eleison before full-screen or heavy group damage."},
         {"title": "Time Sanctuary", "text": "Use Sanctuary for sustained group recovery through the dangerous phase rather than after the damage has already ended."},
         {"title": "Protect the core pair", "text": "The tank and Priest are the party's recovery foundation. Prioritize their survival before risky damage optimization."}
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/acolyte-builds/sanctuary-rotation.webp",
+        "alt": "Priest using Sanctuary during a party encounter",
+        "caption": "Place Sanctuary so the tank and nearby party members stay inside its healing area during the dangerous phase."
+      }
     }
   ],
   "faqs": [
-    {"question": "Which Acolyte build is best for PVE parties?", "answer": "Support Priest is the required party build in the supplied guide. Exorcist and AGI-Crit are mainly solo, farming, or leveling alternatives."},
-    {"question": "What stats should Support Priest use?", "answer": "The source suggests 70 INT, 40 DEX, and 40 VIT, with the option to replace some DEX with VIT when Sanctuary already casts quickly enough."},
-    {"question": "What are the core Support Priest traits?", "answer": "Divine Healing, Radiant Healing, and Radiant Cooldown form the supplied guide's three-trait core."},
+    {"question": "Which Acolyte build is best for PVE parties?", "answer": "Support Priest is the dependable party build. Exorcist and AGI-Crit are mainly solo, farming, or leveling alternatives."},
+    {"question": "What stats should Support Priest use?", "answer": "Start around 70 INT, 40 DEX, and 40 VIT, then replace some DEX with VIT when Sanctuary already casts quickly enough."},
+    {"question": "What are the core Support Priest traits?", "answer": "Divine Healing, Radiant Healing, and Radiant Cooldown form the three-trait support core."},
     {"question": "How should Priest handle boss damage?", "answer": "Keep Heal on the tank, use Kyrie Eleison before large attacks, and time Sanctuary so its sustained healing covers the dangerous period."}
   ],
   "related": [

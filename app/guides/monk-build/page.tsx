@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -152,7 +153,7 @@ export default function MonkBuildPage() {
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><span>Monk</span>
+            <Link href="/">Home</Link><span>/</span><a href="/guides/">Guides</a><span>/</span><span>Monk</span>
           </nav>
           <p className={styles.kicker}>Current English skill data · Updated August 8, 2026</p>
           <h1 className={styles.title}>Ragnarok: The New World Monk build &amp; skill guide</h1>
@@ -222,7 +223,7 @@ export default function MonkBuildPage() {
 
             <h2>Monk and Acolyte are separate planning questions</h2>
             <p>
-              The existing <a href="/guides/acolyte-builds/">Acolyte build guide</a> focuses on Support Priest, Exorcist, and AGI-Crit directions from its supplied source. Monk has a different physical resource-and-combo identity, so this page isolates Monk search intent instead of forcing those mechanics into the Priest guide.
+              The existing <a href="/guides/acolyte-builds/">Acolyte build guide</a> focuses on Support Priest, Exorcist, and AGI-Crit directions. Monk has a different physical resource-and-combo identity, so this page keeps Monk planning separate instead of forcing those mechanics into the Priest guide.
             </p>
 
             <h2>Ragnarok: The New World Monk FAQ</h2>
@@ -260,10 +261,6 @@ export default function MonkBuildPage() {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <span>RTNW Hub · Independent Ragnarok: The New World game-data and guide project.</span>
-        <a href="/guides/classes-builds/">Browse class guides</a>
-      </footer>
     </div>
   );
 }
