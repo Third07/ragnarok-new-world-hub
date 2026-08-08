@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SearchClient from "./SearchClient";
 import styles from "../field-guide.module.css";
 
@@ -41,7 +42,7 @@ export default function SearchPage() {
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <a href="/">Home</a><span>/</span><span>Search</span>
+            <Link href="/">Home</Link><span>/</span><span>Search</span>
           </nav>
           <p className={styles.kicker}>One search across RTNW Hub</p>
           <h1 className={styles.title}>Search guides, tools, monsters, cards, and equipment</h1>
@@ -60,10 +61,6 @@ export default function SearchPage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <span>RTNW Hub · Independent Ragnarok: The New World database.</span>
-        <a href="/">Return home</a>
-      </footer>
     </div>
   );
 }

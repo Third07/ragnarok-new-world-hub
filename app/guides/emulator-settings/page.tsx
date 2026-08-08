@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -56,7 +57,7 @@ export default function EmulatorSettingsGuide() {
       <header className={styles.hero}>
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
-          <nav className={styles.crumbs} aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Emulator settings</span></nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Emulator settings</span></nav>
           <p className={styles.kicker}>Performance and troubleshooting</p>
           <h1 className={styles.title}>Best emulator settings for Ragnarok: The New World</h1>
           <p className={styles.dek}>A stable baseline for BlueStacks or LDPlayer, followed by symptom-based fixes. More resources are not always better; the aim is consistent frame pacing without starving Windows.</p>
@@ -154,7 +155,6 @@ export default function EmulatorSettingsGuide() {
           </aside>
         </div>
       </main>
-      <footer className={styles.footer}><span>RTNW Hub · Independent technical guide.</span><a href="/guides/technical/">More setup guides</a></footer>
     </div>
   );
 }

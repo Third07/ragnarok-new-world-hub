@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../field-guide.module.css";
 
 export type GuideSection = {
@@ -15,6 +16,11 @@ export type GuideSection = {
     text: string;
   }[];
   note?: string;
+  image?: {
+    src: string;
+    alt: string;
+    caption?: string;
+  };
 };
 
 export type SourceGuide = {
@@ -27,8 +33,6 @@ export type SourceGuide = {
   category: string;
   heroImage: string;
   heroAlt: string;
-  sourceUrl: string;
-  sourceTitle: string;
   published: string;
   modified: string;
   readTime: string;
@@ -55,8 +59,6 @@ export function buildGuideMetadata(guide: SourceGuide): Metadata {
       images: [
         {
           url: guide.heroImage,
-          width: 1280,
-          height: 720,
           alt: guide.heroAlt,
         },
       ],
@@ -78,6 +80,18 @@ function GuideSectionContent({ section }: { section: GuideSection }) {
       {section.paragraphs?.map((paragraph) => (
         <p key={paragraph}>{paragraph}</p>
       ))}
+
+      {section.image ? (
+        <figure className={styles.guideFigure}>
+          <img
+            src={section.image.src}
+            alt={section.image.alt}
+            loading="lazy"
+            decoding="async"
+          />
+          {section.image.caption ? <figcaption>{section.image.caption}</figcaption> : null}
+        </figure>
+      ) : null}
 
       {section.table ? (
         <div className={styles.tableWrap}>
@@ -155,7 +169,6 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
             height: 180,
           },
         },
-        isBasedOn: guide.sourceUrl,
         inLanguage: "en",
         articleSection: guide.category,
       },
@@ -197,7 +210,7 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
         />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <a href="/">RTNW Hub</a>
+            <Link href="/">RTNW Hub</Link>
             <span aria-hidden="true">/</span>
             <a href="/guides/">Guides</a>
             <span aria-hidden="true">/</span>
@@ -207,9 +220,9 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
           <h1 className={styles.title}>{guide.title}</h1>
           <p className={styles.dek}>{guide.dek}</p>
           <div className={styles.meta}>
-            <span>Updated August 6, 2026</span>
+            <span>Reviewed August 8, 2026</span>
             <span>{guide.readTime}</span>
-            <span>Source-based RTNW guide</span>
+            <span>{guide.category}</span>
           </div>
         </div>
       </header>
@@ -240,6 +253,13 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
               </div>
             </section>
 
+            <aside
+              className="rtnw-ad-slot rtnw-ad-slot--content-break"
+              data-ad-slot="true"
+              data-ad-format="responsive"
+              data-ad-placement="guide-inline"
+            />
+
             {guide.sections.map((section) => (
               <GuideSectionContent section={section} key={section.id} />
             ))}
@@ -254,19 +274,12 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
               ))}
             </section>
 
-            <section aria-labelledby="source-title">
-              <h2 id="source-title">Source and editorial note</h2>
-              <p>
-                This RTNW Hub article is an independently rewritten and reorganized guide based on
-                the official GNJOY forum post{" "}
-                <a href={guide.sourceUrl} rel="noopener noreferrer nofollow">
-                  “{guide.sourceTitle}”
-                </a>.
-                The source screenshots are reused as guide artwork where the RTNW database does not
-                contain an equivalent editorial image. The wording, structure, tables, and SEO
-                presentation are original to RTNW Hub.
-              </p>
-            </section>
+            <aside
+              className="rtnw-ad-slot rtnw-ad-slot--content-end"
+              data-ad-slot="true"
+              data-ad-format="responsive"
+              data-ad-placement="guide-end"
+            />
           </article>
 
           <aside className={styles.sidebar} aria-label="Guide navigation">
@@ -287,20 +300,16 @@ export default function SourceGuidePage({ guide }: { guide: SourceGuide }) {
             </section>
 
             <section className={styles.sideCard}>
-              <h2>Source status</h2>
+              <h2>Before you invest</h2>
               <p>
-                Based on an official GNJOY forum guide supplied to RTNW Hub. Always compare event
-                times and balance details with the live game client.
+                Check live skill text, event times, and reward panels before spending rare materials
+                or locking a guild roster. Balance and schedules can change between patches.
               </p>
             </section>
           </aside>
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <span>Independent fan-made guide for Ragnarok: The New World.</span>
-        <a href="/guides/">Browse all RTNW guides →</a>
-      </footer>
     </div>
   );
 }

@@ -24,22 +24,6 @@ export default function SeoStatusPage() {
     <div className={styles.shell}>
       <a className="skip-link" href="#seo-status-content">Skip to SEO status</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy">
-            <strong>Ragnarok</strong>
-            <small>The New World Hub</small>
-          </span>
-        </a>
-        <nav aria-label="Maintenance navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/sitemap.xml">Sitemap</a>
-          <a href="/robots.txt">Robots</a>
-        </nav>
-      </header>
-
       <main id="seo-status-content">
         <section className={styles.hero}>
           <p className={styles.kicker}>No accounts · No first-party analytics · No user database</p>
@@ -118,19 +102,6 @@ export default function SeoStatusPage() {
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/guides/">Guides</a>
-          <a href="/privacy/">Privacy</a>
-          <a href="/contact/">Contact</a>
-        </div>
-        <a href="#seo-status-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

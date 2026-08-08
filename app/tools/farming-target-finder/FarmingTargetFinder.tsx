@@ -118,6 +118,8 @@ export default function FarmingTargetFinder() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // URL parameters intentionally hydrate these client-only controls after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setQuery(params.get("q") || "");
     setMinLevel(Math.max(1, Number(params.get("min")) || 1));
     setMaxLevel(Math.max(1, Number(params.get("max")) || 200));

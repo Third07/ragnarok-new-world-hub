@@ -1,6 +1,15 @@
 /* Shared RTNW site chrome.
    Header and footer changes belong here instead of inside individual pages. */
 
+.site-route {
+  min-height: calc(100vh - 170px);
+}
+
+/* Legacy route-level footers are superseded by the single shared footer. */
+.site-route > div > footer:not(.shared-site-footer) {
+  display: none;
+}
+
 .shared-site-header {
   position: fixed;
   z-index: 80;
@@ -61,6 +70,8 @@
 
 .shared-site-footer {
   min-height: 170px;
+  position: relative;
+  z-index: 2;
   color: #fff !important;
   background: linear-gradient(180deg, #5b6ee8, #4658c9) !important;
   border-top: 3px solid #f4bc3f !important;
@@ -85,7 +96,7 @@
 }
 
 .shared-footer-links a {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -114,7 +125,7 @@
   }
 
   .shared-site-footer {
-    min-height: 230px;
+    min-height: 300px;
     padding-bottom: 48px;
   }
 

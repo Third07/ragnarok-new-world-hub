@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./category.module.css";
 
 type GuideEntry = {
@@ -6,6 +7,8 @@ type GuideEntry = {
   href: string;
   label: string;
   meta: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 type ToolEntry = {
@@ -27,9 +30,11 @@ type GuideCategoryPageProps = {
 
 const categories = [
   ["Classes & Builds", "/guides/classes-builds/"],
+  ["Guild Events", "/guides/guild-events/"],
   ["Beginner Guides", "/guides/beginner-guides/"],
   ["Progression & Equipment", "/guides/progression-equipment/"],
   ["Monsters, Cards & Farming", "/guides/monsters-cards-farming/"],
+  ["PC & Account Setup", "/guides/technical/"],
 ] as const;
 
 export default function GuideCategoryPage({
@@ -101,30 +106,11 @@ export default function GuideCategoryPage({
       />
       <a className="skip-link" href="#category-content">Skip to category guides</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy">
-            <strong>Ragnarok</strong>
-            <small>The New World Hub</small>
-          </span>
-        </a>
-        <nav className={styles.primaryNav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/" aria-current="page">Guides</a>
-          <a href="/#tools">Tools</a>
-          <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
-        </nav>
-        <a className={styles.headerAction} href="/guides/">
-          All guides <span aria-hidden="true">→</span>
-        </a>
-      </header>
-
       <main id="category-content">
         <section className={styles.hero}>
           <div className={styles.heroInner}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a>
+              <Link href="/">RTNW Hub</Link>
               <span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a>
               <span aria-hidden="true">/</span>
@@ -174,6 +160,15 @@ export default function GuideCategoryPage({
               <div className={styles.guideGrid}>
                 {guides.map((guide, index) => (
                   <article className={styles.guideCard} key={guide.href}>
+                    {guide.image ? (
+                      <img
+                        className={styles.guideCardImage}
+                        src={guide.image}
+                        alt={guide.imageAlt ?? ""}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : null}
                     <div className={styles.cardTopline}>
                       <span>0{index + 1}</span>
                       <small>{guide.label}</small>
@@ -235,21 +230,6 @@ export default function GuideCategoryPage({
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <div className={styles.footerLinks}>
-            <a href="/guides/">Guides</a>
-            <a href="/#tools">Tools</a>
-            <a href="/sitemap.xml">Sitemap</a>
-          </div>
-        </div>
-        <a href="#category-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

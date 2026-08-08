@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -56,7 +57,7 @@ export default function CloudGamingGuide() {
       <header className={styles.hero}>
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
-          <nav className={styles.crumbs} aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Cloud gaming</span></nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Cloud gaming</span></nav>
           <p className={styles.kicker}>Low-storage and low-spec option</p>
           <h1 className={styles.title}>How to play Ragnarok: The New World through cloud gaming</h1>
           <p className={styles.dek}>Cloud play can remove the local download and hardware burden, but it replaces those problems with latency, video quality, hourly limits, subscription cost, and a more complicated trust decision.</p>
@@ -146,7 +147,6 @@ export default function CloudGamingGuide() {
           </aside>
         </div>
       </main>
-      <footer className={styles.footer}><span>RTNW Hub · Independent cloud-gaming guide.</span><a href="/guides/technical/">More setup guides</a></footer>
     </div>
   );
 }

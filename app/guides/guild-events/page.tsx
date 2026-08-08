@@ -4,18 +4,28 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Guild Event Guides",
   description:
-    "Prepare for RTNW Guild League, Polarity Zone, and Hazy Forest with schedules, eligibility, boss mechanics, GVG strategy, counter setups, and guild-management checklists.",
+    "Run a stronger RTNW guild and prepare for Guild League, Polarity Zone, and Hazy Forest with schedules, leadership routines, boss mechanics, GVG strategy, and counter setups.",
   alternates: { canonical: "/guides/guild-events/" },
   openGraph: {
     type: "website",
     url: "/guides/guild-events/",
     title: "Ragnarok: The New World Guild Event Guides",
     description:
-      "Source-based Guild League, Polarity Zone, and Hazy Forest guides with timing, roles, rewards, mechanics, and strategy.",
+      "Guild management, Guild League, Polarity Zone, and Hazy Forest guides with timing, roles, rewards, mechanics, and practical strategy.",
   },
 };
 
 const guides = [
+  {
+    title: "Guild Management: Members, Events and Resources",
+    description:
+      "Build fixed teams, assign officer roles, publish a repeatable calendar, prioritize guild buildings, and set transparent auction rules.",
+    href: "/guides/guild-management/",
+    label: "Guild leadership guide",
+    meta: "Members · events · resources",
+    image: "/assets/guides/guild-management/guild-activities.webp",
+    imageAlt: "RTNW guild activity and reward overview",
+  },
   {
     title: "Guild League: Schedule, Tiers and GVG Strategy",
     description:
@@ -23,6 +33,8 @@ const guides = [
     href: "/guides/guild-league/",
     label: "GVG strategy guide",
     meta: "8 tiers · 60 vanguards · 22-minute battle",
+    image: "/assets/guides/guild-league/battlefield-map.webp",
+    imageAlt: "Guild League three-lane battlefield map",
   },
   {
     title: "Polarity Zone: Guild Setup and Boss Mechanics",
@@ -31,6 +43,8 @@ const guides = [
     href: "/guides/polarity-zone/",
     label: "Weekly guild dungeon guide",
     meta: "Sunday · 90 minutes · 3 bosses",
+    image: "/assets/guides/polarity-zone/boss-fight.webp",
+    imageAlt: "Guild party fighting a Polarity Zone boss",
   },
   {
     title: "Hazy Forest: Timing, Counters and Score Route",
@@ -39,11 +53,13 @@ const guides = [
     href: "/guides/hazy-forest/",
     label: "Weekly scoring guide",
     meta: "Thursday · 15 minutes · solo scoring",
+    image: "/assets/guides/hazy-forest/hazy-forest-battle.webp",
+    imageAlt: "Hazy Forest treasure monster battle",
   },
 ];
 
 const steps = [
-  "Check the live Event Schedule and confirm that the supplied server times still match the current client.",
+  "Check the live Event Schedule and confirm that listed server times still match the current client.",
   "Publish guild rosters, parties, boss counters, and required consumables before the event window.",
   "Assign leaders who can call rotations, move players between groups, and react to failed attempts.",
   "Review rewards and participation requirements so members do not miss eligibility or auction dividends.",
@@ -79,7 +95,7 @@ export default function GuildEventsCategoryPage() {
       eyebrow="Guild schedules, GVG command and weekly boss execution"
       title="Guild Event Guides"
       summary="Prepare every roster, counter set, battlefield role, and cooldown route before the guild event begins."
-      introduction="These guides are independently rewritten from official GNJOY forum training plans supplied to RTNW Hub. They preserve the event rules and mechanics from the source while adding clearer tables, checklists, internal links, FAQ schema, and mobile-friendly organization."
+      introduction="Start with the guild-management playbook, then open the event guide for the roster, boss, or scoring route you need. Each page uses quick-reference tables, checklists, screenshots, and links to the tools that support the plan."
       guides={guides}
       steps={steps}
       tools={tools}

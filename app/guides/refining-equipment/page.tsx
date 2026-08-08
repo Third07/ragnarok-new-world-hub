@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "./refining.module.css";
 
 export const metadata: Metadata = {
@@ -310,26 +311,12 @@ export default function RefiningEquipmentGuidePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <a className="skip-link" href="#refining-content">Skip to refining guide</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/sea/equipment/">Equipment</a>
-          <a href="/sea/refine/">Refine Simulator</a>
-        </nav>
-        <a className={styles.headerAction} href="/sea/refine/">Plan a refine target <span aria-hidden="true">→</span></a>
-      </header>
-
       <main id="refining-content">
         <section className={styles.hero}>
           <div className={styles.heroOverlay} />
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a><span aria-hidden="true">/</span>
+              <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Refining and Equipment</span>
             </nav>
@@ -517,18 +504,6 @@ export default function RefiningEquipmentGuidePage() {
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/guides/">Guides</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <a href="#refining-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

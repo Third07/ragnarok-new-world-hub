@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import FarmingTargetFinder from "./FarmingTargetFinder";
 import styles from "../../field-guide.module.css";
 
@@ -42,7 +43,7 @@ export default function FarmingTargetFinderPage() {
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <a href="/">Home</a><span>/</span><a href="/search/">Search</a><span>/</span><span>Farming Target Finder</span>
+            <Link href="/">Home</Link><span>/</span><a href="/search/">Search</a><span>/</span><span>Farming Target Finder</span>
           </nav>
           <p className={styles.kicker}>Database-driven monster tool</p>
           <h1 className={styles.title}>Ragnarok: The New World Farming Target Finder</h1>
@@ -92,10 +93,6 @@ export default function FarmingTargetFinderPage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <span>RTNW Hub · Free fan-made database tool.</span>
-        <a href="/search/">Search all RTNW data</a>
-      </footer>
     </div>
   );
 }

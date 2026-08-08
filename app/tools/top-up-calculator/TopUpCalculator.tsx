@@ -78,6 +78,8 @@ export default function TopUpCalculator() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const requestedCurrency = params.get("currency") as Currency | null;
+    // URL parameters intentionally hydrate these client-only controls after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (requestedCurrency && requestedCurrency in currencySymbols) setCurrency(requestedCurrency);
     setPrice(numberParam(params, "price", DEFAULTS.price));
     setQuantity(Math.max(1, Math.floor(numberParam(params, "quantity", DEFAULTS.quantity))));

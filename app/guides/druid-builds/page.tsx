@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "./druid.module.css";
 
 export const metadata: Metadata = {
@@ -292,26 +293,12 @@ export default function DruidBuildsPage() {
       />
       <a className="skip-link" href="#druid-content">Skip to Druid builds</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/guides/class-tier-list/">Class Tier List</a>
-          <a href="/sea/skill_planner/">Skill Planner</a>
-        </nav>
-        <a className={styles.headerAction} href="/sea/skill_planner/">Build Druid skills <span aria-hidden="true">→</span></a>
-      </header>
-
       <main id="druid-content">
         <section className={styles.hero}>
           <div className={styles.heroOverlay} />
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a><span aria-hidden="true">/</span>
+              <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Druid Builds</span>
             </nav>
@@ -371,7 +358,7 @@ export default function DruidBuildsPage() {
               </p>
               <div className={styles.investmentSteps}>
                 <article><span>01</span><strong>Pick a primary form</strong><p>Choose the playstyle you will use for daily progression and difficult content.</p></article>
-                <article><span>02</span><strong>Complete its core</strong><p>Fund one weapon, one offensive stat direction, and the form's essential skill engine.</p></article>
+                <article><span>02</span><strong>Complete its core</strong><p>Fund one weapon, one offensive stat direction, and the form’s essential skill engine.</p></article>
                 <article><span>03</span><strong>Build a reserve</strong><p>Do not start a second form until the first performs reliably without consuming every new resource.</p></article>
               </div>
             </section>
@@ -477,18 +464,6 @@ export default function DruidBuildsPage() {
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/guides/">Guides</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <a href="#druid-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

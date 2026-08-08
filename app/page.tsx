@@ -139,7 +139,6 @@ const categories = ["All tools", "Planners", "Database", "Adventure", "Utilities
 export default function Home() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<(typeof categories)[number]>("All tools");
-  const [menuOpen, setMenuOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -150,18 +149,9 @@ export default function Home() {
       }
       if (event.key === "Escape") {
         setQuery("");
-        setMenuOpen(false);
       }
     };
     window.addEventListener("keydown", handleKey);
-
-    if (!document.querySelector('script[data-rtnw-ads]')) {
-      const script = document.createElement("script");
-      script.src = "/shared/responsive_ads.js?v=20260804-ads4";
-      script.async = true;
-      script.dataset.rtnwAds = "true";
-      document.body.appendChild(script);
-    }
 
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
@@ -201,53 +191,6 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(toolListSchema) }}
       />
       <a className="skip-link" href="#main-content">Skip to content</a>
-
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Ragnarok The New World Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy">
-            <strong>Ragnarok</strong>
-            <small>The New World Hub</small>
-          </span>
-        </a>
-
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#tools">Tools</a>
-          <a href="/search/">Search</a>
-          <a href="/guides/">Guides</a>
-          <a href="/updates/">Updates</a>
-          <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
-        </nav>
-
-        <div className="header-actions">
-          <a className="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content">
-            <span aria-hidden="true">⌕</span>
-            <span>Search</span>
-            <kbd>All</kbd>
-          </a>
-          <button
-            className="menu-toggle"
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            onClick={() => setMenuOpen((value) => !value)}
-          >
-            <span />
-            <span />
-          </button>
-        </div>
-
-        <nav id="mobile-menu" className={`mobile-menu ${menuOpen ? "is-open" : ""}`} aria-label="Mobile navigation">
-          <a href="/search/">Search everything</a>
-          <a href="/guides/">Guides</a>
-          <a href="/updates/">Updates</a>
-          <a href="#tools" onClick={() => setMenuOpen(false)}>All tools</a>
-          <a href="/tools/farming-target-finder/">Farming Target Finder</a>
-          <a href="/sea/skill_planner/">Skill Planner</a>
-          <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
-        </nav>
-      </header>
 
       <main id="main-content">
         <section className="hero" id="top" aria-labelledby="hero-title">
@@ -419,26 +362,6 @@ export default function Home() {
         </section>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="#top">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/search/">Search</a>
-          <a href="/updates/">Updates</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <a href="#top">Back to top ↑</a>
-      </footer>
-
-      <nav className="mobile-dock" aria-label="Quick mobile navigation">
-        <a href="#top"><span aria-hidden="true">⌂</span>Home</a>
-        <a href="/search/"><span aria-hidden="true">⌕</span>Search</a>
-        <a href="#tools"><span aria-hidden="true">◇</span>Tools</a>
-        <a href="/updates/"><span aria-hidden="true">✦</span>Updates</a>
-      </nav>
     </div>
   );
 }

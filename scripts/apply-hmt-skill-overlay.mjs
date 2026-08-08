@@ -108,6 +108,10 @@ function updatePercentCurve(skill, curve) {
     entry.pve_percent = nextPercent;
     entry.pvp_percent = nextPercent;
   }
+
+  // Keep the summary aligned with the natural-level description even when the
+  // mechanical overlay was already applied by an earlier build.
+  skill.skilldes = skill.levels[naturalLevel].des;
 }
 
 function setAllLevels(skill, field, value) {
@@ -130,6 +134,8 @@ function patchAcidBomb(skill) {
     level.pve_value3 = 10000;
     level.pvp_value3 = 10000;
   }
+
+  skill.skilldes = natural.des;
 }
 
 function requireSkill(job, skillId) {

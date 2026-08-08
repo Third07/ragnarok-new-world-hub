@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -74,7 +75,7 @@ export default function PlayOnPcGuide() {
       <header className={styles.hero}>
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
-          <nav className={styles.crumbs} aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Play on PC</span></nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Play on PC</span></nav>
           <p className={styles.kicker}>PC installation guide</p>
           <h1 className={styles.title}>How to download and play Ragnarok: The New World on PC</h1>
           <p className={styles.dek}>Use the official Steam client when your PC meets the requirements. Choose an Android emulator only when you specifically need the mobile build or Steam is not practical on your machine.</p>
@@ -169,7 +170,6 @@ export default function PlayOnPcGuide() {
           </aside>
         </div>
       </main>
-      <footer className={styles.footer}><span>RTNW Hub · Independent fan-made guide.</span><a href="/guides/technical/">More setup guides</a></footer>
     </div>
   );
 }

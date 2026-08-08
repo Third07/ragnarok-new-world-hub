@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ClassBuildGuideData } from "./class-guide-data";
 import styles from "./class-build-guide.module.css";
 
@@ -64,31 +65,12 @@ export default function ClassBuildGuide({ guide }: { guide: ClassBuildGuideData 
       />
       <a className="skip-link" href="#class-guide-content">Skip to class builds</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy">
-            <strong>Ragnarok</strong>
-            <small>The New World Hub</small>
-          </span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/guides/classes-builds/">Classes</a>
-          <a href="/guides/class-tier-list/">Tier List</a>
-        </nav>
-        <a className={styles.headerAction} href="/sea/skill_planner/">
-          Open Skill Planner <span aria-hidden="true">→</span>
-        </a>
-      </header>
-
       <main id="class-guide-content">
         <section className={styles.hero}>
           <div className={styles.heroGlow} aria-hidden="true" />
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a><span aria-hidden="true">/</span>
+              <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <a href="/guides/classes-builds/">Classes</a><span aria-hidden="true">/</span>
               <span>{guide.className}</span>
@@ -265,19 +247,6 @@ export default function ClassBuildGuide({ guide }: { guide: ClassBuildGuideData 
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/guides/classes-builds/">Classes and Builds</a>
-          <a href="/guides/class-tier-list/">Class Tier List</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <a href="#class-guide-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

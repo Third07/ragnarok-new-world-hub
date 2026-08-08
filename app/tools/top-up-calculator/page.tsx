@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import TopUpCalculator from "./TopUpCalculator";
 import styles from "../../field-guide.module.css";
 
@@ -41,7 +42,7 @@ export default function TopUpCalculatorPage() {
       <header className={styles.hero}>
         <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
         <div className={styles.heroInner}>
-          <nav className={styles.crumbs} aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/technical/">Setup guides</a><span>/</span><span>Top-Up Calculator</span></nav>
+          <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/technical/">Setup guides</a><span>/</span><span>Top-Up Calculator</span></nav>
           <p className={styles.kicker}>Free payment-planning tool</p>
           <h1 className={styles.title}>Ragnarok: The New World Top-Up Cost Calculator</h1>
           <p className={styles.dek}>See the estimated final total and effective price per package after discounts and payment fees. The tool does not need your character ID, account login, or payment details.</p>
@@ -75,7 +76,6 @@ export default function TopUpCalculatorPage() {
           <div className={styles.warning}><strong>Account safety:</strong> A top-up calculator never needs a password, OTP, recovery code, card number, wallet PIN, or remote access to your device.</div>
         </article>
       </main>
-      <footer className={styles.footer}><span>RTNW Hub · Free fan-made cost calculator.</span><a href="/guides/top-up-safely/">Read the safe top-up guide</a></footer>
     </div>
   );
 }

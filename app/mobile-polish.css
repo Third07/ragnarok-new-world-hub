@@ -1,6 +1,4 @@
-/* Mobile layout corrections shared by the homepage and modern data-browser routes.
-   Keep these selectors narrow: homepage controls use `.site-shell`, while route
-   content continues to own its CSS-module styling. */
+/* Mobile layout corrections shared by the homepage and modern data-browser routes. */
 
 .site-shell .tool-controls {
   border: 1px solid var(--panel-line);
@@ -28,12 +26,7 @@
 }
 
 @media (max-width: 760px) {
-  /* The fixed bottom dock exists only inside the homepage shell. */
   body {
-    padding-bottom: 0 !important;
-  }
-
-  .site-shell {
     padding-bottom: calc(66px + env(safe-area-inset-bottom));
   }
 

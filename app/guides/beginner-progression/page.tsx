@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import styles from "./beginner.module.css";
 
 export const metadata: Metadata = {
@@ -254,26 +255,12 @@ export default function BeginnerProgressionPage() {
       />
       <a className="skip-link" href="#beginner-content">Skip to beginner guide</a>
 
-      <header className={styles.header}>
-        <a className="brand" href="/" aria-label="RTNW Hub home">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/">Home</a>
-          <a href="/guides/">Guides</a>
-          <a href="/guides/class-tier-list/">Class Tier List</a>
-          <a href="/sea/events/">Events</a>
-        </nav>
-        <a className={styles.headerAction} href="/sea/skill_planner/">Plan your build <span aria-hidden="true">→</span></a>
-      </header>
-
       <main id="beginner-content">
         <section className={styles.hero}>
           <div className={styles.heroOverlay} />
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
-              <a href="/">RTNW Hub</a><span aria-hidden="true">/</span>
+              <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Beginner Progression</span>
             </nav>
@@ -284,7 +271,7 @@ export default function BeginnerProgressionPage() {
             </p>
             <div className={styles.heroActions}>
               <a href="#first-route">Start the beginner route <span aria-hidden="true">↓</span></a>
-              <a href="/sea/events/">Check today's events <span aria-hidden="true">→</span></a>
+              <a href="/sea/events/">Check today’s events <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </section>
@@ -450,18 +437,6 @@ export default function BeginnerProgressionPage() {
         </div>
       </main>
 
-      <footer>
-        <a className="brand footer-brand" href="/">
-          <span className="brand-crest" aria-hidden="true">✦</span>
-          <span className="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
-        </a>
-        <div className="footer-meta">
-          <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
-          <a href="/guides/">Guides</a>
-          <a href="/sitemap.xml">Sitemap</a>
-        </div>
-        <a href="#beginner-content">Back to top ↑</a>
-      </footer>
     </div>
   );
 }

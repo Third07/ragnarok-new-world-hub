@@ -78,6 +78,8 @@ export default function PcSetupChecker() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    // URL parameters intentionally hydrate these client-only controls after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRam(numberParam(params, "ram", DEFAULTS.ram));
     setStorage(numberParam(params, "storage", DEFAULTS.storage));
     setVirtualization(

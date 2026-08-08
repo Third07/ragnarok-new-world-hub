@@ -26,8 +26,9 @@ test("application layout loads the shared responsive ad system", async () => {
   ]);
 
   assert.match(layout, /responsive_ads\.css/);
-  assert.match(layout, /responsive_ads\.js\?v=20260804-ads3/);
+  assert.match(layout, /responsive_ads\.js\?v=20260808-ads5/);
   assert.match(layout, /data-rtnw-ads/);
+  assert.doesNotMatch(layout, /flaskledgeheadquarters\.com/);
 
   assert.ok(
     (homepage.match(/data-ad-slot/g) ?? []).length >= 2,
@@ -45,8 +46,9 @@ test("application layout loads the shared responsive ad system", async () => {
 test("legacy SEA tools use the common bootstrap that loads ads", async () => {
   const clientSwitcher = await readFile("public/shared/client_switcher.js", "utf8");
 
-  assert.match(clientSwitcher, /responsive_ads\.css\?v=20260804-ads3/);
-  assert.match(clientSwitcher, /responsive_ads\.js\?v=20260804-ads3/);
+  assert.match(clientSwitcher, /const version = "20260808-ads5"/);
+  assert.match(clientSwitcher, /responsive_ads\.css\?v=\$\{version\}/);
+  assert.match(clientSwitcher, /responsive_ads\.js\?v=\$\{version\}/);
   assert.match(clientSwitcher, /data-rtnw-ads-style|rtnwAdsStyle/);
   assert.match(clientSwitcher, /data-rtnw-ads|rtnwAds/);
 

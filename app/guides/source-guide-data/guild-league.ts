@@ -8,12 +8,10 @@ export const guide = {
   "kicker": "Guild Expedition Training Plan",
   "dek": "A practical GVG playbook for registration, tier progression, battlefield roles, lineup planning, resource control, and late-match decisions.",
   "category": "Guild Events",
-  "heroImage": "https://cdnimages.awselbcombine.com/public_images/one_image/2026/07/178339543229418075.jpg",
+  "heroImage": "/assets/guides/guild-league/league-finals.webp",
   "heroAlt": "Ragnarok: The New World Guild League battle between two guild teams",
-  "sourceUrl": "https://forum.gnjoy.hk/forum/index.html?gameId=456&id=roseaforum#/post/96671",
-  "sourceTitle": "Guild Expedition Training Plan 2: Guild League Guide",
   "published": "2026-08-06",
-  "modified": "2026-08-06",
+  "modified": "2026-08-08",
   "readTime": "9 min read",
   "keywords": [
     "Ragnarok The New World Guild League",
@@ -36,7 +34,7 @@ export const guide = {
       "title": "Guild League schedule and eligibility",
       "paragraphs": [
         "A guild becomes eligible as soon as it reaches Guild Lv.1. During the registration window, eligible guilds are automatically entered, so leaders should use the time before Tuesday evening to confirm vanguards, parties, and command roles.",
-        "The source guide lists two Tuesday rounds—the preliminary and semifinal—followed by the Thursday final. Treat all listed times as server time and verify the in-game event panel after major updates."
+        "Two Tuesday rounds—the preliminary and semifinal—are followed by the Thursday final. Treat all listed times as server time and verify the in-game event panel after major updates."
       ],
       "table": {
         "headers": ["Stage", "Schedule", "Preparation focus"],
@@ -46,6 +44,10 @@ export const guide = {
           ["Semifinal", "Tuesday 22:00", "Adjust the roster and tactics from the first match."],
           ["Final", "Thursday 22:00", "Use the strongest balanced roster and a clear shot-calling plan."]
         ]
+      },
+      "image": {
+        "src": "/assets/guides/guild-league/league-rewards.webp",
+        "alt": "Guild League schedule and season reward interface"
       }
     },
     {
@@ -57,7 +59,7 @@ export const guide = {
       ],
       "bullets": [
         "Supreme Champion rewards include 100,000 Guild Fund, Merit, and access to Guild Auction rewards.",
-        "The source lists rare auction examples such as the SSR red pet Rita, Advanced Gem Boxes, and Adventure Journals.",
+        "Rare auction examples include the SSR red pet Rita, Advanced Gem Boxes, and Adventure Journals.",
         "Base Lv.70+ participants can receive additional Oridecon, Elunium, and Sweep Tickets.",
         "A Guild Auction does not activate when fewer than 20 members participated, and some lower tiers may not have auction items."
       ],
@@ -77,21 +79,31 @@ export const guide = {
           ["Floating Island", "Contest Doppelgangers at minutes 5 and 15 for buffs and resources.", "A coordinated burst group with enough support to secure or steal the objective."],
           ["Sub Battlefield", "Defeat monsters, gather resources, disrupt enemy gathering, and support main-map structures.", "A mix of gatherers and medium-to-high-power fighters; not only low-power members."]
         ]
+      },
+      "image": {
+        "src": "/assets/guides/guild-league/battlefield-map.webp",
+        "alt": "Guild League three-lane Main Battlefield map",
+        "caption": "The Main Battlefield uses three lanes, defensive towers, and a final crystal objective."
       }
     },
     {
       "id": "objectives",
       "title": "Objectives, command skills, and victory-point priority",
       "paragraphs": [
-        "Doppelgangers appear on the Floating Island at the fifth and fifteenth minutes. The side dealing the most damage receives team buffs and resources. The source also notes that the final hit counts as an extra 5% damage, making objective timing important.",
+        "Doppelgangers appear on the Floating Island at the fifth and fifteenth minutes. The side dealing the most damage receives team buffs and resources, while the final hit counts as an extra 5% damage—making objective timing important.",
         "Guild leaders, vice leaders, and commanders can spend resources on skills including Boost Morale, Breach, Hold Fast, Guard, and Endure. Mass Summon is initially available once, while another teleport can be purchased for 3,000 resources."
       ],
       "bullets": [
-        "If neither crystal falls, the source gives the tiebreak priority as: Crystal HP remaining → surviving towers → total HP of surviving structures → enemy kills.",
+        "If neither crystal falls, the tiebreak priority is: Crystal HP remaining → surviving towers → total HP of surviving structures → enemy kills.",
         "Use Hold Fast and Guard to delay an enemy push while side teams trade or take towers.",
         "Use teleport for sudden lane swaps, tower pressure, or Doppelganger contests rather than routine movement.",
         "Sub Battlefield resource control can compensate for a moderate combat-power disadvantage by accelerating morale and command skills."
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/guild-league/command-skills.webp",
+        "alt": "Guild League command skill panel",
+        "caption": "Spend command resources at moments that convert a push, objective contest, or defensive hold."
+      }
     },
     {
       "id": "lineup",
@@ -106,7 +118,11 @@ export const guide = {
         "Flank parties: a tank, support, and assassin or other high-burst mobile damage dealer.",
         "Tower and lane-swap parties: ranged classes that can damage structures while repositioning quickly.",
         "Sub Battlefield strike team: medium-to-high-power members assigned to steal resources and disrupt supply lines."
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/guild-league/battlefield-objective.webp",
+        "alt": "Guild League team fighting around a battlefield objective"
+      }
     },
     {
       "id": "strategy",
@@ -117,11 +133,15 @@ export const guide = {
         {"title": "Create a dedicated flank group", "text": "Attack the enemy backline rather than adding more bodies to a congested frontline."},
         {"title": "Coordinate with the Sub Battlefield", "text": "Time morale boosts and command skills with major pushes, boss contests, or defensive holds."},
         {"title": "Protect a lead", "text": "Do not chase kills that expose towers or the crystal. Keep the structure advantage that decides the tiebreak."}
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/guild-league/tower-push.webp",
+        "alt": "Guild team pushing a defensive tower in Guild League"
+      }
     }
   ],
   "faqs": [
-    {"question": "When is Guild League in Ragnarok: The New World?", "answer": "The supplied official guide lists registration from Monday 05:00 to Tuesday 16:00, Tuesday battles at 21:30 and 22:00, and the final on Thursday at 22:00. Verify server time in the current event panel."},
+    {"question": "When is Guild League in Ragnarok: The New World?", "answer": "Registration runs from Monday 05:00 to Tuesday 16:00, Tuesday battles begin at 21:30 and 22:00, and the final is Thursday at 22:00. Verify server time in the current event panel."},
     {"question": "How many players enter the Guild League Main Battlefield?", "answer": "Guild management appoints up to 60 vanguards for the Main Battlefield. Other guild members can participate through the Sub Battlefield."},
     {"question": "How does Guild League promotion work?", "answer": "Each tier contains eight guilds. The top two are promoted to the next tier and the bottom two are demoted after the league results are calculated."},
     {"question": "What should the Sub Battlefield team do?", "answer": "They gather resources, fight monsters, contest enemy supply lines, provide bonuses and command-skill resources to the Main Battlefield, and can support defensive structures."}

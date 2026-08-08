@@ -8,12 +8,10 @@ export const guide = {
   "kicker": "Second Job Build Guide",
   "dek": "Start with the early-game tank role or invest in AGI Sword and Spear damage while preserving Knight's team utility.",
   "category": "Classes and Builds",
-  "heroImage": "https://cdnimages.awselbcombine.com/public_images/one_image/2026/07/178513640608204542.png",
+  "heroImage": "/assets/guides/swordman-builds/swordsman-hero.webp",
   "heroAlt": "Ragnarok: The New World Knight standing in the open world",
-  "sourceUrl": "https://forum.gnjoy.hk/forum/index.html?gameId=456&id=roseaforum#/post/108124",
-  "sourceTitle": "Swordman 2nd Job Guide: Master Swordman Builds in 3 Minutes",
   "published": "2026-08-06",
-  "modified": "2026-08-06",
+  "modified": "2026-08-08",
   "readTime": "8 min read",
   "keywords": [
     "Ragnarok The New World Swordsman build",
@@ -26,7 +24,7 @@ export const guide = {
     ["Role", "Tank or melee physical DPS"],
     ["Beginner recommendation", "VIT Knight"],
     ["Damage builds", "AGI Sword and Spear"],
-    ["Tank stats", "STR + VIT; source suggests 90 VIT first for light spenders"],
+    ["Tank stats", "STR + VIT; up to 90 VIT first for light spenders"],
     ["AGI stats", "70 AGI, then STR and LUK"],
     ["ASPD goal", "193 later with stacked bonuses"]
   ],
@@ -35,7 +33,7 @@ export const guide = {
       "id": "overview",
       "title": "Swordsman and Knight overview",
       "paragraphs": [
-        "Swordsman is the early team cornerstone. The supplied guide recommends VIT Knight during early and mid-game dungeon progression because it combines damage reduction, healing, shields, resistance, aggro, and control.",
+        "Swordsman is the early team cornerstone. VIT Knight is the safest early- and mid-game dungeon route because it combines damage reduction, healing, shields, resistance, aggro, and control.",
         "AGI Sword and Spear are damage alternatives, but they need more supporting traits and equipment before matching the immediate party value of a tank."
       ]
     },
@@ -43,12 +41,16 @@ export const guide = {
       "id": "builds",
       "title": "Knight builds compared",
       "table": {
-        "headers": ["Build", "Stats from the source", "Purpose", "Key mechanics"],
+        "headers": ["Build", "Recommended stats", "Purpose", "Key mechanics"],
         "rows": [
           ["VIT Tank", "STR + VIT; light spenders can raise VIT to 90 first", "Five- and ten-player PVE", "Counter Attack, Endure, Provoke, Increase HP Recovery, Phantom Sword, Burning Blood."],
           ["AGI Sword", "70 AGI, then STR and LUK", "Fast sustained melee damage", "Sword ASPD Boost, later Dual Blade Dance, Wind resonance, pet/card/Relic ASPD."],
           ["Spear Knight", "STR + VIT, later DEX", "PVP burst and durability", "Precise Strike and Destructive Charge traits; enough DEX to prevent key misses."]
         ]
+      },
+      "image": {
+        "src": "/assets/guides/swordman-builds/knight-stats.webp",
+        "alt": "Knight stat allocation for a durable STR and VIT tank build"
       }
     },
     {
@@ -60,7 +62,11 @@ export const guide = {
         {"title": "Preserve damage traits", "text": "Keep Precise Strike and Destructive Charge for a later Spear setup. AGI Sword can use Sword ASPD Boost before Lv.55."},
         {"title": "Lv.55–69", "text": "Transfer useful traits into orange or kingdom gear. The fixed Thor's Edge can coexist with other traits, but duplicate traits do not stack."},
         {"title": "Complete ASPD support", "text": "Use Wind resonance, AGI/DEX Relics, suitable cards, and pet bonuses to progress toward 193 ASPD."}
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/swordman-builds/second-job-skills.webp",
+        "alt": "Knight second-job skills used for tank and damage planning"
+      }
     },
     {
       "id": "tank",
@@ -70,7 +76,12 @@ export const guide = {
         {"title": "Maintain the simple sustain loop", "text": "Use normal attacks and heroic strikes for healing while automatic counters provide damage and mitigation."},
         {"title": "Shield predictable burst", "text": "Cast Burning Blood before full-screen, high-damage, or targeted boss attacks and coordinate with Priest shields."},
         {"title": "Recover lost aggro", "text": "Use Provoke immediately when a damage dealer pulls the boss."}
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/swordman-builds/burning-blood.webp",
+        "alt": "Knight activating Burning Blood during a boss fight",
+        "caption": "Time Burning Blood before predictable party-wide or targeted burst damage."
+      }
     },
     {
       "id": "cards",
@@ -78,7 +89,11 @@ export const guide = {
       "paragraphs": [
         "A tank should not use one universal card page. Prepare damage-reduction sets for the relevant Element, Race, and Size, plus defensive conversion cards when they fit the encounter.",
         "Knight's low personal-damage requirement makes VIT Tank friendly to F2P and light-spending players during early and mid-game PVE."
-      ]
+      ],
+      "image": {
+        "src": "/assets/guides/swordman-builds/royal-executioner.webp",
+        "alt": "Royal Executioner card details for Knight card planning"
+      }
     },
     {
       "id": "pvp",
@@ -92,8 +107,8 @@ export const guide = {
     }
   ],
   "faqs": [
-    {"question": "Which Knight build is best for beginners?", "answer": "The supplied guide recommends VIT Knight because it is immediately useful in five- and ten-player dungeons and has a straightforward tank rotation."},
-    {"question": "What stats should VIT Knight use?", "answer": "Use STR and VIT. The source suggests that light spenders can raise VIT to around 90 before adding more STR to maximize early durability."},
+    {"question": "Which Knight build is best for beginners?", "answer": "VIT Knight is immediately useful in five- and ten-player dungeons and has a straightforward tank rotation."},
+    {"question": "What stats should VIT Knight use?", "answer": "Use STR and VIT. Light spenders can raise VIT to around 90 before adding more STR to maximize early durability."},
     {"question": "How does AGI Sword Knight reach 193 ASPD?", "answer": "Stack Sword ASPD Boost, later traits, Wind resonance, pets, cards, and AGI/DEX Relic stats."},
     {"question": "How should a Knight tank a boss?", "answer": "Engage with Charge Attack, turn the boss away from teammates, maintain aggro and healing, use Burning Blood for major attacks, and Provoke if aggro is lost."}
   ],
