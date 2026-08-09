@@ -11,7 +11,7 @@
   padding: 170px clamp(22px, 7vw, 110px) 84px;
   background:
     linear-gradient(110deg, rgba(11, 54, 48, .98), rgba(11, 54, 48, .9) 55%, rgba(11, 54, 48, .7)),
-    url('/assets/rtnw-hero-1672.webp') center 42% / cover;
+    var(--rtnw-hero-art) center 42% / cover;
   border-bottom: 1px solid rgba(214, 169, 79, .55);
   color: white;
 }

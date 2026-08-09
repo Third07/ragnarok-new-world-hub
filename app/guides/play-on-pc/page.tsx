@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import FaqList from "../../FaqList";
+import ResponsiveHeroImage from "../../ResponsiveHeroImage";
 import styles from "../../field-guide.module.css";
 
 export const metadata: Metadata = {
@@ -74,7 +75,7 @@ export default function PlayOnPcGuide() {
     <div className={styles.page}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <header className={styles.hero}>
-        <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
+        <ResponsiveHeroImage className={styles.heroImage} />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/">Guides</a><span>/</span><a href="/guides/technical/">Setup</a><span>/</span><span>Play on PC</span></nav>
           <p className={styles.kicker}>PC installation guide</p>

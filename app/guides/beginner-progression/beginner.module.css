@@ -19,7 +19,7 @@
   align-items: end;
   padding: 150px clamp(22px, 7vw, 110px) 90px;
   overflow: hidden;
-  background: url('/assets/rtnw-hero-1672.webp') center 42% / cover;
+  background: var(--rtnw-hero-art) center 42% / cover;
   border-bottom: 1px solid rgba(214, 169, 79, .55);
 }
 
@@ -587,7 +587,7 @@
   .hero {
     min-height: 760px;
     padding: 130px 20px 58px;
-    background: url('/assets/rtnw-hero-960.webp') 65% center / cover;
+    background: var(--rtnw-hero-art-mobile) 65% center / cover;
   }
   .heroOverlay {
     background:
