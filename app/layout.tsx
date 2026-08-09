@@ -5,7 +5,6 @@ import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import "./globals.css";
 import "./language-switcher.css";
-import "./route-fixes.css";
 import "./panel-site-theme.css";
 import "./site-chrome.css";
 import "./header-control-polish.css";
@@ -161,7 +160,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <script
-          src="/shared/adsense.js?v=20260809-adsense1"
+          src="/shared/adsense.js?v=20260809-adsense2"
           defer
           data-rtnw-adsense="true"
         />

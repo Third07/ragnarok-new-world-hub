@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import "../../route-fixes.css";
 import styles from "./tier-list.module.css";
 
 export const metadata: Metadata = {

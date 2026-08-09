@@ -14,17 +14,9 @@ const nextConfig: NextConfig = {
       { source: "/guides/index.html", destination: "/guides/", permanent: true },
       { source: "/robot.txt", destination: "/robots.txt", permanent: true },
 
-      { source: "/search", destination: "/search/", permanent: true },
-      { source: "/updates", destination: "/updates/", permanent: true },
-      { source: "/guides/technical", destination: "/guides/technical/", permanent: true },
-      { source: "/guides/play-on-pc", destination: "/guides/play-on-pc/", permanent: true },
-      { source: "/guides/emulator-settings", destination: "/guides/emulator-settings/", permanent: true },
-      { source: "/guides/top-up-safely", destination: "/guides/top-up-safely/", permanent: true },
-      { source: "/guides/cloud-gaming", destination: "/guides/cloud-gaming/", permanent: true },
-      { source: "/tools/farming-target-finder", destination: "/tools/farming-target-finder/", permanent: true },
-      { source: "/tools/pc-setup-checker", destination: "/tools/pc-setup-checker/", permanent: true },
-      { source: "/tools/top-up-calculator", destination: "/tools/top-up-calculator/", permanent: true },
-
+      // The Worker handles canonical trailing slashes for real pages. Keeping
+      // those redirects here also catches Vinext's internal *.rsc requests and
+      // creates a redirect loop during Next Link prefetching.
       { source: "/find", destination: "/search/", permanent: true },
       { source: "/latest", destination: "/updates/", permanent: true },
       { source: "/news", destination: "/updates/", permanent: true },

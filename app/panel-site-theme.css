@@ -271,6 +271,12 @@ body {
   border-color: var(--panel-blue-dark);
 }
 
+.site-shell .journey-banner > a {
+  color: #ffffff;
+  background: var(--panel-blue-dark);
+  border-color: var(--panel-blue-dark);
+}
+
 /* Only the homepage footer is part of this theme. Modern guide footers use their module CSS. */
 .site-shell > footer {
   color: #ffffff;
