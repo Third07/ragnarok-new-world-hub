@@ -32,9 +32,11 @@ test("AdSense ownership and authorized-seller records use the same publisher", a
   );
   assert.match(layout, /google-adsense-account/);
   assert.match(layout, /ca-pub-9432875628134875/);
-  assert.match(layout, /\/shared\/adsense\.js\?v=20260809-adsense1/);
+  assert.match(layout, /\/shared\/adsense\.js\?v=20260809-adsense2/);
   assert.match(loader, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/);
   assert.match(loader, /ca-pub-9432875628134875/);
+  assert.match(loader, /FALLBACK_DELAY_MS = 12000/);
+  assert.match(loader, /pointerdown/);
   assert.match(worker, /url\.pathname === "\/ads\.txt"/);
 });
 
@@ -57,7 +59,7 @@ test("removed networks and disruptive formats cannot load", async () => {
 test("legacy SEA tools load the shared AdSense bootstrap", async () => {
   const clientSwitcher = await readFile("public/shared/client_switcher.js", "utf8");
 
-  assert.match(clientSwitcher, /\/shared\/adsense\.js\?v=20260809-adsense1/);
+  assert.match(clientSwitcher, /\/shared\/adsense\.js\?v=20260809-adsense2/);
   assert.match(clientSwitcher, /dataset\.rtnwAdsense/);
 
   for (const route of toolRoutes) {

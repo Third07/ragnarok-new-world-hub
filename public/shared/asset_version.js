@@ -238,7 +238,7 @@
     function loadAdsense() {
         if (document.querySelector('script[data-rtnw-adsense]')) return;
         const script = document.createElement("script");
-        script.src = "/shared/adsense.js?v=20260809-adsense1";
+        script.src = "/shared/adsense.js?v=20260809-adsense2";
         script.defer = true;
         script.dataset.rtnwAdsense = "true";
         document.body.appendChild(script);

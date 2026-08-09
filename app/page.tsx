@@ -136,6 +136,27 @@ const tools: HubTool[] = [
 
 const categories = ["All tools", "Planners", "Database", "Adventure", "Utilities"] as const;
 
+function optimizedToolIcon(icon: string, extension: "avif" | "webp") {
+  const filename = icon.split("/").pop()?.replace(/\.webp$/, "") ?? "tool";
+  return `/assets/home-icons/${filename}-96.${extension}`;
+}
+
+function ToolIconImage({ icon }: Readonly<{ icon: string }>) {
+  return (
+    <picture className="home-tool-picture">
+      <source srcSet={optimizedToolIcon(icon, "avif")} type="image/avif" />
+      <img
+        src={optimizedToolIcon(icon, "webp")}
+        width="96"
+        height="96"
+        loading="lazy"
+        decoding="async"
+        alt=""
+      />
+    </picture>
+  );
+}
+
 export default function Home() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<(typeof categories)[number]>("All tools");
@@ -196,13 +217,18 @@ export default function Home() {
         <section className="hero" id="top" aria-labelledby="hero-title">
           <picture className="hero-picture">
             <source
+              type="image/avif"
+              srcSet="/assets/rtnw-hero-640.avif 640w, /assets/rtnw-hero-800.avif 800w, /assets/rtnw-hero-960.avif 960w, /assets/rtnw-hero-1280.avif 1280w, /assets/rtnw-hero-1672.avif 1672w"
+              sizes="100vw"
+            />
+            <source
               type="image/webp"
-              srcSet="/assets/rtnw-hero-640.webp 640w, /assets/rtnw-hero-960.webp 960w, /assets/rtnw-hero-1280.webp 1280w, /assets/rtnw-hero-1672.webp 1672w"
+              srcSet="/assets/rtnw-hero-640.webp 640w, /assets/rtnw-hero-800.webp 800w, /assets/rtnw-hero-960.webp 960w, /assets/rtnw-hero-1280.webp 1280w, /assets/rtnw-hero-1672.webp 1672w"
               sizes="100vw"
             />
             <img
               className="hero-art"
-              src="/assets/rtnw-hero-1672.webp"
+              src="/assets/rtnw-hero-960.webp"
               width="1672"
               height="941"
               fetchPriority="high"
@@ -243,7 +269,7 @@ export default function Home() {
             {tools.slice(0, 3).map((tool, index) => (
               <a className="quick-card" href={tool.href} key={tool.title}>
                 <span className="card-number">0{index + 1}</span>
-                <span className="icon-medallion"><img src={tool.icon} alt="" /></span>
+                <span className="icon-medallion"><ToolIconImage icon={tool.icon} /></span>
                 <span className="quick-card-copy">
                   <small>{tool.category}</small>
                   <strong>{tool.title}</strong>
@@ -298,7 +324,7 @@ export default function Home() {
             {filteredTools.map((tool) => (
               <a className="tool-card" href={tool.href} key={tool.title}>
                 <div className="tool-card-top">
-                  <span className="tool-icon"><img src={tool.icon} alt="" /></span>
+                  <span className="tool-icon"><ToolIconImage icon={tool.icon} /></span>
                   {tool.badge && <span className="tool-badge">{tool.badge}</span>}
                 </div>
                 <small>{tool.category}</small>

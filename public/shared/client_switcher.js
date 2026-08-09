@@ -114,7 +114,7 @@
 })();
 
 (() => {
-    const scriptSrc = "/shared/adsense.js?v=20260809-adsense1";
+    const scriptSrc = "/shared/adsense.js?v=20260809-adsense2";
     const clsHref = "/sea/shared/cls-stability.css?v=20260806-cls1";
 
     function loadAdsense() {

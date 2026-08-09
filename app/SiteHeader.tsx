@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- Vinext Link prefetches *.rsc URLs that currently redirect-loop on Cloudflare. */
+
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -25,32 +26,32 @@ export default function SiteHeader() {
 
   return (
     <header className="site-header shared-site-header">
-      <Link className="brand" href="/" aria-label="Ragnarok: The New World Hub home" onClick={() => setMenuOpen(false)}>
+      <a className="brand" href="/" onClick={() => setMenuOpen(false)}>
         <span className="brand-crest" aria-hidden="true">✦</span>
         <span className="brand-copy">
           <strong>Ragnarok</strong>
           <small>The New World Hub</small>
         </span>
-      </Link>
+      </a>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
         {navigation.map((item) => (
-          <Link
+          <a
             href={item.href}
             key={item.href}
             aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
           >
             {item.label}
-          </Link>
+          </a>
         ))}
       </nav>
 
       <div className="header-actions">
-        <Link className="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content" onClick={() => setMenuOpen(false)}>
+        <a className="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content" onClick={() => setMenuOpen(false)}>
           <span aria-hidden="true">⌕</span>
           <span>Search</span>
           <kbd>All</kbd>
-        </Link>
+        </a>
         <button
           className="menu-toggle"
           type="button"
@@ -70,19 +71,19 @@ export default function SiteHeader() {
         aria-label="Mobile navigation"
       >
         {navigation.map((item) => (
-          <Link
+          <a
             href={item.href}
             key={item.href}
             aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
             onClick={() => setMenuOpen(false)}
           >
             {item.label}
-          </Link>
+          </a>
         ))}
-        <Link href="/sea/skill_planner/" onClick={() => setMenuOpen(false)}>Skill Planner</Link>
-        <Link href="/sea/maps/?lang=en-US#map=101" onClick={() => setMenuOpen(false)}>World Map</Link>
-        <Link href="/sea/events/" onClick={() => setMenuOpen(false)}>Event Schedule</Link>
-        <Link href="/updates/" onClick={() => setMenuOpen(false)}>Updates</Link>
+        <a href="/sea/skill_planner/" onClick={() => setMenuOpen(false)}>Skill Planner</a>
+        <a href="/sea/maps/?lang=en-US#map=101" onClick={() => setMenuOpen(false)}>World Map</a>
+        <a href="/sea/events/" onClick={() => setMenuOpen(false)}>Event Schedule</a>
+        <a href="/updates/" onClick={() => setMenuOpen(false)}>Updates</a>
       </nav>
     </header>
   );
