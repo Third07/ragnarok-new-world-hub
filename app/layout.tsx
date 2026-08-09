@@ -15,15 +15,13 @@ import "./mobile-polish.css";
 const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
 
-const siteVerification: Metadata["verification"] =
-  googleSiteVerification || bingSiteVerification
-    ? {
-        ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
-        ...(bingSiteVerification
-          ? { other: { "msvalidate.01": bingSiteVerification } }
-          : {}),
-      }
-    : undefined;
+const siteVerification: Metadata["verification"] = {
+  ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+  other: {
+    ...(bingSiteVerification ? { "msvalidate.01": bingSiteVerification } : {}),
+    monetag: "b36ae60104269f34fffa94c1ae3078ca",
+  },
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rtnw.online"),
