@@ -255,8 +255,6 @@ export default function Home() {
           </div>
         </section>
 
-        <aside className="rtnw-ad-slot" data-ad-slot="true" data-ad-format="responsive" data-ad-placement="home-inline" />
-
         <section className="tool-library" id="tools" aria-labelledby="tools-heading">
           <div className="library-heading">
             <div>
@@ -320,8 +318,6 @@ export default function Home() {
             </div>
           )}
         </section>
-
-        <aside className="rtnw-ad-slot rtnw-ad-slot--rectangle" data-ad-slot="true" data-ad-format="rectangle" data-ad-placement="home-end" />
 
         <section className="guide-overview" aria-labelledby="guide-overview-heading">
           <div className="guide-overview-heading">

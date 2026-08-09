@@ -107,7 +107,7 @@ The PC Setup Checker and Top-Up Cost Calculator keep shareable state in URL para
 
 ## Advertising
 
-Modern guide and tool pages load `/shared/responsive_ads.js`. Guide banners are inserted between article sections, while calculator banners appear below the interactive result area. Advertisement slots are kept outside form labels, inputs, calculated output, and mobile navigation controls.
+The site loads Google AdSense through `/shared/adsense.js`. Auto ads can be enabled from the AdSense dashboard after the domain is approved. The root `/ads.txt` file identifies the authorized Google seller, and no pop-up or pop-under advertising is installed.
 
 ## Data refresh
 

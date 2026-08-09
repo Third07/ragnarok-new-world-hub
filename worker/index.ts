@@ -392,6 +392,7 @@ const worker = {
 
     if (
       url.pathname === "/robots.txt" ||
+      url.pathname === "/ads.txt" ||
       url.pathname === "/sitemap.xml" ||
       url.pathname === "/content-sitemap.xml" ||
       url.pathname === "/seo-audit.json" ||

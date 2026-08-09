@@ -309,13 +309,6 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
               </div>
             </section>
 
-            <aside
-              className="rtnw-ad-slot rtnw-ad-slot--content-break"
-              data-ad-slot="true"
-              data-ad-format="responsive"
-              data-ad-placement="guide-inline"
-            />
-
             {children}
 
             {guide.sections.map((section) => (
@@ -327,12 +320,6 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
               <FaqList items={guide.faqs} />
             </section>
 
-            <aside
-              className="rtnw-ad-slot rtnw-ad-slot--content-end"
-              data-ad-slot="true"
-              data-ad-format="responsive"
-              data-ad-placement="guide-end"
-            />
           </article>
 
           <aside className={styles.sidebar} aria-label="Guide navigation">

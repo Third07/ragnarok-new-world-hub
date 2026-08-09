@@ -229,20 +229,3 @@ body.skill-planner-page .skill-flow-dot[data-flow-state="complete"] {
   fill: #f4bc3f;
   stroke: #d99a1d;
 }
-
-body.skill-planner-page .rtnw-ad-slot--tool-footer {
-  margin-top: 72px !important;
-  margin-bottom: 72px !important;
-}
-
-body.skill-planner-page .rtnw-ad-slot:not(:has(.rtnw-ad-frame))::before {
-  background: transparent !important;
-  border-color: transparent !important;
-}
-
-@media (max-width: 760px) {
-  body.skill-planner-page .rtnw-ad-slot--tool-footer {
-    margin-top: 64px !important;
-    margin-bottom: 64px !important;
-  }
-}

@@ -5,7 +5,7 @@
         HMT: [ "zh-TW" ],
         SEA: [ "en-US", "zh-CN", "th-TH", "id-ID" ]
     };
-    const SUPPORTED_LOCALES = [ "en-US" ];
+    const SUPPORTED_LOCALES = ACTIVE_CLIENT === "SEA" ? CLIENT_LOCALES.SEA : CLIENT_LOCALES.HMT;
     const DEFAULT_LOCALE = "en-US";
     const LOCALE_LABELS = {
         "zh-TW": "繁中",
@@ -52,28 +52,28 @@
         },
         equipment: {
             "zh-TW": "裝備",
-            "en-US": "Equipment",
+            "en-US": "Equipment Index",
             "zh-CN": "装备",
             "th-TH": "อุปกรณ์",
             "id-ID": "Equipment"
         },
         cards: {
             "zh-TW": "卡片",
-            "en-US": "Cards",
+            "en-US": "Card Index",
             "zh-CN": "卡片",
             "th-TH": "การ์ด",
             "id-ID": "Kartu"
         },
         monster_album: {
             "zh-TW": "魔物圖鑑",
-            "en-US": "Monster Album",
+            "en-US": "Monster Index",
             "zh-CN": "魔物图鉴",
             "th-TH": "สารานุกรมมอนสเตอร์",
             "id-ID": "Monster Album"
         },
         maps: {
             "zh-TW": "地圖",
-            "en-US": "Maps",
+            "en-US": "World Map",
             "zh-CN": "地图",
             "th-TH": "แผนที่",
             "id-ID": "Maps"
@@ -110,7 +110,7 @@
     const BRAND_TITLES = {
         "zh-TW": "RO\u4ed9\u5883\u50b3\u8aaa\uff1a\u4e16\u754c\u4e4b\u65c5",
         "zh-CN": "RO\u4ed9\u5883\u4f20\u8bf4\uff1a\u4e16\u754c\u4e4b\u65c5",
-        "en-US": "RO World Journey",
+        "en-US": "RTNW Hub",
         "th-TH": "RO World Journey",
         "id-ID": "RO World Journey"
     };
@@ -145,7 +145,7 @@
         if (exact) return exact;
         if (normalized.startsWith("zh-tw") || normalized.startsWith("zh-hk") || normalized.startsWith("zh-mo") || normalized.startsWith("zh-hant")) return "zh-TW";
         if (normalized.startsWith("zh-cn") || normalized.startsWith("zh-sg") || normalized.startsWith("zh-hans")) return "zh-CN";
-        if (normalized === "zh" || normalized.startsWith("zh-")) return "zh-TW";
+        if (normalized === "zh" || normalized.startsWith("zh-")) return ACTIVE_CLIENT === "SEA" ? "zh-CN" : "zh-TW";
         if (normalized.startsWith("en")) return "en-US";
         if (normalized.startsWith("th")) return "th-TH";
         if (normalized.startsWith("id") || normalized.startsWith("in")) return "id-ID";
@@ -216,7 +216,7 @@
         const pageTitle = String(title || "").trim();
         if (!pageTitle) return "";
         const brandTitle = BRAND_TITLES[locale] || BRAND_TITLES[DEFAULT_LOCALE] || BRAND_TITLES["en-US"];
-        const fullTitle = `${pageTitle} | ${brandTitle}`;
+        const fullTitle = `Ragnarok: The New World ${pageTitle} | ${brandTitle}`;
         document.title = fullTitle;
         return fullTitle;
     }
@@ -235,20 +235,12 @@
         nav.classList.toggle("site-nav--compact", compact);
     }
 
-    function loadResponsiveAds() {
-        if (!document.querySelector('link[data-rtnw-ads]')) {
-            const stylesheet = document.createElement("link");
-            stylesheet.rel = "stylesheet";
-            stylesheet.href = "/shared/responsive_ads.css?v=20260808-ads5";
-            stylesheet.dataset.rtnwAds = "true";
-            document.head.appendChild(stylesheet);
-        }
-
-        if (document.querySelector('script[data-rtnw-ads]')) return;
+    function loadAdsense() {
+        if (document.querySelector('script[data-rtnw-adsense]')) return;
         const script = document.createElement("script");
-        script.src = "/shared/responsive_ads.js?v=20260808-ads5";
+        script.src = "/shared/adsense.js?v=20260809-adsense1";
         script.defer = true;
-        script.dataset.rtnwAds = "true";
+        script.dataset.rtnwAdsense = "true";
         document.body.appendChild(script);
     }
 
@@ -385,7 +377,13 @@
     const rawStoredLocale = localStorage.getItem("ro_lang");
     const normalizedStoredLocale = normalizeLocale(rawStoredLocale);
 
-    const activeLocale = DEFAULT_LOCALE;
+    const activeLocale = normalizedQueryLocale || normalizedStoredLocale || normalizeLocale(navigator.language) || (Array.isArray(navigator.languages) ? navigator.languages.map(normalizeLocale).find(Boolean) : null) || DEFAULT_LOCALE;
+
+    if (!rawQueryLocale || normalizedQueryLocale !== activeLocale) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", activeLocale);
+        window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    }
 
     if (rawQueryLocale && normalizedQueryLocale && rawQueryLocale !== normalizedQueryLocale) {
         const url = new URL(window.location.href);
@@ -393,7 +391,7 @@
         window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
     }
 
-    localStorage.setItem("ro_lang", normalizedStoredLocale || activeLocale);
+    localStorage.setItem("ro_lang", activeLocale);
     window.RO_ACTIVE_LOCALE = activeLocale;
     window.RO_SET_PAGE_TITLE = title => setPageTitle(title, activeLocale);
 
@@ -462,7 +460,7 @@
         syncCompactNav();
         enhanceSelects();
         optimizeImages();
-        loadResponsiveAds();
+        loadAdsense();
 
         new MutationObserver(mutations => {
             mutations.forEach(mutation => mutation.addedNodes.forEach(node => {

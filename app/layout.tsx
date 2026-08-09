@@ -5,7 +5,6 @@ import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import "./globals.css";
 import "./language-switcher.css";
-import "../public/shared/responsive_ads.css";
 import "./route-fixes.css";
 import "./panel-site-theme.css";
 import "./site-chrome.css";
@@ -19,7 +18,7 @@ const siteVerification: Metadata["verification"] = {
   ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
   other: {
     ...(bingSiteVerification ? { "msvalidate.01": bingSiteVerification } : {}),
-    monetag: "b36ae60104269f34fffa94c1ae3078ca",
+    "google-adsense-account": "ca-pub-9432875628134875",
   },
 };
 
@@ -162,9 +161,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <script
-          src="/shared/responsive_ads.js?v=20260808-ads5"
+          src="/shared/adsense.js?v=20260809-adsense1"
           defer
-          data-rtnw-ads="true"
+          data-rtnw-adsense="true"
         />
         <GuideNavigation />
         <SiteHeader />

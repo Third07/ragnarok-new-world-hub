@@ -18,39 +18,47 @@ const toolRoutes = [
   "refine",
 ];
 
-test("application layout loads the shared responsive ad system", async () => {
-  const [layout, homepage, ads] = await Promise.all([
+test("AdSense ownership and authorized-seller records use the same publisher", async () => {
+  const [layout, adsTxt, loader, worker] = await Promise.all([
     readFile("app/layout.tsx", "utf8"),
-    readFile("app/page.tsx", "utf8"),
-    readFile("public/shared/responsive_ads.js", "utf8"),
+    readFile("public/ads.txt", "utf8"),
+    readFile("public/shared/adsense.js", "utf8"),
+    readFile("worker/index.ts", "utf8"),
   ]);
 
-  assert.match(layout, /responsive_ads\.css/);
-  assert.match(layout, /responsive_ads\.js\?v=20260808-ads5/);
-  assert.match(layout, /data-rtnw-ads/);
-  assert.doesNotMatch(layout, /flaskledgeheadquarters\.com/);
-
-  assert.ok(
-    (homepage.match(/data-ad-slot/g) ?? []).length >= 2,
-    "Homepage should retain at least two intentional ad slots",
+  assert.equal(
+    adsTxt.trim(),
+    "google.com, pub-9432875628134875, DIRECT, f08c47fec0942fa0",
   );
-
-  assert.match(ads, /function addApplicationPlacements\(/);
-  assert.match(ads, /data-ad-placement=\\"guide-inline\\"|guide-inline/);
-  assert.match(ads, /guide-end/);
-  assert.match(ads, /info-end/);
-  assert.match(ads, /tool-footer/);
-  assert.match(ads, /pathname === "\/seo-status\/"/);
+  assert.match(layout, /google-adsense-account/);
+  assert.match(layout, /ca-pub-9432875628134875/);
+  assert.match(layout, /\/shared\/adsense\.js\?v=20260809-adsense1/);
+  assert.match(loader, /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/);
+  assert.match(loader, /ca-pub-9432875628134875/);
+  assert.match(worker, /url\.pathname === "\/ads\.txt"/);
 });
 
-test("legacy SEA tools use the common bootstrap that loads ads", async () => {
+test("removed networks and disruptive formats cannot load", async () => {
+  const files = await Promise.all([
+    readFile("app/layout.tsx", "utf8"),
+    readFile("app/page.tsx", "utf8"),
+    readFile("app/guides/SourceGuidePage.tsx", "utf8"),
+    readFile("public/shared/adsense.js", "utf8"),
+    readFile("public/shared/client_switcher.js", "utf8"),
+    readFile("public/shared/asset_version.js", "utf8"),
+  ]);
+  const source = files.join("\n");
+
+  assert.doesNotMatch(source, /flaskledgeheadquarters|5gvci|omg10|monetag/i);
+  assert.doesNotMatch(source, /popunder|onclick ad|social bar/i);
+  assert.doesNotMatch(source, /responsive_ads|data-ad-slot|rtnw-ad-slot/);
+});
+
+test("legacy SEA tools load the shared AdSense bootstrap", async () => {
   const clientSwitcher = await readFile("public/shared/client_switcher.js", "utf8");
 
-  assert.match(clientSwitcher, /const version = "20260808-ads5"/);
-  assert.match(clientSwitcher, /responsive_ads\.css\?v=\$\{version\}/);
-  assert.match(clientSwitcher, /responsive_ads\.js\?v=\$\{version\}/);
-  assert.match(clientSwitcher, /data-rtnw-ads-style|rtnwAdsStyle/);
-  assert.match(clientSwitcher, /data-rtnw-ads|rtnwAds/);
+  assert.match(clientSwitcher, /\/shared\/adsense\.js\?v=20260809-adsense1/);
+  assert.match(clientSwitcher, /dataset\.rtnwAdsense/);
 
   for (const route of toolRoutes) {
     const html = await readFile(`public/sea/${route}/index.html`, "utf8");

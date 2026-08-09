@@ -696,19 +696,6 @@ tr:hover td { background: #f0f2fa !important; }
   border-color: rgba(255,255,255,.75) !important;
 }
 
-/* Advertisement presentation. */
-.rtnw-ad-label { color: var(--panel-text) !important; }
-
-.rtnw-ad-slot::before {
-  background: rgba(255,255,255,.46) !important;
-  border-color: rgba(91,110,232,.16) !important;
-}
-
-.rtnw-ad-frame {
-  background: var(--panel-surface-soft) !important;
-  box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14) !important;
-}
-
 ::-webkit-scrollbar-track { background: #dce5ff !important; }
 ::-webkit-scrollbar-thumb { background: #8d9be7 !important; border-color: #dce5ff !important; }
 ::-webkit-scrollbar-thumb:hover { background: var(--panel-blue) !important; }

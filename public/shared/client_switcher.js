@@ -114,37 +114,16 @@
 })();
 
 (() => {
-    const version = "20260808-ads5";
-    const styleHref = `/shared/responsive_ads.css?v=${version}`;
-    const scriptSrc = `/shared/responsive_ads.js?v=${version}`;
+    const scriptSrc = "/shared/adsense.js?v=20260809-adsense1";
     const clsHref = "/sea/shared/cls-stability.css?v=20260806-cls1";
 
-    function reservedBannerHeight() {
-        if (window.matchMedia("(min-width: 900px)").matches) return 112;
-        if (window.matchMedia("(min-width: 520px)").matches) return 82;
-        return 70;
-    }
-
-    function ensureLegacyAdPlaceholder() {
-        if (!/^\/sea(?:\/|$)/.test(window.location.pathname)) return;
-        if (window.location.pathname === "/sea" || window.location.pathname === "/sea/") return;
-        if (document.querySelector('[data-ad-placement="tool-footer"]')) return;
-
-        const app = document.querySelector(".app");
-        const main = app?.querySelector(":scope > main.main-content");
-        if (!app || !main) return;
-
-        const slot = document.createElement("aside");
-        slot.dataset.adSlot = "true";
-        slot.dataset.adFormat = "responsive";
-        slot.dataset.adPlacement = "tool-footer";
-        slot.className = "rtnw-ad-slot rtnw-ad-slot--tool-footer";
-        slot.setAttribute("role", "complementary");
-        slot.setAttribute("aria-label", "Advertisement");
-        slot.style.width = "min(100%, 860px)";
-        slot.style.minHeight = `${reservedBannerHeight()}px`;
-        slot.style.margin = "56px auto 48px";
-        main.insertAdjacentElement("afterend", slot);
+    function loadAdsense() {
+        if (document.querySelector("script[data-rtnw-adsense]")) return;
+        const script = document.createElement("script");
+        script.src = scriptSrc;
+        script.async = true;
+        script.dataset.rtnwAdsense = "true";
+        (document.head || document.documentElement).appendChild(script);
     }
 
     function loadClsStability() {
@@ -161,51 +140,13 @@
         (document.head || document.documentElement).appendChild(style);
     }
 
-    function resetOldAds() {
-        document.querySelectorAll("[data-ad-slot]").forEach(slot => {
-            slot.querySelectorAll(".rtnw-ad-mount, .rtnw-ad-label, script[data-rtnw-ad-invoke]").forEach(node => node.remove());
-            delete slot.dataset.adPrepared;
-            delete slot.dataset.adInjected;
-            delete slot.dataset.adState;
-        });
-        try { delete window.__RTNW_ADS_READY__; } catch { window.__RTNW_ADS_READY__ = false; }
-    }
-
-    function loadResponsiveAds() {
-        /* This parser-blocking client script runs before the first normal paint on
-           legacy pages. Reserve the footer-ad geometry before loading ad code. */
-        ensureLegacyAdPlaceholder();
+    function loadMonetization() {
         loadClsStability();
-
-        const style = document.querySelector("link[data-rtnw-ads-style], link[data-rtnw-ads]");
-        if (style instanceof HTMLLinkElement) {
-            style.href = styleHref;
-            style.dataset.rtnwAdsStyle = "true";
-        } else {
-            const nextStyle = document.createElement("link");
-            nextStyle.rel = "stylesheet";
-            nextStyle.href = styleHref;
-            nextStyle.dataset.rtnwAdsStyle = "true";
-            (document.head || document.documentElement).appendChild(nextStyle);
-        }
-
-        const existingScript = document.querySelector("script[data-rtnw-ads]");
-        if (existingScript instanceof HTMLScriptElement) {
-            const current = existingScript.getAttribute("src") || "";
-            if (current.includes(version)) return;
-            existingScript.remove();
-            resetOldAds();
-        }
-
-        const script = document.createElement("script");
-        script.src = scriptSrc;
-        script.async = true;
-        script.dataset.rtnwAds = "true";
-        (document.head || document.documentElement).appendChild(script);
+        loadAdsense();
     }
 
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", loadResponsiveAds, { once: true });
-    else loadResponsiveAds();
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", loadMonetization, { once: true });
+    else loadMonetization();
 })();
 
 (() => {

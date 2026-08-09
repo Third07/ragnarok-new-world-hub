@@ -330,11 +330,12 @@ test("application pages render one shared shell without social or provenance UI"
     assert.equal((html.match(/shared-site-header/g) ?? []).length, 1, `${pathname} should have one shared header`);
     assert.equal((html.match(/<footer\s+class="shared-site-footer"/g) ?? []).length, 1, `${pathname} should have one shared footer`);
     assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
+    assert.ok((html.match(/\/shared\/adsense\.js\?v=20260809-adsense1/g) ?? []).length >= 1, `${pathname} should load AdSense`);
     assert.doesNotMatch(html, /social[-_ ]bar|source and editorial note|source status/i);
 
     if (pathname.includes("guild-management") || pathname.includes("acolyte-builds") || pathname.includes("high-priest") || pathname.includes("monk-build")) {
       assert.match(html, /src="\/assets\//, `${pathname} should render local guide imagery`);
-      assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
+      assert.doesNotMatch(html, /data-ad-placement=/, `${pathname} should not retain legacy ad slots`);
     }
 
     if (pathname.includes("high-priest") || pathname.includes("monk-build") || pathname === "/database/") {
@@ -359,7 +360,7 @@ test("advanced-job and Monk guides render complete styled article pages", async 
     assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
     assert.match(html, new RegExp(`rel="canonical"[^>]+href="${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}${pathname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "i"));
     assert.match(html, /class="faq-accordion"/, `${pathname} should use the shared FAQ component`);
-    assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
+    assert.doesNotMatch(html, /data-ad-placement=/, `${pathname} should not retain legacy ad slots`);
     assert.match(html, /src="\/assets\//, `${pathname} should use a local image`);
     assert.doesNotMatch(html, /cdnimages\.awselbcombine\.com|source and editorial note|source status/i);
   }
@@ -381,7 +382,7 @@ test("MVP and Zeny guides render complete searchable experiences", async () => {
     assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
     assert.match(html, new RegExp(`rel="canonical"[^>]+href="${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}${pathname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "i"));
     assert.match(html, /class="faq-accordion"/, `${pathname} should use the shared FAQ component`);
-    assert.ok((html.match(/data-ad-placement=/g) ?? []).length >= 2, `${pathname} should reserve two guide ads`);
+    assert.doesNotMatch(html, /data-ad-placement=/, `${pathname} should not retain legacy ad slots`);
     assert.match(html, /src="\/(?:assets|media\/images)\//, `${pathname} should use local imagery`);
     assert.doesNotMatch(html, /cdnimages\.awselbcombine\.com|social[-_ ]bar|source and editorial note|source status/i);
   }

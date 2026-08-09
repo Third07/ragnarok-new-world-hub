@@ -271,17 +271,6 @@ body {
   border-color: var(--panel-blue-dark);
 }
 
-/* Homepage advertisement surfaces. */
-.site-shell .rtnw-ad-label { color: var(--panel-text); }
-.site-shell .rtnw-ad-slot::before {
-  background: rgba(255,255,255,.46);
-  border-color: rgba(91,110,232,.16);
-}
-.site-shell .rtnw-ad-frame {
-  background: var(--panel-surface-soft);
-  box-shadow: 0 0 0 1px rgba(91,110,232,.18), 0 10px 24px rgba(48,61,135,.14);
-}
-
 /* Only the homepage footer is part of this theme. Modern guide footers use their module CSS. */
 .site-shell > footer {
   color: #ffffff;
