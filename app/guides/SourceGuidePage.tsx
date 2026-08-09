@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import FaqList from "../FaqList";
+import ResponsiveHeroImage from "../ResponsiveHeroImage";
 import styles from "../field-guide.module.css";
 
 export type GuideSection = {
@@ -256,14 +257,18 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
       <a className="skip-link" href="#guide-article">Skip to guide</a>
 
       <header className={styles.hero}>
-        <img
-          className={styles.heroImage}
-          src={guide.heroImage}
-          width="1280"
-          height="720"
-          alt={guide.heroAlt}
-          fetchPriority="high"
-        />
+        {guide.heroImage === "/assets/rtnw-hero-1280.webp" ? (
+          <ResponsiveHeroImage className={styles.heroImage} alt={guide.heroAlt} />
+        ) : (
+          <img
+            className={styles.heroImage}
+            src={guide.heroImage}
+            width="1280"
+            height="720"
+            alt={guide.heroAlt}
+            fetchPriority="high"
+          />
+        )}
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
             <Link href="/">RTNW Hub</Link>

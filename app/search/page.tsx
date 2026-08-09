@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ResponsiveHeroImage from "../ResponsiveHeroImage";
 import SearchClient from "./SearchClient";
 import styles from "../field-guide.module.css";
 
@@ -39,7 +40,7 @@ export default function SearchPage() {
     <div className={styles.page}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <header className={styles.hero}>
-        <img className={styles.heroImage} src="/assets/rtnw-hero-1280.webp" alt="" />
+        <ResponsiveHeroImage className={styles.heroImage} />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
             <Link href="/">Home</Link><span>/</span><span>Search</span>

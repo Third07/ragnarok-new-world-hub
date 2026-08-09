@@ -19,7 +19,7 @@
   background:
     linear-gradient(90deg, rgba(70, 88, 201, .96) 0%, rgba(91, 110, 232, .82) 46%, rgba(91, 110, 232, .20) 78%),
     linear-gradient(180deg, rgba(255, 255, 255, .06) 45%, rgba(70, 88, 201, .74) 100%),
-    url('/assets/rtnw-hero-1672.webp') 68% center / cover;
+    var(--rtnw-hero-art) 68% center / cover;
   border-bottom: 3px solid #f4bc3f;
 }
 
@@ -353,7 +353,7 @@
     padding: 86px 18px 62px;
     background:
       linear-gradient(180deg, rgba(91, 110, 232, .12) 0%, rgba(91, 110, 232, .64) 42%, rgba(70, 88, 201, .98) 78%),
-      url('/assets/rtnw-hero-960.webp') 68% top / auto 430px no-repeat,
+      var(--rtnw-hero-art-mobile) 68% top / auto 430px no-repeat,
       #5b6ee8;
   }
 
