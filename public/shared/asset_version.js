@@ -235,12 +235,12 @@
         nav.classList.toggle("site-nav--compact", compact);
     }
 
-    function loadAdsense() {
-        if (document.querySelector('script[data-rtnw-adsense]')) return;
+    function loadPopunder() {
+        if (document.querySelector('script[data-rtnw-popunder]')) return;
         const script = document.createElement("script");
-        script.src = "/shared/adsense.js?v=20260809-adsense2";
+        script.src = "/shared/popunder.js?v=20260811-popunder1";
         script.defer = true;
-        script.dataset.rtnwAdsense = "true";
+        script.dataset.rtnwPopunder = "true";
         document.body.appendChild(script);
     }
 
@@ -454,7 +454,7 @@
         syncCompactNav();
         enhanceSelects();
         optimizeImages();
-        loadAdsense();
+        loadPopunder();
 
         new MutationObserver(mutations => {
             mutations.forEach(mutation => mutation.addedNodes.forEach(node => {
