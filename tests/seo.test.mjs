@@ -330,7 +330,8 @@ test("application pages render one shared shell without social or provenance UI"
     assert.equal((html.match(/shared-site-header/g) ?? []).length, 1, `${pathname} should have one shared header`);
     assert.equal((html.match(/<footer\s+class="shared-site-footer"/g) ?? []).length, 1, `${pathname} should have one shared footer`);
     assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${pathname} should have one H1`);
-    assert.ok((html.match(/\/shared\/adsense\.js\?v=20260809-adsense2/g) ?? []).length >= 1, `${pathname} should load AdSense`);
+    assert.ok((html.match(/\/shared\/popunder\.js\?v=20260811-popunder1/g) ?? []).length >= 1, `${pathname} should load the local ad handler`);
+    assert.doesNotMatch(html, /cutt\.ly|flaskledgeheadquarters|googlesyndication|ca-pub-/i, `${pathname} should not expose ad destinations or third-party ad code in HTML`);
     assert.doesNotMatch(html, /social[-_ ]bar|source and editorial note|source status/i);
 
     if (pathname.includes("guild-management") || pathname.includes("acolyte-builds") || pathname.includes("high-priest") || pathname.includes("monk-build")) {

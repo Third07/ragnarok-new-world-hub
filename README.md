@@ -107,7 +107,7 @@ The PC Setup Checker and Top-Up Cost Calculator keep shareable state in URL para
 
 ## Advertising
 
-The site loads Google AdSense through `/shared/adsense.js`. Auto ads can be enabled from the AdSense dashboard after the domain is approved. The root `/ads.txt` file identifies the authorized Google seller, and no pop-up or pop-under advertising is installed.
+The site uses the first-party `/shared/popunder.js` handler. It does not load an advertising network during page render. A trusted click on a normal same-site content link can open the configured tracked advertising destination, with a maximum of three successful opens per browser day and a minimum ten-minute interval. Local storage enforces the limit; if storage is unavailable, the handler fails closed and does not open an advertisement. Forms, controls, downloads, external links, same-page anchors, navigation chrome, automated events, and local previews are excluded.
 
 ## Data refresh
 

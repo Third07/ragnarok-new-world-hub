@@ -38,7 +38,7 @@ export default function PrivacyPage() {
       <section>
         <h2>Local browser preferences</h2>
         <p>
-          Some tools use your browser&apos;s local storage to remember settings such as language, selected client, planner state, or interface preferences. These values normally stay on the device and browser where they were created.
+          Some tools use your browser&apos;s local storage to remember settings such as language, selected client, planner state, interface preferences, and the daily advertising frequency counter. These values normally stay on the device and browser where they were created.
         </p>
         <p>
           You can remove locally saved values by clearing site data in your browser. Clearing them may reset language selections, planner progress, or other saved tool settings.
@@ -55,10 +55,10 @@ export default function PrivacyPage() {
       <section>
         <h2>Third-party advertisements and external services</h2>
         <p>
-          Advertising placements load content supplied by a third-party advertising provider. The provider may receive technical request information and may apply its own storage, measurement, security, or advertising practices. Those systems are controlled by the provider rather than by RTNW Hub.
+          RTNW Hub does not load third-party advertising code while a page is rendering. After an eligible same-site content link is clicked, a separate advertising window or tab may open through a click-tracking redirect. The destination provider may receive standard request information and may apply its own storage, measurement, security, or advertising practices. Those systems are controlled by the provider rather than by RTNW Hub.
         </p>
         <p>
-          Visitors can use browser privacy controls, third-party-cookie blocking, or trusted content-blocking tools. External websites, GitHub, hosting services, and advertising providers operate under their own privacy policies.
+          The site stores the local date, successful-open count, and last-open time in local storage so it can limit advertising to three successful opens per browser per day, separated by at least ten minutes. If that limit cannot be read or stored safely, the advertising window is not opened. Visitors can clear site data or use browser privacy and trusted content-blocking controls. External websites, GitHub, hosting services, link-tracking services, and advertising providers operate under their own privacy policies.
         </p>
       </section>
 

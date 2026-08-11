@@ -114,15 +114,15 @@
 })();
 
 (() => {
-    const scriptSrc = "/shared/adsense.js?v=20260809-adsense2";
+    const scriptSrc = "/shared/popunder.js?v=20260811-popunder1";
     const clsHref = "/sea/shared/cls-stability.css?v=20260806-cls1";
 
-    function loadAdsense() {
-        if (document.querySelector("script[data-rtnw-adsense]")) return;
+    function loadPopunder() {
+        if (document.querySelector("script[data-rtnw-popunder]")) return;
         const script = document.createElement("script");
         script.src = scriptSrc;
         script.async = true;
-        script.dataset.rtnwAdsense = "true";
+        script.dataset.rtnwPopunder = "true";
         (document.head || document.documentElement).appendChild(script);
     }
 
@@ -142,7 +142,7 @@
 
     function loadMonetization() {
         loadClsStability();
-        loadAdsense();
+        loadPopunder();
     }
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", loadMonetization, { once: true });

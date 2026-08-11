@@ -15,10 +15,9 @@ const bingSiteVerification = process.env.BING_SITE_VERIFICATION?.trim();
 
 const siteVerification: Metadata["verification"] = {
   ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
-  other: {
-    ...(bingSiteVerification ? { "msvalidate.01": bingSiteVerification } : {}),
-    "google-adsense-account": "ca-pub-9432875628134875",
-  },
+  ...(bingSiteVerification
+    ? { other: { "msvalidate.01": bingSiteVerification } }
+    : {}),
 };
 
 export const metadata: Metadata = {
@@ -160,9 +159,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
         <script
-          src="/shared/adsense.js?v=20260809-adsense2"
+          src="/shared/popunder.js?v=20260811-popunder1"
           defer
-          data-rtnw-adsense="true"
+          data-rtnw-popunder="true"
         />
         <GuideNavigation />
         <SiteHeader />
