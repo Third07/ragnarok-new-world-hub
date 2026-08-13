@@ -27,6 +27,6 @@ test("renders the production homepage through the built worker", async () => {
     /^text\/html\b/i,
   );
   const html = await response.text();
-  assert.match(html, /<title>Ragnarok: The New World Guides, Builds &amp; Tools \| RTNW Hub<\/title>/i);
+  assert.match(html, /<title>Ragnarok: The New World Database &amp; Skill Planner \| RTNW Hub<\/title>/i);
   assert.doesNotMatch(html, /codex-preview/i);
 });

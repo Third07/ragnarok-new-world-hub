@@ -142,8 +142,13 @@ function createTestRuntime() {
     async fetch(request) {
       const pathname = new URL(request.url).pathname;
       try {
-        const body = await readFile(`public${pathname}`);
-        const contentType = pathname.endsWith(".xml")
+        const publicPath = pathname.endsWith("/")
+          ? `public${pathname}index.html`
+          : `public${pathname}`;
+        const body = await readFile(publicPath);
+        const contentType = publicPath.endsWith(".html")
+          ? "text/html; charset=utf-8"
+          : pathname.endsWith(".xml")
           ? "application/xml; charset=utf-8"
           : pathname.endsWith(".txt")
             ? "text/plain; charset=utf-8"
@@ -184,6 +189,7 @@ test("every indexable tool page has unique static SEO signals", async () => {
 
     assert.match(title, /Ragnarok: The New World/i, `${route} title should name the game`);
     assert.match(title, /RTNW Hub/i, `${route} title should include the site name`);
+    if (route === "study") assert.match(title, /Scholar Exam/i);
     assert.ok(
       description.length >= 100 && description.length <= 180,
       `${route} description length is ${description.length}`,
@@ -229,6 +235,51 @@ test("sitemap, robots, manifest, and favicon are current", async () => {
     "00000100",
     "favicon.ico should have a valid ICO header",
   );
+});
+
+test("every sitemap URL resolves directly to its indexable canonical page", async () => {
+  const sitemap = await readFile("public/sitemap.xml", "utf8");
+  const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+
+  for (const url of urls) {
+    const request = new Request(url, { headers: { accept: "text/html" } });
+    const pathname = new URL(url).pathname;
+    const staticIndex = `public${pathname}index.html`;
+    const response = await access(staticIndex)
+      .then(() => env.ASSETS.fetch(request))
+      .catch(() => worker.fetch(request, env, context));
+    const html = await response.text();
+
+    assert.equal(response.status, 200, `${url} must not redirect or error`);
+    assert.equal(response.headers.get("location"), null, `${url} must resolve in one request`);
+    assert.match(html, /<meta\s+name="robots"\s+content="index,\s*follow/i, `${url} must be indexable`);
+    assert.match(
+      html,
+      new RegExp(`rel="canonical"[^>]+href="${url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "i"),
+      `${url} must self-canonicalize`,
+    );
+  }
+});
+
+test("intentional noindex utility routes stay out of both sitemaps", async () => {
+  const [seaRoot, seoStatus, sitemap, contentSitemap] = await Promise.all([
+    readFile("public/sea/index.html", "utf8"),
+    readFile("app/seo-status/page.tsx", "utf8"),
+    readFile("public/sitemap.xml", "utf8"),
+    readFile("public/content-sitemap.xml", "utf8"),
+  ]);
+
+  assert.match(seaRoot, /name="robots"\s+content="noindex,follow"/i);
+  assert.match(seaRoot, /rel="canonical"\s+href="https:\/\/rtnw\.online\/"/i);
+  assert.match(seoStatus, /index:\s*false/);
+  assert.match(seoStatus, /follow:\s*false/);
+
+  for (const excludedUrl of [`${siteOrigin}/sea/`, `${siteOrigin}/seo-status/`]) {
+    assert.ok(!sitemap.includes(`<loc>${excludedUrl}</loc>`));
+    assert.ok(!contentSitemap.includes(`<loc>${excludedUrl}</loc>`));
+  }
 });
 
 test("MVP guide directory stays aligned with the current monster and map data", async () => {
@@ -294,7 +345,8 @@ test("rendered home page exposes canonical metadata, social identity, and WebSit
 
   assert.equal(response.status, 200);
   assert.match(html, /<link[^>]+rel="canonical"[^>]+href="https:\/\/rtnw\.online\/"/i);
-  assert.match(html, /Ragnarok: The New World Guides, Builds &amp; Tools/i);
+  assert.match(html, /Ragnarok: The New World Database &amp; Skill Planner/i);
+  assert.match(html, /href="\/database\/"[^>]*>\s*Open RTNW database/i);
   assert.match(html, /"@type":"WebSite"/);
   assert.match(html, /"@type":"SearchAction"/);
   assert.match(html, /"@type":"Organization"/);
@@ -304,6 +356,34 @@ test("rendered home page exposes canonical metadata, social identity, and WebSit
     assert.ok(html.includes(profileUrl), `Missing social profile in Organization.sameAs: ${profileUrl}`);
   }
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
+});
+
+test("Search Console opportunity pages expose focused snippets and contextual class links", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+
+  const response = await worker.fetch(
+    new Request(`${siteOrigin}/guides/class-tier-list/`, { headers: { accept: "text/html" } }),
+    env,
+    context,
+  );
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /<title>Ragnarok: The New World Class Tier List \(2026\) \| RTNW Hub<\/title>/i);
+  assert.match(html, /Updated August 14, 2026/i);
+  for (const href of [
+    "/guides/lord-knight-builds/",
+    "/guides/high-wizard-builds/",
+    "/guides/sniper-builds/",
+    "/guides/acolyte-builds/",
+    "/guides/assassin-cross-builds/",
+    "/guides/whitesmith-builds/",
+    "/guides/night-walker-builds/",
+    "/guides/druid-builds/",
+  ]) {
+    assert.ok(html.includes(`href="${href}"`), `Tier list should link to ${href}`);
+  }
 });
 
 test("application pages render one shared shell without social or provenance UI", async () => {

@@ -163,8 +163,8 @@ export default function Home() {
               <a className="primary-button" href="#tools">
                 Explore all tools <span aria-hidden="true">→</span>
               </a>
-              <a className="secondary-button" href="/search/">
-                Search all data <span aria-hidden="true">↗</span>
+              <a className="secondary-button" href="/database/">
+                Open RTNW database <span aria-hidden="true">↗</span>
               </a>
             </div>
             <div className="hero-meta" aria-label="Hub highlights">
