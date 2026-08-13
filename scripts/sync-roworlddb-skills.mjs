@@ -14,6 +14,10 @@ const DEFAULT_SOURCE_ROOTS = [
 ];
 const LOCAL_DATA_DIR = resolve('public/sea/skill-simulator/data');
 const DEFAULT_OUTPUT_DIR = resolve('.skill-data-import/roworlddb-sea');
+const REQUIRED_SEA_SKILLS = [
+  { jobId: '513', skillId: '151306', name: 'Mana Recharge' },
+  { jobId: '613', skillId: '161306', name: 'Advanced Two-handed Mastery' },
+];
 
 function parseArgs(argv) {
   const args = {
@@ -133,6 +137,18 @@ function validateJobFile(payload, expectedJob, locale) {
   }
 
   return job;
+}
+
+function validateRequiredSeaSkills(sourceData, locale) {
+  for (const { jobId, skillId, name } of REQUIRED_SEA_SKILLS) {
+    const payload = sourceData.payloads[jobId];
+    const job = payload?.job ?? payload;
+    if (!job?.skills?.[skillId]) {
+      throw new Error(
+        `${locale} job ${jobId} is missing required SEA skill ${skillId} (${name}); refusing incomplete data.`,
+      );
+    }
+  }
 }
 
 function countCollection(value) {
@@ -331,6 +347,7 @@ async function main() {
   for (const locale of LOCALES) {
     console.log(`Downloading ${locale}…`);
     const sourceData = await downloadLocale(source.root, locale, args.output);
+    validateRequiredSeaSkills(sourceData, locale);
     const localData = await loadLocalDataset(locale);
     const diff = makeDiff(sourceData, localData);
     localeReports.push({ locale, diff });

@@ -14,6 +14,13 @@ test('build performs a nonfatal validated SEA skill sync', async () => {
   assert.match(wrapper, /sync-roworlddb-skills\.mjs/);
   assert.match(wrapper, /--apply/);
   assert.match(wrapper, /committed English skill dataset/);
+  assert.match(importer, /151306/);
+  assert.match(importer, /161306/);
+  assert.ok(
+    importer.indexOf('validateRequiredSeaSkills(sourceData, locale)')
+      < importer.indexOf('applyDataset(args.output)'),
+    'Required SEA skills must be validated before staged data is applied',
+  );
 
   for (const locale of ['en-US', 'zh-CN', 'th-TH', 'id-ID']) {
     assert.match(importer, new RegExp(locale));

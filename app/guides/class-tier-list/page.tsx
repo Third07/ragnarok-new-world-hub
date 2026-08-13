@@ -4,16 +4,16 @@ import "../../route-fixes.css";
 import styles from "./tier-list.module.css";
 
 export const metadata: Metadata = {
-  title: "Ragnarok: The New World Class Tier List — F2P, PvE & PvP",
+  title: "Ragnarok: The New World Class Tier List (2026)",
   description:
-    "Compare all eight Ragnarok: The New World class families in separate F2P, PvE, and PvP tier lists, with budget notes, roles, and links to the RTNW Skill Planner.",
+    "See the best Ragnarok: The New World classes for F2P, PvE, PvP, farming, bosses, and parties in separate 2026 rankings for all eight class families.",
   alternates: { canonical: "/guides/class-tier-list/" },
   openGraph: {
     type: "article",
     url: "/guides/class-tier-list/",
-    title: "Ragnarok: The New World Class Tier List — F2P, PvE & PvP",
+    title: "Ragnarok: The New World Class Tier List (2026)",
     description:
-      "An early SEA-launch class ranking based on community play, practical investment requirements, and RTNW Hub game data.",
+      "Compare the best RTNW classes for F2P, PvE, PvP, farming, bosses, and party play across all eight class families.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RTNW Class Tier List — F2P, PvE & PvP",
-    description: "Separate rankings for free-to-play progression, PvE, and PvP across all eight class families.",
+    title: "Ragnarok: The New World Class Tier List (2026)",
+    description: "See the best RTNW classes for F2P, PvE, PvP, farming, bosses, and parties.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
 };
@@ -55,6 +55,8 @@ const classProfiles: Record<
     role: string;
     icon: string;
     practicalNote: string;
+    guideHref: string;
+    guideLabel: string;
   }
 > = {
   swordman: {
@@ -64,6 +66,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_201.webp",
     practicalNote:
       "Forgiving survivability and clear frontline value make this one of the safest low-budget class families.",
+    guideHref: "/guides/lord-knight-builds/",
+    guideLabel: "Read the Lord Knight build guide",
   },
   mage: {
     name: "Mage",
@@ -72,6 +76,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_301.webp",
     practicalNote:
       "Strong area damage and control provide fast progression, although positioning and SP management still matter.",
+    guideHref: "/guides/high-wizard-builds/",
+    guideLabel: "Read the High Wizard build guide",
   },
   archer: {
     name: "Archer",
@@ -80,6 +86,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_401.webp",
     practicalNote:
       "Safe attack range and several useful advanced paths make Archer a reliable long-term account investment.",
+    guideHref: "/guides/sniper-builds/",
+    guideLabel: "Read the Sniper build guide",
   },
   acolyte: {
     name: "Acolyte",
@@ -88,6 +96,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_501.webp",
     practicalNote:
       "Support builds stay valuable without chasing top damage numbers, while Monk routes can demand more focused investment.",
+    guideHref: "/guides/acolyte-builds/",
+    guideLabel: "Read the Acolyte build guide",
   },
   thief: {
     name: "Thief",
@@ -96,6 +106,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_601.webp",
     practicalNote:
       "Excellent competitive burst potential, but less forgiving farming and gear dependence lower its budget ranking.",
+    guideHref: "/guides/assassin-cross-builds/",
+    guideLabel: "Read the Assassin Cross build guide",
   },
   merchant: {
     name: "Merchant",
@@ -104,6 +116,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_701.webp",
     practicalNote:
       "Its economy tools can benefit an account even when its direct combat efficiency trails dedicated damage classes.",
+    guideHref: "/guides/whitesmith-builds/",
+    guideLabel: "Read the Whitesmith build guide",
   },
   gunslinger: {
     name: "Gunslinger",
@@ -112,6 +126,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_801.webp",
     practicalNote:
       "Very high PvE ceiling, but building around several weapon options can stretch a limited F2P upgrade budget.",
+    guideHref: "/guides/night-walker-builds/",
+    guideLabel: "Read the Night Walker build guide",
   },
   druid: {
     name: "Druid",
@@ -120,6 +136,8 @@ const classProfiles: Record<
     icon: "/media/images/job/icon_jsxq_901.webp",
     practicalNote:
       "Flexible and skill-intensive. F2P players should specialize in one form first instead of spreading resources across every style.",
+    guideHref: "/guides/druid-builds/",
+    guideLabel: "Read the Druid build guide",
   },
 };
 
@@ -275,11 +293,11 @@ export default function ClassTierListPage() {
       {
         "@type": "Article",
         "@id": "https://rtnw.online/guides/class-tier-list/#article",
-        headline: "Ragnarok: The New World Class Tier List — F2P, PvE and PvP",
+        headline: "Ragnarok: The New World Class Tier List (2026)",
         description:
-          "Separate early SEA-launch rankings for free-to-play progression, PvE, and PvP across all eight class families.",
+          "Separate 2026 rankings for F2P progression, PvE, and PvP across all eight Ragnarok: The New World class families.",
         datePublished: "2026-08-03",
-        dateModified: "2026-08-03",
+        dateModified: "2026-08-14",
         mainEntityOfPage: "https://rtnw.online/guides/class-tier-list/",
         author: { "@type": "Organization", name: "RTNW Hub" },
         publisher: { "@type": "Organization", name: "RTNW Hub" },
@@ -327,8 +345,8 @@ export default function ClassTierListPage() {
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Class Tier List</span>
             </nav>
-            <p className={styles.kicker}>Updated August 3, 2026 · Early SEA-launch meta</p>
-            <h1>Ragnarok: The New World <em>class tier list.</em></h1>
+            <p className={styles.kicker}>Updated August 14, 2026 · Early SEA-launch meta</p>
+            <h1>Ragnarok: The New World <em>class tier list (2026).</em></h1>
             <p className={styles.lead}>
               Separate rankings for F2P progression, PvE, and PvP—because the best farming class is not automatically the best budget main or competitive arena pick.
             </p>
@@ -399,7 +417,7 @@ export default function ClassTierListPage() {
                       </div>
                       <strong>{profile.role}</strong>
                       <p>{profile.practicalNote}</p>
-                      <a href="/sea/skill_planner/">Inspect skills in the planner <span aria-hidden="true">→</span></a>
+                      <a href={profile.guideHref}>{profile.guideLabel} <span aria-hidden="true">→</span></a>
                     </article>
                   );
                 })}

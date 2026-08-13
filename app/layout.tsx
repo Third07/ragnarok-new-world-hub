@@ -23,7 +23,7 @@ const siteVerification: Metadata["verification"] = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://rtnw.online"),
   title: {
-    default: "Ragnarok: The New World Guides, Builds & Tools | RTNW Hub",
+    default: "Ragnarok: The New World Database & Skill Planner | RTNW Hub",
     template: "%s | RTNW Hub",
   },
   description:
