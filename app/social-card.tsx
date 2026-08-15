@@ -71,11 +71,11 @@ const cards: Record<SocialCardSlug, SocialCardConfig> = {
     accent: "#e2a23a",
   },
   "farming-card-progression": {
-    badge: "FARMING GUIDE",
-    eyebrow: "Card Index → Monster Index",
-    title: "Build Better Routes",
-    description: "Choose useful targets, verify sources, and measure sessions.",
-    accent: "#5b8dd9",
+    badge: "600-KILL GUIDE",
+    eyebrow: "Green · Blue · Purple",
+    title: "Card Drop Gauge Math",
+    description: "Exact totals, daily progress, and smarter farming routes.",
+    accent: "#8063df",
   },
   "world-map": {
     badge: "INTERACTIVE TOOL",

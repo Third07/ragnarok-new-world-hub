@@ -4,13 +4,13 @@ import GuideCategoryPage from "../GuideCategoryPage";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Monsters, Cards and Farming Guides",
   description:
-    "Plan RTNW MVP hunts, Zeny farming, card targets, and monster routes with mapped boss locations, a session calculator, databases, and practical workflows.",
+    "Plan RTNW card gauges, MVP hunts, Zeny farming, and monster routes with exact 600-kill math, daily charts, mapped bosses, a calculator, and databases.",
   alternates: { canonical: "/guides/monsters-cards-farming/" },
   openGraph: {
     type: "website",
     url: "/guides/monsters-cards-farming/",
     title: "Ragnarok: The New World Monsters, Cards and Farming Guides",
-    description: "Find mapped MVPs, measure Zeny sessions, choose useful card targets, and build efficient farming routes.",
+    description: "Calculate card-gauge days, find mapped MVPs, measure Zeny sessions, choose useful targets, and build efficient farming routes.",
   },
 };
 
@@ -32,12 +32,12 @@ const guides = [
     meta: "Interactive net Zeny calculator",
   },
   {
-    title: "Farming and Card Progression Guide",
+    title: "Card Drop Gauge and Farming Guide (600 Kills)",
     description:
-      "Use the Card Index, Monster Index, and World Map as one workflow. Evaluate build fit, source access, kill speed, route density, replacement risk, and session results before repeating a farm.",
+      "See exact green, blue, and purple gauge totals—400, 910, and 10,000 kills—plus daily progress charts, final-day counts, and the Card → Monster → Map workflow.",
     href: "/guides/farming-card-progression/",
     label: "Farming guide",
-    meta: "Card → Monster → Map workflow",
+    meta: "600-kill gauge charts · Card → Monster → Map",
   },
   {
     title: "Beginner Progression Guide",

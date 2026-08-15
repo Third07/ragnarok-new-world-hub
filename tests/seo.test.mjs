@@ -490,6 +490,38 @@ test("MVP and Zeny guides render complete searchable experiences", async () => {
   assert.match(zenyHtml, /Unsold items are inventory, not completed income/);
 });
 
+test("card gauge guide renders exact 600-monster math and original local assets", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+  const pathname = "/guides/farming-card-progression/";
+  const response = await worker.fetch(
+    new Request(`${siteOrigin}${pathname}`, { headers: { accept: "text/html" } }),
+    env,
+    context,
+  );
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /<title>RTNW Card Drop Gauge &amp; Farming Guide \(600 Kills\) \| RTNW Hub<\/title>/i);
+  assert.match(html, /Updated August 15, 2026/i);
+  assert.match(html, /Green 400\. Blue 910\. Purple 10,000 kills\./i);
+  assert.match(html, /kill 909 the gauge is 99\.99%; kill 910 crosses 100%/i);
+  assert.match(html, /Day 17 · 400 more kills/i);
+  assert.match(html, /card-gauge-600-summary\.svg/i);
+  assert.match(html, /card-gauge-daily-progress\.svg/i);
+  assert.match(html, /card-gauge-farming-hero-1280\.webp/i);
+  assert.match(html, /"@type":"FAQPage"/i);
+
+  for (const asset of [
+    "public/assets/guides/farming-card-progression/card-gauge-farming-hero-1280.webp",
+    "public/assets/guides/farming-card-progression/card-gauge-farming-hero-800.webp",
+    "public/assets/guides/farming-card-progression/card-gauge-600-summary.svg",
+    "public/assets/guides/farming-card-progression/card-gauge-daily-progress.svg",
+  ]) {
+    await access(asset);
+  }
+});
+
 test("Cloudflare build serves guides and active discovery routes", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();

@@ -24,6 +24,17 @@ export const metadata: Metadata = {
 
 const releases = [
   {
+    date: "August 15, 2026",
+    title: "600-monster card drop gauge guide and original charts",
+    summary:
+      "Expanded the farming guide with recalculated green, blue, and purple gauge totals, exact partial final-day kill counts, two original progress charts, and new responsive card-farming artwork.",
+    links: [
+      ["Read the Card Gauge Guide", "/guides/farming-card-progression/"],
+      ["Browse farming guides", "/guides/monsters-cards-farming/"],
+      ["Open the Card Index", "/sea/cards/"],
+    ],
+  },
+  {
     date: "August 8, 2026",
     title: "MVP hunting directory and Zeny session calculator",
     summary:
