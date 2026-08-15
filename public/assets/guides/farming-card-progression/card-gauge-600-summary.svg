@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">RTNW 600-monster card drop gauge summary</title>
+  <desc id="desc">Green cards need 400 qualifying kills, blue cards need 910, and purple cards need 10,000. With up to 600 kills per day, green finishes on day 1, blue needs 310 kills on day 2, and purple needs 400 kills on day 17.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07162f"/>
+      <stop offset="1" stop-color="#102d5e"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" x2="1">
+      <stop stop-color="#63d88d"/>
+      <stop offset="1" stop-color="#b5f46e"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" x2="1">
+      <stop stop-color="#57b8ff"/>
+      <stop offset="1" stop-color="#8be7ff"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" x2="1">
+      <stop stop-color="#b46cff"/>
+      <stop offset="1" stop-color="#f08cff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; }
+      .eyebrow { fill: #f4c65e; font-size: 16px; font-weight: 800; letter-spacing: 2.5px; }
+      .heading { fill: #fff; font-size: 40px; font-weight: 850; letter-spacing: -.8px; }
+      .sub { fill: #bdd0ee; font-size: 17px; }
+      .tier { font-size: 22px; font-weight: 850; letter-spacing: 1.3px; }
+      .metric { fill: #a9bddc; font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+      .big { fill: #fff; font-size: 43px; font-weight: 900; letter-spacing: -1px; }
+      .copy { fill: #d8e4f6; font-size: 17px; }
+      .small { fill: #91a9ca; font-size: 14px; }
+      .formula { fill: #d9e5f7; font-size: 15px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="675" rx="28" fill="url(#bg)"/>
+  <circle cx="1090" cy="45" r="190" fill="#7c42ff" opacity=".08"/>
+  <circle cx="65" cy="640" r="210" fill="#28d6b1" opacity=".07"/>
+
+  <text x="52" y="54" class="eyebrow">CARD DROP GAUGE · 600 QUALIFYING KILLS PER DAY</text>
+  <text x="52" y="99" class="heading">Exact completion math</text>
+  <text x="52" y="127" class="sub">All kills go to one matching monster. Displayed progress is capped at 100%.</text>
+
+  <g transform="translate(52 155)" filter="url(#shadow)">
+    <rect width="344" height="425" rx="22" fill="#0c2549" stroke="#65d98f" stroke-opacity=".45"/>
+    <rect width="344" height="72" rx="22" fill="#113f3b"/>
+    <rect y="50" width="344" height="22" fill="#113f3b"/>
+    <circle cx="42" cy="36" r="17" fill="url(#green)"/>
+    <text x="70" y="44" class="tier" fill="#b7f58b">GREEN CARD</text>
+    <text x="25" y="112" class="metric">GAUGE PER KILL</text>
+    <text x="25" y="154" class="big">+0.25 pp</text>
+    <text x="25" y="184" class="small">percentage points per qualifying kill</text>
+    <line x1="25" y1="207" x2="319" y2="207" stroke="#fff" stroke-opacity=".12"/>
+    <text x="25" y="239" class="metric">KILLS TO REACH 100%</text>
+    <text x="25" y="286" class="big">400 kills</text>
+    <rect x="25" y="309" width="294" height="15" rx="8" fill="#07162f"/>
+    <rect x="25" y="309" width="196" height="15" rx="8" fill="url(#green)"/>
+    <text x="25" y="354" class="copy">Day 1 · finish after kill 400</text>
+    <text x="25" y="384" class="small">200 of the 600-kill allowance remains.</text>
+  </g>
+
+  <g transform="translate(428 155)" filter="url(#shadow)">
+    <rect width="344" height="425" rx="22" fill="#0c2549" stroke="#58bdff" stroke-opacity=".48"/>
+    <rect width="344" height="72" rx="22" fill="#133660"/>
+    <rect y="50" width="344" height="22" fill="#133660"/>
+    <circle cx="42" cy="36" r="17" fill="url(#blue)"/>
+    <text x="70" y="44" class="tier" fill="#8bdcff">BLUE CARD</text>
+    <text x="25" y="112" class="metric">GAUGE PER KILL</text>
+    <text x="25" y="154" class="big">+0.11 pp</text>
+    <text x="25" y="184" class="small">percentage points per qualifying kill</text>
+    <line x1="25" y1="207" x2="319" y2="207" stroke="#fff" stroke-opacity=".12"/>
+    <text x="25" y="239" class="metric">KILLS TO REACH 100%</text>
+    <text x="25" y="286" class="big">910 kills</text>
+    <rect x="25" y="309" width="294" height="15" rx="8" fill="#07162f"/>
+    <rect x="25" y="309" width="194" height="15" rx="8" fill="url(#blue)"/>
+    <text x="25" y="354" class="copy">Day 1 · 600 kills = 66%</text>
+    <text x="25" y="384" class="copy">Day 2 · +310 kills = complete</text>
+    <text x="25" y="410" class="small">Kill 909 is only 99.99%.</text>
+  </g>
+
+  <g transform="translate(804 155)" filter="url(#shadow)">
+    <rect width="344" height="425" rx="22" fill="#0c2549" stroke="#c375ff" stroke-opacity=".52"/>
+    <rect width="344" height="72" rx="22" fill="#3b245f"/>
+    <rect y="50" width="344" height="22" fill="#3b245f"/>
+    <circle cx="42" cy="36" r="17" fill="url(#purple)"/>
+    <text x="70" y="44" class="tier" fill="#e4a4ff">PURPLE CARD</text>
+    <text x="25" y="112" class="metric">GAUGE PER KILL</text>
+    <text x="25" y="154" class="big">+0.01 pp</text>
+    <text x="25" y="184" class="small">percentage points per qualifying kill</text>
+    <line x1="25" y1="207" x2="319" y2="207" stroke="#fff" stroke-opacity=".12"/>
+    <text x="25" y="239" class="metric">KILLS TO REACH 100%</text>
+    <text x="25" y="286" class="big">10,000</text>
+    <rect x="25" y="309" width="294" height="15" rx="8" fill="#07162f"/>
+    <rect x="25" y="309" width="282" height="15" rx="8" fill="url(#purple)"/>
+    <text x="25" y="354" class="copy">Day 16 · 9,600 kills = 96%</text>
+    <text x="25" y="384" class="copy">Day 17 · +400 kills = complete</text>
+  </g>
+
+  <g transform="translate(52 615)">
+    <rect width="1096" height="38" rx="12" fill="#061229" stroke="#fff" stroke-opacity=".1"/>
+    <text x="548" y="25" text-anchor="middle" class="formula">Formula: kills remaining = ceiling((100 − current gauge) ÷ points per kill)</text>
+  </g>
+</svg>

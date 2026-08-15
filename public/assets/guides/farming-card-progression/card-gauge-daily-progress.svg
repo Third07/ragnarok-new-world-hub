@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">RTNW card gauge daily progress chart</title>
+  <desc id="desc">At 600 qualifying kills per day, green card gauge reaches 100 percent on day 1, blue reaches 66 percent on day 1 and completes after 310 kills on day 2, and purple gains 6 percent per full day before completing after 400 kills on day 17.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#07162f"/>
+      <stop offset="1" stop-color="#102d5e"/>
+    </linearGradient>
+    <filter id="glowGreen"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowBlue"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowPurple"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <style>
+      text { font-family: Inter, Arial, sans-serif; }
+      .eyebrow { fill: #f4c65e; font-size: 16px; font-weight: 800; letter-spacing: 2.4px; }
+      .heading { fill: #fff; font-size: 38px; font-weight: 850; letter-spacing: -.8px; }
+      .axis { fill: #9cb3d3; font-size: 14px; font-weight: 650; }
+      .legend { fill: #dce8f8; font-size: 15px; font-weight: 800; }
+      .note { fill: #e7f0fc; font-size: 15px; font-weight: 750; }
+      .small { fill: #9fb5d4; font-size: 13px; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="675" rx="28" fill="url(#bg)"/>
+  <text x="54" y="55" class="eyebrow">CARD GAUGE PROGRESS · 600 KILLS PER FULL DAY</text>
+  <text x="54" y="98" class="heading">How quickly each rarity reaches 100%</text>
+
+  <g transform="translate(680 52)">
+    <circle cx="0" cy="0" r="7" fill="#70e18f"/><text x="15" y="5" class="legend">Green</text>
+    <circle cx="105" cy="0" r="7" fill="#62c8ff"/><text x="120" y="5" class="legend">Blue</text>
+    <circle cx="200" cy="0" r="7" fill="#d184ff"/><text x="215" y="5" class="legend">Purple</text>
+  </g>
+
+  <g>
+    <rect x="94" y="126" width="1015" height="458" rx="18" fill="#06152d" stroke="#fff" stroke-opacity=".11"/>
+    <line x1="110" y1="570" x2="1090" y2="570" stroke="#fff" stroke-opacity=".18"/>
+    <line x1="110" y1="460" x2="1090" y2="460" stroke="#fff" stroke-opacity=".11"/>
+    <line x1="110" y1="350" x2="1090" y2="350" stroke="#fff" stroke-opacity=".11"/>
+    <line x1="110" y1="240" x2="1090" y2="240" stroke="#fff" stroke-opacity=".11"/>
+    <line x1="110" y1="130" x2="1090" y2="130" stroke="#fff" stroke-opacity=".18"/>
+
+    <text x="78" y="575" text-anchor="end" class="axis">0%</text>
+    <text x="78" y="465" text-anchor="end" class="axis">25%</text>
+    <text x="78" y="355" text-anchor="end" class="axis">50%</text>
+    <text x="78" y="245" text-anchor="end" class="axis">75%</text>
+    <text x="78" y="135" text-anchor="end" class="axis">100%</text>
+
+    <g class="axis" text-anchor="middle">
+      <text x="110" y="610">Day 0</text>
+      <text x="168" y="610">1</text>
+      <text x="225" y="610">2</text>
+      <text x="341" y="610">4</text>
+      <text x="571" y="610">8</text>
+      <text x="802" y="610">12</text>
+      <text x="1032" y="610">16</text>
+      <text x="1090" y="610">17</text>
+    </g>
+
+    <polyline points="110,570 168,130 1090,130" fill="none" stroke="#70e18f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowGreen)"/>
+    <polyline points="110,570 168,280 225,130 1090,130" fill="none" stroke="#62c8ff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowBlue)"/>
+    <polyline points="110,570 168,544 225,517 283,491 341,464 398,438 456,412 514,385 571,359 629,332 686,306 744,280 802,253 859,227 917,200 975,174 1032,148 1090,130" fill="none" stroke="#d184ff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowPurple)"/>
+
+    <circle cx="168" cy="130" r="9" fill="#70e18f" stroke="#fff" stroke-width="3"/>
+    <circle cx="225" cy="130" r="9" fill="#62c8ff" stroke="#fff" stroke-width="3"/>
+    <circle cx="1090" cy="130" r="9" fill="#d184ff" stroke="#fff" stroke-width="3"/>
+
+    <g transform="translate(185 155)">
+      <rect width="247" height="54" rx="12" fill="#0c3157" stroke="#62c8ff" stroke-opacity=".5"/>
+      <text x="16" y="23" class="note">Blue: 66% after day 1</text>
+      <text x="16" y="42" class="small">Only 310 more kills on day 2</text>
+    </g>
+    <g transform="translate(787 480)">
+      <rect width="287" height="54" rx="12" fill="#30204e" stroke="#d184ff" stroke-opacity=".55"/>
+      <text x="16" y="23" class="note">Purple: 96% after day 16</text>
+      <text x="16" y="42" class="small">Only 400 more kills on day 17</text>
+    </g>
+  </g>
+
+  <text x="600" y="650" text-anchor="middle" class="small">Progress shown is deterministic gauge gain, not random per-kill card-drop probability.</text>
+</svg>

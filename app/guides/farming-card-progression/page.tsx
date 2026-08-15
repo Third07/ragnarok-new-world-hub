@@ -3,30 +3,37 @@ import Link from "next/link";
 import styles from "./farming.module.css";
 
 export const metadata: Metadata = {
-  title: "Ragnarok: The New World Farming & Card Progression Guide",
+  title: "RTNW Card Drop Gauge & Farming Guide (600 Kills)",
   description:
-    "Plan efficient Ragnarok: The New World card farms with the RTNW Card Index, Monster Index, and World Map. Learn card priorities, source evaluation, route planning, session tracking, and F2P progression.",
+    "See the Ragnarok: The New World 600-monster card drop gauge math: green 400 kills, blue 910, purple 10,000, daily charts, routes, and F2P tips.",
   alternates: { canonical: "/guides/farming-card-progression/" },
+  keywords: [
+    "Ragnarok The New World card drop gauge",
+    "RTNW card farming guide",
+    "RTNW 600 monsters",
+    "Ragnarok New World green blue purple cards",
+    "RTNW card pity gauge",
+  ],
   openGraph: {
     type: "article",
     url: "/guides/farming-card-progression/",
-    title: "Ragnarok: The New World Farming & Card Progression Guide",
+    title: "RTNW Card Drop Gauge & Farming Guide (600 Kills)",
     description:
-      "Choose useful cards, verify their sources, inspect the target monster, map the route, and measure whether the farm is worth continuing.",
+      "Exact green, blue, and purple card-gauge totals, daily progress charts, final-day kill counts, and a practical farming workflow.",
     images: [
       {
-        url: "/assets/rtnw-hero-1280.webp",
+        url: "/assets/guides/farming-card-progression/card-gauge-farming-hero-1280.webp",
         width: 1280,
         height: 720,
-        alt: "Ragnarok: The New World card farming guide",
+        alt: "Green, blue, and purple fantasy cards for the RTNW card drop gauge guide",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "RTNW Farming & Card Progression Guide",
-    description: "Card priorities, monster sources, map routes, and efficient F2P farming decisions.",
-    images: ["/assets/rtnw-hero-1280.webp"],
+    title: "RTNW Card Drop Gauge Guide: 600-Kill Math",
+    description: "Green 400 kills, blue 910, purple 10,000—plus exact final-day totals and farming routes.",
+    images: ["/assets/guides/farming-card-progression/card-gauge-farming-hero-1280.webp"],
   },
 };
 
@@ -172,6 +179,33 @@ const sourceTypes = [
   },
 ] as const;
 
+const cardGaugeTiers = [
+  {
+    rarity: "Green",
+    tone: "green",
+    gain: "+0.25 pp",
+    killsToMax: "400",
+    dayOne: "100% after 400 kills",
+    finish: "Day 1 · 400 kills",
+  },
+  {
+    rarity: "Blue",
+    tone: "blue",
+    gain: "+0.11 pp",
+    killsToMax: "910",
+    dayOne: "66% after 600 kills",
+    finish: "Day 2 · 310 more kills",
+  },
+  {
+    rarity: "Purple",
+    tone: "purple",
+    gain: "+0.01 pp",
+    killsToMax: "10,000",
+    dayOne: "6% after 600 kills",
+    finish: "Day 17 · 400 more kills",
+  },
+] as const;
+
 const mistakes = [
   ["Farming by rarity alone", "Rarity does not guarantee build fit, slot compatibility, source access, or good return on time."],
   ["Ignoring alternative sources", "The Card Index can list trade, tasks, dungeons, towers, shops, sign-in, and other acquisition paths."],
@@ -182,6 +216,26 @@ const mistakes = [
 ] as const;
 
 const faqs = [
+  {
+    question: "How many monsters fill the green, blue, and purple card drop gauges?",
+    answer:
+      "From an empty gauge at the listed 600-monster-mode values, green needs 400 qualifying kills, blue needs 910, and purple needs 10,000. Blue requires 910 because 909 kills at 0.11 percentage points each produce only 99.99%.",
+  },
+  {
+    question: "How many days does each card color take at 600 monsters per day?",
+    answer:
+      "Green completes after 400 kills on day 1. Blue reaches 66% after 600 kills and needs 310 more on day 2. Purple reaches 96% after 16 full 600-kill days and needs 400 more kills on day 17.",
+  },
+  {
+    question: "Is card drop gauge progress the same as card drop chance?",
+    answer:
+      "No. The 0.25, 0.11, and 0.01 values in this guide are deterministic gauge percentage points gained per qualifying kill. They are not the random probability that the card drops on that kill.",
+  },
+  {
+    question: "Do I need to farm all 600 monsters on the final day?",
+    answer:
+      "No, if the listed per-kill values apply and the gauge starts at 0%. Green stops at 400 kills on day 1, blue needs only 310 kills on day 2, and purple needs only 400 kills on day 17. Extra arithmetic above 100% should not be treated as carryover unless the current game UI explicitly says so.",
+  },
   {
     question: "Should I always farm the highest-rarity card available?",
     answer:
@@ -216,15 +270,15 @@ export default function FarmingCardProgressionGuidePage() {
       {
         "@type": "Article",
         "@id": "https://rtnw.online/guides/farming-card-progression/#article",
-        headline: "Ragnarok: The New World Farming and Card Progression Guide",
+        headline: "RTNW Card Drop Gauge and Farming Guide (600-Monster Mode)",
         description:
-          "A practical workflow for choosing card targets, checking sources, inspecting monsters, building map routes, and measuring farming efficiency.",
+          "Exact green, blue, and purple card drop gauge totals for the 600-monster mode, plus daily progress charts and a practical card-farming workflow.",
         datePublished: "2026-08-03",
-        dateModified: "2026-08-03",
+        dateModified: "2026-08-15",
         mainEntityOfPage: "https://rtnw.online/guides/farming-card-progression/",
         author: { "@type": "Organization", name: "RTNW Hub" },
         publisher: { "@type": "Organization", name: "RTNW Hub" },
-        image: "https://rtnw.online/assets/rtnw-hero-1280.webp",
+        image: "https://rtnw.online/assets/guides/farming-card-progression/card-gauge-farming-hero-1280.webp",
         inLanguage: "en",
       },
       {
@@ -235,7 +289,7 @@ export default function FarmingCardProgressionGuidePage() {
           {
             "@type": "ListItem",
             position: 3,
-            name: "Farming and Card Progression",
+            name: "Card Drop Gauge and Farming",
             item: "https://rtnw.online/guides/farming-card-progression/",
           },
         ],
@@ -266,18 +320,18 @@ export default function FarmingCardProgressionGuidePage() {
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
               <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span>
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
-              <span>Farming and Card Progression</span>
+              <span>Card Drop Gauge and Farming</span>
             </nav>
-            <p className={styles.kicker}>Updated August 3, 2026 · Card and monster data workflow</p>
+            <p className={styles.kicker}>Updated August 15, 2026 · 600-monster card gauge math</p>
             <div className={styles.heroTitleRow}>
               <img src="/media/images/zhujiemian/icon_zhujiemian_tujian.webp" alt="" width="92" height="92" />
-              <h1>Farm the right target. <em>Not only the rarest one.</em></h1>
+              <h1>RTNW card drop gauge. <em>Exact 600-kill farming math.</em></h1>
             </div>
             <p className={styles.lead}>
-              Turn card effects into an efficient route: choose the build need, compare every obtain source, inspect the monster, locate the habitat, and measure whether the session is worth repeating.
+              Green, blue, and purple gauges fill at very different speeds. See the exact kill totals, daily progress, final-day workload, and the route-planning workflow that turns those kills into useful account progress.
             </p>
             <div className={styles.heroActions}>
-              <a href="#workflow">Start the workflow <span aria-hidden="true">↓</span></a>
+              <a href="#card-drop-gauge">See the gauge chart <span aria-hidden="true">↓</span></a>
               <a href="/sea/cards/">Open Card Index <span aria-hidden="true">→</span></a>
             </div>
           </div>
@@ -286,6 +340,8 @@ export default function FarmingCardProgressionGuidePage() {
         <div className={styles.articleLayout}>
           <aside className={styles.contents}>
             <strong>On this page</strong>
+            <a href="#card-drop-gauge">600-monster gauge math</a>
+            <a href="#daily-progress">Daily progress chart</a>
             <a href="#workflow">Three-tool workflow</a>
             <a href="#progression">Card progression stages</a>
             <a href="#evaluation">Evaluate a target</a>
@@ -297,6 +353,101 @@ export default function FarmingCardProgressionGuidePage() {
           </aside>
 
           <article className={styles.article}>
+            <section className={styles.gaugeSection} id="card-drop-gauge">
+              <p className={styles.sectionKicker}>600-monster mode</p>
+              <h2>Green 400. Blue 910. Purple 10,000 kills.</h2>
+              <p>
+                These totals use the gauge values shown for the 600-monster mode and assume every qualifying kill goes to the same monster and matching card target. The percentage is deterministic <strong>gauge progress</strong>, not the random chance that a card drops on that kill.
+              </p>
+
+              <figure className={styles.chartFigure} tabIndex={0} aria-label="Scrollable card-gauge completion chart">
+                <img
+                  src="/assets/guides/farming-card-progression/card-gauge-600-summary.svg"
+                  alt="Card drop gauge chart: green needs 400 kills, blue 910, and purple 10,000"
+                  width="1200"
+                  height="675"
+                />
+                <figcaption>Original RTNW Hub chart. “pp” means percentage points added to the gauge per qualifying kill.</figcaption>
+              </figure>
+
+              <div className={styles.gaugeTableWrap}>
+                <table>
+                  <caption>Card drop gauge completion table from 0% at up to 600 qualifying kills per day</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Card color</th>
+                      <th scope="col">Gauge per kill</th>
+                      <th scope="col">Kills to 100%</th>
+                      <th scope="col">After day 1</th>
+                      <th scope="col">Exact finish</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cardGaugeTiers.map((tier) => (
+                      <tr key={tier.rarity}>
+                        <th scope="row">
+                          <span className={styles.tierLabel} data-rarity={tier.tone}>
+                            <span aria-hidden="true" />{tier.rarity}
+                          </span>
+                        </th>
+                        <td>{tier.gain}</td>
+                        <td><strong>{tier.killsToMax}</strong></td>
+                        <td>{tier.dayOne}</td>
+                        <td>{tier.finish}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className={styles.gaugeInsights}>
+                <article>
+                  <span>01</span>
+                  <div>
+                    <h3>Why blue takes 910 kills</h3>
+                    <p>100 ÷ 0.11 = 909.09. Kills are whole numbers, so round up. At kill 909 the gauge is 99.99%; kill 910 crosses 100%.</p>
+                  </div>
+                </article>
+                <article>
+                  <span>02</span>
+                  <div>
+                    <h3>Do not count raw overflow</h3>
+                    <p>A full day calculates to 150% green, two full days to 132% blue, and 17 full days to 102% purple. For planning, cap each gauge at 100% and stop when it completes.</p>
+                  </div>
+                </article>
+              </div>
+            </section>
+
+            <section className={styles.dailyGaugeSection} id="daily-progress">
+              <p className={styles.sectionKicker}>Daily progress tracker</p>
+              <h2>The final day is only a partial 600-kill day.</h2>
+              <p>
+                At the full daily allowance, green finishes during day 1. Blue needs one full day plus 310 kills. Purple needs 16 full days plus 400 kills. Splitting the 600 kills between different monsters slows each individual card gauge.
+              </p>
+
+              <figure className={styles.chartFigure} tabIndex={0} aria-label="Scrollable daily card-gauge progress chart">
+                <img
+                  src="/assets/guides/farming-card-progression/card-gauge-daily-progress.svg"
+                  alt="Daily progress chart showing green completing on day 1, blue on day 2, and purple on day 17"
+                  width="1200"
+                  height="675"
+                  loading="lazy"
+                />
+                <figcaption>Progress is capped at 100%. The chart assumes the gauge starts empty and every listed kill qualifies.</figcaption>
+              </figure>
+
+              <div className={styles.formulaPanel}>
+                <p className={styles.sectionKicker}>Use this for any current gauge</p>
+                <p><strong>Kills remaining</strong> = ceiling((100 − current gauge %) ÷ gauge points per kill)</p>
+                <p><strong>Days remaining</strong> = ceiling(kills remaining ÷ 600)</p>
+              </div>
+
+              <div className={styles.dataNotice}>
+                <strong>Live-system check.</strong>
+                <span>These calculations independently recalculate the values in the supplied 600-monster reference. Game rules can change by patch or region, so confirm the per-kill value and eligibility shown in your current in-game card gauge before planning a long purple-card farm.</span>
+              </div>
+            </section>
+
             <section className={styles.workflowSection} id="workflow">
               <p className={styles.sectionKicker}>Card Index → Monster Index → World Map</p>
               <h2>A six-step farming workflow.</h2>

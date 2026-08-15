@@ -87,8 +87,8 @@ export default function FarmingTargetFinderPage() {
               <span><strong>World Map</strong><span>Inspect habitats and build a route between targets.</span></span>
             </a>
             <a className={styles.card} href="/guides/farming-card-progression/">
-              <img src="/media/images/zhujiemian/icon_zhujiemian_shitu.webp" alt="" />
-              <span><strong>Farming Guide</strong><span>Turn database research into a repeatable progression workflow.</span></span>
+              <img src="/assets/guides/farming-card-progression/card-gauge-farming-hero-800.webp" alt="" />
+              <span><strong>Card Gauge and Farming Guide</strong><span>Calculate 600-monster gauge progress, then turn database research into a repeatable route.</span></span>
             </a>
             <a className={styles.card} href="/guides/mvp-hunting/">
               <img src="/media/images/activity/icon_activity_mvp.webp" alt="" />

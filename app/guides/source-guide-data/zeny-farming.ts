@@ -211,7 +211,7 @@ export const zenyFarmingGuide = {
     ["Monster Database", "/sea/monster_album/"],
     ["Shop Catalogue", "/sea/shop/"],
     ["MVP hunting guide", "/guides/mvp-hunting/"],
-    ["Farming and Card guide", "/guides/farming-card-progression/"],
+    ["Card Gauge and Farming guide", "/guides/farming-card-progression/"],
     ["Refine Simulator", "/sea/refine/"],
     ["Refining guide", "/guides/refining-equipment/"],
   ],

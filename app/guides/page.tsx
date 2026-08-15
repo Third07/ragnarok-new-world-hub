@@ -5,7 +5,7 @@ import styles from "./guides.module.css";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Guides",
   description:
-    "Browse RTNW class builds, MVP locations, Zeny farming, guild events, beginner progression, equipment, PC, emulator, cloud gaming, and safe top-up guides.",
+    "Browse RTNW class builds, the 600-monster card drop gauge, MVP locations, Zeny farming, guild events, progression, equipment, PC, emulator, and safety guides.",
   alternates: { canonical: "/guides/" },
   keywords: [
     "Ragnarok The New World guides",
@@ -16,13 +16,14 @@ export const metadata: Metadata = {
     "Ragnarok The New World beginner guide",
     "Ragnarok The New World MVP locations",
     "Ragnarok The New World Zeny farming",
+    "Ragnarok The New World card drop gauge",
   ],
   openGraph: {
     type: "website",
     url: "/guides/",
     title: "Ragnarok: The New World Guides",
     description:
-      "Class builds, MVP hunting, Zeny farming, guild-event strategy, progression, PC, emulator, cloud gaming, and account-safety guides connected to RTNW tools.",
+      "Class builds, exact card-gauge math, MVP hunting, Zeny farming, guild-event strategy, progression, PC, emulator, cloud gaming, and account-safety guides.",
     images: [
       {
         url: "/assets/rtnw-hero-1280.webp",
@@ -82,8 +83,8 @@ const guideCategories = [
     number: "05",
     title: "Monsters, cards and farming",
     description:
-      "Find mapped MVPs, plan party counters, calculate net Zeny, choose cards by build fit, and measure whether a monster route is worth repeating.",
-    status: "MVP and Zeny guides now published",
+      "Calculate green, blue, and purple card-gauge kills, find mapped MVPs, plan counters, calculate net Zeny, and measure whether a monster route is worth repeating.",
+    status: "Card gauge, MVP and Zeny guides published",
     href: "/guides/monsters-cards-farming/",
     link: "Browse farming guides →",
   },
@@ -122,7 +123,7 @@ const featuredGuides = [
   ["Class Tier List: F2P, PvE and PvP", "/guides/class-tier-list/"],
   ["Beginner Progression Guide", "/guides/beginner-progression/"],
   ["Refining and Equipment Upgrade Guide", "/guides/refining-equipment/"],
-  ["Farming and Card Progression Guide", "/guides/farming-card-progression/"],
+  ["Card Drop Gauge and Farming Guide (600 Kills)", "/guides/farming-card-progression/"],
   ["MVP Hunting: Locations, Counters and Party Setup", "/guides/mvp-hunting/"],
   ["Zeny Farming Guide and Session Calculator", "/guides/zeny-farming/"],
   ["How to Download and Play on PC", "/guides/play-on-pc/"],
@@ -150,7 +151,7 @@ export default function GuidesPage() {
         url: "https://rtnw.online/guides/",
         name: "Ragnarok: The New World Guides",
         description:
-          "Guide categories for classes, guild events, beginner progression, equipment, MVP hunting, Zeny farming, PC installation, emulators, cloud gaming, top-ups, and connected RTNW tools.",
+          "Guide categories for classes, guild events, beginner progression, equipment, the 600-monster card drop gauge, MVP hunting, Zeny farming, PC installation, emulators, cloud gaming, top-ups, and connected RTNW tools.",
         isPartOf: { "@id": "https://rtnw.online/#website" },
         inLanguage: "en",
         mainEntity: {
