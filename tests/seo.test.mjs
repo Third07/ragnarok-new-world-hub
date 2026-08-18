@@ -65,6 +65,7 @@ const publicPageRoutes = [
   "/search/",
   "/database/",
   "/updates/",
+  "/creator-kit/",
   "/guides/",
   "/guides/classes-builds/",
   "/guides/guild-events/",

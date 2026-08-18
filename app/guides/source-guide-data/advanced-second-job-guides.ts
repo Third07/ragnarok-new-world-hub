@@ -417,6 +417,7 @@ export const highWizardGuide = {
     { question: "Which High Wizard build is easiest to continue?", answer: "Continue the elemental build that already owns your best weapon, traits, and cards. Ghost is attractive, but changing elements can require a second card and equipment package." },
   ],
   related: [
+    ["High Wizard creator thumbnail", "/creator-kit/#thumbnail-cards"],
     ["Mage and Wizard build guide", "/guides/mage-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],
     ["Equipment database", "/sea/equipment/"],
@@ -625,6 +626,7 @@ export const highPriestGuide = {
     { question: "What is the best second build for a Support High Priest?", answer: "Exorcist is the efficient second build because it shares INT, DEX, magic gear, and many defensive resources with Support." },
   ],
   related: [
+    ["High Priest creator thumbnail", "/creator-kit/#thumbnail-cards"],
     ["Acolyte and Priest build guide", "/guides/acolyte-builds/"],
     ["Monk build guide", "/guides/monk-build/"],
     ["Skill Planner", "/sea/skill_planner/"],

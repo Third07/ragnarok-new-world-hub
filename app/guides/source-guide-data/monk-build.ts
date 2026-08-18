@@ -106,6 +106,7 @@ export const guide = {
     { question: "Which Monk build is best for beginners?", answer: "The combo route is the easiest general starting point because it teaches sphere management without staking the entire rotation on Guillotine Fist. Add the high-commitment burst route after the setup is comfortable." },
   ],
   related: [
+    ["Monk creator thumbnail", "/creator-kit/#thumbnail-cards"],
     ["Acolyte and Priest build guide", "/guides/acolyte-builds/"],
     ["High Priest build guide", "/guides/high-priest-builds/"],
     ["Skill Planner", "/sea/skill_planner/"],

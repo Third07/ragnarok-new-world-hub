@@ -12,6 +12,7 @@ const expectedRoutes = [
   "/search/",
   "/database/",
   "/updates/",
+  "/creator-kit/",
   "/guides/",
   "/guides/classes-builds/",
   "/guides/guild-events/",
@@ -78,6 +79,7 @@ const routeSources = {
   "/search/": "app/search/page.tsx",
   "/database/": "app/database/page.tsx",
   "/updates/": "app/updates/page.tsx",
+  "/creator-kit/": "app/creator-kit/page.tsx",
   "/guides/": "app/guides/page.tsx",
   "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
   "/guides/guild-events/": "app/guides/guild-events/page.tsx",
@@ -142,6 +144,7 @@ const routeSources = {
 const modernRoutes = [
   "/search/",
   "/updates/",
+  "/creator-kit/",
   "/guides/technical/",
   "/guides/play-on-pc/",
   "/guides/emulator-settings/",

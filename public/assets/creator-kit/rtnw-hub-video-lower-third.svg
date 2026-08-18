@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 260" role="img" aria-labelledby="title desc">
+  <title id="title">RTNW Hub video lower third</title>
+  <desc id="desc">Transparent lower-third overlay for videos with the RTNW Hub crest, channel name, and website.</desc>
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#092f36" stop-opacity=".98"/>
+      <stop offset=".78" stop-color="#174f55" stop-opacity=".94"/>
+      <stop offset="1" stop-color="#174f55" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#79dcff"/>
+      <stop offset="1" stop-color="#227fcf"/>
+    </linearGradient>
+  </defs>
+  <path d="M20 26h1290l190 208H20Q0 234 0 214V46Q0 26 20 26Z" fill="url(#panel)"/>
+  <rect x="0" y="222" width="1240" height="6" rx="3" fill="#f4c762"/>
+  <g transform="translate(54 52) scale(.3)">
+    <rect width="512" height="512" rx="112" fill="#174f55"/>
+    <circle cx="256" cy="256" r="198" fill="url(#sky)" stroke="#f4c762" stroke-width="30"/>
+    <path d="M162 376V132h111c80 0 123 37 123 101 0 44-23 76-64 91l76 52h-76l-71-48h-37v48zm62-104h45c43 0 64-13 64-39s-21-39-64-39h-45z" fill="#fffdf4"/>
+    <path d="m405 84 11 28 29 10-29 11-11 28-10-28-29-11 29-10z" fill="#fff2a8"/>
+  </g>
+  <text x="244" y="128" fill="#fffdf4" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="700">RTNW Hub</text>
+  <text x="247" y="176" fill="#b9e4ff" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="4">RAGNAROK: THE NEW WORLD GUIDES</text>
+  <text x="1010" y="168" fill="#fff0b3" font-family="Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="2">RTNW.ONLINE</text>
+</svg>

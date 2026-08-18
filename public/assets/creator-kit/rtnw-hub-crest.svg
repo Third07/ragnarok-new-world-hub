@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">RTNW Hub crest</title>
+  <desc id="desc">Royal-blue R crest with a gold ring and star on a deep teal background.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#79dcff"/>
+      <stop offset="1" stop-color="#227fcf"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#174f55"/>
+  <circle cx="256" cy="256" r="198" fill="url(#sky)" stroke="#f4c762" stroke-width="30"/>
+  <path d="M162 376V132h111c80 0 123 37 123 101 0 44-23 76-64 91l76 52h-76l-71-48h-37v48zm62-104h45c43 0 64-13 64-39s-21-39-64-39h-45z" fill="#fffdf4"/>
+  <path d="m405 84 11 28 29 10-29 11-11 28-10-28-29-11 29-10z" fill="#fff2a8"/>
+</svg>

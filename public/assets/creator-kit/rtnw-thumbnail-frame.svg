@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">RTNW Hub transparent thumbnail frame</title>
+  <desc id="desc">Transparent 1280 by 720 video thumbnail overlay with a gold safe-area frame and RTNW Hub credit.</desc>
+  <defs>
+    <linearGradient id="credit" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#092f36" stop-opacity=".97"/>
+      <stop offset="1" stop-color="#174f55" stop-opacity=".84"/>
+    </linearGradient>
+  </defs>
+  <rect x="28" y="28" width="1224" height="664" rx="28" fill="none" stroke="#f4c762" stroke-width="5"/>
+  <path d="M54 610h486q22 0 34 18l42 64H54q-20 0-20-20v-42q0-20 20-20Z" fill="url(#credit)"/>
+  <circle cx="92" cy="650" r="25" fill="#227fcf" stroke="#f4c762" stroke-width="5"/>
+  <text x="82" y="662" fill="#fffdf4" font-family="Arial, sans-serif" font-size="34" font-weight="900">R</text>
+  <text x="136" y="645" fill="#fffdf4" font-family="Georgia, 'Times New Roman', serif" font-size="31" font-weight="700">RTNW Hub</text>
+  <text x="137" y="674" fill="#b9e4ff" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2">RTNW.ONLINE</text>
+  <path d="M1192 48h40v40M48 88V48h40M88 672H48v-40M1232 632v40h-40" fill="none" stroke="#fffdf4" stroke-opacity=".7" stroke-width="4"/>
+</svg>

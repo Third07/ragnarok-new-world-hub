@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url><loc>https://rtnw.online/</loc><lastmod>2026-08-14</lastmod></url>
   <url><loc>https://rtnw.online/search/</loc><lastmod>2026-08-15</lastmod></url>
   <url><loc>https://rtnw.online/database/</loc><lastmod>2026-08-08</lastmod></url>
   <url><loc>https://rtnw.online/updates/</loc><lastmod>2026-08-15</lastmod></url>
+  <url>
+    <loc>https://rtnw.online/creator-kit/</loc>
+    <lastmod>2026-08-18</lastmod>
+    <image:image><image:loc>https://rtnw.online/creator-assets/high-wizard-build/</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/creator-assets/high-priest-build/</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/creator-assets/monk-build/</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/creator-assets/world-map/</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/creator-assets/mvp-hunting/</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/creator-assets/blank-template/</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/assets/creator-kit/rtnw-hub-crest.svg</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/assets/creator-kit/rtnw-hub-wordmark.svg</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/assets/creator-kit/rtnw-hub-video-lower-third.svg</image:loc></image:image>
+    <image:image><image:loc>https://rtnw.online/assets/creator-kit/rtnw-thumbnail-frame.svg</image:loc></image:image>
+  </url>
   <url><loc>https://rtnw.online/guides/</loc><lastmod>2026-08-15</lastmod></url>
   <url><loc>https://rtnw.online/guides/classes-builds/</loc><lastmod>2026-08-08</lastmod></url>
   <url><loc>https://rtnw.online/guides/guild-events/</loc><lastmod>2026-08-08</lastmod></url>
