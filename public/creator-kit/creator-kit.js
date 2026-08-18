@@ -25,6 +25,28 @@
     retry: document.getElementById("asset-retry"),
   };
 
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mobileMenu = document.getElementById("shared-mobile-menu");
+
+  function setMenu(open) {
+    if (!menuToggle || !mobileMenu) return;
+    menuToggle.setAttribute("aria-expanded", String(open));
+    menuToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    mobileMenu.classList.toggle("is-open", open);
+  }
+
+  menuToggle?.addEventListener("click", () => {
+    setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  mobileMenu?.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLAnchorElement) setMenu(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenu(false);
+  });
+
   function categoryState(category) {
     if (!state.categories.has(category.id)) {
       state.categories.set(category.id, {

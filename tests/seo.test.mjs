@@ -552,10 +552,11 @@ test("creator asset library covers every indexed game image without loading ever
   assert.match(html, /name="rtnw-delivery" content="static"/i);
   assert.match(html, /<title>RTNW Creator Asset Library: Skills, Cards &amp; Weapons \| RTNW Hub<\/title>/i);
   assert.match(html, new RegExp(summary.total.toLocaleString("en-US")));
-  assert.match(html, /Find the game image/i);
+  assert.match(html, /RTNW images for your videos and thumbnails/i);
   assert.match(html, /id="creator-asset-search"/i);
-  assert.match(html, /Game reference images/i);
-  assert.match(html, /not a rights transfer/i);
+  assert.match(html, /Game image library/i);
+  assert.match(html, /belong to their respective owners/i);
+  assert.doesNotMatch(html, /On-demand route|Cards at a time|Chunk per request|The archive stays large/i);
 });
 
 test("card gauge guide renders exact 600-monster math and original local assets", async () => {
