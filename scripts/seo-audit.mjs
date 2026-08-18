@@ -79,7 +79,7 @@ const routeSources = {
   "/search/": "app/search/page.tsx",
   "/database/": "app/database/page.tsx",
   "/updates/": "app/updates/page.tsx",
-  "/creator-kit/": "app/creator-kit/page.tsx",
+  "/creator-kit/": "public/creator-kit/index.html",
   "/guides/": "app/guides/page.tsx",
   "/guides/classes-builds/": "app/guides/classes-builds/page.tsx",
   "/guides/guild-events/": "app/guides/guild-events/page.tsx",
@@ -144,7 +144,6 @@ const routeSources = {
 const modernRoutes = [
   "/search/",
   "/updates/",
-  "/creator-kit/",
   "/guides/technical/",
   "/guides/play-on-pc/",
   "/guides/emulator-settings/",
@@ -154,6 +153,8 @@ const modernRoutes = [
   "/tools/pc-setup-checker/",
   "/tools/top-up-calculator/",
 ];
+
+const staticContentRoutes = ["/creator-kit/"];
 
 const socialSources = [
   "app/opengraph-image.tsx",
@@ -312,11 +313,36 @@ add(
   modernProblems,
 );
 
+const staticContentProblems = [];
+for (const route of staticContentRoutes) {
+  const source = routeSources[route];
+  const text = await read(source);
+  const required = [
+    "<!doctype html>",
+    "<title>",
+    'name="description"',
+    'rel="canonical"',
+    "application/ld+json",
+    "<h1",
+    'name="rtnw-delivery" content="static"',
+  ];
+  const missing = required.filter((token) => !text.includes(token));
+  if (missing.length) staticContentProblems.push({ route, source, missing });
+}
+add(
+  staticContentProblems.length ? "error" : "pass",
+  "static-content-metadata",
+  staticContentProblems.length
+    ? "Some static content pages are missing essential metadata or static-delivery markers."
+    : "Static content pages expose crawl metadata and bypass dynamic rendering.",
+  staticContentProblems,
+);
+
 const internalLinkFiles = ["app/page.tsx", "app/guides/page.tsx", "app/SiteHeader.tsx", "app/SiteFooter.tsx"];
 const internalLinkText = Object.fromEntries(
   await Promise.all(internalLinkFiles.map(async (file) => [file, await read(file)])),
 );
-const missingInternalLinks = modernRoutes
+const missingInternalLinks = [...modernRoutes, ...staticContentRoutes]
   .filter((route) => !Object.values(internalLinkText).some((text) => text.includes(route)))
   .map((route) => ({ route, checked: internalLinkFiles }));
 add(
