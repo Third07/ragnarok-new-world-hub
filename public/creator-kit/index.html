@@ -6,7 +6,7 @@
   <title>RTNW Creator Asset Library: Skills, Cards &amp; Weapons | RTNW Hub</title>
   <meta name="description" content="Browse and download Ragnarok: The New World skill images, card art, weapons, equipment, monsters, pets, maps, and other indexed game icons.">
   <meta name="robots" content="index,follow,max-image-preview:large">
-  <meta name="theme-color" content="#102d3d">
+  <meta name="theme-color" content="#5b6ee8">
   <meta name="rtnw-delivery" content="static">
   <link rel="canonical" href="https://rtnw.online/creator-kit/">
   <link rel="icon" href="/favicon.ico" sizes="any">
@@ -15,12 +15,12 @@
   <link rel="stylesheet" href="/creator-kit/creator-kit.css">
   <meta property="og:type" content="website">
   <meta property="og:title" content="RTNW Creator Asset Library — Skills, Cards, Weapons &amp; More">
-  <meta property="og:description" content="Search 5,486 indexed Ragnarok: The New World images with lightweight, on-demand loading.">
+  <meta property="og:description" content="Browse and download 5,486 indexed Ragnarok: The New World skill, card, weapon, equipment, monster, pet, and map images.">
   <meta property="og:url" content="https://rtnw.online/creator-kit/">
   <meta property="og:image" content="https://rtnw.online/media/images/weapon/icon_weapon_staff_016.webp">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="RTNW Creator Asset Library">
-  <meta name="twitter:description" content="Skills, cards, equipment, monsters, pets, maps, and game icons—loaded only when requested.">
+  <meta name="twitter:description" content="Download skills, cards, equipment, monsters, pets, maps, and other RTNW game images.">
   <meta name="twitter:image" content="https://rtnw.online/media/images/weapon/icon_weapon_staff_016.webp">
   <script type="application/ld+json">
   {
@@ -68,8 +68,8 @@
           },
           {
             "@type": "Question",
-            "name": "Why does the library load images in small groups?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Small on-demand batches reduce data use and make the library more reliable on mobile connections." }
+            "name": "Can I download the original image files?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Each image card includes a download link for the indexed original file." }
           }
         ]
       }
@@ -78,18 +78,41 @@
   </script>
   <script src="/creator-kit/creator-kit.js" defer></script>
 </head>
-<body>
+<body id="page-top">
   <a class="skip-link" href="#asset-library">Skip to the image library</a>
 
-  <header class="site-header">
-    <a class="brand" href="/" aria-label="RTNW Hub home">
-      <span class="brand-mark" aria-hidden="true">R</span>
-      <span><strong>RTNW</strong><small>New World Hub</small></span>
+  <header class="site-header shared-site-header">
+    <a class="brand" href="/" aria-label="Ragnarok: The New World Hub home">
+      <span class="brand-crest" aria-hidden="true">✦</span>
+      <span class="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
     </a>
-    <nav aria-label="Primary navigation">
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="/">Home</a>
       <a href="/guides/">Guides</a>
       <a href="/database/">Database</a>
+      <a href="/#tools">Tools</a>
       <a href="/search/">Search</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="search-shortcut" href="/search/" aria-label="Search all RTNW Hub content">
+        <span aria-hidden="true">⌕</span><span>Search</span><kbd>All</kbd>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="shared-mobile-menu" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <nav id="shared-mobile-menu" class="mobile-menu" aria-label="Mobile navigation">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/database/">Database</a>
+      <a href="/#tools">Tools</a>
+      <a href="/search/">Search</a>
+      <a href="/sea/skill_planner/">Skill Planner</a>
+      <a href="/sea/maps/?lang=en-US#map=101">World Map</a>
+      <a href="/sea/events/">Event Schedule</a>
+      <a href="/updates/">Updates</a>
     </nav>
   </header>
 
@@ -97,33 +120,20 @@
     <section class="hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">RTNW Hub</a><span>/</span><span>Image Library</span></nav>
-        <p class="kicker">Static, lightweight, and mobile-ready</p>
-        <h1 id="page-title">Find the game image.<br><em>Load only what you need.</em></h1>
-        <p class="lead">Browse 5,486 unique Ragnarok: The New World images without loading the whole archive at once. Choose a category, search it, and download the original file.</p>
-        <a class="primary-action" href="#asset-library">Browse game images <span aria-hidden="true">↓</span></a>
+        <p class="kicker">Creator asset library</p>
+        <h1 id="page-title">RTNW images for your videos and thumbnails.</h1>
+        <p class="lead">Browse and download 5,486 skill icons, cards, weapons, equipment, monsters, pets, maps, and more.</p>
+        <a class="primary-action" href="#asset-library">Browse images <span aria-hidden="true">↓</span></a>
       </div>
-      <aside class="load-map" aria-label="How lightweight loading works">
-        <p class="load-map-title">On-demand route</p>
-        <ol>
-          <li><span>01</span><strong>Choose</strong><small>one category</small></li>
-          <li><span>02</span><strong>Load</strong><small>one data chunk</small></li>
-          <li><span>03</span><strong>Render</strong><small>24 image cards</small></li>
-        </ol>
-        <p class="load-map-note">No template generator. No full-library request on page load.</p>
-      </aside>
     </section>
 
     <section class="library" id="asset-library" aria-labelledby="library-title" data-static-asset-library>
       <div class="section-heading">
         <div>
-          <p class="kicker">Game reference images</p>
-          <h2 id="library-title">Seven focused collections</h2>
+          <p class="kicker">Game image library</p>
+          <h2 id="library-title">Browse images</h2>
         </div>
-        <p>Catalog data and image files are served as static assets. Only the selected collection is requested.</p>
-      </div>
-
-      <div class="rights-note">
-        <strong>Usage reminder:</strong> this is an image index, not a rights transfer. Game artwork, icons, names, and trademarks remain with their respective owners.
+        <p>Select a category, then search by name.</p>
       </div>
 
       <div class="category-rail" id="asset-categories" aria-label="Asset categories" aria-busy="true">
@@ -136,36 +146,39 @@
           <input id="creator-asset-search" name="q" type="search" minlength="2" placeholder="Try Napalm Vulcan, Poring, staff…" autocomplete="off" disabled>
           <button type="submit" disabled>Search</button>
         </div>
-        <p class="search-help">Searching loads the remaining small chunks for this category only.</p>
+        <p class="search-help">Search by skill, monster, card, weapon, or item name.</p>
       </form>
 
-      <div class="library-status" id="asset-status" role="status" aria-live="polite">The first category will load when this section enters the screen.</div>
+      <div class="library-status" id="asset-status" role="status" aria-live="polite">Loading image categories…</div>
       <div class="asset-grid" id="asset-grid" aria-busy="false"></div>
 
       <div class="library-actions">
         <button class="load-more" id="asset-load-more" type="button" hidden>Show more images</button>
         <button class="retry" id="asset-retry" type="button" hidden>Retry loading</button>
       </div>
-    </section>
 
-    <section class="how-it-works" aria-labelledby="performance-title">
-      <p class="kicker">Built for slower mobile connections</p>
-      <h2 id="performance-title">The archive stays large. The page stays small.</h2>
-      <div class="principles">
-        <article><strong>24</strong><h3>Cards at a time</h3><p>The page never inserts thousands of image cards into the browser.</p></article>
-        <article><strong>1</strong><h3>Chunk per request</h3><p>Browsing loads the next catalog file only when the current results run out.</p></article>
-        <article><strong>Lazy</strong><h3>Image delivery</h3><p>Icons download only as they approach the visible part of the screen.</p></article>
+      <div class="rights-note">
+        Game artwork, icons, names, and trademarks belong to their respective owners. Please follow the publisher's usage rules.
       </div>
     </section>
   </main>
 
-  <footer>
-    <div><strong>RTNW Hub</strong><p>Independent Ragnarok: The New World fan resource.</p></div>
-    <nav aria-label="Footer navigation"><a href="/">Home</a><a href="/guides/">Guides</a><a href="/database/">Database</a><a href="/disclaimer/">Disclaimer</a></nav>
+  <footer class="shared-site-footer">
+    <a class="brand footer-brand" href="/">
+      <span class="brand-crest" aria-hidden="true">✦</span>
+      <span class="brand-copy"><strong>Ragnarok</strong><small>The New World Hub</small></span>
+    </a>
+    <div class="footer-meta">
+      <p>Independent fan-made game-data toolkit for Ragnarok: The New World.</p>
+      <nav class="shared-footer-links" aria-label="Footer navigation">
+        <a href="/guides/">Guides</a><a href="/database/">Database</a><a href="/#tools">Tools</a><a href="/search/">Search</a><a href="/updates/">Updates</a><a href="/creator-kit/" aria-current="page">Creator Kit</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/disclaimer/">Disclaimer</a>
+      </nav>
+    </div>
+    <a class="back-to-top" href="#page-top">Back to top ↑</a>
   </footer>
 
   <noscript>
-    <div class="noscript-note">JavaScript is required for the on-demand image browser. You can still open the <a href="/database/">RTNW databases</a>.</div>
+    <div class="noscript-note">JavaScript is required to browse and search the image library. You can still open the <a href="/database/">RTNW databases</a>.</div>
   </noscript>
 </body>
 </html>
