@@ -1,20 +1,23 @@
 /* eslint-disable @next/next/no-img-element -- Direct image URLs are intentional downloadable creator assets. */
 import type { Metadata } from "next";
 import Link from "next/link";
-import assetPreviews from "../../public/creator-assets/catalog/previews.json";
 import assetSummary from "../../public/creator-assets/catalog/summary.json";
 import { creatorCards } from "../creator-card";
-import AssetLibrary, { type CreatorAsset, type CreatorAssetSummary } from "./AssetLibrary";
+import AssetLibrary, { type CreatorAssetSummary } from "./AssetLibrary";
 import styles from "./creator-kit.module.css";
 
 const canonical = "https://rtnw.online/creator-kit/";
 const usageUrl = `${canonical}#usage`;
 const catalogSummary = assetSummary as CreatorAssetSummary;
-const catalogPreviews = assetPreviews as Record<string, CreatorAsset[]>;
-const representativeGameAssets = catalogSummary.categories.flatMap((category) => {
-  const asset = catalogPreviews[category.id]?.[0];
-  return asset ? [asset] : [];
-});
+const representativeGameAssets = [
+  { name: "A Drum on The Battlefield", image: "/media/images/skill/icon_skill_shiren_zhanguzhentian_01.webp" },
+  { name: "Alligator Card", image: "/media/images/item/icon_item_card_eyr_01.webp" },
+  { name: "Advanced Survival Wand", image: "/media/images/weapon/icon_weapon_staff_016.webp" },
+  { name: "Acolyte", image: "/media/images/monster/icon_monster_head_djfs_01.webp" },
+  { name: "Alice", image: "/media/images/pet/icon_pet_head_alsnp_1.webp" },
+  { name: "Abandoned Mine 1F", image: "/media/images/map/icon_map_20014.webp" },
+  { name: "Action Double 01", image: "/media/images/action/icon_action_double_01.webp" },
+] as const;
 
 const logoAssets = [
   {
@@ -238,7 +241,7 @@ export default function CreatorKitPage() {
             commentary, and fan content. Their owners retain all rights, and RTNW Hub cannot grant permission for reuse.
           </div>
 
-          <AssetLibrary summary={catalogSummary} previews={catalogPreviews} />
+          <AssetLibrary summary={catalogSummary} />
         </section>
 
         <section className={styles.section} id="thumbnail-cards" aria-labelledby="thumbnail-title">
