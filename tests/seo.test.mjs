@@ -518,23 +518,41 @@ test("creator asset library covers every indexed game image without loading ever
   }
   assert.equal(assetPaths.size, summary.total, "catalog total should count unique local images");
 
-  const previews = JSON.parse(await readFile("public/creator-assets/catalog/previews.json", "utf8"));
-  assert.ok(Object.values(previews).every((assets) => assets.length <= 24));
+  const [staticHtml, staticCss, staticJs] = await Promise.all([
+    readFile("public/creator-kit/index.html", "utf8"),
+    readFile("public/creator-kit/creator-kit.css", "utf8"),
+    readFile("public/creator-kit/creator-kit.js", "utf8"),
+  ]);
+  assert.ok(Buffer.byteLength(staticHtml) < 20_000, "static creator page HTML should remain small");
+  assert.ok(Buffer.byteLength(staticCss) < 20_000, "creator page CSS should remain small");
+  assert.ok(Buffer.byteLength(staticJs) < 20_000, "creator page JavaScript should remain small");
+  assert.match(staticJs, /IntersectionObserver/);
+  assert.match(staticJs, /const PAGE_SIZE = 24/);
+  assert.match(staticJs, /image\.loading = "lazy"/);
+  assert.match(staticJs, /category\.manifests\[current\.loadedChunks\]/);
+  assert.doesNotMatch(staticHtml, /creator-assets\/(?:high-wizard|high-priest|monk-build|world-map|mvp-hunting|blank-template)/i);
 
-  const worker = await loadBuiltWorker();
-  const { env, context } = createTestRuntime();
-  const response = await worker.fetch(
+  const { env } = createTestRuntime();
+  const response = await env.ASSETS.fetch(
     new Request(`${siteOrigin}/creator-kit/`, { headers: { accept: "text/html" } }),
-    env,
-    context,
   );
   const html = await response.text();
 
+  const configs = await findFiles("dist", "wrangler.json");
+  const builtConfigs = await Promise.all(configs.map(async (configPath) => (
+    JSON.parse(await readFile(configPath, "utf8"))
+  )));
+  assert.ok(
+    builtConfigs.some((config) => config.assets?.html_handling === "force-trailing-slash" && config.assets?.run_worker_first === false),
+    "Cloudflare should serve matching static assets before invoking the Worker",
+  );
+
   assert.equal(response.status, 200);
-  assert.ok(Buffer.byteLength(html) < 100_000, "creator page should keep its Worker-rendered payload lean");
+  assert.ok(Buffer.byteLength(html) < 20_000, "creator page should be delivered as lightweight static HTML");
+  assert.match(html, /name="rtnw-delivery" content="static"/i);
   assert.match(html, /<title>RTNW Creator Asset Library: Skills, Cards &amp; Weapons \| RTNW Hub<\/title>/i);
   assert.match(html, new RegExp(summary.total.toLocaleString("en-US")));
-  assert.match(html, /Skills, cards, weapons—and every indexed image\./i);
+  assert.match(html, /Find the game image/i);
   assert.match(html, /id="creator-asset-search"/i);
   assert.match(html, /Game reference images/i);
   assert.match(html, /not a rights transfer/i);
@@ -587,7 +605,6 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     "/search/",
     "/database/",
     "/updates/",
-    "/creator-kit/",
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
@@ -601,6 +618,9 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     );
     assert.equal(response.status, 200, `${pathname} should return 200`);
   }
+
+  const creatorKit = await env.ASSETS.fetch(new Request(`${siteOrigin}/creator-kit/`));
+  assert.equal(creatorKit.status, 200, "/creator-kit/ should be served by the static asset binding");
 
   for (const pathname of ["/feed.xml", "/deployment-version.txt"]) {
     let response = await worker.fetch(

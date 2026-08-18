@@ -264,7 +264,6 @@ await rm(outputRoot, { recursive: true, force: true });
 await mkdir(outputRoot, { recursive: true });
 
 const summaryCategories = [];
-const previews = {};
 const catalogImages = new Set();
 for (const category of categories) {
   const assets = Array.from(buckets.get(category.id).values())
@@ -280,7 +279,6 @@ for (const category of categories) {
     }));
 
   assets.forEach((asset) => catalogImages.add(asset.image));
-  previews[category.id] = assets.slice(0, 24);
   const manifests = [];
   for (let offset = 0; offset < assets.length; offset += manifestChunkSize) {
     const part = String(Math.floor(offset / manifestChunkSize) + 1).padStart(2, "0");
@@ -307,7 +305,6 @@ await writeFile(
   path.join(outputRoot, "summary.json"),
   `${JSON.stringify({ total, categories: summaryCategories }, null, 2)}\n`,
 );
-await writeFile(path.join(outputRoot, "previews.json"), `${JSON.stringify(previews)}\n`);
 
 console.log(`Creator asset catalog: ${total} unique images across ${categories.length} categories.`);
 for (const category of summaryCategories) console.log(`${category.label}: ${category.count}`);
