@@ -1,11 +1,20 @@
 /* eslint-disable @next/next/no-img-element -- Direct image URLs are intentional downloadable creator assets. */
 import type { Metadata } from "next";
 import Link from "next/link";
+import assetPreviews from "../../public/creator-assets/catalog/previews.json";
+import assetSummary from "../../public/creator-assets/catalog/summary.json";
 import { creatorCards } from "../creator-card";
+import AssetLibrary, { type CreatorAsset, type CreatorAssetSummary } from "./AssetLibrary";
 import styles from "./creator-kit.module.css";
 
 const canonical = "https://rtnw.online/creator-kit/";
 const usageUrl = `${canonical}#usage`;
+const catalogSummary = assetSummary as CreatorAssetSummary;
+const catalogPreviews = assetPreviews as Record<string, CreatorAsset[]>;
+const representativeGameAssets = catalogSummary.categories.flatMap((category) => {
+  const asset = catalogPreviews[category.id]?.[0];
+  return asset ? [asset] : [];
+});
 
 const logoAssets = [
   {
@@ -57,6 +66,10 @@ const logoAssets = [
 
 const faqs = [
   {
+    question: "Can I download RTNW skill, card, weapon, monster, pet, and map images?",
+    answer: "Yes. The searchable game-reference library provides direct downloads for every unique image currently indexed by RTNW Hub. These files remain subject to the rights and usage rules of their respective game owners; RTNW Hub does not grant a new license for them.",
+  },
+  {
     question: "Can I use these RTNW graphics in a monetized video?",
     answer: "Yes. RTNW Hub-created logos, cards, and overlays on this page may be used in monetized videos, thumbnails, livestreams, and social posts when the creator credits RTNW Hub and links to rtnw.online.",
   },
@@ -75,12 +88,15 @@ const faqs = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "RTNW Creator Kit: Logos & Thumbnail Templates",
+  title: "RTNW Creator Asset Library: Skills, Cards & Weapons",
   description:
-    "Download free RTNW Hub logos, Ragnarok: The New World build cards, YouTube thumbnail templates, video overlays, and creator graphics with clear usage and credit rules.",
+    "Search and download Ragnarok: The New World skill images, card art, weapon and equipment icons, monsters, pets, maps, RTNW Hub logos, and thumbnail templates.",
   alternates: { canonical: "/creator-kit/" },
   keywords: [
     "Ragnarok The New World creator kit",
+    "Ragnarok The New World skill images",
+    "Ragnarok The New World card images",
+    "Ragnarok The New World weapon images",
     "Ragnarok New World thumbnail",
     "RTNW logo",
     "RTNW build card",
@@ -89,8 +105,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/creator-kit/",
-    title: "RTNW Creator Kit — Logos, Cards & Thumbnail Templates",
-    description: "Free creator-ready RTNW Hub graphics for videos, thumbnails, streams, and social posts.",
+    title: "RTNW Creator Asset Library — Skills, Cards, Weapons & Templates",
+    description: "Search thousands of indexed game images and download original RTNW Hub creator templates.",
     images: [
       {
         url: "/creator-assets/high-wizard-build/",
@@ -102,8 +118,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "RTNW Creator Kit — Free Video & Thumbnail Graphics",
-    description: "Download RTNW Hub logos, build cards, overlays, and 16:9 creator templates.",
+    title: "RTNW Creator Asset Library — Images & Templates",
+    description: "Search skill, card, equipment, monster, pet, and map images plus RTNW Hub creator graphics.",
     images: ["/creator-assets/high-wizard-build/"],
   },
 };
@@ -116,10 +132,22 @@ export default function CreatorKitPage() {
         "@type": "WebPage",
         "@id": `${canonical}#webpage`,
         url: canonical,
-        name: "RTNW Creator Kit: Logos and Thumbnail Templates",
+        name: "RTNW Creator Asset Library: Skills, Cards, Weapons and Templates",
         description: metadata.description,
         isPartOf: { "@id": "https://rtnw.online/#website" },
         inLanguage: "en",
+        about: catalogSummary.categories.map((category) => ({
+          "@type": "Thing",
+          name: category.label,
+          description: category.description,
+        })),
+        associatedMedia: representativeGameAssets.map((asset) => ({
+          "@type": "ImageObject",
+          name: asset.name,
+          contentUrl: `https://rtnw.online${asset.image}`,
+          encodingFormat: asset.image.endsWith(".svg") ? "image/svg+xml" : "image/webp",
+          creditText: "Indexed by RTNW Hub; rights belong to the respective game owner.",
+        })),
         primaryImageOfPage: {
           "@type": "ImageObject",
           contentUrl: "https://rtnw.online/creator-assets/high-wizard-build/",
@@ -164,17 +192,17 @@ export default function CreatorKitPage() {
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
               <Link href="/">RTNW Hub</Link><span aria-hidden="true">/</span><span>Creator Kit</span>
             </nav>
-            <p className={styles.eyebrow}>Free with RTNW Hub credit</p>
+            <p className={styles.eyebrow}>{catalogSummary.total.toLocaleString()} indexed images + original creator pack</p>
             <h1 id="creator-kit-title">Build the video.<br /><em>Keep the art ready.</em></h1>
             <p className={styles.lead}>
-              Download original RTNW Hub logos, build cards, YouTube-ready thumbnails, and transparent
-              overlays for Ragnarok: The New World videos, streams, and social posts.
+              Search every image currently indexed by RTNW Hub—including skills, cards, weapons,
+              equipment, monsters, pets, and maps—then download original thumbnails and overlays too.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primaryAction} href="#thumbnail-cards">Browse thumbnail cards <span aria-hidden="true">↓</span></a>
-              <a className={styles.secondaryAction} href="#logos">Download logos <span aria-hidden="true">→</span></a>
+              <a className={styles.primaryAction} href="#game-assets">Browse all game assets <span aria-hidden="true">↓</span></a>
+              <a className={styles.secondaryAction} href="#thumbnail-cards">RTNW templates <span aria-hidden="true">→</span></a>
             </div>
-            <p className={styles.heroNote}>Independent fan resource · Original RTNW Hub templates · No fake download buttons</p>
+            <p className={styles.heroNote}>Independent fan resource · On-demand asset loading · Direct image downloads</p>
           </div>
 
           <div className={styles.heroCanvas} aria-label="High Wizard thumbnail template preview">
@@ -191,6 +219,26 @@ export default function CreatorKitPage() {
             <span className={`${styles.handle} ${styles.handleBottomLeft}`} aria-hidden="true" />
             <span className={`${styles.handle} ${styles.handleBottomRight}`} aria-hidden="true" />
           </div>
+        </section>
+
+        <section className={`${styles.section} ${styles.librarySection}`} id="game-assets" aria-labelledby="game-assets-title">
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.sectionKicker}>Game reference image vault</p>
+              <h2 id="game-assets-title">Skills, cards, weapons—and every indexed image.</h2>
+            </div>
+            <p>
+              Search {catalogSummary.total.toLocaleString()} unique images across seven collections. The page loads only
+              a small preview first; full categories appear when you search, filter, or request more.
+            </p>
+          </div>
+
+          <div className={styles.assetRightsNotice}>
+            <strong>Before downloading:</strong> game images are provided as reference links for guides, reviews,
+            commentary, and fan content. Their owners retain all rights, and RTNW Hub cannot grant permission for reuse.
+          </div>
+
+          <AssetLibrary summary={catalogSummary} previews={catalogPreviews} />
         </section>
 
         <section className={styles.section} id="thumbnail-cards" aria-labelledby="thumbnail-title">
@@ -267,11 +315,11 @@ export default function CreatorKitPage() {
 
         <section className={`${styles.section} ${styles.usageSection}`} id="usage" aria-labelledby="usage-title">
           <div className={styles.usageIntro}>
-            <p className={styles.sectionKicker}>Simple creator permission</p>
-            <h2 id="usage-title">Free to use—with a clear credit.</h2>
+            <p className={styles.sectionKicker}>Two kinds of creator resources</p>
+            <h2 id="usage-title">Original templates are free—with a clear credit.</h2>
             <p>
-              This permission applies only to original RTNW Hub assets offered on this page. Add the
-              following credit to your description, caption, or visible credits:
+              This permission applies only to RTNW Hub logos, thumbnail cards, and overlays in the original
+              creator pack. Add the following credit to your description, caption, or visible credits:
             </p>
             <code>Graphics: RTNW Hub — https://rtnw.online/creator-kit/</code>
           </div>
@@ -295,11 +343,20 @@ export default function CreatorKitPage() {
                 <li>Treating this permission as a license for official game artwork or trademarks</li>
               </ul>
             </article>
+            <article className={styles.referenceAssets}>
+              <span>Game reference images</span>
+              <p>
+                Skill, card, weapon, equipment, monster, pet, map, UI, and other game images in the searchable
+                library are not covered by the RTNW Hub permission above. Follow the publisher’s rules and the
+                requirements of the platform where you publish.
+              </p>
+            </article>
           </div>
 
           <p className={styles.rightsNote}>
             Ragnarok: The New World and related game names, characters, logos, artwork, cards, icons,
-            screenshots, and trademarks belong to their respective owners. Read the full <a href="/disclaimer/">fan-site disclaimer</a>.
+            screenshots, and trademarks belong to their respective owners. The game-reference library is an
+            indexing convenience, not a rights transfer. Read the full <a href="/disclaimer/">fan-site disclaimer</a>.
           </p>
         </section>
 

@@ -229,6 +229,24 @@
   gap: 26px;
 }
 
+.librarySection {
+  width: min(1320px, calc(100% - 36px));
+}
+
+.assetRightsNotice {
+  margin: -12px 0 22px;
+  padding: 16px 18px;
+  color: #5f5430;
+  background: #fff7dd;
+  border: 1px solid #efd78b;
+  border-left: 5px solid var(--creator-gold);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.assetRightsNotice strong { color: var(--creator-ink); }
+
 .assetCard {
   margin: 0;
   overflow: hidden;
@@ -380,6 +398,8 @@
 
 .allowed > span { color: #0d5646; background: #cff3e8; }
 .notAllowed > span { color: #7d2338; background: #ffe0e6; }
+.referenceAssets > span { color: #174f55; background: #dcecf5; }
+.referenceAssets p { margin: 16px 0 0; color: #526662; font-size: 14px; line-height: 1.65; }
 
 .ruleGrid ul { margin: 18px 0 0; padding-left: 20px; }
 .ruleGrid li { color: #526662; font-size: 14px; line-height: 1.65; }
