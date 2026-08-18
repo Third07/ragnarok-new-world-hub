@@ -518,10 +518,12 @@ test("creator asset library covers every indexed game image without loading ever
   }
   assert.equal(assetPaths.size, summary.total, "catalog total should count unique local images");
 
-  const [staticHtml, staticCss, staticJs] = await Promise.all([
+  const [staticHtml, staticCss, staticJs, staticHeaders, imageSitemap] = await Promise.all([
     readFile("public/creator-kit/index.html", "utf8"),
-    readFile("public/creator-kit/creator-kit.css", "utf8"),
-    readFile("public/creator-kit/creator-kit.js", "utf8"),
+    readFile("public/creator-kit/creator-kit-20260818.css", "utf8"),
+    readFile("public/creator-kit/creator-kit-20260818.js", "utf8"),
+    readFile("public/_headers", "utf8"),
+    readFile("public/creator-images-sitemap.xml", "utf8"),
   ]);
   assert.ok(Buffer.byteLength(staticHtml) < 20_000, "static creator page HTML should remain small");
   assert.ok(Buffer.byteLength(staticCss) < 20_000, "creator page CSS should remain small");
@@ -530,6 +532,16 @@ test("creator asset library covers every indexed game image without loading ever
   assert.match(staticJs, /const PAGE_SIZE = 24/);
   assert.match(staticJs, /image\.loading = "lazy"/);
   assert.match(staticJs, /category\.manifests\[current\.loadedChunks\]/);
+  assert.match(staticHtml, /creator-kit-20260818\.css/);
+  assert.match(staticHtml, /creator-kit-20260818\.js/);
+  assert.match(staticHtml, /rtnw-hero-800\.avif 800w/);
+  assert.match(staticHtml, /name="robots" content="index,follow,max-image-preview:large"/i);
+  assert.match(staticHtml, /"@type": "CollectionPage"/);
+  assert.match(staticHtml, /alt="Ragnarok: The New World adventurers exploring floating islands above the clouds"/i);
+  assert.match(staticHeaders, /\/creator-kit\/\n\s+Cache-Control: public, max-age=0, must-revalidate/);
+  assert.match(staticHeaders, /creator-kit-20260818\.css[\s\S]*max-age=31536000, immutable/);
+  assert.match(imageSitemap, /<loc>https:\/\/rtnw\.online\/creator-kit\/<\/loc>/);
+  assert.equal((imageSitemap.match(/<image:image>/g) ?? []).length, 1000);
   assert.doesNotMatch(staticHtml, /creator-assets\/(?:high-wizard|high-priest|monk-build|world-map|mvp-hunting|blank-template)/i);
 
   const { env } = createTestRuntime();
@@ -552,7 +564,7 @@ test("creator asset library covers every indexed game image without loading ever
   assert.match(html, /name="rtnw-delivery" content="static"/i);
   assert.match(html, /<title>RTNW Creator Asset Library: Skills, Cards &amp; Weapons \| RTNW Hub<\/title>/i);
   assert.match(html, new RegExp(summary.total.toLocaleString("en-US")));
-  assert.match(html, /RTNW images for your videos and thumbnails/i);
+  assert.match(html, /RTNW images for creators/i);
   assert.match(html, /id="creator-asset-search"/i);
   assert.match(html, /Game image library/i);
   assert.match(html, /belong to their respective owners/i);

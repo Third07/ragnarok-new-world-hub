@@ -113,6 +113,15 @@ function downloadName(name, image) {
   return `${slugify(name)}${path.extname(image).toLowerCase() || ".webp"}`;
 }
 
+function escapeXml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
 function addAsset(categoryId, asset, named = true) {
   const bucket = buckets.get(categoryId);
   if (!bucket || !mediaPaths.has(asset.image)) return;
@@ -265,6 +274,7 @@ await mkdir(outputRoot, { recursive: true });
 
 const summaryCategories = [];
 const catalogImages = new Set();
+const sitemapGroups = [];
 for (const category of categories) {
   const assets = Array.from(buckets.get(category.id).values())
     .sort((a, b) => Number(b.named) - Number(a.named) || a.name.localeCompare(b.name))
@@ -279,6 +289,7 @@ for (const category of categories) {
     }));
 
   assets.forEach((asset) => catalogImages.add(asset.image));
+  sitemapGroups.push(assets);
   const manifests = [];
   for (let offset = 0; offset < assets.length; offset += manifestChunkSize) {
     const part = String(Math.floor(offset / manifestChunkSize) + 1).padStart(2, "0");
@@ -306,5 +317,40 @@ await writeFile(
   `${JSON.stringify({ total, categories: summaryCategories }, null, 2)}\n`,
 );
 
+const sitemapImages = [];
+for (let index = 0; sitemapImages.length < 1000; index += 1) {
+  let added = false;
+  for (const assets of sitemapGroups) {
+    if (!assets[index]) continue;
+    sitemapImages.push(assets[index]);
+    added = true;
+    if (sitemapImages.length === 1000) break;
+  }
+  if (!added) break;
+}
+
+const imageEntries = sitemapImages.map((asset) => [
+  "    <image:image>",
+  `      <image:loc>https://rtnw.online${escapeXml(asset.image)}</image:loc>`,
+  `      <image:title>${escapeXml(asset.name)}</image:title>`,
+  `      <image:caption>${escapeXml(`${asset.name} — ${asset.kind} image in the RTNW creator library.`)}</image:caption>`,
+  "    </image:image>",
+].join("\n")).join("\n");
+
+await writeFile(
+  path.join(publicRoot, "creator-images-sitemap.xml"),
+  [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
+    "  <url>",
+    "    <loc>https://rtnw.online/creator-kit/</loc>",
+    imageEntries,
+    "  </url>",
+    "</urlset>",
+    "",
+  ].join("\n"),
+);
+
 console.log(`Creator asset catalog: ${total} unique images across ${categories.length} categories.`);
 for (const category of summaryCategories) console.log(`${category.label}: ${category.count}`);
+console.log(`Creator image sitemap: ${sitemapImages.length} representative images.`);
