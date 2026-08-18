@@ -7,3 +7,4 @@ Disallow: /map-image-audit.json
 
 Sitemap: https://rtnw.online/sitemap.xml
 Sitemap: https://rtnw.online/content-sitemap.xml
+Sitemap: https://rtnw.online/creator-images-sitemap.xml
