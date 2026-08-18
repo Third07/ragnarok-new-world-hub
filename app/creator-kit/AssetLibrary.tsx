@@ -51,14 +51,13 @@ function formatName(image: string) {
 
 export default function AssetLibrary({
   summary,
-  previews,
 }: {
   summary: CreatorAssetSummary;
-  previews: Record<string, CreatorAsset[]>;
 }) {
   const [activeCategory, setActiveCategory] = useState("skills");
   const [query, setQuery] = useState("");
-  const [catalog, setCatalog] = useState<Record<string, CreatorAsset[]>>(previews);
+  const [catalog, setCatalog] = useState<Record<string, CreatorAsset[]>>({});
+  const [previewLoading, setPreviewLoading] = useState(true);
   const [loadedCategories, setLoadedCategories] = useState<Set<string>>(() => new Set());
   const [loadingCategories, setLoadingCategories] = useState<Set<string>>(() => new Set());
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -69,6 +68,32 @@ export default function AssetLibrary({
     () => new Map(summary.categories.map((category) => [category.id, category])),
     [summary.categories],
   );
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/creator-assets/catalog/previews.json", { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Could not load the asset previews.");
+        return response.json() as Promise<Record<string, CreatorAsset[]>>;
+      })
+      .then((previews) => {
+        setCatalog((current) => {
+          const next = { ...previews };
+          for (const [categoryId, assets] of Object.entries(current)) {
+            if (assets.length > (next[categoryId]?.length || 0)) next[categoryId] = assets;
+          }
+          return next;
+        });
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setLoadError(error instanceof Error ? error.message : "The asset previews could not be loaded.");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setPreviewLoading(false);
+      });
+    return () => controller.abort();
+  }, []);
 
   const loadCategory = useCallback((categoryId: string) => {
     if (loadedCategories.has(categoryId)) return Promise.resolve();
@@ -144,7 +169,7 @@ export default function AssetLibrary({
   const isFullyLoaded = activeCategory === "all"
     ? summary.categories.every((category) => loadedCategories.has(category.id))
     : loadedCategories.has(activeCategory);
-  const isLoading = loadingCategories.size > 0;
+  const isLoading = previewLoading || loadingCategories.size > 0;
   const activeSummary = categoryMap.get(activeCategory);
   const knownTotal = activeCategory === "all" ? summary.total : activeSummary?.count || 0;
   const visibleAssets = filteredAssets.slice(0, visibleCount);
@@ -166,7 +191,9 @@ export default function AssetLibrary({
     setVisibleCount((current) => current + PAGE_SIZE);
   }
 
-  const statusText = isLoading
+  const statusText = previewLoading
+    ? "Loading a lightweight image preview…"
+    : isLoading
     ? `Loading the full ${activeCategory === "all" ? "asset library" : activeSummary?.label.toLowerCase() || "category"}…`
     : query.trim()
       ? `${filteredAssets.length.toLocaleString()} matching image${filteredAssets.length === 1 ? "" : "s"}`

@@ -531,6 +531,7 @@ test("creator asset library covers every indexed game image without loading ever
   const html = await response.text();
 
   assert.equal(response.status, 200);
+  assert.ok(Buffer.byteLength(html) < 100_000, "creator page should keep its Worker-rendered payload lean");
   assert.match(html, /<title>RTNW Creator Asset Library: Skills, Cards &amp; Weapons \| RTNW Hub<\/title>/i);
   assert.match(html, new RegExp(summary.total.toLocaleString("en-US")));
   assert.match(html, /Skills, cards, weapons—and every indexed image\./i);
