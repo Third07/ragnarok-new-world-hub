@@ -20,6 +20,7 @@ export default function SiteFooter() {
             <a href="/#tools">Tools</a>
             <a href="/search/">Search</a>
             <a href="/updates/">Updates</a>
+            <a href="/creator-kit/">Creator Kit</a>
             <a href="/guides/redeem-codes/">Redeem Codes</a>
             <a href="/about/">About</a>
             <a href="/contact/">Contact</a>

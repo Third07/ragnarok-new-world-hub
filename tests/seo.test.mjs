@@ -65,6 +65,7 @@ const publicPageRoutes = [
   "/search/",
   "/database/",
   "/updates/",
+  "/creator-kit/",
   "/guides/",
   "/guides/classes-builds/",
   "/guides/guild-events/",
@@ -490,6 +491,54 @@ test("MVP and Zeny guides render complete searchable experiences", async () => {
   assert.match(zenyHtml, /Unsold items are inventory, not completed income/);
 });
 
+test("creator asset library covers every indexed game image without loading every record into the page", async () => {
+  const summary = JSON.parse(await readFile("public/creator-assets/catalog/summary.json", "utf8"));
+  const assetPaths = new Set();
+
+  assert.ok(summary.total > 5_000, "creator catalog should cover the full local image library");
+  assert.deepEqual(
+    summary.categories.map((category) => category.id),
+    ["skills", "cards", "equipment", "monsters", "pets", "maps", "more"],
+  );
+
+  for (const category of summary.categories) {
+    assert.ok(category.manifests.length > 0, `${category.id} should have at least one manifest`);
+    const payloads = await Promise.all(category.manifests.map(async (manifest) => (
+      JSON.parse(await readFile(path.join("public", manifest), "utf8"))
+    )));
+    const assets = payloads.flatMap((payload) => payload.assets);
+    assert.ok(payloads.every((payload) => payload.assets.length <= 320));
+    assert.equal(assets.length, category.count, `${category.id} count should match its manifests`);
+    assert.ok(category.count > 0, `${category.id} should contain downloadable images`);
+    for (const asset of assets) assetPaths.add(asset.image);
+    for (const asset of assets.slice(0, 5)) {
+      assert.match(asset.image, /^\/media\/images\//);
+      await access(path.join("public", asset.image));
+    }
+  }
+  assert.equal(assetPaths.size, summary.total, "catalog total should count unique local images");
+
+  const previews = JSON.parse(await readFile("public/creator-assets/catalog/previews.json", "utf8"));
+  assert.ok(Object.values(previews).every((assets) => assets.length <= 24));
+
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+  const response = await worker.fetch(
+    new Request(`${siteOrigin}/creator-kit/`, { headers: { accept: "text/html" } }),
+    env,
+    context,
+  );
+  const html = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(html, /<title>RTNW Creator Asset Library: Skills, Cards &amp; Weapons \| RTNW Hub<\/title>/i);
+  assert.match(html, new RegExp(summary.total.toLocaleString("en-US")));
+  assert.match(html, /Skills, cards, weapons—and every indexed image\./i);
+  assert.match(html, /id="creator-asset-search"/i);
+  assert.match(html, /Game reference images/i);
+  assert.match(html, /not a rights transfer/i);
+});
+
 test("card gauge guide renders exact 600-monster math and original local assets", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
@@ -537,6 +586,7 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     "/search/",
     "/database/",
     "/updates/",
+    "/creator-kit/",
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",

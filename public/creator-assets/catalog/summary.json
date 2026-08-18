@@ -1,0 +1,96 @@
+{
+  "total": 5486,
+  "categories": [
+    {
+      "id": "skills",
+      "label": "Skill images",
+      "shortLabel": "Skills",
+      "description": "Class, pet, trait, and combat skill icons.",
+      "source": "/sea/skill_planner/",
+      "count": 495,
+      "manifests": [
+        "/creator-assets/catalog/skills-01.json",
+        "/creator-assets/catalog/skills-02.json"
+      ]
+    },
+    {
+      "id": "cards",
+      "label": "Card images",
+      "shortLabel": "Cards",
+      "description": "Full card art and compact card icons.",
+      "source": "/sea/cards/",
+      "count": 437,
+      "manifests": [
+        "/creator-assets/catalog/cards-01.json",
+        "/creator-assets/catalog/cards-02.json"
+      ]
+    },
+    {
+      "id": "equipment",
+      "label": "Weapon & equipment images",
+      "shortLabel": "Equipment",
+      "description": "Weapons, armor, accessories, headwear, and item icons.",
+      "source": "/sea/equipment/",
+      "count": 2681,
+      "manifests": [
+        "/creator-assets/catalog/equipment-01.json",
+        "/creator-assets/catalog/equipment-02.json",
+        "/creator-assets/catalog/equipment-03.json",
+        "/creator-assets/catalog/equipment-04.json",
+        "/creator-assets/catalog/equipment-05.json",
+        "/creator-assets/catalog/equipment-06.json",
+        "/creator-assets/catalog/equipment-07.json",
+        "/creator-assets/catalog/equipment-08.json",
+        "/creator-assets/catalog/equipment-09.json"
+      ]
+    },
+    {
+      "id": "monsters",
+      "label": "Monster images",
+      "shortLabel": "Monsters",
+      "description": "Normal, Elite, Mini, MVP, boss, and summon icons.",
+      "source": "/sea/monster_album/",
+      "count": 271,
+      "manifests": [
+        "/creator-assets/catalog/monsters-01.json"
+      ]
+    },
+    {
+      "id": "pets",
+      "label": "Pet images",
+      "shortLabel": "Pets",
+      "description": "Pet portraits, quality marks, and related pet graphics.",
+      "source": "/sea/pet/",
+      "count": 33,
+      "manifests": [
+        "/creator-assets/catalog/pets-01.json"
+      ]
+    },
+    {
+      "id": "maps",
+      "label": "Map images",
+      "shortLabel": "Maps",
+      "description": "World maps, regional maps, and location markers.",
+      "source": "/sea/maps/?lang=en-US",
+      "count": 116,
+      "manifests": [
+        "/creator-assets/catalog/maps-01.json"
+      ]
+    },
+    {
+      "id": "more",
+      "label": "More game icons",
+      "shortLabel": "More",
+      "description": "Activities, items, jobs, buffs, UI, weather, and other indexed graphics.",
+      "source": "/database/",
+      "count": 1485,
+      "manifests": [
+        "/creator-assets/catalog/more-01.json",
+        "/creator-assets/catalog/more-02.json",
+        "/creator-assets/catalog/more-03.json",
+        "/creator-assets/catalog/more-04.json",
+        "/creator-assets/catalog/more-05.json"
+      ]
+    }
+  ]
+}
