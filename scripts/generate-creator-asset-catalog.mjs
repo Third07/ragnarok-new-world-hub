@@ -312,6 +312,15 @@ if (total !== mediaFiles.length) {
   throw new Error(`Creator asset catalog covers ${total} images, but ${mediaFiles.length} image files exist.`);
 }
 
+// Keep the static page and its metadata consistent with the generated catalogue.
+const creatorPage = path.join(publicRoot, 'creator-kit', 'index.html');
+const creatorHtml = await readFile(creatorPage, 'utf8');
+const displayTotal = total.toLocaleString('en-US');
+await writeFile(creatorPage, creatorHtml
+  .replace(/(Browse and download )[\d,]+( indexed Ragnarok: The New World)/, `$1${displayTotal}$2`)
+  .replace(/(A searchable collection of )[\d,]+( Ragnarok: The New World)/, `$1${displayTotal}$2`)
+  .replace(/(<span><strong>)[\d,]+(<\/strong> images<\/span>)/, `$1${displayTotal}$2`));
+
 await writeFile(
   path.join(outputRoot, "summary.json"),
   `${JSON.stringify({ total, categories: summaryCategories }, null, 2)}\n`,

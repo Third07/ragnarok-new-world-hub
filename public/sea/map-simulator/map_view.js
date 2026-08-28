@@ -28,7 +28,20 @@ function detectLocale() {
 
 const ACTIVE_LOCALE = detectLocale();
 
-const MAP_STORAGE_SCOPE = /^\/sea(?:\/|$)/.test(window.location.pathname) ? "sea" : "hmt", HIDE_CHECKED_CHESTS_STORAGE_KEY = "ro_map_hide_checked_chests", MONSTER_PORTRAITS_STORAGE_KEY = "ro_map_use_monster_portraits", MONSTER_PORTRAIT_LABELS_STORAGE_KEY = "ro_map_show_monster_portrait_labels", CHEST_STORAGE_TYPES = [ "expl_chest", "guard_chest", "monster_chest", "mystery_chest", "strange_chest" ], QUEST_STORAGE_TYPES = [ "quest_mark_008", "rw_quest", "monster_cards", "jd", "cooking_recipes" ];
+// Weather locations are recorded placements, not a real-time spawn feed.
+const WEATHER_MARK_TYPES = [
+    { key: "butterfly", name: "Butterfly", zh: "蝴蝶", id: "Kupu-kupu", image: "butterfly" },
+    { key: "bubble", name: "Bubble", zh: "泡泡", id: "Gelembung", image: "bubble" },
+    { key: "sunchest", name: "Sun Chest", zh: "太阳宝箱", id: "Peti Matahari", image: "sunchest" },
+    { key: "snow", name: "Snow", zh: "雪", id: "Salju", image: "snow" },
+    { key: "monster_chest", name: "Weather Monster Chest", zh: "天气怪物宝箱", id: "Peti Monster Cuaca", icon: "icon_map_mark_030" },
+    { key: "season_chest", name: "Season Chest", zh: "季节宝箱", id: "Peti Musiman", icon: "icon_map_mark_030" }
+];
+const WEATHER_STORAGE_TYPES = WEATHER_MARK_TYPES.map(type => `weather_${type.key}`);
+const CARD_REWARD_ICONS_STORAGE_KEY = "ro_map_use_card_reward_icons";
+
+
+const MAP_STORAGE_SCOPE = /^\/sea(?:\/|$)/.test(window.location.pathname) ? "sea" : "hmt", HIDE_CHECKED_CHESTS_STORAGE_KEY = "ro_map_hide_checked_chests", MONSTER_PORTRAITS_STORAGE_KEY = "ro_map_use_monster_portraits", MONSTER_PORTRAIT_LABELS_STORAGE_KEY = "ro_map_show_monster_portrait_labels", CHEST_STORAGE_TYPES = [ "expl_chest", "guard_chest", "monster_chest", "mystery_chest", "strange_chest" ], QUEST_STORAGE_TYPES = [ "quest_mark_008", "rw_quest", "monster_cards", "jd", "cooking_recipes", "photo", ...WEATHER_STORAGE_TYPES ];
 
 function getChestStorageKey(e) {
     return `${MAP_STORAGE_SCOPE}_${e}`;
@@ -77,7 +90,17 @@ function writeStoredBoolean(e, t) {
     } catch {}
 }
 
+function isWeatherMarker(marker) {
+    return WEATHER_MARK_TYPES.some(type => type.key === marker?.weatherType);
+}
+
+function isPhotoMarker(marker, file = marker?.file) {
+    return normalizeChestStorageType(file) === "landmark_photography";
+}
+
 function getQuestStorageType(e, t = e?.file) {
+    if (isWeatherMarker(e)) return `weather_${e.weatherType}`;
+    if (isPhotoMarker(e, t)) return "photo";
     const n = normalizeChestStorageType(t);
     return QUEST_STORAGE_TYPES.includes(n) ? n : null;
 }
@@ -310,7 +333,8 @@ const MAP_I18N = {
     mapIndexUrl: `/sea/map-simulator/data/map_index_${ACTIVE_LOCALE}.json`,
     subregionsUrl: `/sea/map-simulator/data/map_subregions_${ACTIVE_LOCALE}.json`,
     placingLocaleDir: `/sea/map-simulator/data/interactive_placing_${ACTIVE_LOCALE}/`,
-    placingFallbackDir: "/sea/map-simulator/data/interactive_placing_zh-TW/",
+    placingFallbackDir: "/sea/map-simulator/data/interactive_placing_en-US/",
+    weatherUrl: "/sea/map-simulator/data/map_weather_placements.json",
     monsterSpawnsUrl: `/sea/map-simulator/data/map_monster_spawns_${ACTIVE_LOCALE}.json`,
     mapImageBase: "/media/images/map/",
     markImageBase: "/media/images/map_mark/",
@@ -326,6 +350,8 @@ const MAP_I18N = {
     placingFilePromises: new Map,
     monsterSpawns: null,
     monsterSpawnsPromise: null,
+    weatherData: null,
+    weatherDataPromise: null,
     markedMapIds: null,
     openWorldCenters: new Set,
     allowedMapIds: new Set,
@@ -336,6 +362,7 @@ const MAP_I18N = {
     collectedChests: readStoredChestKeys(),
     hideCollectedChests: readStoredBoolean(HIDE_CHECKED_CHESTS_STORAGE_KEY),
     useMonsterPortraits: readStoredBoolean(MONSTER_PORTRAITS_STORAGE_KEY),
+    useCardRewardIcons: readStoredBoolean(CARD_REWARD_ICONS_STORAGE_KEY),
     showMonsterPortraitLabels: readStoredBoolean(MONSTER_PORTRAIT_LABELS_STORAGE_KEY, !0),
     completedQuestIdsByType: readStoredQuestIds(),
     currentMarkers: [],
@@ -369,7 +396,9 @@ const MAP_I18N = {
     questModalContent: document.getElementById("map-quest-modal-content"),
     hideCheckedChests: document.getElementById("hide-checked-chests"),
     monsterPortraits: document.getElementById("use-monster-portraits"),
-    monsterPortraitLabels: document.getElementById("show-monster-portrait-labels")
+    monsterPortraitLabels: document.getElementById("show-monster-portrait-labels"),
+    cardRewardIcons: document.getElementById("use-card-reward-icons"),
+    dataStatus: document.getElementById("map-data-status")
 };
 
 function applyStaticText() {
@@ -442,7 +471,7 @@ function escapeHtml(e) {
 async function loadJson(e) {
     let t = await fetch(withAssetVersion(e));
     if (!t.ok && "string" == typeof e) {
-        const n = e.replace(/_en-US\.json$/i, "_zh-TW.json").replace(/_zh-CN\.json$/i, "_zh-TW.json").replace(/_th-TH\.json$/i, "_zh-TW.json");
+        const n = e.replace(/_(?:zh-CN|th-TH|id-ID)\.json$/i, "_en-US.json");
         n !== e && (t = await fetch(withAssetVersion(n)));
     }
     if (!t.ok) throw new Error(`Failed to load ${e}: ${t.status}`);
@@ -942,8 +971,8 @@ function selectRwItems(e) {
 function getMarkLabel(e) {
     if (!e) return null;
     if (isRwType(e.typeIcon)) return MAP_TEXT.questMarkType;
-    if (e.infoType) {
-        const t = String(e.infoType).trim();
+    if (e.infoType || e.infoTypeEn) {
+        const t = String(e.infoType || e.infoTypeEn).trim();
         if (!t) return null;
         const n = t.toLowerCase();
         return "任務標記" === n || "任务标记" === n || "quest mark" === n ? MAP_TEXT.questMarkType : t;
@@ -1034,11 +1063,11 @@ function renderVirtualSubregionsFromMarkers(e) {
     refreshSubregionSelection();
 }
 
-function buildFilterChip({file: e, icon: t, label: n, count: a}) {
-    if (!t || "null" === t) return null;
+function buildFilterChip({file: e, icon: t, iconPath, label: n, count: a}) {
+    if (!iconPath && (!t || "null" === t)) return null;
     const r = document.createElement("button");
     return r.type = "button", r.className = "map-filter-chip", r.dataset.file = e, r.setAttribute("aria-pressed", "true"), 
-    r.innerHTML = `\n        <span class="map-filter-chip-icon">\n            <img loading="lazy" decoding="async" src="${CONFIG.markImageBase}${t}.webp" alt="">\n        </span>\n        <span class="map-filter-chip-text">\n            <span class="map-filter-chip-label">${escapeHtml(n)}</span>\n            <span class="map-filter-chip-count">${escapeHtml(String(a))}</span>\n        </span>\n    `, 
+    r.innerHTML = `\n        <span class="map-filter-chip-icon">\n            <img loading="lazy" decoding="async" src="${escapeHtml(iconPath || `${CONFIG.markImageBase}${t}.webp`)}" alt="">\n        </span>\n        <span class="map-filter-chip-text">\n            <span class="map-filter-chip-label">${escapeHtml(n)}</span>\n            <span class="map-filter-chip-count">${escapeHtml(String(a))}</span>\n        </span>\n    `,
     r.addEventListener("click", () => {
         state.enabledFiles.has(e) ? (state.enabledFiles.delete(e), r.classList.remove("selected"),
         r.setAttribute("aria-pressed", "false")) : (state.enabledFiles.add(e), r.classList.add("selected"),
@@ -1309,13 +1338,13 @@ function toggleChestCollected(e, t) {
     state.collectedChests.has(n) ? state.collectedChests.delete(n) : state.collectedChests.add(n), writeStoredChestKeys(state.collectedChests), state.hideCollectedChests ? refreshCheckedVisibility() : updateChestMarkerButton(e, t);
 }
 
-function getQuestStorageId(e) {
+function getQuestStorageId(e, file) {
     const t = Number(e?.quest?.taskId);
     if (Number.isInteger(t) && t > 0) return t;
     const n = Number(e?.cookingRecipe?.[0]);
     if (Number.isInteger(n) && n > 0) return n;
     const a = Number(e?.id);
-    return isJdMarker(e) && Number.isInteger(a) && a > 0 ? a : null;
+    return (isJdMarker(e) || isWeatherMarker(e) || isPhotoMarker(e, file)) && Number.isInteger(a) && a > 0 ? a : null;
 }
 
 function appendQuestCompletionToggle(e) {
@@ -1332,7 +1361,7 @@ function updateQuestMarkerButton(e, t) {
 }
 
 function isQuestCompleted(e, t) {
-    const n = getQuestStorageType(e, t), a = getQuestStorageId(e);
+    const n = getQuestStorageType(e, t), a = getQuestStorageId(e, t);
     return null != n && null != a && !!state.completedQuestIdsByType.get(n)?.has(a);
 }
 
@@ -1383,6 +1412,7 @@ function toMarkerItem(e, t, n, a, r, s, i, o) {
         jdAdjacentMaps: e.jdAdjacentMaps || null,
         questGroupIds: e.questGroupIds || null,
         questGroupId: getQuestGroupId(e),
+        cardRewardIconPath: getCardRewardIconPath(e, i),
         rewardItems: e.rewardItems || e.quest?.rewardItems || null,
         rewardText: formatRewardText(e)
     } : null;
@@ -1424,6 +1454,88 @@ async function ensurePlacingFile(e) {
     }
 }
 
+function getWeatherTypeLabel(type) {
+    if (ACTIVE_LOCALE.startsWith("zh")) return type.zh;
+    return ACTIVE_LOCALE === "id-ID" ? type.id : type.name;
+}
+
+function getWeatherIconPath(type) {
+    return type.icon ? `${CONFIG.markImageBase}${type.icon}.webp` : `/media/images/custom_art_cs/${type.image}.webp`;
+}
+
+async function ensureWeatherData() {
+    if (!state.weatherDataPromise) {
+        state.weatherDataPromise = loadJson(CONFIG.weatherUrl).then(data => {
+            if (!Array.isArray(data?.placements)) throw new Error("Invalid weather locations");
+            state.weatherData = data;
+            return data;
+        }).catch(error => {
+            console.warn("Weather locations unavailable", error);
+            if (el.dataStatus) el.dataStatus.textContent = "Weather locations could not load. Other map layers remain available; reload to retry.";
+            state.weatherData = { views: {}, placements: [] };
+            return state.weatherData;
+        });
+    }
+    return state.weatherDataPromise;
+}
+
+function getWeatherPlacementsForCurrentView(type, includeChecked = false) {
+    const mapIds = getRelevantMapIdsForCurrentView();
+    return (state.weatherData?.placements || []).filter(item =>
+        item.type === type && mapIds.has(Number(item.map_id)) &&
+        Number.isFinite(item.x) && Number.isFinite(item.z) &&
+        (includeChecked || !state.hideCollectedChests || !isQuestCompleted({ id: item.id, weatherType: type }))
+    );
+}
+
+function getWeatherMarkers(width, height) {
+    const markers = [];
+    const config = getMapCfg(state.currentCenterSceneId);
+    for (const type of WEATHER_MARK_TYPES) {
+        const file = `weather:${type.key}`;
+        if (!state.enabledFiles.has(file)) continue;
+        for (const item of getWeatherPlacementsForCurrentView(type.key)) {
+            const region = getMapCfg(item.map_id);
+            const point = region && worldXZToNaturalPixels(config, width, height, item.x, item.z);
+            if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y)) continue;
+            markers.push({
+                ...point, file, id: item.id, weatherType: type.key,
+                iconPath: getWeatherIconPath(type), infoType: getWeatherTypeLabel(type),
+                mapRegionId: item.map_id, mapRegionName: region.name || "",
+                worldX: item.x, worldZ: item.z,
+                rewardText: `${MAP_TEXT.coords}: ${item.x}, ${item.z}`
+            });
+        }
+    }
+    return markers;
+}
+
+function getCardRewardIconPath(marker, file) {
+    if (normalizeChestStorageType(file) !== "monster_cards") return null;
+    const rawRewards = marker.rewardItems || marker.quest?.rewardItems;
+    const rewards = Array.isArray(rawRewards) ? rawRewards : [];
+    const card = rewards.find(item => /^icon_item_card_[a-zA-Z0-9_]+$/.test(item.icon || ""));
+    if (!card) return null;
+    return /^\/media\/images\/[a-zA-Z0-9_/-]+\.webp$/.test(card.iconPath || "") ? card.iconPath : `${CONFIG.itemImageBase}${card.icon}.webp`;
+}
+
+function bindCardRewardIconsToggle() {
+    if (!el.cardRewardIcons) return;
+    el.cardRewardIcons.checked = state.useCardRewardIcons;
+    el.cardRewardIcons.addEventListener("change", () => {
+        state.useCardRewardIcons = el.cardRewardIcons.checked;
+        writeStoredBoolean(CARD_REWARD_ICONS_STORAGE_KEY, state.useCardRewardIcons);
+        renderMarkers();
+    });
+}
+
+function updateDirectCompletionButton(marker, button) {
+    const completed = isQuestCompleted(marker);
+    button.classList.toggle("is-completed", completed);
+    button.setAttribute("aria-pressed", String(completed));
+    button.setAttribute("aria-label", `${marker.infoType} · ${marker.mapRegionName || ""} · ${marker.rewardText || ""}: ${completed ? MAP_TEXT.chestCollected : MAP_TEXT.chestNotCollected}`);
+}
+
 async function ensureMonsterSpawns() {
     if (state.monsterSpawns) return state.monsterSpawns;
     state.monsterSpawnsPromise || (state.monsterSpawnsPromise = (async () => {
@@ -1447,7 +1559,8 @@ function getCurrentMonsterEntries() {
 
 async function collectMarkedMapIds() {
     if (state.markedMapIds) return state.markedMapIds;
-    const [e, t] = await Promise.all([ ensurePlacingIndex(), ensureMonsterSpawns() ]), n = new Set;
+    const [e, t, weather] = await Promise.all([ ensurePlacingIndex(), ensureMonsterSpawns(), ensureWeatherData() ]), n = new Set;
+    for (const item of weather.placements || []) n.add(Number(item.map_id));
     if (Array.isArray(e)) for (const t of e) {
         if (!t?.file) continue;
         if (!isPlacingIndexEntryVisible(t)) continue;
@@ -1474,7 +1587,7 @@ function getRelevantPlacingEntriesForCurrentView(e, t = state.currentCenterScene
 
 async function renderMarkTypeFilters(e = state.mapRenderToken, preserveSelection = !1) {
     const disabledFiles = preserveSelection ? new Set(Array.from(el.markTypeRow.querySelectorAll(".map-filter-chip:not(.selected)")).map(e => e.dataset.file)) : null;
-    const [t] = await Promise.all([ ensurePlacingIndex(), ensureMonsterSpawns() ]);
+    const [t] = await Promise.all([ ensurePlacingIndex(), ensureMonsterSpawns(), ensureWeatherData() ]);
     if (e !== state.mapRenderToken) return !1;
     clearNode(el.markTypeRow), state.enabledFiles.clear();
     const n = getMapCfg(state.currentCenterSceneId), a = n?.pic_res;
@@ -1500,6 +1613,18 @@ async function renderMarkTypeFilters(e = state.mapRenderToken, preserveSelection
             count: l.length
         });
         c && disabledFiles && disabledFiles.has(t.file) && (c.classList.remove("selected"), c.setAttribute("aria-pressed", "false"), state.enabledFiles.delete(t.file)), c && r.push(c);
+    }
+    for (const type of WEATHER_MARK_TYPES) {
+        if (!getWeatherPlacementsForCurrentView(type.key, true).length) continue;
+        const file = `weather:${type.key}`;
+        const chip = buildFilterChip({ file, iconPath: getWeatherIconPath(type), label: getWeatherTypeLabel(type), count: getWeatherPlacementsForCurrentView(type.key).length });
+        state.enabledFiles.add(file);
+        if (disabledFiles?.has(file)) {
+            chip.classList.remove("selected");
+            chip.setAttribute("aria-pressed", "false");
+            state.enabledFiles.delete(file);
+        }
+        r.push(chip);
     }
     for (const e of getCurrentMonsterEntries()) {
         const t = `monster:${e.key || `${e.family}_${e.monster_id}`}`;
@@ -1568,6 +1693,7 @@ function renderMarkers() {
             c && !isCheckedMarkerHidden(c) && r.push(c);
         }
     }
+    r.push(...getWeatherMarkers(n, a));
     for (const t of getCurrentMonsterEntries()) {
         const s = `monster:${t.key || `${t.family}_${t.monster_id}`}`;
         if (state.enabledFiles.has(s)) for (const s of Array.isArray(t.markers) ? t.markers : []) {
@@ -1598,8 +1724,9 @@ function renderMarkers() {
         t.className = "map-marker-wrap", isHighlightedMarker(e) && t.classList.add("is-search-highlight"), t.style.left = `${e.x}px`, t.style.top = `${e.y}px`;
         const n = document.createElement("img");
         const a = state.useMonsterPortraits && e.portraitImage;
-        n.className = "map-marker", isCompactMarkerIcon(e.icon) && n.classList.add("map-marker-compact"), a && n.classList.add("map-marker-portrait");
-        const r = `${CONFIG.markImageBase}${e.icon}.webp`, s = a ? `${CONFIG.monsterImageBase}${e.portraitImage}.webp` : r;
+        const cardIcon = state.useCardRewardIcons && e.cardRewardIconPath;
+        n.className = ["map-marker", e.weatherType ? "map-marker-weather" : "", cardIcon ? "map-marker-card-reward" : ""].filter(Boolean).join(" "), isCompactMarkerIcon(e.icon) && n.classList.add("map-marker-compact"), a && n.classList.add("map-marker-portrait");
+        const r = e.iconPath || `${CONFIG.markImageBase}${e.icon}.webp`, s = cardIcon || (a ? `${CONFIG.monsterImageBase}${e.portraitImage}.webp` : r);
         n.src = s, s !== r && n.addEventListener("error", () => {
             n.src = r;
         }, {
@@ -1623,13 +1750,20 @@ function renderMarkers() {
             const label = document.createElement("span");
             label.className = "map-marker-label", label.textContent = e.infoType, label.setAttribute("aria-hidden", "true"), t.appendChild(label);
         }
-        if (e.quest || isJdMarker(e) || isCookingMarker(e) || isChestMarker(e)) {
+        if (e.quest || isJdMarker(e) || isCookingMarker(e) || isChestMarker(e) || isWeatherMarker(e) || isPhotoMarker(e)) {
             const r = !!e.quest || isJdMarker(e) || isCookingMarker(e);
             const a = document.createElement("button");
             a.type = "button", a.className = `map-marker-hit ${r ? "map-marker-quest" : "map-marker-chest"}`, a.title = n.title;
             if (r) updateQuestMarkerButton(e, a), a.setAttribute("aria-label", n.title || e.infoType || MAP_TEXT.questDetails), a.addEventListener("click", t => {
                 t.preventDefault(), t.stopPropagation(), renderQuestDetails(e, !0);
             });
+            else if (isWeatherMarker(e) || isPhotoMarker(e)) {
+                updateDirectCompletionButton(e, a);
+                a.addEventListener("click", event => {
+                    event.preventDefault(); event.stopPropagation();
+                    setQuestCompleted(e, !isQuestCompleted(e));
+                });
+            }
             else updateChestMarkerButton(e, a), a.addEventListener("click", t => {
                 t.preventDefault(), t.stopPropagation(), toggleChestCollected(e, a);
             });
@@ -1819,7 +1953,7 @@ function onSearchChanged() {
 }
 
 async function main() {
-    applyHeaderIcons(), applyStaticText(), bindHideCheckedToggle(), bindMonsterPortraitsToggle(), bindMonsterPortraitLabelsToggle(), bindQuestModal(), zoomResetEnabled(!1), initialUrlState = parseUrlState(),
+    applyHeaderIcons(), applyStaticText(), bindHideCheckedToggle(), bindMonsterPortraitsToggle(), bindMonsterPortraitLabelsToggle(), bindCardRewardIconsToggle(), bindQuestModal(), zoomResetEnabled(!1), initialUrlState = parseUrlState(),
     el.mapImg.draggable = !1, el.mapImg.decoding = "async";
     try {
         "1" === sessionStorage.getItem("rtnw-map-hint-seen") && el.touchHint?.classList.add("is-dismissed");

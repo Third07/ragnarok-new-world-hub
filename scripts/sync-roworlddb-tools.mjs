@@ -4,19 +4,21 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { validateWeatherData, validateRefineData, validateQuestionData } from './lib/roworlddb-validation.mjs';
 
 const ORIGIN = 'https://www.roworlddb.com';
 const LOCALES = ['en-US', 'zh-CN', 'th-TH', 'id-ID'];
 const REPORT_DIR = path.resolve('.tool-data-import/roworlddb-sea');
 
 function parseArgs(argv) {
-  const args = { apply: false, strict: false, origin: ORIGIN, reportDir: REPORT_DIR };
+  const args = { apply: false, strict: false, origin: ORIGIN, reportDir: REPORT_DIR, tools: null };
   for (let index = 0; index < argv.length; index += 1) {
     const value = argv[index];
     if (value === '--apply') args.apply = true;
     else if (value === '--strict') args.strict = true;
     else if (value === '--origin') args.origin = String(argv[++index] || '').replace(/\/+$/, '');
     else if (value === '--report-dir') args.reportDir = path.resolve(argv[++index] || '');
+    else if (value === '--tools') args.tools = String(argv[++index] || '').split(',').filter(Boolean);
     else if (value === '--help' || value === '-h') args.help = true;
     else throw new Error(`Unknown argument: ${value}`);
   }
@@ -24,7 +26,7 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  console.log(`Usage: node scripts/sync-roworlddb-tools.mjs [options]\n\nOptions:\n  --apply                 Write validated data into source-data/public\n  --strict                Exit non-zero if any remote dataset fails\n  --origin <url>          Override RoworldDB origin\n  --report-dir <dir>      Report destination\n  --help                  Show this message\n\nDefault mode downloads, validates, and reports without changing production data.`);
+  console.log(`Usage: node scripts/sync-roworlddb-tools.mjs [options]\n\nOptions:\n  --apply                 Write validated data into source-data/public\n  --strict                Exit non-zero if any remote dataset fails\n  --origin <url>          Override RoworldDB origin\n  --report-dir <dir>      Report destination\n  --tools <names>         Limit to comma-separated tool keys\n  --help                  Show this message\n\nDefault mode downloads, validates, and reports without changing production data.`);
 }
 
 function count(value) {
@@ -122,10 +124,10 @@ const DATASETS = [
   },
   {
     tool: 'events', key: 'events',
-    remote: '/events/data/events_{locale}.json',
-    destinations: ['public/events/data/events_{locale}.json'],
-    fallback: ['public/events/data/events_en-US.json'],
-    validate: (data) => count(data?.weeklyEvents) >= 20,
+    remote: '/sea/events/data/events_{locale}.json',
+    destinations: ['public/sea/events/data/events_{locale}.json'],
+    fallback: ['public/sea/events/data/events_en-US.json'],
+    validate: (data) => data?.client === 'SEA' && count(data?.weeklyEvents) >= 20,
     summarize: (data) => ({ weeklyEvents: count(data?.weeklyEvents), calendarEvents: count(data?.calendarEvents) }),
   },
   {
@@ -144,8 +146,8 @@ const SHARED_DATASETS = [
     remote: '/sea/map-simulator/data/map_weather_placements.json',
     destinations: ['public/sea/map-simulator/data/map_weather_placements.json'],
     fallback: ['public/sea/map-simulator/data/map_weather_placements.json'],
-    validate: (data) => count(data?.placements) >= 200,
-    summarize: (data) => ({ placements: count(data?.placements) }),
+    validate: (data) => { validateWeatherData(data); return count(data?.placements) >= 200; },
+    summarize: (data) => ({ placements: count(data?.placements), ...validateWeatherData(data).types }),
   },
   {
     tool: 'cards', key: 'card_fusion_simulator',
@@ -168,23 +170,27 @@ const SHARED_DATASETS = [
 const OPTIONAL_DATASETS = LOCALES.flatMap((locale) => [
   {
     tool: 'study', key: 'guild_banquet_questions', locale,
-    remote: `/sea/study/data/guild_banquet_questions_${locale}.json`,
-    destination: `public/sea/study/data/guild_banquet_questions_${locale}.json`,
+    remote: `/sea/study/data/guild_banquet_questions_${locale.toLowerCase().replace('-', '_')}.json`,
+    destination: `public/sea/study/data/guild_banquet_questions_${locale.toLowerCase().replace('-', '_')}.json`,
+    validate: validateQuestionData,
   },
   {
     tool: 'study', key: 'lucky_rabbit_questions', locale,
-    remote: `/sea/study/data/lucky_rabbit_questions_${locale}.json`,
-    destination: `public/sea/study/data/lucky_rabbit_questions_${locale}.json`,
+    remote: `/sea/study/data/lucky_rabbit_questions_${locale.toLowerCase().replace('-', '_')}.json`,
+    destination: `public/sea/study/data/lucky_rabbit_questions_${locale.toLowerCase().replace('-', '_')}.json`,
+    validate: validateQuestionData,
   },
   {
     tool: 'study', key: 'scholar_exam_questions', locale,
-    remote: `/sea/study/data/scholar_exam_questions_${locale}.json`,
-    destination: `public/sea/study/data/scholar_exam_questions_${locale}.json`,
+    remote: `/sea/study/data/scholar_exam_questions_${locale.toLowerCase().replace('-', '_')}.json`,
+    destination: `public/sea/study/data/scholar_exam_questions_${locale.toLowerCase().replace('-', '_')}.json`,
+    validate: validateQuestionData,
   },
   {
     tool: 'refine', key: 'refine', locale,
     remote: `/sea/refine-simulator/data/refine_${locale}.json`,
-    destination: `public/sea/refine-simulator/data/refine_${locale}.json`,
+    destination: `public/sea/refine/refine_${locale}.json`,
+    validate: validateRefineData,
   },
 ]);
 
@@ -230,9 +236,12 @@ async function readLocalJson(paths) {
 
 async function writeAtomic(destination, text) {
   const absolute = path.resolve(destination);
+  const data = JSON.parse(text);
+  const previous = await readLocalJson([destination]);
+  if (previous && JSON.stringify(previous.data) === JSON.stringify(data)) return;
   await mkdir(path.dirname(absolute), { recursive: true });
   const temporary = `${absolute}.tmp-${process.pid}`;
-  await writeFile(temporary, `${JSON.stringify(JSON.parse(text))}\n`, 'utf8');
+  await writeFile(temporary, `${JSON.stringify(data, null, destination.endsWith('icon_paths.json') ? 2 : undefined)}\n`, 'utf8');
   await rename(temporary, absolute);
 }
 
@@ -244,7 +253,7 @@ async function resolveDataset(dataset, locale, origin) {
     if (!dataset.validate(result.data)) throw new Error('Validation failed');
     return { ...result, source: 'remote', remoteUrl };
   } catch (error) {
-    const fallback = await readLocalJson(dataset.fallback.map((entry) => formatPath(entry, locale)));
+    const fallback = await readLocalJson([...dataset.destinations, ...dataset.fallback].map((entry) => formatPath(entry, locale)));
     if (!fallback || !dataset.validate(fallback.data)) {
       throw new Error(`${remoteUrl}: ${error.message}; no valid local fallback`);
     }
@@ -255,6 +264,8 @@ async function resolveDataset(dataset, locale, origin) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.help) return printHelp();
+  if (args.tools?.some((tool) => ![...DATASETS, ...SHARED_DATASETS, ...OPTIONAL_DATASETS].some((dataset) => dataset.tool === tool))) throw new Error('Unknown --tools selection');
+  const selected = (dataset) => !args.tools || args.tools.includes(dataset.tool);
   await mkdir(args.reportDir, { recursive: true });
 
   const report = {
@@ -268,11 +279,14 @@ async function main() {
     errors: [],
   };
 
-  for (const dataset of DATASETS) {
+  for (const dataset of DATASETS.filter(selected)) {
     for (const locale of LOCALES) {
       try {
         const result = await resolveDataset(dataset, locale, args.origin);
         const destinations = dataset.destinations.map((entry) => formatPath(entry, locale));
+        const previous = await readLocalJson(destinations);
+        const changed = !previous || JSON.stringify(previous.data) !== JSON.stringify(result.data);
+        await writeAtomic(path.join(args.reportDir, 'staged', destinations[0]), result.text);
         if (args.apply) {
           for (const destination of destinations) await writeAtomic(destination, result.text);
         }
@@ -287,6 +301,8 @@ async function main() {
           bytes: Buffer.byteLength(result.text),
           sha256: sha256(result.text),
           summary: dataset.summarize(result.data),
+          previousSummary: previous ? dataset.summarize(previous.data) : null,
+          changed,
           warning: result.warning || null,
         });
         console.log(`${dataset.tool}/${dataset.key}/${locale}: ${result.source}`);
@@ -297,9 +313,12 @@ async function main() {
     }
   }
 
-  for (const dataset of SHARED_DATASETS) {
+  for (const dataset of SHARED_DATASETS.filter(selected)) {
     try {
       const result = await resolveDataset(dataset, '', args.origin);
+      const previous = await readLocalJson(dataset.destinations);
+      const changed = !previous || JSON.stringify(previous.data) !== JSON.stringify(result.data);
+      await writeAtomic(path.join(args.reportDir, 'staged', dataset.destinations[0]), result.text);
       if (args.apply) {
         for (const destination of dataset.destinations) await writeAtomic(destination, result.text);
       }
@@ -314,6 +333,8 @@ async function main() {
         bytes: Buffer.byteLength(result.text),
         sha256: sha256(result.text),
         summary: dataset.summarize(result.data),
+        previousSummary: previous ? dataset.summarize(previous.data) : null,
+        changed,
         warning: result.warning || null,
       });
       console.log(`${dataset.tool}/${dataset.key}: ${result.source}`);
@@ -323,13 +344,17 @@ async function main() {
     }
   }
 
-  for (const dataset of OPTIONAL_DATASETS) {
+  for (const dataset of OPTIONAL_DATASETS.filter(selected)) {
     const remoteUrl = `${args.origin}${dataset.remote}`;
     try {
       const result = await fetchJson(remoteUrl);
       if (!result.data || typeof result.data !== 'object' || count(result.data) === 0) throw new Error('Empty dataset');
+      dataset.validate(result.data);
+      const previous = await readLocalJson([dataset.destination]);
+      const changed = !previous || JSON.stringify(previous.data) !== JSON.stringify(result.data);
+      await writeAtomic(path.join(args.reportDir, 'staged', dataset.destination), result.text);
       if (args.apply) await writeAtomic(dataset.destination, result.text);
-      report.optional.push({ ...dataset, status: 'updated', sourceUrl: result.url, bytes: Buffer.byteLength(result.text), sha256: sha256(result.text) });
+      report.optional.push({ ...dataset, status: args.apply ? 'updated' : 'validated', changed, sourceUrl: result.url, bytes: Buffer.byteLength(result.text), sha256: sha256(result.text) });
       console.log(`${dataset.tool}/${dataset.key}/${dataset.locale}: remote`);
     } catch (error) {
       report.optional.push({ ...dataset, status: 'preserved', error: error.message });
@@ -341,7 +366,8 @@ async function main() {
     validated: report.records.length,
     remote: report.records.filter((entry) => entry.source === 'remote').length,
     fallback: report.records.filter((entry) => entry.source === 'fallback').length,
-    optionalUpdated: report.optional.filter((entry) => entry.status === 'updated').length,
+    changed: report.records.filter((entry) => entry.changed).length,
+    optionalUpdated: report.optional.filter((entry) => ['updated', 'validated'].includes(entry.status)).length,
     optionalPreserved: report.optional.filter((entry) => entry.status === 'preserved').length,
     errors: report.errors.length,
   };
@@ -367,7 +393,7 @@ async function main() {
   await writeFile(path.join(args.reportDir, 'tool-data-report.md'), markdown.join('\n'), 'utf8');
 
   console.log(`Report: ${path.join(args.reportDir, 'tool-data-report.json')}`);
-  if (report.errors.length && args.strict) process.exitCode = 1;
+  if ((report.errors.length || report.summary.fallback) && args.strict) process.exitCode = 1;
 }
 
 main().catch((error) => {

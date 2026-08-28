@@ -70,7 +70,7 @@
   document.head.appendChild(style);
 
   function installPicker() {
-    if (document.getElementById("skill-locale-select")) return;
+    if ((window.RO_SUPPORTED_LOCALES || []).length > 1 || document.getElementById("skill-locale-select")) return;
     const bar = document.createElement("div");
     bar.className = "skill-locale-bar";
     bar.innerHTML = `<label class="skill-locale-picker"><span>${t.language}</span><select id="skill-locale-select" data-native-select="true">${locales.map((x) => `<option value="${x}"${x === locale ? " selected" : ""}>${labels[x]}</option>`).join("")}</select></label><a class="skill-data-version" href="https://www.roworlddb.com/sea/skill_planner/" target="_blank" rel="noopener noreferrer">${t.badge}</a>`;

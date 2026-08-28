@@ -5,7 +5,7 @@ const pages = [
     file: "public/sea/maps/index.html",
     slug: "world-map",
     title: "Ragnarok: The New World World Map",
-    description: "Find monsters, quests, chests, landmarks, recipes, and services on the RTNW World Map.",
+    description: "Find butterfly and bubble locations, weather chests, monsters, quests, and landmarks on the RTNW World Map.",
   },
   {
     file: "public/sea/monster_album/index.html",

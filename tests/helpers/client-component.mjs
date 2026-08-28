@@ -34,6 +34,14 @@ export async function loadClientComponent(filename, { globals = {}, modules = {}
       if (!(id in slots)) slots[id] = { current: initial };
       return slots[id];
     },
+    useMemo(factory, dependencies) {
+      const id = cursor++;
+      const previous = slots[id];
+      if (!previous || !dependencies || dependencies.some((value, index) => !Object.is(value, previous.dependencies?.[index]))) {
+        slots[id] = { dependencies, value: factory() };
+      }
+      return slots[id].value;
+    },
     useEffect(callback, dependencies) {
       const id = cursor++;
       const previous = slots[id];
