@@ -1,4 +1,12 @@
 (function() {
+    // Missing source banners use the local event icon; event information stays visible.
+    document.addEventListener("error", (event) => {
+        const image = event.target;
+        if (!(image instanceof HTMLImageElement) || !image.matches(".events-event-icon, .events-calendar-icon, #events-modal-icon") || image.dataset.eventsFallback) return;
+        image.dataset.eventsFallback = "true";
+        image.dataset.referenceFallback = "1";
+        image.src = "/media/images/zhujiemian/icon_zhujiemian_huodong.webp";
+    }, true);
     const SUPPORTED_LOCALES = [ "zh-TW", "en-US", "zh-CN", "th-TH", "id-ID" ];
     const DAY_MS = 24 * 60 * 60 * 1000;
     const HOUR_MS = 60 * 60 * 1000;

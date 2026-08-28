@@ -5,12 +5,23 @@ const root = process.cwd();
 const publicRoot = path.join(root, "public");
 
 async function readJson(relativePath) {
-  const sourcePath = path.join(root, "source-data", relativePath);
-  try {
-    return JSON.parse(await readFile(sourcePath, "utf8"));
-  } catch {
-    return JSON.parse(await readFile(path.join(publicRoot, relativePath), "utf8"));
+  const candidates = [
+    path.join(root, "source-data", relativePath),
+    path.join(publicRoot, relativePath),
+  ];
+  const fallbackPath = relativePath.replace(/_(?:zh-CN|th-TH|id-ID)(?=\.json$)/, "_en-US");
+  if (fallbackPath !== relativePath) {
+    candidates.push(path.join(root, "source-data", fallbackPath), path.join(publicRoot, fallbackPath));
   }
+  let lastError;
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(await readFile(candidate, "utf8"));
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
 }
 
 async function writeJson(relativePath, value) {
@@ -259,7 +270,7 @@ async function buildShopData(locale) {
   });
 }
 
-for (const locale of ["en-US", "zh-TW"]) {
+for (const locale of ["en-US", "zh-TW", "zh-CN", "th-TH", "id-ID"]) {
   await buildMonsterData(locale);
   await buildAffixData(locale);
   await buildEquipmentData(locale);

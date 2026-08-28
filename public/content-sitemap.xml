@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/database/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -68,7 +68,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/sea/study/</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -128,7 +128,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/guides/mvp-hunting/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -198,4 +198,5 @@
     <image:image><image:loc>https://rtnw.online/assets/guides/redfinger-cloud-phone/redfinger-devices-602.webp</image:loc></image:image>
     <image:image><image:loc>https://rtnw.online/assets/guides/redfinger-cloud-phone/redfinger-session-600.webp</image:loc></image:image>
   </url>
+  <url><loc>https://rtnw.online/database/wardrobe/</loc><lastmod>2026-08-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>

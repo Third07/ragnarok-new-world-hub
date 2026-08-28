@@ -21,7 +21,7 @@ const tools: HubTool[] = [
   },
   {
     title: "World Map",
-    description: "Find monsters, quests, landmarks, and chests.",
+    description: "Find butterflies, bubbles, weather chests, monsters, and quests.",
     href: "/sea/maps/?lang=en-US#map=101",
     icon: "/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp",
     category: "Adventure",
@@ -40,6 +40,14 @@ const tools: HubTool[] = [
     href: "/sea/apocalypse_planner/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp",
     category: "Planners",
+  },
+  {
+    title: "Wardrobe Database",
+    description: "Search outfits, hairstyles, accessories, mounts, and dye options.",
+    href: "/database/wardrobe/",
+    icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
+    category: "Database",
+    badge: "New",
   },
   {
     title: "Equipment Index",
