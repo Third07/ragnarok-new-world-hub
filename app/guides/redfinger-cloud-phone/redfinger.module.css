@@ -13,25 +13,15 @@
   justify-self: center;
 }
 
-.affiliateBox {
+.downloadActions {
   margin: 24px 0;
-  padding: 22px;
-  border: 1px solid var(--guide-line, #d4d8df);
-  border-left: 4px solid var(--guide-yellow, #f4bc3f);
-  border-radius: 12px;
-  background: #f8f9ff;
 }
 
-.affiliateBox > p:first-child,
-.affiliateBox > h2:first-child {
-  margin-top: 0;
-}
-
-.affiliateBox p {
+.page .disclosure {
   font-size: 14px;
 }
 
-.page .affiliateLink {
+.page .downloadButton {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
@@ -49,13 +39,8 @@
   text-decoration: none;
 }
 
-.page .affiliateLink:hover {
+.page .downloadButton:hover {
   background: #f7cd66;
-}
-
-.affiliateLink span {
-  font-size: 12px;
-  font-weight: 650;
 }
 
 .page :is(a, summary):focus-visible {
@@ -97,11 +82,7 @@
     max-width: 190px;
   }
 
-  .affiliateBox {
-    padding: 16px;
-  }
-
-  .page .affiliateLink {
+  .page .downloadButton {
     width: 100%;
   }
 }

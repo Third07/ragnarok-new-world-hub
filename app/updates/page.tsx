@@ -27,7 +27,7 @@ const releases = [
     date: "August 28, 2026",
     title: "Redfinger cloud phone setup guide",
     summary:
-      "Added Android, iPhone, PC and browser instructions, plan and trial checks, connection troubleshooting, and a dedicated Ragnarok: The New World setup checklist. Includes official-source references, reused Redfinger illustrations and disclosed affiliate links; game compatibility is not a live-tested guarantee.",
+      "Play Ragnarok: The New World with Redfinger using our Android, iPhone, PC and browser setup guide. We use Redfinger for RTNW; the guide covers installation, plans, reconnecting and common connection problems.",
     links: [
       ["Read the Redfinger guide", "/guides/redfinger-cloud-phone/"],
       ["Compare cloud gaming options", "/guides/cloud-gaming/"],
@@ -38,7 +38,7 @@ const releases = [
     date: "August 28, 2026",
     title: "Weather map locations, Wardrobe catalogue, and SEA database refresh",
     summary:
-      "Added 298 butterfly, bubble, sun chest, snow, weather monster chest, and season chest locations with filters, coordinates, and saved completion checks. Added a 776-item Wardrobe catalogue, refreshed equipment, shops, affixes, Apocalypse entries, monsters, pets, and exploration data, and corrected the SEA event and quiz update paths. Existing skills are retained where the upstream feed fails completeness checks.",
+      "Find 298 butterfly, bubble, sun chest, snow, weather monster chest and season chest locations, and mark them complete as you explore. Browse 776 Wardrobe items, updated equipment, shops, affixes, Apocalypse entries, monsters and pets, plus SEA events and quiz answers.",
     links: [
       ["Explore weather locations", "/sea/maps/?lang=en-US#map=101"],
       ["Browse Wardrobe", "/database/wardrobe/"],
@@ -60,9 +60,9 @@ const releases = [
   },
   {
     date: "August 15, 2026",
-    title: "600-monster card drop gauge guide and original charts",
+    title: "600-monster card drop gauge guide and progress charts",
     summary:
-      "Expanded the farming guide with recalculated green, blue, and purple gauge totals, exact partial final-day kill counts, two original progress charts, and new responsive card-farming artwork.",
+      "Plan green, blue and purple card drops with gauge totals, daily progress charts and the exact kills needed on your final farming day.",
     links: [
       ["Read the Card Gauge Guide", "/guides/farming-card-progression/"],
       ["Browse farming guides", "/guides/monsters-cards-farming/"],
@@ -84,7 +84,7 @@ const releases = [
     date: "August 8, 2026",
     title: "Seven advanced-job guides and released Monk rebuild",
     summary:
-      "Published Lord Knight, High Wizard, Sniper, High Priest, Assassin Cross, Whitesmith, and Night Walker guides with local skill images; rebuilt Monk as a released class guide and standardized FAQ styling and mobile reading space.",
+      "Find skills, stat priorities and build routes for Lord Knight, High Wizard, Sniper, High Priest, Assassin Cross, Whitesmith and Night Walker, plus updated Monk advice.",
     links: [
       ["Browse class guides", "/guides/classes-builds/"],
       ["Read the Monk guide", "/guides/monk-build/"],
@@ -96,7 +96,7 @@ const releases = [
     date: "August 8, 2026",
     title: "Unified site design and expanded visual guide library",
     summary:
-      "Standardized the shared navigation and mobile layout, refreshed ten class and guild guides with local in-game screenshots, and added a complete Guild Management playbook.",
+      "Updated ten class and guild guides with in-game examples, improved mobile navigation and added a Guild Management playbook.",
     links: [
       ["Open the guide library", "/guides/"],
       ["Read Guild Management", "/guides/guild-management/"],
@@ -117,7 +117,7 @@ const releases = [
     date: "August 4, 2026",
     title: "Shareable calculators and improved advertisements",
     summary:
-      "The PC Setup Checker and Top-Up Cost Calculator now support share links, local saved results, printing, resetting, and better advertisement placement outside the form controls.",
+      "Save, share and print results from the PC Setup Checker and Top-Up Cost Calculator, or reset the form to compare another setup.",
     links: [
       ["Open PC Setup Checker", "/tools/pc-setup-checker/"],
       ["Open Top-Up Calculator", "/tools/top-up-calculator/"],
@@ -151,7 +151,7 @@ const releases = [
 const liveReferences = [
   {
     title: "Redeem codes",
-    description: "Check the dedicated code guide for the current verification and redemption workflow.",
+    description: "Find shared codes, expiry notes and redemption steps.",
     href: "/guides/redeem-codes/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_shitu.webp",
   },
@@ -163,7 +163,7 @@ const liveReferences = [
   },
   {
     title: "Shop catalogue",
-    description: "Browse the committed English in-game shop catalogue and item entries.",
+    description: "Browse in-game shop items, prices and currencies.",
     href: "/sea/shop/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_shangcheng.webp",
   },

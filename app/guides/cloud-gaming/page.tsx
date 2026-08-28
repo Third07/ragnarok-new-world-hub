@@ -82,7 +82,7 @@ export default function CloudGamingGuide() {
               </tbody>
             </table></div>
 
-            <div className={styles.note}><strong>Considering a Redfinger cloud phone?</strong> Follow our <Link href="/guides/redfinger-cloud-phone/">Redfinger setup guide</Link> for Android, iPhone, Windows and browser access, plus an RTNW compatibility checklist. That guide contains clearly disclosed affiliate links. RTNW also has its own offline rewards, so check what you need before paying for a persistent session.</div>
+            <div className={styles.note}><strong>Play RTNW with Redfinger.</strong> Follow our <Link href="/guides/redfinger-cloud-phone/">Redfinger setup guide</Link> for Android, iPhone, Windows and browser access. RTNW also has its own offline rewards, so check whether you need a persistent session before choosing a cloud plan.</div>
 
             <h2>Before paying for a cloud service</h2>
             <div className={styles.steps}>

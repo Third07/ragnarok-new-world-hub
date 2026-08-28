@@ -69,7 +69,7 @@ const tools = [
   },
   {
     name: "World Map",
-    description: "Locate targets and turn source data into a practical route.",
+    description: "Find monsters and plan a route between farming spots.",
     href: "/sea/maps/?lang=en-US#map=101",
   },
   {

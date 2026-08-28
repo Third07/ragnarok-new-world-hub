@@ -47,7 +47,7 @@ export default function TopUpCalculatorPage() {
           <p className={styles.kicker}>Free payment-planning tool</p>
           <h1 className={styles.title}>Ragnarok: The New World Top-Up Cost Calculator</h1>
           <p className={styles.dek}>See the estimated final total and effective price per package after discounts and payment fees. The tool does not need your character ID, account login, or payment details.</p>
-          <div className={styles.meta}><span>PHP, USD, IDR, THB, MYR and SGD</span><span>No login required</span><span>Calculated in your browser</span></div>
+          <div className={styles.meta}><span>PHP, USD, IDR, THB, MYR and SGD</span><span>Compare fees and discounts</span><span>Save and share results</span></div>
         </div>
       </header>
 

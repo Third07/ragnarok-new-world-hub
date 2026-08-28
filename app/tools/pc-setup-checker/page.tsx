@@ -43,10 +43,10 @@ export default function PcSetupCheckerPage() {
         <ResponsiveHeroImage className={styles.heroImage} />
         <div className={styles.heroInner}>
           <nav className={styles.crumbs} aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><a href="/guides/technical/">Setup guides</a><span>/</span><span>PC Setup Checker</span></nav>
-          <p className={styles.kicker}>Free browser tool</p>
+          <p className={styles.kicker}>Find a setup for your PC</p>
           <h1 className={styles.title}>Ragnarok: The New World PC Setup Checker</h1>
           <p className={styles.dek}>Compare the official Steam client, an Android emulator, and cloud gaming based on the hardware and setup you actually have.</p>
-          <div className={styles.meta}><span>No login required</span><span>Runs in your browser</span><span>Updated August 4, 2026</span></div>
+          <div className={styles.meta}><span>Steam · Emulator · Cloud</span><span>Share your results</span><span>Updated August 28, 2026</span></div>
         </div>
       </header>
 

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/tools/farming-target-finder/",
     title: "RTNW Farming Target Finder",
-    description: "Filter the committed English monster index by level, type, race, element, size, and map data.",
+    description: "Find RTNW farming targets by level, monster type, race, element, size and habitat.",
     images: ["/assets/rtnw-hero-1280.webp"],
   },
 };
@@ -46,13 +46,13 @@ export default function FarmingTargetFinderPage() {
           <nav className={styles.crumbs} aria-label="Breadcrumb">
             <Link href="/">Home</Link><span>/</span><a href="/search/">Search</a><span>/</span><span>Farming Target Finder</span>
           </nav>
-          <p className={styles.kicker}>Database-driven monster tool</p>
+          <p className={styles.kicker}>Find your next farming spot</p>
           <h1 className={styles.title}>Ragnarok: The New World Farming Target Finder</h1>
           <p className={styles.dek}>
             Narrow the English monster index by level, classification, race, element, size, and map availability, then open the full Monster Album or World Map entry.
           </p>
           <div className={styles.meta}>
-            <span>Uses committed RTNW database data</span><span>Shareable filters</span><span>No login required</span>
+            <span>Levels, elements and habitats</span><span>Shareable filters</span><span>No login required</span>
           </div>
         </div>
       </header>
@@ -60,7 +60,7 @@ export default function FarmingTargetFinderPage() {
       <main className={styles.main}>
         <section className={styles.article}>
           <p className={styles.lead}>
-            This finder helps reduce a large monster list to a practical set of candidates. It does not estimate kills per hour, card chance, experience efficiency, or market value because those require reliable live combat and economy data.
+            Find monsters that suit your level and damage bonuses, then compare their habitats and drops. Try the route in-game to check your kill speed and earnings.
           </p>
           <FarmingTargetFinder />
 
@@ -68,7 +68,7 @@ export default function FarmingTargetFinderPage() {
           <ol>
             <li>Set a level range close to the character or party you are preparing.</li>
             <li>Use element and race filters when a build, card, or damage modifier targets those attributes.</li>
-            <li>Enable map availability when you only want records connected to the current World Map dataset.</li>
+            <li>Enable map availability to show monsters with a mapped habitat.</li>
             <li>Open the Monster Album entry to inspect available stats and drops.</li>
             <li>Use the map link to check the first recorded habitat before building a farming route.</li>
           </ol>

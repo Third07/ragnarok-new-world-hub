@@ -26,7 +26,7 @@ jobs:
         run: |
           set -uo pipefail
 
-          marker="redfinger-guide-2026-08-28"
+          marker="reader-copy-redfinger-2026-08-28"
           state="failure"
           description="Production did not serve the current deploy marker"
 
@@ -36,7 +36,7 @@ jobs:
 
             if [[ "$live_marker" == *"$marker"* ]]; then
               state="success"
-              description="rtnw.online is serving the Redfinger guide deployment"
+              description="rtnw.online is serving the reader copy and Redfinger update"
               break
             fi
 
