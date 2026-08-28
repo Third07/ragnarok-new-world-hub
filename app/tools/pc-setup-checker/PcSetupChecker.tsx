@@ -346,7 +346,7 @@ export default function PcSetupChecker() {
       <section className={actionStyles.saved} aria-labelledby="saved-pc-setups">
         <h2 id="saved-pc-setups">Saved setups</h2>
         {saved.length === 0 ? (
-          <p className={actionStyles.empty}>Saved results remain only in this browser.</p>
+          <p className={actionStyles.empty}>No saved setups yet. Choose Save to keep this result.</p>
         ) : (
           <ul className={actionStyles.savedList}>
             {saved.map((entry) => (

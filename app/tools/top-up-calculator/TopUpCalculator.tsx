@@ -327,7 +327,7 @@ export default function TopUpCalculator() {
       <section className={actionStyles.saved} aria-labelledby="saved-top-up-results">
         <h2 id="saved-top-up-results">Saved calculations</h2>
         {saved.length === 0 ? (
-          <p className={actionStyles.empty}>Saved calculations remain only in this browser.</p>
+          <p className={actionStyles.empty}>No saved calculations yet. Choose Save to keep this result.</p>
         ) : (
           <ul className={actionStyles.savedList}>
             {saved.map((entry) => (

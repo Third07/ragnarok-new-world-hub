@@ -55,6 +55,7 @@ export default function AboutPage() {
         <p>
           Names, item effects, skill mechanics, prerequisites, monster attributes, obtain sources, map relationships, and refine tables are taken from the data files used by the website tools. A database entry can still be incomplete, mistranslated, unavailable on the current server, or changed by a later patch.
         </p>
+        <p>SEA map and database references include <a href="https://www.roworlddb.com/sea/maps/?lang=en-US#map=101">RoworldDB</a>, including its exploration locations and Wardrobe catalogue.</p>
         <h3>Editorial recommendations</h3>
         <p>
           Tier placements, build priorities, stat directions, rotations, route scores, F2P recommendations, and stopping rules are judgments based on the available data and current player experience. They are not official rankings or guarantees.

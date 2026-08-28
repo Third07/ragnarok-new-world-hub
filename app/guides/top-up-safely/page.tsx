@@ -39,7 +39,7 @@ export default function TopUpSafelyGuide() {
         "@type": "Article",
         headline: "Ragnarok: The New World Top-Up Guide — Safe Payments and Account Protection",
         datePublished: "2026-08-04",
-        dateModified: "2026-08-04",
+        dateModified: "2026-08-28",
         author: { "@id": "https://rtnw.online/#organization" },
         publisher: { "@id": "https://rtnw.online/#organization" },
         mainEntityOfPage: "https://rtnw.online/guides/top-up-safely/",
@@ -63,7 +63,7 @@ export default function TopUpSafelyGuide() {
           <p className={styles.kicker}>Payments and account security</p>
           <h1 className={styles.title}>How to top up Ragnarok: The New World safely</h1>
           <p className={styles.dek}>Verify the payment route, character, server, currency, and final fee before paying. A cheap offer is not a bargain when it requires your account login or leaves you without a usable receipt.</p>
-          <div className={styles.meta}><span>Updated August 4, 2026</span><span>Philippines-friendly advice</span><span>No seller rankings or affiliate links</span></div>
+          <div className={styles.meta}><span>Updated August 28, 2026</span><span>Philippines-friendly advice</span><span>Payment and account protection</span></div>
         </div>
       </header>
 

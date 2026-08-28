@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         </p>
         <div className={styles.callout}>
           <strong>RTNW Hub does not set first-party cookies.</strong>
-          <p>The website itself uses local browser storage for selected tool preferences. Local storage is not a login account and is not synchronized to a user database.</p>
+          <p>Saved tool results, map checklists and preferences stay in the browser where you save them. They do not sync between devices, and clearing browser data can remove them.</p>
         </div>
       </section>
 

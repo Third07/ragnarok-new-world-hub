@@ -187,7 +187,7 @@ const guideFallbacks: Record<
   },
   "/tools/farming-target-finder/": {
     title: "Ragnarok: The New World Farming Target Finder",
-    description: "Filter the committed monster index by level, type, race, element, size, and map availability.",
+    description: "Find farming targets by level, monster type, race, element, size, and habitat.",
     links: [
       ["Monster Database", "/sea/monster_album/"],
       ["Card Database", "/sea/cards/"],

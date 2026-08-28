@@ -51,7 +51,7 @@ const guides = [
   },
   {
     title: "Redfinger Cloud Phone Guide",
-    description: "Set up cloud Android from a phone or computer, compare plans, and check RTNW compatibility. Includes disclosed affiliate links.",
+    description: "Play RTNW on a Redfinger cloud phone. Set up Android, iPhone, PC or browser access, choose a plan and fix connection issues.",
     href: "/guides/redfinger-cloud-phone/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp",
   },
@@ -93,7 +93,7 @@ export default function TechnicalGuidesPage() {
           <p className={styles.dek}>
             Clear installation and payment guidance for players using Steam, Android emulators, cloud devices, or mobile checkout. Each guide explains the trade-offs instead of pretending one setup works for everyone.
           </p>
-          <div className={styles.meta}><span>Updated August 28, 2026</span><span>Independent fan guides</span><span>Affiliate links disclosed where used</span></div>
+          <div className={styles.meta}><span>Updated August 28, 2026</span><span>PC · Mobile · Cloud</span><span>Setup and troubleshooting</span></div>
         </div>
       </header>
 

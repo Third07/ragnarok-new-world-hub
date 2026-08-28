@@ -4,7 +4,9 @@ Route: `/guides/redfinger-cloud-phone/`
 
 Reviewed: 2026-08-28. This is an independent setup article, not a live game benchmark or proof of publisher approval. Keep the general Android walkthrough useful for other supported apps and retain the separate RTNW checklist. The official RTNW Android package is `com.ggv.roworldsea.aos` (Gravity Game Vision).
 
-The exact owner-provided referral URL is defined once in the page. Both calls to action disclose the affiliate relationship and use `rel="sponsored nofollow noopener noreferrer"`. Do not replace the referral identifier with a coupon claim. No Redfinger scripts, tracking pixels, automatic redirects, account forms or third-party embeds are included.
+The site owner confirmed on 2026-08-28 that they currently use Redfinger to play RTNW. The article's first-person usage statement reflects that confirmation, not an automated game test. Do not restore the previous untested-compatibility copy or invent a tested plan, region, Android version, FPS result or device specification.
+
+The exact owner-provided referral URL is defined once in the page. Both `Get Redfinger` buttons use it, open in the same tab and retain `rel="sponsored nofollow noopener noreferrer"`. One plain-language commission disclosure appears immediately before the first button. The destination is Redfinger's app entry page, so do not add the HTML `download` attribute or present it as a direct installer file. Do not replace the referral identifier with a coupon claim. No Redfinger scripts, tracking pixels, automatic redirects, account forms or third-party embeds are included.
 
 ## Reused illustrations
 
@@ -19,6 +21,6 @@ Each is encoded locally as WebP at its original width and at 360 px. Keep the or
 
 ## Future review
 
-Recheck Redfinger's Userbook for client access, trial eligibility, billing and expiry. Verify any new RTNW compatibility claim on an actual named plan, region, Android version and game version before calling it tested. Check the game's official listing and rules; persistent cloud sessions are different from in-game offline rewards.
+Recheck Redfinger's Userbook for client access, trial eligibility, billing and expiry. The owner has confirmed current RTNW gameplay, but additional performance claims require evidence for the relevant plan, region, Android version and game version. Check the game's official listing and rules; persistent cloud sessions are different from in-game offline rewards.
 
 Do not publish fixed prices, guaranteed free time, refund promises, server latency claims, automatic farming results or ban-protection claims without current evidence. Update visible review dates, structured data and sitemap dates together after substantive changes.

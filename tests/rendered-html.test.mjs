@@ -31,7 +31,7 @@ test("renders the production homepage through the built worker", async () => {
   assert.doesNotMatch(html, /codex-preview/i);
 });
 
-test("renders the Wardrobe catalogue route with canonical metadata and source context", async () => {
+test("renders the Wardrobe catalogue with canonical metadata and useful filter guidance", async () => {
   const { default: worker } = await import(new URL("../dist/server/index.js", import.meta.url).href);
   const response = await worker.fetch(new Request("https://rtnw.online/database/wardrobe/", { headers: { accept: "text/html" } }), {
     ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
@@ -42,5 +42,8 @@ test("renders the Wardrobe catalogue route with canonical metadata and source co
   assert.match(html, /Ragnarok: The New World Wardrobe/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /id="wardrobe-search"/);
-  assert.match(html, /not confirm that an item is currently obtainable/);
+  assert.match(html, /Availability varies by server/);
+  assert.match(html, /Gender and job filters include unrestricted cosmetics/);
+  assert.match(html, /https:\/\/www\.roworlddb\.com\/sea\/wardrobe\/\?lang=en-US/);
+  assert.doesNotMatch(html, /Local item images|dye flags come from|About these records/);
 });

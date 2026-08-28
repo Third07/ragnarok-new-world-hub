@@ -7,7 +7,7 @@ import styles from "../field-guide.module.css";
 export const metadata: Metadata = {
   title: "Search RTNW Guides, Monsters, Cards & Equipment",
   description:
-    "Search RTNW Hub guides, tools, monsters, cards, and equipment from one page using the committed English Ragnarok: The New World database.",
+    "Search Ragnarok: The New World guides, tools, monsters, cards and equipment. Find builds, stats, drops and setup advice across RTNW Hub.",
   alternates: { canonical: "/search/" },
   keywords: [
     "Ragnarok The New World search",
@@ -31,7 +31,7 @@ export default function SearchPage() {
     url: "https://rtnw.online/search/",
     name: "Search RTNW Guides, Tools and Game Data",
     description:
-      "Unified browser search across RTNW Hub guides, tools, monsters, cards, and equipment.",
+      "Search RTNW Hub guides, tools, monsters, cards, and equipment.",
     isPartOf: { "@id": "https://rtnw.online/#website" },
     inLanguage: "en",
   };
@@ -48,10 +48,10 @@ export default function SearchPage() {
           <p className={styles.kicker}>One search across RTNW Hub</p>
           <h1 className={styles.title}>Search guides, tools, monsters, cards, and equipment</h1>
           <p className={styles.dek}>
-            Find a guide or search the English monster, card, and equipment indexes from one screen. Results open the existing detailed database pages.
+            Find guides, monsters, cards and equipment from one search, then open a result for details.
           </p>
           <div className={styles.meta}>
-            <span>Guide and tool search</span><span>Live committed database files</span><span>No account required</span>
+            <span>Guides and tools</span><span>Monsters, cards and equipment</span><span>No account required</span>
           </div>
         </div>
       </header>

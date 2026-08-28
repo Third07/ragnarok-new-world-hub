@@ -647,7 +647,7 @@ test("card gauge guide renders exact 600-monster math and original local assets"
   }
 });
 
-test("Cloudflare build serves guides and active discovery routes", async () => {
+test("Cloudflare build serves public routes without implementation notes in reader copy", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();
 
@@ -661,19 +661,30 @@ test("Cloudflare build serves guides and active discovery routes", async () => {
     ...farmingGuideRoutes,
     "/search/",
     "/database/",
+    "/database/wardrobe/",
     "/updates/",
+    "/guides/technical/",
+    "/guides/cloud-gaming/",
+    "/guides/redfinger-cloud-phone/",
+    "/guides/top-up-safely/",
+    "/tools/farming-target-finder/",
+    "/tools/pc-setup-checker/",
+    "/tools/top-up-calculator/",
+    ...toolRoutes.map((route) => `/sea/${route}/`),
     "/seo-status/",
     "/robots.txt",
     "/4cc78cf9b31d099f4de23a0874b08a5e.txt",
   ]) {
-    const response = await worker.fetch(
-      new Request(`${siteOrigin}${pathname}`, {
-        headers: { accept: "text/html,text/plain" },
-      }),
-      env,
-      context,
-    );
+    const request = new Request(`${siteOrigin}${pathname}`, {
+      headers: { accept: "text/html,text/plain" },
+    });
+    const staticPath = pathname.endsWith("/") ? `public${pathname}index.html` : `public${pathname}`;
+    const response = await access(staticPath)
+      .then(() => env.ASSETS.fetch(request))
+      .catch(() => worker.fetch(request, env, context));
     assert.equal(response.status, 200, `${pathname} should return 200`);
+    const html = await response.text();
+    assert.doesNotMatch(html, /The catalogue is responsive|Checks are saved in this browser|SEA locations and exploration data:|checked during site builds|failed downloads keep|last validated data|committed (?:English|RTNW|database|monster)|Local item images|canonical RTNW answer page|lightweight loading|affiliate link · new tab|has not performed a live RTNW-on-Redfinger compatibility test|game compatibility is not a live-tested guarantee/i, `${pathname} should use reader-facing copy`);
   }
 
   const creatorKit = await env.ASSETS.fetch(new Request(`${siteOrigin}/creator-kit/`));
@@ -739,18 +750,22 @@ test("Redfinger guide renders an indexable article with disclosed referrals and 
   assert.ok(html.includes(`rel="canonical" href="${siteOrigin}${pathname}"`));
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.match(html, /com\.ggv\.roworldsea\.aos/);
-  assert.match(html, /has not performed a live RTNW-on-Redfinger compatibility test/);
+  assert.match(html, /We use Redfinger to play Ragnarok: The New World\./);
+  assert.doesNotMatch(html, /has not performed a live|affiliate link · new tab|Affiliate disclosure:/i);
   assert.match(html, /offline resource accumulation/);
 
   const articleHtml = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/)?.[1];
   assert.ok(articleHtml, "The full article must be in the initial HTML");
   const referrals = [...articleHtml.matchAll(/<a\b[^>]*>/g)].map(([tag]) => tag).filter((tag) => tag.includes(referral));
   assert.equal(referrals.length, 2);
-  assert.ok(articleHtml.indexOf("Affiliate disclosure:") < articleHtml.indexOf(`href="${referral}"`));
+  const disclosure = "We may earn a commission from purchases made through the Redfinger links in this guide.";
+  assert.equal(articleHtml.split(disclosure).length - 1, 1, "Keep one clear commission disclosure");
+  assert.ok(articleHtml.indexOf(disclosure) < articleHtml.indexOf(`href="${referral}"`));
+  assert.equal([...articleHtml.matchAll(/>Get Redfinger<\/a>/g)].length, 2);
   for (const tag of referrals) {
     const rel = tag.match(/\brel="([^"]+)"/)?.[1].split(/\s+/) || [];
     for (const token of ["sponsored", "nofollow", "noopener", "noreferrer"]) assert.ok(rel.includes(token), tag);
-    assert.ok(tag.includes('target="_blank"'));
+    assert.doesNotMatch(tag, /\btarget=|\bdownload(?:=|\s|>)/, "Referral buttons open the app entry page in the same tab");
   }
   assert.doesNotMatch(html, /<(?:script|iframe)\b[^>]*src="https:\/\/[^\"]*cloudemulator\.net/i);
 
@@ -766,6 +781,8 @@ test("Redfinger guide renders an indexable article with disclosed referrals and 
   assert.equal(article.dateModified, "2026-08-28");
   const faq = schemas.find((item) => item["@type"] === "FAQPage");
   assert.equal(faq.mainEntity.length, 6);
+  const compatibility = faq.mainEntity.find((item) => item.name === "Does Redfinger support Ragnarok: The New World?");
+  assert.match(compatibility.acceptedAnswer.text, /^Yes\. We use Redfinger to play Ragnarok: The New World\./);
   for (const question of faq.mainEntity) assert.ok(articleHtml.includes(`<summary>${question.name}</summary>`));
   const breadcrumb = schemas.find((item) => item["@type"] === "BreadcrumbList" && item.itemListElement.at(-1).item === `${siteOrigin}${pathname}`);
   assert.equal(breadcrumb.itemListElement.length, 4);
