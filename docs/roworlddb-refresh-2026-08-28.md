@@ -28,6 +28,7 @@ Rune and card counts are unchanged, but their current source records were compar
 ## Website behavior
 
 - Weather layers now have icons, filters, world coordinates, search support, completion toggles, and Hide checked behavior.
+- Map membership uses shared map artwork and explicit scene aliases. Similar numeric map prefixes no longer mix locations from different maps; the deployed-preview check caught this before publication.
 - Photography completion and optional card-reward icons are supported. Existing chest and quest storage keys are preserved.
 - Exploration packs refresh as complete validated locale groups instead of leaving old files outside the importer.
 - Wardrobe is a searchable catalogue with category, gender, job, and dye filters, pagination, and shareable filter URLs. Its full 3D viewer remains on RoworldDB and is explicitly linked as a separate feature.

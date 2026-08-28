@@ -113,10 +113,12 @@ async function mapContext(storage = new Map()) {
   });
   vm.runInContext((await read('public/sea/map-simulator/map_view.js')).replace(/main\(\);\s*$/, ''), context);
   context.maps = JSON.parse(await read('public/sea/map-simulator/data/map_index_en-US.json'));
+  context.maps.map_configs[10199999] = { ...context.maps.map_configs[101], map_id: 10199999, scene_id: 999, pic_res: 'icon_map_99999' };
   context.weather = { placements: [
     { id: 1, type: 'butterfly', map_id: 10105, x: 357.94, z: 538.98 },
     { id: 2, type: 'bubble', map_id: 10101, x: 285.12, z: 607.4 },
     { id: 3, type: 'butterfly', map_id: 102, x: 100, z: 100 },
+    { id: 4, type: 'bubble', map_id: 10199999, x: 285.12, z: 607.4 },
   ] };
   vm.runInContext('state.mapIndex = maps; state.weatherData = weather; state.currentCenterSceneId = 101; state.openWorldCenters = new Set([101, 102]); state.enabledFiles = new Set(["weather:butterfly", "weather:bubble"]);', context);
   return context;
@@ -126,6 +128,7 @@ test('weather layers use current-map coordinates, filters and persistent complet
   const storage = new Map();
   const context = await mapContext(storage);
   const run = code => vm.runInContext(code, context);
+  assert.equal(run('isRelevantMapRegionId(10199999)'), false, 'An unrelated map sharing the 101 prefix must not leak into Prontera');
   assert.equal(run('getWeatherMarkers(2048, 2048).length'), 2);
   assert.equal(run('getWeatherMarkers(2048, 2048)[0].worldX'), 357.94);
   assert.ok(run('getWeatherMarkers(2048, 2048).every(marker => Number.isFinite(marker.x) && Number.isFinite(marker.y))'));
@@ -140,6 +143,9 @@ test('weather layers use current-map coordinates, filters and persistent complet
   assert.equal(vm.runInContext('isQuestCompleted({ id: 1, weatherType: "bubble" })', reloaded), false);
   assert.equal(run('getQuestStorageType({ file: "landmark_photography.json", id: 10 })'), 'photo');
   assert.equal(run('getQuestStorageId({ file: "landmark_photography.json", id: 10 })'), 10);
+  run('state.mapIndex.map_configs[101].scene_id = 4321');
+  assert.equal(run('isRelevantMapRegionId(4321)'), true);
+  assert.equal(run('getItemMapCfgMatch({ sceneId: 4321 }, getMapCfg(101)) === getMapCfg(101)'), true);
 });
 
 test('Wardrobe catalogue excludes placeholders and uses existing local image assets', async () => {

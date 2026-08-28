@@ -863,11 +863,6 @@ function isOpenWorldMap(e) {
     return state.openWorldCenters?.has(Number(e));
 }
 
-function getOpenWorldPrefix(e) {
-    const t = String(e ?? "");
-    return t.length >= 5 ? t.slice(0, -1) : t;
-}
-
 function getPicResId(e) {
     if ("string" != typeof e) return null;
     const t = e.match(/(\d+)/);
@@ -876,46 +871,40 @@ function getPicResId(e) {
     return Number.isFinite(n) ? n : null;
 }
 
-function isRelevantMapRegionId(e) {
-    const t = Number(e);
-    if (!Number.isFinite(t) || null == state.currentCenterSceneId) return !1;
-    const n = Number(state.currentCenterSceneId);
-    if (!Number.isFinite(n)) return !1;
-    if (!isOpenWorldMap(n)) return !0;
-    const a = getMapCfg(n), r = getMapCfg(t);
-    if (a?.pic_res) {
-        const e = getPicResId(a.pic_res);
-        if (Number.isFinite(e) && t === e) return !0;
-    }
-    if (a && r && a.pic_res && r.pic_res && a.pic_res === r.pic_res) return !0;
-    if (!a || !r) return !1;
-    const s = getOpenWorldPrefix(n);
-    return String(t).startsWith(s);
+function isRelevantMapRegionId(regionId) {
+    const id = Number(regionId), centerId = Number(state.currentCenterSceneId);
+    if (!Number.isFinite(id) || state.currentCenterSceneId == null || !Number.isFinite(centerId)) return false;
+    if (!isOpenWorldMap(centerId)) return true;
+    return getRelevantMapIdsForCurrentView(centerId).has(id);
 }
 
-function getRelevantMapIdsForCurrentView(e = state.currentCenterSceneId) {
-    const t = Number(e), n = new Set;
-    if (!Number.isFinite(t)) return n;
-    n.add(t);
-    const a = getMapCfg(t), r = a?.pic_res;
-    if (!a) return n;
-    const s = getPicResId(r);
-    Number.isFinite(s) && n.add(s);
-    if (!isOpenWorldMap(t)) return n;
-    const i = getOpenWorldPrefix(t);
-    for (const [e, t] of Object.entries(state.mapIndex?.map_configs || {})) {
-        const a = Number(t?.map_id ?? e);
-        Number.isFinite(a) && a > 0 && (String(a).startsWith(i) || r && t?.pic_res === r) && n.add(a);
+function getRelevantMapIdsForCurrentView(center = state.currentCenterSceneId) {
+    const centerId = Number(center), ids = new Set();
+    if (!Number.isFinite(centerId)) return ids;
+    ids.add(centerId);
+    const config = getMapCfg(centerId);
+    if (!config) return ids;
+    for (const alias of [getPicResId(config.pic_res), config.scene_id]) {
+        if (alias != null && Number.isFinite(Number(alias))) ids.add(Number(alias));
     }
-    return n;
+    if (!isOpenWorldMap(centerId)) return ids;
+    // Numeric prefixes overlap across maps. Shared artwork identifies the actual view.
+    for (const [key, region] of Object.entries(state.mapIndex?.map_configs || {})) {
+        const id = Number(region?.map_id ?? key);
+        if (Number.isFinite(id) && id > 0 && config.pic_res && region?.pic_res === config.pic_res) ids.add(id);
+    }
+    return ids;
 }
 
-function getItemMapCfgMatch(e, t) {
-    if (!e || !t?.pic_res) return null;
-    const n = getMapCfg(e.mapRegionId);
-    if (n && n.pic_res && n.pic_res === t.pic_res) return n;
-    const a = getPicResId(t.pic_res), r = Number(e.mapRegionId), s = Number(e.sceneId);
-    return !Number.isFinite(a) || a !== r && a !== s ? null : t;
+function getItemMapCfgMatch(item, view) {
+    if (!item || !view?.pic_res) return null;
+    const region = getMapCfg(item.mapRegionId);
+    if (region?.pic_res === view.pic_res) return region;
+    const regionId = Number(item.mapRegionId), sceneId = Number(item.sceneId);
+    for (const alias of [view.scene_id, getPicResId(view.pic_res)]) {
+        if (alias != null && Number.isFinite(Number(alias)) && (Number(alias) === regionId || Number(alias) === sceneId)) return view;
+    }
+    return null;
 }
 
 function isRwType(e) {
