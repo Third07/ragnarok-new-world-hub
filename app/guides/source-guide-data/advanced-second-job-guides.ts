@@ -3,15 +3,18 @@ import type { SourceGuide } from "../SourceGuidePage";
 export const lordKnightGuide = {
   slug: "lord-knight-builds",
   title: "Ragnarok: The New World Lord Knight Build Guide",
-  seoTitle: "RTNW Lord Knight Builds: Tank, AGI Sword & Spear",
-  description: "Build a Lord Knight after the advanced second-job change with Tank, AGI Sword, and Spear stats, skills, equipment traits, Rune Engine choices, cards, and rotations.",
+  seoTitle: "Lord Knight Builds: Tank, AGI & Spear | Ragnarok New World",
+  description: "Compare Ragnarok: The New World Lord Knight tank, AGI sword, and spear builds: stats, skills, cards, upgrade order, and fixes for damage or survivability.",
   kicker: "Advanced Second-Job Guide",
   dek: "Turn the established Knight paths into complete level-70 builds: a safer permanent tank, rapid AGI Sword pressure, or heavy-weapon Spear burst.",
   category: "Classes and Builds",
   heroImage: "/assets/guides/lord-knight-builds/lord-knight-hero.webp",
   heroAlt: "Lord Knight build selection showing Tank Knight, AGI Knight, and Spear Knight paths",
   published: "2026-08-08",
-  modified: "2026-08-08",
+  modified: "2026-08-28",
+  quickAnswer: "Choose VIT Tank when your party needs a frontline, AGI Sword for sustained melee play, or Spear for a burst-focused setup. Keep a working weapon and trait package while preparing the next build; a higher item level is not a complete upgrade by itself.",
+  reviewNote: "August 28 update: clearer build choices and checks against the Skill Planner reference descriptions. This is not a new live-server DPS benchmark.",
+  dataSources: [{ label: "Imported Lord Knight skill descriptions", href: "/sea/skill-simulator/data/jobs_en-US/213.json" }, { label: "Compare skill levels in the Skill Planner", href: "/sea/skill_planner/" }],
   readTime: "9 min read",
   keywords: [
     "Ragnarok The New World Lord Knight build",
@@ -80,7 +83,7 @@ export const lordKnightGuide = {
       title: "Card plan for each Lord Knight build",
       paragraphs: [
         "Keep a universal set of race, element, and size modifiers for encounter swapping. Tank then favors Max HP, VIT, DEF, and MDEF; AGI Sword wants AGI, CRIT, ASPD, and physical damage; Spear values STR, ATK, physical damage, and enough accuracy for its target.",
-        "Tank and AGI Sword can benefit from Fire-damage cards because much of their native output is Fire. Spear deals Neutral damage and should avoid paying for an elemental package that does not improve its core skills.",
+        "Match elemental cards to the skills you actually use. Aura Blade's additional hit and Clashing Spiral are labeled Neutral in the imported data, so do not assume a Fire-damage card improves the whole Lord Knight kit.",
       ],
     },
     {
@@ -97,8 +100,61 @@ export const lordKnightGuide = {
         compact: true,
       },
     },
+    {
+      "id": "upgrade-order",
+      "title": "What to upgrade first on a limited budget",
+      "steps": [
+        {
+          "title": "Choose the job you must perform",
+          "text": "A tank upgrade should improve survival or reliable threat. A damage upgrade should improve the attacks you actually use. Judge a candidate against that role before comparing its displayed power."
+        },
+        {
+          "title": "Keep the build-defining trait",
+          "text": "Compare the complete old and new weapon setup, including traits, card slots, and refine investment. Do not replace a functioning sword-aura or Spear combination with an unfinished higher-level piece."
+        },
+        {
+          "title": "Check the finished build in the planner",
+          "text": "Spend prerequisite points before adding optional damage or utility skills. Keep separate Tank, AGI Sword, and Spear plans so you can see what each swap really costs."
+        }
+      ]
+    },
+    {
+      "id": "damage-checks",
+      "title": "Lord Knight damage and tanking checks",
+      "table": {
+        "headers": [
+          "Problem",
+          "Check first",
+          "Useful comparison"
+        ],
+        "rows": [
+          [
+            "The tank survives, but the party does not",
+            "Boss facing, target control, and mitigation timing",
+            "Watch the next dangerous mechanic rather than only your HP bar."
+          ],
+          [
+            "AGI Sword feels weaker after an upgrade",
+            "Aura Blade uptime and the required attack-linked traits",
+            "Compare sustained attacks with the same buffs and target."
+          ],
+          [
+            "Spear damage barely changes with a new weapon",
+            "Weapon weight, ATK, and the Clashing Spiral description",
+            "Compare the full weapon package; weight is only one part of its formula."
+          ],
+          [
+            "An elemental card gives little improvement",
+            "The element of each damaging skill and additional hit",
+            "Aura Blade's extra hit and Clashing Spiral are labeled Neutral in the imported skill data."
+          ]
+        ]
+      },
+      "note": "These are diagnostic checks, not a live-server damage ranking. Test one change at a time before spending rare materials."
+    },
   ],
   faqs: [
+    {"question":"Should an F2P Lord Knight build Tank and Spear at the same time?","answer":"Finish the role your regular content needs first. A second build becomes more practical when you can preserve the first weapon, traits, and cards instead of dismantling them to fund a partial replacement."},
     { question: "Which Lord Knight build is best for group PVE?", answer: "VIT Tank remains the safest group-PVE choice because it provides the frontline, aggro control, and defensive margin that parties consistently need." },
     { question: "Which weapon is best for Clashing Spiral?", answer: "Compare two-handed Spears by weight as well as ATK and traits. Clashing Spiral receives an extra multiplier from weapon weight, so the heaviest suitable weapon can outperform a lighter option." },
     { question: "What is the best Rune Engine for AGI Lord Knight?", answer: "Wind plus Water is the practical AGI Sword combination: Wind supports ASPD and action speed, while Water adds damage and defense ignore." },
@@ -320,15 +376,18 @@ export const whitesmithGuide = {
 export const highWizardGuide = {
   slug: "high-wizard-builds",
   title: "Ragnarok: The New World High Wizard Build Guide",
-  seoTitle: "RTNW High Wizard Builds: Fire, Ice & Ghost",
-  description: "Build a High Wizard for Fire and Earth, Ice and Lightning, or Ghost magic with advanced skills, INT and DEX priorities, equipment traits, Rune Engine choices, cards, and rotations.",
+  seoTitle: "High Wizard Builds: Fire, Ice & Ghost | Ragnarok New World",
+  description: "Choose a Ragnarok: The New World High Wizard build with Fire, Ice, or Ghost skills, INT/DEX priorities, cast-time and SP checks, cards, and upgrade advice.",
   kicker: "Advanced Second-Job Guide",
   dek: "Strengthen the two established elemental paths or move into the new Ghost Wizard single-target and control build.",
   category: "Classes and Builds",
   heroImage: "/assets/guides/mage-builds/mage-hero.webp",
   heroAlt: "High Wizard casting advanced elemental magic",
   published: "2026-08-08",
-  modified: "2026-08-08",
+  modified: "2026-08-28",
+  quickAnswer: "Continue the element supported by your current weapon, traits, and cards before funding a full switch. Fire–Earth and Ice–Lightning remain established routes; Ghost centers on Napalm Vulcan and Gravitational Field. For bosses, check cast uptime and SP use as well as the largest damage number.",
+  reviewNote: "August 28 update: clearer build choices and checks against the Skill Planner reference descriptions. This is not a new live-server DPS benchmark.",
+  dataSources: [{ label: "Imported High Wizard skill descriptions", href: "/sea/skill-simulator/data/jobs_en-US/313.json" }, { label: "Compare skill levels in the Skill Planner", href: "/sea/skill_planner/" }],
   readTime: "9 min read",
   keywords: ["Ragnarok The New World High Wizard build", "RTNW High Wizard", "Ghost Wizard build", "High Wizard Fire Earth build", "High Wizard Ice Lightning build"],
   quickFacts: [
@@ -352,7 +411,7 @@ export const highWizardGuide = {
         ],
       },
       paragraphs: [
-        "Every High Wizard starts with Soul Drain and Mystical Amplification. Those passives solve SP sustain, shorten casting, and raise magic damage before the build spends points on its element-specific package.",
+        "Every High Wizard starts with Soul Drain and Mystical Amplification. Soul Drain supports SP recovery on kills, while Mystical Amplification provides a timed damage and variable-cast-time buff. Their conditions matter: neither guarantees uninterrupted casting in every encounter.",
       ],
       image: {
         src: "/assets/guides/high-wizard-builds/mystical-amplification.webp",
@@ -409,8 +468,70 @@ export const highWizardGuide = {
         compact: true,
       },
     },
+    {
+      "id": "sustain-and-casting",
+      "title": "Soul Drain and Mystical Amplification are not the same kind of effect",
+      "table": {
+        "headers": [
+          "Skill",
+          "What the imported description says",
+          "What to check in play"
+        ],
+        "rows": [
+          [
+            "Soul Drain",
+            "Raises maximum SP and restores SP when an enemy is killed",
+            "A boss fight without adds may not trigger the on-kill recovery. Do not assume farming sustain carries over."
+          ],
+          [
+            "Mystical Amplification",
+            "A timed magic-skill-damage and variable-cast-time buff",
+            "Check its uptime during your damaging casts. It is not a permanent passive cast-time reduction."
+          ]
+        ]
+      },
+      "note": "Read the selected skill level in the Skill Planner, then compare it with the current client. Imported values and translated names can differ after a server patch."
+    },
+    {
+      "id": "damage-checks",
+      "title": "Why High Wizard damage can feel low",
+      "table": {
+        "headers": [
+          "Symptom",
+          "Likely area to inspect",
+          "Next test"
+        ],
+        "rows": [
+          [
+            "Strong hits, slow clears",
+            "Cast downtime, movement, or an interrupted rotation",
+            "Compare a full encounter, including time spent unable to cast."
+          ],
+          [
+            "SP runs out on a boss",
+            "Reliance on on-kill SP recovery",
+            "Repeat the test without assuming that extra enemies will be available."
+          ],
+          [
+            "A new elemental build is weaker",
+            "Old cards or traits still support the previous element",
+            "Match the whole loadout to the active spells before judging the build."
+          ],
+          [
+            "A bigger MATK number barely helps",
+            "Enemy resistance and bonuses that do not apply to the chosen spell",
+            "Read the monster entry and the spell's damage type, then change one item."
+          ]
+        ]
+      },
+      "paragraphs": [
+        "For a low-budget account, repair the missing part of the existing rotation first. Buying a second elemental card set is a separate investment, not an automatic damage upgrade."
+      ]
+    },
   ],
   faqs: [
+    {"question":"Does Soul Drain solve High Wizard SP problems against every boss?","answer":"No. Its imported description restores SP on a kill. A single boss without adds does not provide the same recovery pattern as farming packs, so test your boss rotation's SP use separately."},
+    {"question":"Is Mystical Amplification a passive skill?","answer":"The imported RTNW description gives Mystical Amplification a duration and a temporary magic-damage/cast-time effect. Do not count that benefit as permanently active when comparing builds."},
     { question: "What stats should High Wizard use?", answer: "Prioritize INT for magic damage, then DEX until the build's important spells reach a comfortable cast time. Gear and resonance can change the exact split." },
     { question: "Is Ghost Wizard a real advanced-job build?", answer: "Yes. Napalm Vulcan and Gravitational Field give High Wizard a dedicated Ghost path with single-target pressure, AOE damage, and strong control options." },
     { question: "Should Fire High Wizard replace Massive Meteorite?", answer: "No. Massive Meteorite remains central to Fire damage, so retain it while adding the stronger level-70 traits rather than replacing the mechanic blindly." },
@@ -429,15 +550,18 @@ export const highWizardGuide = {
 export const assassinCrossGuide = {
   slug: "assassin-cross-builds",
   title: "Ragnarok: The New World Assassin Cross Build Guide",
-  seoTitle: "RTNW Assassin Cross Builds: Dagger, Katar, Poison & Soul Destroyer",
-  description: "Build an Assassin Cross for Dual Dagger, Critical Katar, Poison, or Soul Destroyer with advanced skills, stats, equipment traits, runes, cards, and PVE or PVP roles.",
+  seoTitle: "Assassin Cross Builds | Ragnarok: The New World",
+  description: "Compare Ragnarok: The New World Assassin Cross Dagger, Katar, Poison, and Soul Destroyer builds, with stats, key skills, card choices, and switching checks.",
   kicker: "Advanced Second-Job Guide",
   dek: "Choose sustained dagger damage, Katar skill criticals, poison pressure, or the new ranged Soul Destroyer route.",
   category: "Classes and Builds",
   heroImage: "/assets/guides/assassin-cross-builds/assassin-cross-hero.webp",
   heroAlt: "Assassin Cross build selection showing advanced Thief paths",
   published: "2026-08-08",
-  modified: "2026-08-08",
+  modified: "2026-08-28",
+  quickAnswer: "Use the weapon and trait package you can finish: Dual Dagger for sustained melee, Critical Katar for a skill-critical setup, Poison for poison pressure, or Soul Destroyer for ranged physical attacks. Compare the whole loadout before switching; these paths do not share every useful card bonus.",
+  reviewNote: "August 28 update: clearer build choices and checks against the Skill Planner reference descriptions. This is not a new live-server DPS benchmark.",
+  dataSources: [{ label: "Imported Assassin Cross skill descriptions", href: "/sea/skill-simulator/data/jobs_en-US/613.json" }, { label: "Compare skill levels in the Skill Planner", href: "/sea/skill_planner/" }],
   readTime: "10 min read",
   keywords: ["Ragnarok The New World Assassin Cross build", "RTNW Assassin Cross", "Soul Destroyer build", "Critical Katar Assassin Cross", "Poison Assassin Cross"],
   quickFacts: [
@@ -515,8 +639,56 @@ export const assassinCrossGuide = {
         "Soul Destroyer trades attack frequency for safety and reach. Its cooldown limits the number of hits per second, but the extended range lets it contribute without standing inside the enemy frontline.",
       ],
     },
+    {
+      "id": "damage-types",
+      "title": "Check damage type before choosing cards",
+      "table": {
+        "headers": [
+          "Skill",
+          "Imported damage label",
+          "Build implication"
+        ],
+        "rows": [
+          [
+            "Rolling Cutter",
+            "Neutral melee physical damage; can critically hit",
+            "Check bonuses against this skill, rather than assuming a basic-attack-only bonus will apply."
+          ],
+          [
+            "Dancing Knife",
+            "Melee physical follow-up triggered by deadly skills",
+            "Read the trigger and cooldown before attributing every extra hit to attack speed."
+          ],
+          [
+            "Soul Destroyer",
+            "Neutral ranged physical damage with ATK/MATK and STR/INT contributions",
+            "Mixed stat scaling does not make the final hit magic damage. Match cards to the stated damage type."
+          ]
+        ]
+      },
+      "note": "This comparison uses RTNW's imported skill descriptions, not formulas from Ragnarok Online, Origin, or another Ragnarok title. Recheck your current client before committing to a stat reset."
+    },
+    {
+      "id": "switching-checklist",
+      "title": "Before changing from Dagger to Katar or Soul Destroyer",
+      "steps": [
+        {
+          "title": "Save the existing build",
+          "text": "Record the working skill, trait, card, and weapon setup first. Keep it available so the comparison does not depend on memory."
+        },
+        {
+          "title": "Check the missing pieces",
+          "text": "For Katar, inspect Rolling Cutter and its skill-critical trait setup. For Soul Destroyer, check ranged physical bonuses. A weapon swap alone does not supply those supporting effects."
+        },
+        {
+          "title": "Compare the same fight",
+          "text": "Use the same target, buffs, duration, and consumables. Include time lost to movement or deaths; compare sustained output rather than a single favorable critical hit."
+        }
+      ]
+    },
   ],
   faqs: [
+    {"question":"Why does Soul Destroyer mention MATK if it deals physical damage?","answer":"The imported RTNW formula includes both ATK and MATK, but labels the resulting hit Neutral ranged physical damage. Scaling inputs and final damage type are different; inspect both before selecting cards or copying a build from another Ragnarok game."},
     { question: "Which Assassin Cross build is best for PVE?", answer: "Dual Dagger is the safest general PVE recommendation because its rapid sustained attacks work well against bosses and during open-world farming." },
     { question: "Is Soul Destroyer magic damage?", answer: "No. In this build it is ranged physical damage, so use ranged physical bonuses and physical defense ignore rather than magic-damage cards." },
     { question: "Which Assassin Cross build is best for GVG?", answer: "Critical Katar is excellent for stealth entry and backline burst, while Soul Destroyer offers safer ranged pressure. Choose between assassination mobility and sustained range." },
@@ -638,15 +810,18 @@ export const highPriestGuide = {
 export const sniperGuide = {
   slug: "sniper-builds",
   title: "Ragnarok: The New World Sniper Build Guide",
-  seoTitle: "RTNW Sniper Builds: ADL, Falcon & Trap",
-  description: "Build an advanced second-job Sniper for ADL attacks, Falcon damage, or Traps with skills, AGI/DEX/LUK or INT/DEX stats, equipment traits, runes, cards, and positioning.",
+  seoTitle: "Sniper Builds: ADL, Falcon & Trap | Ragnarok New World",
+  description: "Compare Ragnarok: The New World Sniper ADL, Falcon, and Trap builds, including stats, skill priorities, timed buffs, equipment traits, cards, and farming checks.",
   kicker: "Advanced Second-Job Guide",
   dek: "Push ranged damage further with ADL or Falcon, or commit to Trap control for PVP and GVG.",
   category: "Classes and Builds",
   heroImage: "/assets/guides/sniper-builds/sniper-hero.webp",
   heroAlt: "Sniper build selection showing ADL, Trap, and Falcon paths",
   published: "2026-08-08",
-  modified: "2026-08-08",
+  modified: "2026-08-28",
+  quickAnswer: "Start with ADL or Falcon if you want a ranged PVE setup; choose Trap when control and trap placement are the goal. ADL means AGI, DEX, and LUK. Finish one path before mixing the offensive stats and traits of all three.",
+  reviewNote: "August 28 update: clearer build choices and checks against the Skill Planner reference descriptions. This is not a new live-server DPS benchmark.",
+  dataSources: [{ label: "Imported Sniper skill descriptions", href: "/sea/skill-simulator/data/jobs_en-US/413.json" }, { label: "Compare skill levels in the Skill Planner", href: "/sea/skill_planner/" }],
   readTime: "9 min read",
   keywords: ["Ragnarok The New World Sniper build", "RTNW Sniper", "Sniper ADL build", "Sniper Falcon build", "Sniper Trap build"],
   quickFacts: [
@@ -662,7 +837,7 @@ export const sniperGuide = {
       id: "skills",
       title: "Sniper skills and build identities",
       paragraphs: [
-        "Falcon Eyes and Wind Walker are universal Sniper passives. The advanced tree also supplies defensive traps that help every path stop stealth approaches and direct Knight charges in PVP.",
+        "Falcon Eyes and Wind Walker are timed Sniper buffs, not permanent passives. Falcon Eyes adds offensive stats, while Wind Walker helps the party move. The advanced tree also supplies defensive traps for controlling approaches in PVP.",
         "After the shared skills, each build has a clear active priority: Focused Arrow Strike for ADL, Falcon Assault for Falcon, and Enhanced Elemental Trap for Trap.",
       ],
       table: {
@@ -723,8 +898,64 @@ export const sniperGuide = {
         "Trap becomes more important in late PVP and GVG. Place control zones on likely Assassin entry paths and Knight charge lanes instead of dropping every trap directly under the frontline.",
       ],
     },
+    {
+      "id": "buff-uptime",
+      "title": "Falcon Eyes and Wind Walker: check their duration",
+      "table": {
+        "headers": [
+          "Skill",
+          "Imported effect",
+          "Practical use"
+        ],
+        "rows": [
+          [
+            "Falcon Eyes",
+            "A timed increase to stats, HIT, CRIT, and physical skill damage",
+            "Compare your build with consistent buff uptime; do not treat the bonus as permanent."
+          ],
+          [
+            "Wind Walker",
+            "A short movement-speed increase for you and teammates",
+            "Use it for repositioning. The listed effect is movement speed, not a permanent attack-speed passive."
+          ]
+        ]
+      },
+      "paragraphs": [
+        "The advanced skills support different jobs. Reading the full description prevents a movement tool from being mistaken for a damage stat when deciding how much AGI or attack-speed gear to use."
+      ]
+    },
+    {
+      "id": "farming-checks",
+      "title": "ADL, Falcon, or Trap: make a fair farming comparison",
+      "table": {
+        "headers": [
+          "Build",
+          "Check before spending",
+          "Keep the comparison fair"
+        ],
+        "rows": [
+          [
+            "ADL",
+            "Basic-attack uptime, range, accuracy, and relevant damage bonuses",
+            "Use the same monster, buffs, and arrows where applicable."
+          ],
+          [
+            "Falcon",
+            "Falcon-related skill and trait coverage, not just displayed ATK",
+            "Measure the complete rotation, including its secondary damage."
+          ],
+          [
+            "Trap",
+            "The chosen trap's scaling, damage type, and whether enemies enter its area",
+            "Test placement and enemy movement instead of judging only one stationary target."
+          ]
+        ]
+      },
+      "note": "Track clear time, deaths, and consumable use. A setup with a larger hit can still be worse for the farming route you actually play."
+    },
   ],
   faqs: [
+    {"question":"Does Wind Walker permanently increase Sniper attack speed?","answer":"No. The imported description lists a short movement-speed effect for the player and teammates. Check attack-speed bonuses separately instead of counting Wind Walker as a permanent ASPD passive."},
     { question: "Which Sniper build is best for PVE?", answer: "ADL and Falcon are the safest PVE choices because they provide frequent ranged damage with strong uptime and less setup than Trap." },
     { question: "Does Trap Sniper deal magic damage?", answer: "No. Trap uses INT and DEX for scaling but deals physical damage, so physical damage and physical defense ignore remain the correct offensive bonuses." },
     { question: "What Rune Engine should Sniper use?", answer: "Wind plus Water works across ADL, Falcon, and Trap by combining speed and cast benefits with defense ignore and skill damage." },

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://rtnw.online/guides/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -10,6 +10,12 @@
     <loc>https://rtnw.online/creator-kit/</loc>
     <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://rtnw.online/guides/redeem-codes/</loc>
+    <lastmod>2026-08-28</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
@@ -26,7 +32,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/guides/polarity-zone/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -56,7 +62,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/search/</loc>
-    <lastmod>2026-08-04</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -74,19 +80,19 @@
   </url>
   <url>
     <loc>https://rtnw.online/guides/lord-knight-builds/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://rtnw.online/guides/high-wizard-builds/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://rtnw.online/guides/sniper-builds/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -98,7 +104,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/guides/assassin-cross-builds/</loc>
-    <lastmod>2026-08-08</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -134,7 +140,7 @@
   </url>
   <url>
     <loc>https://rtnw.online/updates/</loc>
-    <lastmod>2026-08-04</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

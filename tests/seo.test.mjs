@@ -448,6 +448,49 @@ test("advanced-job and Monk guides render complete styled article pages", async 
   }
 });
 
+test("refreshed guides render accurate dates, mobile contents, and reserved screenshot space", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+  for (const slug of ["assassin-cross-builds", "high-wizard-builds", "sniper-builds", "lord-knight-builds", "polarity-zone"]) {
+    const response = await worker.fetch(new Request(`${siteOrigin}/guides/${slug}/`, { headers: { accept: "text/html" } }), env, context);
+    assert.equal(response.status, 200, slug);
+    const html = await response.text();
+    assert.match(html, /<html[^>]+lang="en"/);
+    assert.doesNotMatch(html, /hrefLang=|hreflang=/i, "English guides should not advertise the homepage as a translation");
+    assert.match(html, /<time dateTime="2026-08-28">August 28, 2026<\/time>/i);
+    assert.match(html, /<summary>On this page<\/summary>/);
+    assert.match(html, /<strong>Start here<\/strong>/);
+    const scripts = [...html.matchAll(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+    const article = scripts.flatMap((match) => JSON.parse(match[1])["@graph"] || []).find((item) => item["@type"] === "Article");
+    assert.equal(article?.dateModified, "2026-08-28");
+    assert.ok(article.datePublished < article.dateModified);
+    const screenshots = [...html.matchAll(/<img\b[^>]*src="\/assets\/guides\/[^>]*>/g)].map(([tag]) => tag).filter((tag) => tag.includes('loading="lazy"'));
+    assert.ok(screenshots.length > 0, slug);
+    for (const tag of screenshots) {
+      assert.match(tag, /width="[1-9]\d*"/, tag);
+      assert.match(tag, /height="[1-9]\d*"/, tag);
+    }
+  }
+});
+
+test("rendered code page separates uncertain reports and exposes sources and a timezone-aware deadline", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+  const response = await worker.fetch(new Request(`${siteOrigin}/guides/redeem-codes/`, { headers: { accept: "text/html" } }), env, context);
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.equal((html.match(/<h1\b/g) || []).length, 1);
+  assert.match(html, /not a successful in-game redemption test/);
+  assert.match(html, /<code[^>]*>ROWGO1ST<\/code>/);
+  assert.match(html, /id="disputed-codes"/);
+  assert.match(html, /Conflicting reports/);
+  assert.match(html, /dateTime="2026-08-31T23:59:00\+08:00"/i);
+  assert.match(html, /role="status"/);
+  for (const id of ["gamingph", "mobi", "pockettactics", "wiki", "oneone", "bluestacks"]) {
+    assert.ok(html.includes(`id="source-${id}"`), id);
+  }
+});
+
 test("MVP and Zeny guides render complete searchable experiences", async () => {
   const worker = await loadBuiltWorker();
   const { env, context } = createTestRuntime();

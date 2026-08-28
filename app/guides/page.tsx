@@ -5,7 +5,7 @@ import styles from "./guides.module.css";
 export const metadata: Metadata = {
   title: "Ragnarok: The New World Guides",
   description:
-    "Browse RTNW class builds, the 600-monster card drop gauge, MVP locations, Zeny farming, guild events, progression, equipment, PC, emulator, and safety guides.",
+    "Find Ragnarok: The New World class builds, redeem-code reports, card drop gauges, MVP locations, Zeny farming routes, guild events, and beginner guides.",
   alternates: { canonical: "/guides/" },
   keywords: [
     "Ragnarok The New World guides",
@@ -100,6 +100,7 @@ const guideCategories = [
 ] as const;
 
 const featuredGuides = [
+  ["Redeem Codes: Shared Lists, Reported Status and Redemption Steps", "/guides/redeem-codes/"],
   ["Guild Management: Members, Events and Resources", "/guides/guild-management/"],
   ["Guild League: Schedule, Tiers and GVG Strategy", "/guides/guild-league/"],
   ["Polarity Zone: Boss Mechanics and Guild Setup", "/guides/polarity-zone/"],
@@ -212,6 +213,9 @@ export default function GuidesPage() {
               </a>
               <a className={styles.secondary} href="/guides/guild-events/">
                 Prepare guild events <span aria-hidden="true">→</span>
+              </a>
+              <a className={styles.secondary} href="/guides/redeem-codes/">
+                Check redeem codes <span aria-hidden="true">→</span>
               </a>
             </div>
           </div>

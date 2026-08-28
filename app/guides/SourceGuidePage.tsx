@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import FaqList from "../FaqList";
 import ResponsiveHeroImage from "../ResponsiveHeroImage";
+import { guideImageDimensions } from "./guide-image-dimensions";
 import styles from "../field-guide.module.css";
 
 export type GuideSection = {
@@ -57,6 +58,9 @@ export type SourceGuide = {
   notice?: string;
   sidebarTitle?: string;
   sidebarText?: string;
+  quickAnswer?: string;
+  reviewNote?: string;
+  dataSources?: { label: string; href: string }[];
 };
 
 export function buildGuideMetadata(guide: SourceGuide): Metadata {
@@ -102,6 +106,8 @@ function GuideSectionContent({ section }: { section: GuideSection }) {
           <img
             src={section.image.src}
             alt={section.image.alt}
+            width={guideImageDimensions[section.image.src]?.[0]}
+            height={guideImageDimensions[section.image.src]?.[1]}
             loading="lazy"
             decoding="async"
           />
@@ -110,7 +116,7 @@ function GuideSectionContent({ section }: { section: GuideSection }) {
       ) : null}
 
       {section.table ? (
-        <div className={styles.tableWrap}>
+        <div className={styles.tableWrap} role="region" aria-labelledby={`${section.id}-title`} tabIndex={0}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -228,6 +234,7 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
         },
         inLanguage: "en",
         articleSection: guide.category,
+        citation: guide.dataSources?.map((source) => source.href.startsWith("/") ? `https://rtnw.online${source.href}` : source.href),
       },
       {
         "@type": "BreadcrumbList",
@@ -281,7 +288,7 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
           <h1 className={styles.title}>{guide.title}</h1>
           <p className={styles.dek}>{guide.dek}</p>
           <div className={styles.meta}>
-            <span>Reviewed {displayDate(guide.modified)}</span>
+            <span>Updated <time dateTime={guide.modified}>{displayDate(guide.modified)}</time></span>
             <span>{guide.readTime}</span>
             <span>{guide.category}</span>
             {guide.verification ? <span>{guide.verification}</span> : null}
@@ -291,8 +298,20 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
 
       <main className={styles.main} id="guide-article">
         <div className={styles.layout}>
+          <details className={styles.mobileContents}>
+            <summary>On this page</summary>
+            <nav aria-label="Jump to a guide section">
+              <a href="#quick-facts-title">Quick summary</a>
+              {guide.sections.map((section) => <a href={`#${section.id}-title`} key={section.id}>{section.title}</a>)}
+              <a href="#faq-title">FAQ</a>
+            </nav>
+          </details>
           <article className={styles.article}>
+            {guide.quickAnswer ? (
+              <div className={styles.quickAnswer}><strong>Start here</strong><p>{guide.quickAnswer}</p></div>
+            ) : null}
             <p className={styles.lead}>{guide.description}</p>
+            {guide.reviewNote ? <p className={styles.reviewNote}>{guide.reviewNote}</p> : null}
 
             <div className={styles.warning}>
               {guide.notice ?? "Game data, balance values, schedules, and rewards can change after updates. Confirm the current in-game panel before spending rare materials or changing a developed build."}
@@ -301,7 +320,7 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
             <section aria-labelledby="quick-facts-title">
               <h2 id="quick-facts-title">Quick guide summary</h2>
               <div className={styles.tableWrap}>
-                <table className={styles.table}>
+                <table className={`${styles.table} ${styles.summaryTable}`}>
                   <tbody>
                     {guide.quickFacts.map(([label, value]) => (
                       <tr key={label}>
@@ -320,6 +339,14 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
               <GuideSectionContent section={section} key={section.id} />
             ))}
 
+            {guide.dataSources?.length ? (
+              <section aria-labelledby="data-references-title">
+                <h2 id="data-references-title">Data references</h2>
+                <p>These are the site&apos;s imported reference descriptions, not a live connection to your server. The current game client takes precedence after a patch.</p>
+                <ul>{guide.dataSources.map((source) => <li key={source.href}><a href={source.href}>{source.label}</a></li>)}</ul>
+              </section>
+            ) : null}
+
             <section aria-labelledby="faq-title">
               <h2 id="faq-title">Frequently asked questions</h2>
               <FaqList items={guide.faqs} />
@@ -328,7 +355,7 @@ export default function SourceGuidePage({ guide, children }: { guide: SourceGuid
           </article>
 
           <aside className={styles.sidebar} aria-label="Guide navigation">
-            <section className={styles.sideCard}>
+            <section className={`${styles.sideCard} ${styles.desktopContents}`}>
               <h2>On this page</h2>
               <a href="#quick-facts-title">Quick summary</a>
               {guide.sections.map((section) => (

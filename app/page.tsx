@@ -211,7 +211,7 @@ export default function Home() {
             <article>
               <span>01</span>
               <h3>Plan class builds</h3>
-              <p>Choose a job in the <a href="/sea/skill_planner/">Skill Planner</a>, compare rune effects, test equipment affixes, and save a shareable build before spending resources in game.</p>
+              <p>Compare <a href="/guides/assassin-cross-builds/">Assassin Cross</a>, <a href="/guides/high-wizard-builds/">High Wizard</a>, <a href="/guides/sniper-builds/">Sniper</a>, and <a href="/guides/lord-knight-builds/">Lord Knight builds</a>, then save your skill plan before spending resources in game.</p>
               <a className="guide-path-link" href="/sea/skill_planner/">Start a skill build →</a>
             </article>
             <article>
@@ -222,9 +222,9 @@ export default function Home() {
             </article>
             <article>
               <span>03</span>
-              <h3>Follow current site changes</h3>
-              <p>Use the updates center to find newly published guides, tools, database features, redeem-code references, and event shortcuts.</p>
-              <a className="guide-path-link" href="/updates/">Open updates center →</a>
+              <h3>Check redeem codes and updates</h3>
+              <p>Find source-listed gift codes, disputed-code reports, partner deadlines, and redemption help. Visit <a href="/updates/">site updates</a> for the latest guide and database changes.</p>
+              <a className="guide-path-link" href="/guides/redeem-codes/">Check redeem codes →</a>
             </article>
           </div>
         </section>

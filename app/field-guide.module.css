@@ -181,6 +181,16 @@
 }
 
 .table { width: 100%; border-collapse: collapse; min-width: 620px; }
+.summaryTable { min-width: 0; table-layout: fixed; }
+.summaryTable th { width: 38%; }
+.summaryTable :is(th, td) { overflow-wrap: anywhere; }
+.tableWrap:focus-visible { outline: 3px solid #4658c9; outline-offset: 3px; }
+.article h2[id] { scroll-margin-top: 112px; }
+.quickAnswer { margin-bottom: 22px; padding: 20px; background: #f0f3ff; border: 1px solid #c7cff8; border-left: 4px solid #4658c9; border-radius: 10px; }
+.quickAnswer > strong { color: #303f9f; font-size: 13px; }
+.quickAnswer p { margin: 8px 0 0; }
+.reviewNote { font-size: 13px !important; }
+.mobileContents { display: none; }
 .table th,
 .table td { padding: 13px 14px; border: 1px solid #d4d8df; text-align: left; vertical-align: top; }
 .table th { background: #5b6ee8; color: #fff; }
@@ -378,16 +388,26 @@ a.guideCard:hover {
 @media (max-width: 820px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mobileContents { display: block; min-width: 0; padding: 16px 20px; border: 1px solid #c7cff8; border-radius: 12px; background: #fff; }
+  .mobileContents summary { cursor: pointer; font-weight: 750; color: #303f9f; }
+  .mobileContents nav { display: grid; gap: 4px; margin-top: 12px; }
+  .mobileContents a { display: block; padding: 10px 0; color: #4658c9; line-height: 1.4; }
+  .mobileContents :is(a, summary):focus-visible { outline: 3px solid #4658c9; outline-offset: 3px; }
+  .desktopContents { display: none; }
+}
+
+@media (max-width: 760px) {
+  .page > .hero { margin-top: 68px; }
 }
 
 @media (max-width: 620px) {
   .page > .hero { margin-top: 68px; }
-  .hero { min-height: 410px; }
+  .hero { min-height: 320px; }
   .heroImage { width: 100%; opacity: .30; }
   .hero::after {
     background: linear-gradient(180deg, rgba(91,110,232,.52) 0%, rgba(70,88,201,.94) 68%, rgba(70,88,201,.98) 100%);
   }
-  .heroInner { padding: 72px 0 44px; }
+  .heroInner { padding: 40px 0 32px; }
   .article,
   .toolShell { border-radius: 14px; padding: 22px; }
   .cardGrid,
@@ -395,4 +415,5 @@ a.guideCard:hover {
   .formGrid,
   .sidebar { grid-template-columns: 1fr; }
   .table { min-width: 540px; }
+  .summaryTable { min-width: 0; }
 }
