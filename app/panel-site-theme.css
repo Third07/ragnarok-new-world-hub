@@ -75,6 +75,8 @@ body {
 
 /* Homepage navigation only. Other routes keep their local header styles. */
 .site-header {
+  /* The header is opaque; a backdrop blur only adds painting work. */
+  backdrop-filter: none;
   background: linear-gradient(180deg, var(--panel-blue-light), var(--panel-blue) 58%, var(--panel-blue-dark));
   border-bottom: 3px solid var(--panel-yellow);
   box-shadow: 0 10px 26px rgba(48,61,135,.24);

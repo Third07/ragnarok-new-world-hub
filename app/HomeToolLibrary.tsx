@@ -23,11 +23,13 @@ export default function HomeToolLibrary({ tools }: Readonly<{ tools: HubTool[] }
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "/" && document.activeElement?.tagName !== "INPUT") {
+      const target = event.target;
+      const isEditing = target instanceof Element && Boolean(target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])'));
+      if (event.key === "/" && !isEditing && !event.ctrlKey && !event.metaKey && !event.altKey) {
         event.preventDefault();
         searchRef.current?.focus();
       }
-      if (event.key === "Escape") setQuery("");
+      if (event.key === "Escape" && document.activeElement === searchRef.current) setQuery("");
     };
 
     window.addEventListener("keydown", handleKey);

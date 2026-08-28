@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import RedeemCodeList, { type RedeemCode } from "./RedeemCodeList";
+import RedeemCodeList from "./RedeemCodeList";
+import { activeCodes, reportedCodes, codeSources, codesReviewedAt, codesReviewedLabel, partnerPromotion } from "./redeem-code-data";
 import styles from "./redeem-codes.module.css";
 
 export const metadata: Metadata = {
-  title: "Ragnarok: The New World Redeem Codes",
+  title: "Ragnarok: The New World Codes (August 2026)",
   description:
-    "Copy current Ragnarok: The New World redeem codes and follow the Gift Code Exchange steps for Android, iOS, and PC. Updated August 4, 2026.",
+    "RTNW SEA codes reviewed August 28: copy 9 source-listed codes, check disputed codes, and redeem on mobile or PC. Includes partner-code expiry details.",
   alternates: { canonical: "/guides/redeem-codes/" },
   openGraph: {
     type: "article",
     url: "/guides/redeem-codes/",
-    title: "Ragnarok: The New World Redeem Codes",
+    title: "Ragnarok: The New World Codes (August 2026)",
+    publishedTime: "2026-08-04",
+    modifiedTime: codesReviewedAt,
     description:
       "Current RTNW SEA gift codes, reported rewards, redemption instructions, and troubleshooting.",
     images: [
@@ -30,69 +33,6 @@ export const metadata: Metadata = {
     images: ["/assets/rtnw-hero-1280.webp"],
   },
 };
-
-const activeCodes: RedeemCode[] = [
-  {
-    code: "ROW0716",
-    rewards: "10 Pet Tag Gacha Tickets, 5 Daily Hearty Meals, 5 Kafra Blind Boxes, and 30,000 Adventure Coins.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROWGO1ST",
-    rewards: "1 Vintage Card Book, 30,000 Adventure Coins, and 20 Pet Food.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROWLAUNCH",
-    rewards: "20,000 Adventure Coins and 10 Pet Food.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROW666",
-    rewards: "1 Kafra Blind Box, 20,000 Adventure Coins, and 1 Common Hair Dye.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROW777",
-    rewards: "1 Kafra Blind Box, 20,000 Adventure Coins, and 5 Pet Food.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROW888",
-    rewards: "20,000 Adventure Coins, 1 Common Hair Dye, and 5 Pet Food.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROWORLD",
-    rewards: "2 Hearty Dishes, 20,000 Adventure Coins, and 1 Common Hair Dye.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROWTOP1",
-    rewards: "2 Hearty Dishes, 20,000 Adventure Coins, and 5 Pet Food.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "ROWMVP",
-    rewards: "20,000 Adventure Coins and 10 Pet Food.",
-    confidence: "Cross-checked",
-  },
-  {
-    code: "BABYMONSTER",
-    rewards: "Collaboration reward bundle reported to include consumables, enhancement materials, and bonus Zeny.",
-    note: "The exact bundle can vary by event window or server.",
-    confidence: "Cross-checked",
-  },
-];
-
-const reportedCodes: RedeemCode[] = [
-  {
-    code: "ROARIEL",
-    rewards: "Adventure Coins and growth materials have been reported by multiple community code lists.",
-    note: "Lower confidence: reward contents and current availability are not confirmed by an accessible official announcement.",
-    confidence: "Reported",
-  },
-];
 
 const steps = [
   ["1", "Stay on the login screen", "Open Ragnarok: The New World but do not enter the game world yet."],
@@ -134,7 +74,7 @@ const faqs = [
   {
     question: "Are these Ragnarok: The New World codes guaranteed to work?",
     answer:
-      "No. The main list was cross-checked across current code guides on August 4, 2026, but Gravity can expire, limit, or region-lock codes without notice. Redeem them promptly and treat the in-game result as authoritative.",
+      "No. Sources were reviewed on August 28, 2026, but these codes were not redeemed in-game by RTNW Hub. The main list contains nine codes listed by multiple sources. Conflicting reports and older codes are separated; the game's response is authoritative.",
   },
   {
     question: "Are RTNW redeem codes case-sensitive?",
@@ -169,7 +109,7 @@ export default function RedeemCodesPage() {
         description:
           "Current RTNW SEA gift codes, reported rewards, redemption steps, and troubleshooting guidance.",
         datePublished: "2026-08-04",
-        dateModified: "2026-08-04",
+        dateModified: codesReviewedAt,
         mainEntityOfPage: "https://rtnw.online/guides/redeem-codes/",
         author: { "@type": "Organization", name: "RTNW Hub" },
         publisher: { "@type": "Organization", name: "RTNW Hub" },
@@ -209,6 +149,9 @@ export default function RedeemCodesPage() {
       <a className="skip-link" href="#redeem-content">Skip to redeem codes</a>
 
       <main className={styles.main} id="redeem-content">
+        <nav className={styles.jumpNav} aria-label="Redeem code sections">
+          <a href="#codes">Shared codes</a><a href="#disputed-codes">Disputed codes</a><a href="#partner-codes">Partner codes</a><a href="#how-to-redeem">Redeem steps</a><a href="#sources">Sources</a>
+        </nav>
         <section className={styles.hero}>
           <div className={styles.heroContent}>
             <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
@@ -216,10 +159,10 @@ export default function RedeemCodesPage() {
               <a href="/guides/">Guides</a><span aria-hidden="true">/</span>
               <span>Redeem Codes</span>
             </nav>
-            <p className={styles.kicker}>Checked August 4, 2026 · SEA servers</p>
+            <p className={styles.kicker}>Sources reviewed <time dateTime={codesReviewedAt}>{codesReviewedLabel}</time> · SEA servers</p>
             <h1>Ragnarok: The New World <em>redeem codes.</em></h1>
             <p className={styles.lead}>
-              Copy the currently reported gift codes, claim their launch and event rewards, and follow the same Gift Code Exchange process on Android, iOS, and PC.
+              Copy nine source-listed SEA gift codes, check disputed codes separately, and follow the Gift Code Exchange steps for mobile or PC.
             </p>
             <div className={styles.heroActions}>
               <a href="#codes">View codes <span aria-hidden="true">↓</span></a>
@@ -232,7 +175,7 @@ export default function RedeemCodesPage() {
           <span className={styles.noticeIcon} aria-hidden="true">!</span>
           <div>
             <strong>Availability changes without notice.</strong>{" "}
-            The codes below were cross-checked against current public code guides, but RTNW Hub cannot test every server and account. Copy them exactly, redeem them promptly, and trust the in-game response over any website status label.
+            This is a review of published sources, not a successful in-game redemption test. No new broadly supported shared code was found in this review. Expiry dates for the nine shared codes are unconfirmed; trust the game&apos;s response for your server and character.
           </div>
         </div>
 
@@ -240,26 +183,42 @@ export default function RedeemCodesPage() {
           <div className={styles.sectionHeading}>
             <div>
               <p className={styles.sectionKicker}>Try these first</p>
-              <h2>Currently reported working codes.</h2>
+              <h2>Shared codes listed by current sources.</h2>
             </div>
             <p>
-              These ten codes appear consistently across the most recent August and late-July lists. Reward wording is normalized for readability; regional bundles can still differ.
+              These nine codes appear in multiple August lists. Start with ROWGO1ST and ROW0716, then try the remaining codes individually. Source agreement does not guarantee availability.
             </p>
           </div>
           <RedeemCodeList codes={activeCodes} />
         </section>
 
-        <section className={styles.section}>
+        <section className={styles.section} id="disputed-codes">
           <div className={styles.sectionHeading}>
             <div>
-              <p className={styles.sectionKicker}>Lower-confidence report</p>
-              <h2>One additional code worth trying.</h2>
+              <p className={styles.sectionKicker}>Not confirmed active</p>
+              <h2>Disputed and older codes.</h2>
             </div>
             <p>
-              This code appears on multiple community lists but lacks an accessible official reward announcement. It is separated so uncertain data is not presented as confirmed.
+              BABYMONSTER and ROARIEL have conflicting reports. ROW0015 has an inactive report. These are kept outside the main copy list so old or disputed codes are not mistaken for newly verified rewards.
             </p>
           </div>
-          <RedeemCodeList codes={reportedCodes} />
+          <RedeemCodeList codes={reportedCodes} allowCopyAll={false} />
+        </section>
+
+        <section className={styles.section} id="partner-codes">
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.sectionKicker}>Individual partner codes</p>
+              <h2>A separate promotion with a stated deadline.</h2>
+            </div>
+            <p>Partner codes are not shared gift codes. Claim your own code through the participating partner; another player&apos;s code may already be used.</p>
+          </div>
+          <div className={styles.alternate}>
+            <strong>{partnerPromotion.name}:</strong> the published deadline is <time dateTime={partnerPromotion.expiresAt}>{partnerPromotion.deadline}</time>.
+            {" "}The offer is for SM Malls Online app users, once per UID and while stocks last.
+            {" "}<a href={partnerPromotion.source} target="_blank" rel="noopener noreferrer">Read the official promotion terms</a>.
+          </div>
+          <p>BlueStacks also publishes limited single-use codes. We link to the original list under Sources instead of presenting those one-time strings as reusable codes for everyone.</p>
         </section>
 
         <section className={styles.section} id="how-to-redeem">
@@ -313,17 +272,17 @@ export default function RedeemCodesPage() {
               <h2>How this list was selected.</h2>
             </div>
             <p>
-              We included codes repeated by multiple current guides, excluded unsupported strings that appeared only once, and separated the lower-confidence community report.
+              We compared the August source lists on August 28, kept nine repeatedly listed codes together, and separated availability conflicts. Source links on each code show where its report came from; no expiry date is invented.
             </p>
           </div>
           <div className={styles.sources}>
             <p>
               The redemption path is also supported by a current OneOne promotion: Settings → User Center → Gift Code Exchange, followed by mailbox delivery.
             </p>
-            <a href="https://discord.com/servers/ragnarok-the-new-world-official-1270573581201440789" target="_blank" rel="noopener noreferrer">Official Ragnarok: The New World Discord</a>
-            <a href="https://gamingph.com/2026/05/list-of-all-ragnarok-the-new-world-redeem-codes/" target="_blank" rel="noopener noreferrer">GamingPH code and reward list</a>
-            <a href="https://allthings.how/ragnarok-the-new-world-codes/" target="_blank" rel="noopener noreferrer">All Things How August 2026 verification</a>
-            <a href="https://games.oneone.com/newsletters/smo-oneone-row" target="_blank" rel="noopener noreferrer">OneOne official partner redemption instructions</a>
+            <a href="https://www.facebook.com/RagnarokTheNewWorld.Gravity/" target="_blank" rel="noopener noreferrer">Official Ragnarok: The New World announcements</a>
+            {codeSources.map((source) => (
+              <a id={`source-${source.id}`} href={source.url} key={source.id} target="_blank" rel="noopener noreferrer">{source.label}</a>
+            ))}
           </div>
         </section>
 

@@ -24,6 +24,18 @@ export const metadata: Metadata = {
 
 const releases = [
   {
+    date: "August 28, 2026",
+    title: "Clearer build guides, code-source review, and mobile reading improvements",
+    summary:
+      "Expanded Assassin Cross, High Wizard, Sniper, Lord Knight, and Polarity Zone decision guides. Separated nine source-listed shared codes from conflicting reports, added partner-code deadlines, and improved mobile navigation, image sizing, and copy feedback. Codes are source-reviewed, not in-game tested.",
+    links: [
+      ["Review redeem codes", "/guides/redeem-codes/"],
+      ["Read High Wizard builds", "/guides/high-wizard-builds/"],
+      ["Prepare Polarity Zone", "/guides/polarity-zone/"],
+      ["Browse class guides", "/guides/classes-builds/"],
+    ],
+  },
+  {
     date: "August 15, 2026",
     title: "600-monster card drop gauge guide and original charts",
     summary:

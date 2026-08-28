@@ -70,3 +70,14 @@ test("shared navigation avoids framework prefetch redirect loops", async () => {
   assert.doesNotMatch(config, /source: "\/search"/);
   assert.doesNotMatch(config, /source: "\/updates"/);
 });
+
+test("mobile guide contents replace only their own desktop navigation", async () => {
+  const [template, styles] = await Promise.all([
+    readFile("app/guides/SourceGuidePage.tsx", "utf8"),
+    readFile("app/field-guide.module.css", "utf8"),
+  ]);
+  assert.match(template, /styles\.sideCard\} \$\{styles\.desktopContents/);
+  assert.match(styles, /\.desktopContents\s*\{\s*display:\s*none/);
+  assert.doesNotMatch(styles, /\.sidebar\s*>\s*\.sideCard:first-child/);
+  assert.match(styles, /\.summaryTable\s*\{\s*min-width:\s*0/);
+});
