@@ -87,3 +87,8 @@
     font-size: .72rem;
   }
 }
+.map-data-status:empty { display: none; }
+.map-data-status { margin: 0 0 10px; font-size: 0.85rem; line-height: 1.5; }
+.map-marker.map-marker-weather { width: 30px; height: 30px; object-fit: contain; }
+.map-marker.map-marker-card-reward { width: 27px; height: 36px; object-fit: contain; border-radius: 3px; }
+.map-marker-hit.is-completed::after { content: "✓"; position: absolute; top: -4px; right: -4px; background: #155e46; color: white; border: 1px solid white; border-radius: 50%; width: 18px; height: 18px; font: bold 13px/18px sans-serif; text-align: center; }

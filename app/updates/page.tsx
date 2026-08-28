@@ -25,6 +25,18 @@ export const metadata: Metadata = {
 const releases = [
   {
     date: "August 28, 2026",
+    title: "Weather map locations, Wardrobe catalogue, and SEA database refresh",
+    summary:
+      "Added 298 butterfly, bubble, sun chest, snow, weather monster chest, and season chest locations with filters, coordinates, and saved completion checks. Added a 776-item Wardrobe catalogue, refreshed equipment, shops, affixes, Apocalypse entries, monsters, pets, and exploration data, and corrected the SEA event and quiz update paths. Existing skills are retained where the upstream feed fails completeness checks.",
+    links: [
+      ["Explore weather locations", "/sea/maps/?lang=en-US#map=101"],
+      ["Browse Wardrobe", "/database/wardrobe/"],
+      ["Open Equipment Database", "/sea/equipment/"],
+      ["Check SEA events", "/sea/events/"],
+    ],
+  },
+  {
+    date: "August 28, 2026",
     title: "Clearer build guides, code-source review, and mobile reading improvements",
     summary:
       "Expanded Assassin Cross, High Wizard, Sniper, Lord Knight, and Polarity Zone decision guides. Separated nine source-listed shared codes from conflicting reports, added partner-code deadlines, and improved mobile navigation, image sizing, and copy feedback. Codes are source-reviewed, not in-game tested.",

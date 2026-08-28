@@ -30,3 +30,17 @@ test("renders the production homepage through the built worker", async () => {
   assert.match(html, /<title>Ragnarok: The New World Database &amp; Skill Planner \| RTNW Hub<\/title>/i);
   assert.doesNotMatch(html, /codex-preview/i);
 });
+
+test("renders the Wardrobe catalogue route with canonical metadata and source context", async () => {
+  const { default: worker } = await import(new URL("../dist/server/index.js", import.meta.url).href);
+  const response = await worker.fetch(new Request("https://rtnw.online/database/wardrobe/", { headers: { accept: "text/html" } }), {
+    ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
+  }, { waitUntil() {}, passThroughOnException() {} });
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /rel="canonical" href="https:\/\/rtnw\.online\/database\/wardrobe\/"/);
+  assert.match(html, /Ragnarok: The New World Wardrobe/);
+  assert.match(html, /application\/ld\+json/);
+  assert.match(html, /id="wardrobe-search"/);
+  assert.match(html, /not confirm that an item is currently obtainable/);
+});

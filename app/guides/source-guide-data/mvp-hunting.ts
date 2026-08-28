@@ -13,7 +13,7 @@ export const mvpHuntingGuide = {
   heroImage: "/media/images/map/icon_map_10008.webp",
   heroAlt: "Ragnarok: The New World map artwork used for MVP route planning",
   published: "2026-08-08",
-  modified: "2026-08-08",
+  modified: "2026-08-28",
   readTime: "10 min read",
   keywords: [
     "Ragnarok The New World MVP guide",
@@ -65,7 +65,7 @@ export const mvpHuntingGuide = {
           ["Angeling · Lv.40", "Prontera", "Holy · Angel · Medium", "3 of 3"],
           ["Deviling · Lv.40", "Poring Home", "Shadow · Demon · Medium", "3 of 3"],
           ["Golden Thief Bug · Lv.60", "Prontera Sewer 2F", "Fire · Insect · Large", "2 of 4"],
-          ["Maya · Lv.60", "Ant Hell 2F", "Earth · Insect · Large", "1 of 3"],
+          ["Maya · Lv.60", "Ant Hell 2F", "Earth · Insect · Large", "3 of 3"],
           ["Goblin Leader · Lv.60", "Orc Village", "Wind · Demi-Human · Medium", "2 of 3"],
           ["Drake · Lv.60", "Ghost Ship", "Undead · Undead · Medium", "1 of 1"],
           ["Mistress · Lv.60", "Mt. Mjolnir", "Wind · Insect · Small", "1 of 1"],
@@ -113,7 +113,7 @@ export const mvpHuntingGuide = {
         {
           title: "Maya",
           meta: "Lv.60 · Ant Hell 2F",
-          text: "Earth, Insect and Large. One of three represented markers is recorded.",
+          text: "Earth, Insect and Large. Check the directory for current recorded-marker coverage.",
           href: "/sea/monster_album/#showAll=1&monsterId=80001",
           image: "/media/images/monster/icon_monster_head_yihou_01.webp",
           imageAlt: "Maya monster icon",

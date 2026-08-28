@@ -56,6 +56,12 @@ const databaseEntries = [
     icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
   },
   {
+    title: "Wardrobe Database",
+    description: "Search outfits, hairstyles, headwear, mounts, and cosmetic items by category, gender, job, and dye support.",
+    href: "/database/wardrobe/",
+    icon: "/media/images/zhujiemian/icon_zhujiemian_jingji.webp",
+  },
+  {
     title: "Pet Database",
     description: "Explore RTNW pet data, skills, feeding information, and related progression details.",
     href: "/sea/pet/",
@@ -63,7 +69,7 @@ const databaseEntries = [
   },
   {
     title: "Interactive World Map",
-    description: "Find monsters, landmarks, quests, chests, and locations while planning a farming route.",
+    description: "Find butterflies, bubbles, weather chests, monsters, quests, and landmarks with saved completion checks.",
     href: "/sea/maps/?lang=en-US#map=101",
     icon: "/media/images/zhujiemian/icon_zhujiemian_miwusenlin.webp",
   },
