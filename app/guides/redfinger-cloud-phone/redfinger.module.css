@@ -1,0 +1,107 @@
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
+  align-items: center;
+  gap: 32px;
+}
+
+.heroArt {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 340px;
+  justify-self: center;
+}
+
+.affiliateBox {
+  margin: 24px 0;
+  padding: 22px;
+  border: 1px solid var(--guide-line, #d4d8df);
+  border-left: 4px solid var(--guide-yellow, #f4bc3f);
+  border-radius: 12px;
+  background: #f8f9ff;
+}
+
+.affiliateBox > p:first-child,
+.affiliateBox > h2:first-child {
+  margin-top: 0;
+}
+
+.affiliateBox p {
+  font-size: 14px;
+}
+
+.page .affiliateLink {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 8px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid #ba891a;
+  border-radius: 10px;
+  background: var(--guide-yellow-soft, #ffe08a);
+  color: #24357a !important;
+  font-weight: 800;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+}
+
+.page .affiliateLink:hover {
+  background: #f7cd66;
+}
+
+.affiliateLink span {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.page :is(a, summary):focus-visible {
+  outline: 3px solid #4658c9;
+  outline-offset: 4px;
+}
+
+.page header a:focus-visible {
+  outline-color: #ffe08a;
+}
+
+.page .orderedSteps {
+  padding-left: 0;
+  list-style: none;
+}
+
+.orderedSteps li + li {
+  margin-top: 0;
+}
+
+.packageId {
+  overflow-wrap: anywhere;
+  font-size: .9em;
+}
+
+@media (max-width: 900px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 620px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .heroArt {
+    max-width: 190px;
+  }
+
+  .affiliateBox {
+    padding: 16px;
+  }
+
+  .page .affiliateLink {
+    width: 100%;
+  }
+}

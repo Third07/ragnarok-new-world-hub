@@ -83,6 +83,31 @@ test("all guide screenshots reserve their real intrinsic image dimensions", asyn
   }
 });
 
+test("Redfinger illustrations are responsive local WebP files with matching sitemap entries", async () => {
+  const directory = "public/assets/guides/redfinger-cloud-phone";
+  const expected = {
+    "redfinger-devices-360.webp": [360, 377],
+    "redfinger-devices-602.webp": [602, 631],
+    "redfinger-session-360.webp": [360, 361],
+    "redfinger-session-600.webp": [600, 602],
+  };
+  assert.deepEqual((await readdir(directory)).sort(), Object.keys(expected).sort());
+  let totalBytes = 0;
+  for (const [file, dimensions] of Object.entries(expected)) {
+    const bytes = await readFile(`${directory}/${file}`);
+    assert.deepEqual(webpDimensions(bytes), dimensions, file);
+    totalBytes += bytes.length;
+  }
+  assert.ok(totalBytes < 250_000, "Do not import the large saved marketing page or unoptimized images");
+  const contentSitemap = await readFile("public/content-sitemap.xml", "utf8");
+  const entry = [...contentSitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].find(([, value]) => value.includes("https://rtnw.online/guides/redfinger-cloud-phone/"))?.[1];
+  assert.ok(entry);
+  for (const image of ["redfinger-devices-602.webp", "redfinger-session-600.webp"]) {
+    assert.ok(entry.includes(`<image:loc>https://rtnw.online/assets/guides/redfinger-cloud-phone/${image}</image:loc>`));
+  }
+  assert.match(await readFile("app/search/SearchClient.tsx", "utf8"), /href: "\/guides\/redfinger-cloud-phone\/"/);
+});
+
 test("redeem codes are discoverable from the homepage, guide index, and site search", async () => {
   for (const file of ["app/page.tsx", "app/guides/page.tsx", "app/search/SearchClient.tsx"]) {
     assert.match(await readFile(file, "utf8"), /\/guides\/redeem-codes\//, file);

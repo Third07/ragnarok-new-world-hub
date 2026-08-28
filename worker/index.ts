@@ -217,6 +217,7 @@ const guideFallbacks: Record<
 
 const trailingSlashPages = new Set([
   ...Object.keys(guideFallbacks),
+  "/guides/redfinger-cloud-phone/",
   "/database/wardrobe/",
   "/about/",
   "/contact/",

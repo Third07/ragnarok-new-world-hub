@@ -39,7 +39,7 @@ export default function CloudGamingGuide() {
         "@type": "TechArticle",
         headline: "How to Play Ragnarok: The New World on Cloud Gaming",
         datePublished: "2026-08-04",
-        dateModified: "2026-08-04",
+        dateModified: "2026-08-28",
         author: { "@id": "https://rtnw.online/#organization" },
         publisher: { "@id": "https://rtnw.online/#organization" },
         mainEntityOfPage: "https://rtnw.online/guides/cloud-gaming/",
@@ -63,7 +63,7 @@ export default function CloudGamingGuide() {
           <p className={styles.kicker}>Low-storage and low-spec option</p>
           <h1 className={styles.title}>How to play Ragnarok: The New World through cloud gaming</h1>
           <p className={styles.dek}>Cloud play can remove the local download and hardware burden, but it replaces those problems with latency, video quality, hourly limits, subscription cost, and a more complicated trust decision.</p>
-          <div className={styles.meta}><span>Updated August 4, 2026</span><span>Availability varies by region</span><span>Account safety first</span></div>
+          <div className={styles.meta}><span>Updated August 28, 2026</span><span>Availability varies by region</span><span>Account safety first</span></div>
         </div>
       </header>
 
@@ -81,6 +81,8 @@ export default function CloudGamingGuide() {
                 <tr><td>Your own PC streamed remotely</td><td>Steam or an emulator runs on your PC and streams to another device</td><td>Playing away from the desk without trusting a third-party cloud phone</td><td>Your PC must stay powered and your home upload must be stable</td></tr>
               </tbody>
             </table></div>
+
+            <div className={styles.note}><strong>Considering a Redfinger cloud phone?</strong> Follow our <Link href="/guides/redfinger-cloud-phone/">Redfinger setup guide</Link> for Android, iPhone, Windows and browser access, plus an RTNW compatibility checklist. That guide contains clearly disclosed affiliate links. RTNW also has its own offline rewards, so check what you need before paying for a persistent session.</div>
 
             <h2>Before paying for a cloud service</h2>
             <div className={styles.steps}>

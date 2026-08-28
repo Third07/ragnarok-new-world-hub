@@ -49,6 +49,12 @@ const guides = [
     href: "/guides/cloud-gaming/",
     icon: "/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp",
   },
+  {
+    title: "Redfinger Cloud Phone Guide",
+    description: "Set up cloud Android from a phone or computer, compare plans, and check RTNW compatibility. Includes disclosed affiliate links.",
+    href: "/guides/redfinger-cloud-phone/",
+    icon: "/media/images/zhujiemian/icon_zhujiemian_tianqixingchen.webp",
+  },
 ] as const;
 
 export default function TechnicalGuidesPage() {
@@ -87,7 +93,7 @@ export default function TechnicalGuidesPage() {
           <p className={styles.dek}>
             Clear installation and payment guidance for players using Steam, Android emulators, cloud devices, or mobile checkout. Each guide explains the trade-offs instead of pretending one setup works for everyone.
           </p>
-          <div className={styles.meta}><span>Updated August 4, 2026</span><span>Independent fan guide</span><span>No affiliate links</span></div>
+          <div className={styles.meta}><span>Updated August 28, 2026</span><span>Independent fan guides</span><span>Affiliate links disclosed where used</span></div>
         </div>
       </header>
 
