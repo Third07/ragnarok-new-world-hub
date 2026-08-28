@@ -204,9 +204,8 @@ export default function GuidesPage() {
             </nav>
             <h1 id="guides-title">Ragnarok: The New World <em>guides.</em></h1>
             <p>
-              Class builds and guild-event playbooks, plus MVP hunting, Zeny farming, progression,
-              equipment, PC, emulator, cloud-play, and account-safety guides connected to the
-              database tools needed to act on each recommendation.
+              Find class builds, farming routes, guild event tips and guides for playing
+              Ragnarok: The New World on PC or mobile.
             </p>
             <div className={styles.heroActions}>
               <a className={styles.primary} href="/guides/classes-builds/">
@@ -229,8 +228,7 @@ export default function GuidesPage() {
               <h2 id="library-title">Six practical paths for every adventurer.</h2>
             </div>
             <p>
-              Each category combines original editorial organization with the planners, indexes,
-              schedules, calculators, or maps that support the recommendation.
+              Choose a category to find the builds, farming advice or setup help you need.
             </p>
           </div>
 
@@ -250,12 +248,10 @@ export default function GuidesPage() {
         </section>
 
         <section className={styles.roadmap} aria-labelledby="roadmap-title">
-          <p className={styles.kicker}>Featured and refreshed guides</p>
+          <p className={styles.kicker}>Browse the guides</p>
           <h2 id="roadmap-title">From guild strategy to complete class builds.</h2>
           <p className={styles.roadmapIntro}>
-            The refreshed guides use clear quick-reference tables, decision-focused explanations,
-            in-game screenshots, practical checklists, and internal links to the planners and
-            databases needed to put each recommendation into practice.
+            Find skill builds, farming routes, boss tactics and setup instructions.
           </p>
           <ol className={styles.roadmapList}>
             {featuredGuides.map(([title, href], index) => (
@@ -270,7 +266,7 @@ export default function GuidesPage() {
 
         <section className={styles.toolLinks} aria-labelledby="tool-links-title">
           <p className={styles.kicker}>Available now</p>
-          <h2 id="tool-links-title">Read the guide, then verify it with live tools.</h2>
+          <h2 id="tool-links-title">Plan your next build or farming route.</h2>
           <p>
             Plan a build, confirm an event, inspect a boss, locate a target, compare equipment, or
             find the correct card without leaving RTNW Hub.

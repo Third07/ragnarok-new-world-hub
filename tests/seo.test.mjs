@@ -684,7 +684,7 @@ test("Cloudflare build serves public routes without implementation notes in read
       .catch(() => worker.fetch(request, env, context));
     assert.equal(response.status, 200, `${pathname} should return 200`);
     const html = await response.text();
-    assert.doesNotMatch(html, /The catalogue is responsive|Checks are saved in this browser|SEA locations and exploration data:|checked during site builds|failed downloads keep|last validated data|committed (?:English|RTNW|database|monster)|Local item images|canonical RTNW answer page|lightweight loading|affiliate link · new tab|has not performed a live RTNW-on-Redfinger compatibility test|game compatibility is not a live-tested guarantee/i, `${pathname} should use reader-facing copy`);
+    assert.doesNotMatch(html, /The catalogue is responsive|Checks are saved in this browser|SEA locations and exploration data:|checked during site builds|failed downloads keep|last validated data|committed (?:English|RTNW|database|monster)|Local item images|canonical RTNW answer page|lightweight loading|affiliate link · new tab|has not performed a live RTNW-on-Redfinger compatibility test|game compatibility is not a live-tested guarantee|original editorial organization|refreshed guides use clear|Every guide links its recommendations|Apply the guide using live site data/i, `${pathname} should use reader-facing copy`);
   }
 
   const creatorKit = await env.ASSETS.fetch(new Request(`${siteOrigin}/creator-kit/`));

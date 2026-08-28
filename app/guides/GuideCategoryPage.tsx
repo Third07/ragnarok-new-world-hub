@@ -121,7 +121,7 @@ export default function GuideCategoryPage({
             <p className={styles.summary}>{summary}</p>
             <div className={styles.heroMeta}>
               <span><strong>{guides.length}</strong> published {guides.length === 1 ? "guide" : "guides"}</span>
-              <span><strong>{tools.length}</strong> connected tools</span>
+              <span><strong>{tools.length}</strong> tools</span>
               <span><strong>English</strong> SEA data</span>
             </div>
           </div>
@@ -152,10 +152,9 @@ export default function GuideCategoryPage({
             <section className={styles.guideSection} aria-labelledby="published-guides-title">
               <div className={styles.sectionHeading}>
                 <div>
-                  <p className={styles.sectionKicker}>Published guides</p>
+                  <p className={styles.sectionKicker}>Guides</p>
                   <h2 id="published-guides-title">Start with the article that matches your current problem.</h2>
                 </div>
-                <p>Every guide links its recommendations to searchable game data or a working planning tool.</p>
               </div>
               <div className={styles.guideGrid}>
                 {guides.map((guide, index) => (
@@ -186,7 +185,7 @@ export default function GuideCategoryPage({
 
             <section className={styles.sequenceSection} aria-labelledby="sequence-title">
               <p className={styles.sectionKicker}>Recommended sequence</p>
-              <h2 id="sequence-title">A simple workflow for this category.</h2>
+              <h2 id="sequence-title">What to do next.</h2>
               <ol className={styles.sequenceList}>
                 {steps.map((step, index) => (
                   <li key={step}>
@@ -200,8 +199,8 @@ export default function GuideCategoryPage({
             <section className={styles.toolSection} aria-labelledby="category-tools-title">
               <div className={styles.sectionHeading}>
                 <div>
-                  <p className={styles.sectionKicker}>Connected tools</p>
-                  <h2 id="category-tools-title">Apply the guide using live site data.</h2>
+                  <p className={styles.sectionKicker}>Tools</p>
+                  <h2 id="category-tools-title">Open a planner, map or database.</h2>
                 </div>
                 <p>Open the relevant planner or index without leaving RTNW Hub.</p>
               </div>
@@ -222,7 +221,7 @@ export default function GuideCategoryPage({
               <p className={styles.sectionKicker}>Continue exploring</p>
               <h2>Browse the complete guide library.</h2>
               <p>
-                The main Guides page lists every published article and provides direct paths into the other categories.
+                Find more class builds, farming advice and setup guides.
               </p>
               <a href="/guides/">Open all RTNW guides <span aria-hidden="true">→</span></a>
             </section>

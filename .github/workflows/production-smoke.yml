@@ -26,7 +26,7 @@ jobs:
         run: |
           set -uo pipefail
 
-          marker="reader-copy-redfinger-2026-08-28"
+          marker="reader-copy-redfinger-2026-08-28-v2"
           state="failure"
           description="Production did not serve the current deploy marker"
 
