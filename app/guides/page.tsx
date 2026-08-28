@@ -93,7 +93,7 @@ const guideCategories = [
     title: "PC, emulator and account setup",
     description:
       "Install the official PC version, tune an Android emulator, evaluate cloud play, compare payment fees, and protect your account while topping up.",
-    status: "4 guides and 2 tools published",
+    status: "5 guides and 2 tools published",
     href: "/guides/technical/",
     link: "Browse setup guides →",
   },
@@ -131,6 +131,7 @@ const featuredGuides = [
   ["Best Emulator Settings and Troubleshooting", "/guides/emulator-settings/"],
   ["Safe Top-Ups, Fees and Account Protection", "/guides/top-up-safely/"],
   ["Cloud Gaming Setup and Connection Guide", "/guides/cloud-gaming/"],
+  ["Redfinger Cloud Phone: Universal Setup and RTNW Tips", "/guides/redfinger-cloud-phone/"],
 ] as const;
 
 const tools = [

@@ -25,6 +25,17 @@ export const metadata: Metadata = {
 const releases = [
   {
     date: "August 28, 2026",
+    title: "Redfinger cloud phone setup guide",
+    summary:
+      "Added Android, iPhone, PC and browser instructions, plan and trial checks, connection troubleshooting, and a dedicated Ragnarok: The New World setup checklist. Includes official-source references, reused Redfinger illustrations and disclosed affiliate links; game compatibility is not a live-tested guarantee.",
+    links: [
+      ["Read the Redfinger guide", "/guides/redfinger-cloud-phone/"],
+      ["Compare cloud gaming options", "/guides/cloud-gaming/"],
+      ["Browse setup guides", "/guides/technical/"],
+    ],
+  },
+  {
+    date: "August 28, 2026",
     title: "Clearer build guides, code-source review, and mobile reading improvements",
     summary:
       "Expanded Assassin Cross, High Wizard, Sniper, Lord Knight, and Polarity Zone decision guides. Separated nine source-listed shared codes from conflicting reports, added partner-code deadlines, and improved mobile navigation, image sizing, and copy feedback. Codes are source-reviewed, not in-game tested.",

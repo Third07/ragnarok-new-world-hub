@@ -86,6 +86,7 @@ const publicPageRoutes = [
   "/guides/emulator-settings/",
   "/guides/top-up-safely/",
   "/guides/cloud-gaming/",
+  "/guides/redfinger-cloud-phone/",
   "/tools/farming-target-finder/",
   "/tools/pc-setup-checker/",
   "/tools/top-up-calculator/",
@@ -718,5 +719,69 @@ test("refreshed guides use local images without visible provenance annotations",
     const text = await readFile(path.join("app/guides/source-guide-data", filename), "utf8");
     assert.doesNotMatch(text, /"sourceUrl"|"sourceTitle"|cdnimages\.awselbcombine\.com/);
     assert.match(text, /["']?heroImage["']?\s*:\s*["']\/(?:assets|media\/images)\//);
+  }
+});
+
+test("Redfinger guide renders an indexable article with disclosed referrals and working anchors", async () => {
+  const worker = await loadBuiltWorker();
+  const { env, context } = createTestRuntime();
+  const pathname = "/guides/redfinger-cloud-phone/";
+  const referral = "https://www.cloudemulator.net/app/phone?externalCode=HWzld4P0";
+  const redirect = await worker.fetch(new Request(`${siteOrigin}${pathname.slice(0, -1)}?from=guides`), env, context);
+  assert.equal(redirect.status, 308);
+  assert.equal(redirect.headers.get("location"), `${siteOrigin}${pathname}?from=guides`);
+
+  const response = await worker.fetch(new Request(`${siteOrigin}${pathname}`, { headers: { accept: "text/html" } }), env, context);
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.doesNotMatch(html, /Emergency route fallback|hreflang=/i);
+  assert.match(html, /<title>Redfinger Cloud Phone Guide: Setup &amp; RTNW Tips \| RTNW Hub<\/title>/);
+  assert.ok(html.includes(`rel="canonical" href="${siteOrigin}${pathname}"`));
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+  assert.match(html, /com\.ggv\.roworldsea\.aos/);
+  assert.match(html, /has not performed a live RTNW-on-Redfinger compatibility test/);
+  assert.match(html, /offline resource accumulation/);
+
+  const articleHtml = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/)?.[1];
+  assert.ok(articleHtml, "The full article must be in the initial HTML");
+  const referrals = [...articleHtml.matchAll(/<a\b[^>]*>/g)].map(([tag]) => tag).filter((tag) => tag.includes(referral));
+  assert.equal(referrals.length, 2);
+  assert.ok(articleHtml.indexOf("Affiliate disclosure:") < articleHtml.indexOf(`href="${referral}"`));
+  for (const tag of referrals) {
+    const rel = tag.match(/\brel="([^"]+)"/)?.[1].split(/\s+/) || [];
+    for (const token of ["sponsored", "nofollow", "noopener", "noreferrer"]) assert.ok(rel.includes(token), tag);
+    assert.ok(tag.includes('target="_blank"'));
+  }
+  assert.doesNotMatch(html, /<(?:script|iframe)\b[^>]*src="https:\/\/[^\"]*cloudemulator\.net/i);
+
+  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(([, id]) => id);
+  for (const [, anchor] of articleHtml.matchAll(/href="#([^"]+)"/g)) {
+    assert.equal(ids.filter((id) => id === anchor).length, 1, `Missing or duplicate section ${anchor}`);
+  }
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .flatMap(([, value]) => { const document = JSON.parse(value); return document["@graph"] || [document]; });
+  const article = schemas.find((item) => item["@type"] === "TechArticle");
+  assert.equal(article.mainEntityOfPage, `${siteOrigin}${pathname}`);
+  assert.equal(article.datePublished, "2026-08-28");
+  assert.equal(article.dateModified, "2026-08-28");
+  const faq = schemas.find((item) => item["@type"] === "FAQPage");
+  assert.equal(faq.mainEntity.length, 6);
+  for (const question of faq.mainEntity) assert.ok(articleHtml.includes(`<summary>${question.name}</summary>`));
+  const breadcrumb = schemas.find((item) => item["@type"] === "BreadcrumbList" && item.itemListElement.at(-1).item === `${siteOrigin}${pathname}`);
+  assert.equal(breadcrumb.itemListElement.length, 4);
+
+  const images = [...html.matchAll(/<img\b[^>]*>/g)].map(([tag]) => tag).filter((tag) => tag.includes('/assets/guides/redfinger-cloud-phone/'));
+  assert.equal(images.length, 2);
+  for (const tag of images) {
+    assert.match(tag, /width="\d+"/);
+    assert.match(tag, /height="\d+"/);
+    assert.match(tag, /srcSet="[^"]+360w, [^"]+60[02]w"/i);
+    assert.match(tag, /alt="[^"]+"/);
+  }
+  assert.match(images.find((tag) => tag.includes("redfinger-session")), /loading="lazy"/);
+  for (const discovery of ["/guides/", "/guides/technical/", "/guides/cloud-gaming/", "/updates/"]) {
+    const page = await worker.fetch(new Request(`${siteOrigin}${discovery}`, { headers: { accept: "text/html" } }), env, context);
+    assert.equal(page.status, 200);
+    assert.ok((await page.text()).includes(`href="${pathname}"`), `${discovery} should link to the new guide`);
   }
 });
